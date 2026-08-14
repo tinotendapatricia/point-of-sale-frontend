@@ -1,0 +1,53 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
+  <h3 class="modal-title">{{ title }}</h3>
+  <div class="modal-body">
+    <form [formGroup]="stationForm">
+      <clr-input-container>
+        <label>Account</label>
+        <input clrInput type="text" formControlName="account" required />
+        <clr-control-error>Firstname is required!</clr-control-error>
+      </clr-input-container>
+      <clr-input-container>
+        <label>Name</label>
+        <input clrInput type="text" formControlName="name" required />
+        <clr-control-error>Firstname is required!</clr-control-error>
+      </clr-input-container>
+
+      <clr-textarea-container>
+        <label>Address</label>
+        <textarea
+          clrTextarea
+          formControlName="address"
+          rows="4"
+          cols="70"
+        ></textarea>
+      </clr-textarea-container>
+      <clr-textarea-container>
+        <label>Contact Details</label>
+        <textarea
+          clrTextarea
+          formControlName="contact"
+          rows="4"
+          cols="70"
+        ></textarea>
+      </clr-textarea-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline"
+      (click)="closeModal.emit(false)"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-success"
+      [clrLoading]="btnState"
+      (click)="formValue.emit(stationForm.value)"
+    >
+      Submit
+    </button>
+  </div>
+</clr-modal>

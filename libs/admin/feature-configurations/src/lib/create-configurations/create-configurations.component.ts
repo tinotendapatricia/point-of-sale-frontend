@@ -1,0 +1,36 @@
+import { Component, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { ClrLoadingState } from '@clr/angular';
+import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
+import { Utilities } from '@pos-frontend/shared/utils';
+
+@Component({
+  selector: 'pos-frontend-create-configurations',
+  templateUrl: './create-configurations.component.html',
+  styleUrls: ['./create-configurations.component.scss'],
+})
+export class CreateConfigurationsComponent {
+  @Output() closeModal = new EventEmitter();
+  btnState$ = ClrLoadingState.DEFAULT;
+  constructor(
+    public configurationsService: ConfigurationsService,
+    private router: Router,
+
+  ) {}
+
+
+  public createConfiguration(configuration: any) {
+    this.btnState$ = ClrLoadingState.LOADING
+    this.configurationsService.createConfiguration(configuration).subscribe({
+      next:(res)=>{
+        this.btnState$ = ClrLoadingState.SUCCESS
+        Utilities.displayToast('success')
+        res ? this.closeModal.emit(true) : null;
+      },
+      error:(err)=> {
+        this.btnState$ = ClrLoadingState.ERROR 
+      },
+    })
+    
+  }
+}

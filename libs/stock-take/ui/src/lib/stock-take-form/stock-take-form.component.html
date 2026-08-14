@@ -1,0 +1,65 @@
+
+
+<div class="clr-row">
+  <div class="clr-col-md-4">
+    <form [formGroup]="form">
+      <div class="clr-row">
+        <div class="clr-col-md-9">
+          <label>Select Product</label>
+          <ng-select formControlName="code">
+            <ng-option
+              *ngFor="let product of products"
+              [value]="product.code"
+              
+              >{{ product.name }}</ng-option
+            >
+          </ng-select>
+        </div>
+        <div class="clr-col-md-3">
+          <clr-input-container>
+            <label>Quantity</label>
+            <input clrInput type="number" formControlName="quantity" />
+          </clr-input-container>
+        </div>
+      </div>
+      <div class="text-center">
+      <button class="btn btn-sm" (click)="addProduct()"
+      
+      >{{buttonMessage}}</button>
+      <hr>
+    </div>
+    </form>
+  </div>
+  <div class="clr-col-md-8">
+     <span class="err">{{errorMessage}}</span> 
+    <table class="table" style="font-size: 10px;">
+      <thead>
+        <th></th>
+        <th>Product</th>
+        <th>Product Description</th>
+        <th>Quantity</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of selectedProducts;let i = index">
+          <td style="width: 10px;">{{i+1}}</td>
+          <td>{{ p.code }}</td>
+          <td>{{ p.productName }}</td>
+          <td>{{ p.quantity }}</td>
+          <td>
+             <cds-icon shape="trash" style="color: red;" (click)="deleteProduct(p.code)"></cds-icon>&nbsp;&nbsp;&nbsp;
+            <cds-icon shape="pencil" style="color: green;" (click)="updateProduct(i,p)"></cds-icon> 
+
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <button class="btn btn-primary btn-block" (click)="onSubmit()" [disabled]="selectedProducts.length<=0">Close Batch</button>
+
+
+
+
+  </div>
+</div>

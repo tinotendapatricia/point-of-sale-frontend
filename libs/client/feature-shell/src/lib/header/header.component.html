@@ -1,0 +1,18 @@
+<div class="head">
+  <span class="cen">
+    Station: {{station}} <br>
+    {{ (usersService.selectedUser$ | async)?.name }}
+  </span>
+  <img src="/assets/logo.png" style="margin: auto; width: 13%" />
+  <button class="btn btn-primary" (click)="closeApp()">Logout</button>
+</div>
+<hr>
+
+<pos-frontend-action-confirmation-form
+  *ngIf="isClose"
+  [title]="'Close Application'"
+  [message]="'Are you sure you want to quit the application'"
+  (proceed)="closeApp()"
+  (closeModal)="isClose = false"
+>
+</pos-frontend-action-confirmation-form>

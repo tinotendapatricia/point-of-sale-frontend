@@ -1,0 +1,32 @@
+<clr-header>
+  <div class="branding">
+    <a class="nav-link">
+      <img src="/assets/logo.png" width="36%">
+    </a>
+  </div>
+  <div class="header-actions">
+    <span
+      style="
+        color: black;
+        font-weight: 900;
+        margin-top: 15px;
+        padding-right: 20px;
+      "
+      >{{ (currenciesService.defaultCurrency$ | async)?.code }}</span
+    >
+    <clr-dropdown>
+      <button class="nav-icon" clrDropdownTrigger>
+        <cds-icon shape="user" style="color: purple" size="36" solid></cds-icon>
+      </button>
+      <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+        <a (click)="authFacade.logout()" clrDropdownItem>Log out</a>
+        <a
+          [routerLink]="['/users/my-account']"
+          routerLinkActive="router-link-active"
+          clrDropdownItem
+          >My Account</a
+        >
+      </clr-dropdown-menu>
+    </clr-dropdown>
+  </div></clr-header
+>

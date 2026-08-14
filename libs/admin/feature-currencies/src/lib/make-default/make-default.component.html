@@ -1,0 +1,7 @@
+<pos-frontend-action-confirmation-form
+  (proceed)="onSubmit()"
+  [message]="message"
+  [title]="'Change Default Currency'"
+  [btnState]="(currenciesService.btnState$ | async)!"
+  (closeModal)="closeModal.emit()"
+></pos-frontend-action-confirmation-form>

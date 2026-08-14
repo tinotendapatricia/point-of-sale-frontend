@@ -1,0 +1,82 @@
+<form [formGroup]="reportForm">
+  <div class="clr-row">
+    <div class="clr-col-md-6">
+      <div class="date" *ngIf="isDate">
+        <label>Date</label>
+        <input type="date" formControlName="fromDate" />
+      </div>
+    </div>
+    <div class="clr-col-md-6">
+      <div class="date" *ngIf="isDate">
+        <label>To Date</label>
+        <input type="date" formControlName="toDate" />
+      </div>
+    </div>
+    <br />
+    <div class="clr-col-md-6" *ngIf="isProduct">
+      <div class="select">
+        <br />
+        <label>Product</label>
+        <ng-select formControlName="product">
+          <ng-option *ngFor="let product of products" [value]="product.id"
+            >{{ product.name }} {{ product.code }}
+          </ng-option>
+        </ng-select>
+        <small>Leave blank for all products</small>
+      </div>
+    </div>
+    <br />
+    <div class="clr-col-md-6" *ngIf="isDebtor">
+      <div class="select">
+        <br />
+        <label>Debtors</label>
+        <ng-select formControlName="debtor">
+          <ng-option *ngFor="let debtor of debtors" [value]="debtor.id"
+            >{{ debtor.account }}
+          </ng-option>
+        </ng-select>
+        <small>Leave blank for all debtors</small>
+      </div>
+    </div>
+    <div class="clr-col-md-6" *ngIf="isOrderNumber">
+      <clr-input-container >
+        <label>Purchase Order Number</label>
+        <input clrInput type="number" formControlName="orderNumber" />
+      </clr-input-container>
+    </div>
+    <div class="clr-col-md-6" *ngIf="isGrvNumber">
+      <clr-input-container >
+        <label>GRV Number</label>
+        <input clrInput type="number" formControlName="grvNumber" />
+      </clr-input-container>
+    </div>
+    <div class="clr-col-md-6" *ngIf="isBatch">
+      <clr-input-container >
+        <label>Batch Number</label>
+        <input clrInput type="number" formControlName="batchNumber" />
+      </clr-input-container>
+    </div>
+    <div class="clr-col-md-6" *ngIf="isAdjustmentNumber">
+      <clr-input-container >
+        <label>Adjustment Number</label>
+        <input clrInput type="number" formControlName="adjustmentNumber" />
+      </clr-input-container>
+    </div>
+  </div>
+  <br />
+  <button
+    class="btn btn-primary btn-sm"
+    (click)="getPdf.emit(reportForm.value)"
+  >
+    Get PDF
+  </button>
+  <button
+  *ngIf="isExcel"
+    class="btn btn-primary btn-sm"
+    (click)="getExcel.emit(reportForm.value)"
+  >
+    Get Excel
+  </button>
+</form>
+
+<iframe id="pdf-iframe" style="width: 100%; height: 500px;" frameborder="0"></iframe>

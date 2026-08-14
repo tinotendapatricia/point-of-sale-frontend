@@ -1,0 +1,26 @@
+
+<br />
+<div class="h">Stock Batches, Stock Takes and Stock Adjustments</div>
+<hr />
+<br />
+
+<br>
+<clr-tabs clrLayout="vertical">
+<clr-tab>
+  <button clrTabLink>Create Stock Batch</button>
+  <clr-tab-content *clrIfActive
+    ><pos-frontend-create-stock-batch></pos-frontend-create-stock-batch>
+  </clr-tab-content>
+</clr-tab>
+<clr-tab>
+  <button clrTabLink> Stock Take</button>
+  <clr-tab-content *clrIfActive
+    >
+    
+    <pos-frontend-stock-take></pos-frontend-stock-take>
+  </clr-tab-content>
+</clr-tab>
+
+
+</clr-tabs>
+

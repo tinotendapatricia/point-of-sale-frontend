@@ -1,0 +1,21 @@
+
+    <pos-frontend-login-form
+    [title]="'Octopus Login'"
+      [btnState$]="(authFacade.authBtnState$ | async)!"
+      (formValue)="onSubmit($event)"
+      (setStation)="isSetStation = true"
+      [isClient]="true"
+    ></pos-frontend-login-form>
+    <p class="text-center" style="color: red; font-weight: 900" *ngIf="!errMessage">
+      Your license will expire on {{expiryDate}} Please
+      renew.
+    </p>
+    <p class="text-center" style="color: red; font-weight: 900; font-size:20px" *ngIf="errMessage">
+      LICENSE EXPIRED.PLEASE RENEW
+    </p>
+
+    <pos-frontend-configure-station
+    *ngIf="isSetStation"
+    (closeModal)="isSetStation = false"
+    ></pos-frontend-configure-station>
+

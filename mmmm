@@ -1,0 +1,14 @@
+export const updateRate = createAction(
+  '[Currencies] Update Rate',
+  (rateDetails: CurrenciesEntity) => ({ rateDetails })
+);
+
+export const updateCurrenciesuccess = createAction(
+  '[Currencies] Update Rate Success',
+  (rateDetails: CurrenciesEntity) => ({ rateDetails })
+);
+
+export const updateRateFailure = createAction(
+  '[Currencies] Update Rate Failure',
+  props<{ error: Error }>()
+);

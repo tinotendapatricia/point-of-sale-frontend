@@ -1,0 +1,46 @@
+clr-vertical-nav {
+  height: 100%;
+  background-color: #670668;
+}
+
+.clr-vertical-nav .nav-text {
+  font-size: 10px !important;
+}
+
+.clr-vertical-nav.has-nav-groups .nav-link {
+  font-size: 10px;
+}
+
+.clr-vertical-nav {
+  width: 9rem !important;
+}
+
+.clr-vertical-nav .nav-link {
+  color: white !important;
+}
+.clr-vertical-nav .nav-link.active {
+  color: #670668 !important;
+  background-color: rgb(235, 240, 235);
+  border-left: 6px solid red;
+}
+
+.clr-vertical-nav .nav-link.active::before {
+  display: none !important;
+}
+
+.clr-vertical-nav .nav-link.active .nav-icon {
+  fill: #8233a3 !important;
+}
+
+::ng-deep {
+  .clr-vertical-nav.has-nav-groups .nav-group .nav-group-trigger {
+    font-weight: 600;
+    color: white;
+    font-size: 10px;
+  }
+
+  .nav-group .nav-group-trigger:active {
+    font-weight: 600;
+    color: red !important;
+  }
+}

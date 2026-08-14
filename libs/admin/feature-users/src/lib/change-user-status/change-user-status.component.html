@@ -1,0 +1,8 @@
+<pos-frontend-action-confirmation-form
+  [btnState]="btnState"
+  (proceed)="onSubmit()"
+  (closeModal)="closeModal.emit(false)"
+>
+  <span class="action-header">Change User Status</span>
+  <span class="action-message">Are you sure you want to proceed?</span>
+</pos-frontend-action-confirmation-form>

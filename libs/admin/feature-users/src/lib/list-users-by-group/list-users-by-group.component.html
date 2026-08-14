@@ -1,0 +1,43 @@
+<div class="clr-row">
+  <div class="clr-col-md-4">
+    <clr-select-container>
+      <label>Group</label>
+      <select
+        clrSelect
+        name="groupId"
+        [(ngModel)]="groupId"
+        (change)="getUsersListByGroup()"
+      >
+        <option value="one">Select Group</option>
+        <option
+          [value]="group.id"
+          *ngFor="let group of groupsFacade.allGroups$ | async"
+        >
+          {{ group.name }}
+        </option>
+      </select>
+    </clr-select-container>
+  </div>
+</div>
+<br />
+<div>
+  <button class="btn btn-sm" (click)="createUser()">Add</button>
+  <button class="btn btn-sm" (click)="getUserList({})">Refresh</button>
+  <pos-frontend-list-users-ui
+    *ngIf="groupId"
+    [userList]="(usersFacade.allUsers$ | async)!"
+    [total]="(usersFacade.totalUsers$ | async)!"
+    [loading]="(usersFacade.loading$ | async)!"
+    [placeholderMessage]="'Users'"
+    (updatedState)="getUserList($event)"
+    (updateSelected)="updateUser($event)"
+    (viewSelected)="viewUser($event)"
+    (changeSelectedUserStatus)="changeUserStatus($event)"
+    (viewUserAuthorities)="viewUserAuthorities($event)"
+  ></pos-frontend-list-users-ui>
+</div>
+<pos-frontend-change-user-status
+  *ngIf="isChangeStatus"
+  [user]="selectedUser"
+  (closeModal)="refresh($event)"
+></pos-frontend-change-user-status>

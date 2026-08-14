@@ -1,0 +1,53 @@
+<br />
+<div class="h">Products</div>
+<hr />
+<br />
+<!-- <button class="btn btn-sm" (click)="createProduct()">Add</button>
+<button class="btn btn-sm" (click)="getProductList({})">Refresh</button> -->
+<mat-card class="login">
+  <mat-card-content>
+    &nbsp;<button
+      class="act"
+      [routerLink]="['/products/new']"
+      routerLinkActive="router-link-active"
+    >
+      <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+      New</button
+    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getProductList({})">
+      <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+      >Refresh
+    </button>
+
+    <pos-frontend-products-list-ui
+      [productList]="(productsFacade.allProducts$ | async)!"
+      [total]="(productsFacade.totalProducts$ | async)!"
+      [loading]="(productsFacade.loading$ | async)!"
+      [placeholderMessage]="'Products'"
+      (updatedState)="getProductList($event)"
+      (updateSelected)="updateProduct($event)"
+      (updateCost)="updateCost($event)"
+      (updatePrice)="updatePrice($event)"
+    ></pos-frontend-products-list-ui>
+  </mat-card-content>
+</mat-card>
+
+<pos-frontend-update-cost
+  *ngIf="isUpdateCost"
+  [product]="selectedProduct"
+  (closeModal)="refresh()"
+>
+</pos-frontend-update-cost>
+
+<pos-frontend-update-price
+  *ngIf="isUpdatePrice"
+  [product]="selectedProduct"
+  (closeModal)="refresh()"
+>
+</pos-frontend-update-price>
+
+<!-- <pos-frontend-update-product
+  *ngIf="isUpdate"
+  [product]="selectedProduct"
+  (closeModal)="refresh()"
+>
+</pos-frontend-update-product> -->

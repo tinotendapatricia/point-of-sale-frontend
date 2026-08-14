@@ -1,0 +1,61 @@
+.login {
+  border: 1px solid rgb(104, 109, 110);
+  padding: 10px 22px;
+  padding-left: 40px;
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+}
+
+img {
+  width: 100%;
+}
+
+.social-media {
+  display: flex;
+  place-content: flex-start;
+  font-weight: 900;
+  font-size: 10px;
+}
+
+.login-head {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.clr-control-label {
+  color: #000;
+}
+
+@media screen and (max-width: 768px) {
+  .login {
+    margin: auto;
+    border: 1px solid rgb(104, 109, 110);
+    padding: 3px 48px;
+    width: 100%;
+  }
+
+  img {
+    width: 19px;
+  }
+}
+
+a {
+  font-weight: 900;
+  color: green;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+a:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.m {
+  color: black;
+  font-size: 10px;
+}
+

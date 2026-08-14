@@ -1,0 +1,41 @@
+.card {
+  //background-color: #d1c9c9;
+}
+
+.tot {
+  font-weight: 900;
+  font-size: 20px;
+}
+
+.dem {
+  border: 3px solid green;
+  padding: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  background: #d8ebd8;
+}
+
+hr {
+  border: 1px solid #cccacc !important;
+}
+
+fieldset {
+  border: 1px solid green;
+  border-radius: 20px;
+  padding: 0 30px;
+  background: #f0eef0;;
+}
+
+legend {
+  display: block;
+  width: fit-content;
+  padding: 0;
+  line-height: inherit;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 900 !important;
+  color: black;
+}
+
+
+

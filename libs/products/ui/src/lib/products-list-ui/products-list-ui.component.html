@@ -1,0 +1,108 @@
+<clr-datagrid
+  [clrDgLoading]="loading"
+  (clrDgRefresh)="updatedState.emit($event)"
+  class="datagrid-compact"
+>
+  <clr-dg-column [clrDgField]="'name'">Code</clr-dg-column>
+  <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
+  <clr-dg-column>Barcode</clr-dg-column>
+  <clr-dg-column>Quantity</clr-dg-column>
+  <clr-dg-column>Current Unit Cost</clr-dg-column>
+  <clr-dg-column>Current Unit Price</clr-dg-column>
+  <clr-dg-column>Suspended</clr-dg-column>
+
+  <clr-dg-column></clr-dg-column>
+
+  <clr-dg-row *ngFor="let product of productList" [clrDgItem]="product">
+    <clr-dg-action-overflow>
+      <button
+        class="action-item"
+        *ngIf="!product.active"
+        (click)="changeProductStatus.emit(product)"
+      >
+        Activate
+      </button>
+      <button
+        class="action-item"
+        *ngIf="product.active"
+        (click)="changeProductStatus.emit(product)"
+      >
+        Deactivate
+      </button>
+      <button
+        class="action-item"
+        (click)="updateCost.emit(product)"
+      >
+        Update Cost
+      </button>
+      <button
+        class="action-item"
+        (click)="updatePrice.emit(product)"
+      >
+        Update Price
+      </button>
+    </clr-dg-action-overflow>
+    <clr-dg-cell>
+      <div class="m"></div>
+      {{ product?.code }}</clr-dg-cell
+    >
+
+    <clr-dg-cell
+      ><a>{{ product.name }}</a></clr-dg-cell
+    >
+    <clr-dg-cell
+      ><a>{{ product.barcode }}</a></clr-dg-cell
+    >
+    <clr-dg-cell
+      ><a>{{ product.quantity }}</a></clr-dg-cell
+    >
+    <clr-dg-cell
+      ><a>{{product.cost[0]?.value|currency}}</a></clr-dg-cell
+    >
+    <clr-dg-cell
+    ><a>{{product.price[0]?.value|currency}}</a></clr-dg-cell
+  >
+
+    <!-- <clr-dg-cell>
+      <span class="lab-success" *ngIf="product.includeVat"
+        ><cds-icon shape="check"></cds-icon
+      ></span>
+      <span class="lab-danger" *ngIf="!product.includeVat"
+        ><cds-icon shape="times"></cds-icon
+      ></span>
+    </clr-dg-cell> -->
+    <clr-dg-cell>
+      <span class="lab-success" *ngIf="product.active"
+        ><cds-icon shape="check"></cds-icon
+      ></span>
+      <span class="lab-danger" *ngIf="!product.active"
+        ><cds-icon shape="times"></cds-icon
+      ></span>
+    </clr-dg-cell>
+
+    <clr-dg-cell>
+      <cds-icon shape="pencil" solid style="color: green;cursor: pointer;" (click)="updateSelected.emit(product.id)"></cds-icon>
+
+      <!-- &nbsp;&nbsp;
+      <clr-icon
+        shape="trash"
+        class="is-solid"
+        (click)="deleteProduct.emit(product)"
+      ></clr-icon> -->
+    </clr-dg-cell>
+  </clr-dg-row>
+  <!-- <clr-dg-detail *clrIfDetail="let detail">
+    <clr-dg-detail-header>{{ detail.name }}</clr-dg-detail-header>
+    <clr-dg-detail-body>
+      <leave-management-system-product-details [product]="detail"></leave-management-system-product-details>
+    </clr-dg-detail-body>
+  </clr-dg-detail> -->
+  <clr-dg-footer *ngIf="total > 0">
+    {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+    {{ pagination.totalItems }} Products
+    <clr-dg-pagination
+      #pagination
+      [clrDgTotalItems]="total"
+    ></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>

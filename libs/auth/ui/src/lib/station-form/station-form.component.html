@@ -1,0 +1,40 @@
+<clr-modal
+  [(clrModalOpen)]="opened"
+  [clrModalClosable]="false"
+  [clrModalSize]="'sm'"
+>
+  <div class="modal-body">
+    <div class="title">{{ title }}</div>
+    <form [formGroup]="stationForm">
+      <clr-input-container>
+        <label>Station Number</label>
+        <input clrInput type="number" formControlName="stationNumber" required />
+        
+      </clr-input-container>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="submit"
+      class="btn  btn-sm"
+      [clrLoading]="btnState"
+      (click)="closeModal.emit()"
+    >
+      Close
+    </button>
+    <button
+      type="submit"
+      class="btn btn-success btn-sm"
+      [clrLoading]="btnState"
+      (click)="formValue.emit(this.stationForm.value)"
+    >
+      Set Station
+    </button>
+  </div>
+</clr-modal>
+
+
+
+
+  

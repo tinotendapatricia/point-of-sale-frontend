@@ -1,0 +1,29 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
+  <h3 class="modal-title">{{ title }}</h3>
+  <div class="modal-body">
+    <form [formGroup]="vatForm">
+      <clr-input-container>
+        <label>VAT Percentage</label>
+        <input clrInput type="number" formControlName="vat" required />
+        <clr-control-error>Firstname is required!</clr-control-error>
+      </clr-input-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline"
+      (click)="closeModal.emit(false)"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-success"
+      [clrLoading]="btnState"
+      (click)="formValue.emit(vatForm.value)"
+    >
+      Submit
+    </button>
+  </div>
+</clr-modal>

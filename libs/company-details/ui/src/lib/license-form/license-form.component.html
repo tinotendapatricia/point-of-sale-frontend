@@ -1,0 +1,35 @@
+<clr-modal
+  [(clrModalOpen)]="opened"
+  [clrModalClosable]="false"
+  [clrModalSize]="'sm'"
+>
+  <div class="modal-title">{{ title }}</div>
+
+  <div class="modal-body">
+    <span> <i>Active Until:</i> </span>
+    <form [formGroup]="licenseForm">
+      <clr-input-container>
+        <label>License</label>
+        <input clrInput type="text" formControlName="license" />
+      </clr-input-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline btn-sm"
+      (click)="closeModal.emit(false)"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-success btn-sm"
+      [clrLoading]="btnState"
+      (click)="formValue.emit(licenseForm.value)"
+    >
+      OK
+    </button>
+    <br />
+  </div>
+</clr-modal>

@@ -1,0 +1,32 @@
+<clr-modal
+  [(clrModalOpen)]="opened"
+  [clrModalClosable]="false"
+  [clrModalSize]="'sm'"
+>
+  <div class="modal-body">
+    <div class="title">{{ title }}</div>
+    <hr />
+    <p>
+      {{ message }}
+    </p>
+    <br />
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-danger btn-sm"
+      (click)="closeModal.emit()"
+    >
+      No
+    </button>
+    <button
+      type="submit"
+      class="btn btn-success btn-sm"
+      [clrLoading]="btnState"
+      (click)="proceed.emit()"
+    >
+      Yes
+    </button>
+  </div>
+</clr-modal>

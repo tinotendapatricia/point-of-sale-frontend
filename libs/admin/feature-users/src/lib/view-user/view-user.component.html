@@ -1,0 +1,21 @@
+<div class="align-right grey-header">
+  <button class="btn btn-primary" [routerLink]="['/users']">
+    <clr-icon
+      shape="arrow"
+      size="20"
+      style="transform: rotate(270deg)"
+    ></clr-icon>
+    Go Back
+  </button>
+</div>
+<br />
+
+<div class="padding-left-right-1">
+  <div class="card">
+    <div class="card-block">
+      <pos-frontend-user-details
+        [user]="(usersFacade.selectedUser$ | async)!"
+      ></pos-frontend-user-details>
+    </div>
+  </div>
+</div>

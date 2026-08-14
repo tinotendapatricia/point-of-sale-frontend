@@ -1,0 +1,13 @@
+.c {
+  text-align: center;
+  font-weight: 900;
+}
+
+@media screen and (max-width: 992px) {
+  ::ng-deep .main-container .header-hamburger-trigger, .main-container .header-overflow-trigger {
+    background-color: #800080 !important;
+    ;
+  }
+}
+
+

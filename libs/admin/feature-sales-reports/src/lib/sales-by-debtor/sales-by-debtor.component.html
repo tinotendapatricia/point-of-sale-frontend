@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="card-header">Sales Reports per Period</div>
+  <div class="card-block">
+    <pos-frontend-reports-form
+      (getPdf)="getPdf($event)"
+      (getExcel)="getExcel($event)"
+      [btnState]="btnState"
+      [isDate]="true"
+      [isDebtor]="true"
+      [isExcel]="true"
+      [debtors]="(debtorsFacade.allDebtors$ | async)!"
+    ></pos-frontend-reports-form>
+  </div>
+</div>

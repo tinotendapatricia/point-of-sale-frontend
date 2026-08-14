@@ -1,0 +1,13 @@
+<div class="head">Create New Group</div>
+<hr />
+<br />
+
+<div class="padding-left-right-1">
+  <pos-frontend-group-form
+    [title]="'Create New Group'"
+    (closeModal)="closeModal.emit(false)"
+    (formValue)="createGroup($event)"
+    [btnState]="(groupsService.btnState$ | async)!"
+
+  ></pos-frontend-group-form>
+</div>

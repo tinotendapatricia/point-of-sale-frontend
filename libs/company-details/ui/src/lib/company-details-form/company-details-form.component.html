@@ -1,0 +1,58 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
+  <div class="modal-title">{{ title }}</div>
+  >
+  <div class="modal-body">
+    <form [formGroup]="companyForm">
+      <clr-input-container>
+        <label>Name</label>
+        <input clrInput type="text" formControlName="name" required />
+        <clr-control-error>Name is required!</clr-control-error>
+      </clr-input-container>
+      <clr-textarea-container>
+        <label>Address</label>
+        <textarea
+          clrTextarea
+          cols="60"
+          rows="5"
+          formControlName="address"
+        ></textarea>
+      </clr-textarea-container>
+      <clr-input-container>
+        <label>BP Number</label>
+        <input clrInput type="text" formControlName="bpNumber" required />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Tin Number</label>
+        <input clrInput type="text" formControlName="tinNumber" required />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Email</label>
+        <input clrInput type="text" formControlName="email" required />
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Phone Number(s)</label>
+        <input clrInput type="text" formControlName="phone" required />
+      </clr-input-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline"
+      (click)="closeModal.emit(false)"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-success"
+      [clrLoading]="btnState"
+      (click)="formValue.emit(companyForm.value)"
+    >
+      Submit
+    </button>
+  </div>
+</clr-modal>
+
+

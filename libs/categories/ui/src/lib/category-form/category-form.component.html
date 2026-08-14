@@ -1,0 +1,36 @@
+<p>category-form works!</p>
+<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
+    <h3 class="modal-title">{{ title }}</h3>
+    <div class="modal-body">
+      <form [formGroup]="categorieForm">
+        <clr-input-container>
+          <label>Name</label>
+          <input clrInput type="text" formControlName="name" required />
+          <clr-control-error>Firstname is required!</clr-control-error>
+        </clr-input-container>
+        <clr-input-container>
+          <label>Code</label>
+          <input clrInput type="text" formControlName="code" required />
+          <clr-control-error>Code is required!</clr-control-error>
+        </clr-input-container>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline"
+        (click)="closeModal.emit(false)"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-success"
+        [clrLoading]="btnState"
+        (click)="formValue.emit(categorieForm.value)"
+      >
+        Submit
+      </button>
+    </div>
+  </clr-modal>
+  

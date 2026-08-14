@@ -1,0 +1,10 @@
+<pos-frontend-pos-form
+  [debtors]="(debtorsFacade.allDebtors$ | async)!"
+  [products]="(productsFacade.allProducts$ | async)!"
+  [vat]="(vatFacade.selectedVat$ | async)!"
+  [currency]="(currenciesFacade.defaultCurrency$ | async)!"
+  (formValue)="createSale($event)"
+  [btnState]="(posFacade.btnState$ | async)!"
+  [sale]="(posFacade.selectedPos$ | async)!"
+  [isSale]="true"
+></pos-frontend-pos-form>

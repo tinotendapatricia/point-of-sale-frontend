@@ -1,0 +1,5 @@
+<pos-frontend-cashup-form
+[currencies]="(currenciesFacade.allCurrencies$ | async)!"
+(formValue)="getPdf($event)"
+[tills]="tills"
+></pos-frontend-cashup-form>

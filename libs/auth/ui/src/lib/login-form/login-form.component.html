@@ -1,0 +1,41 @@
+<div class="login">
+  <div class="card-block">
+    <div class="card-header text-center">
+      <img src="assets/logo.png" alt="" />
+    </div>
+    <br />
+    <div class="login-head">{{ title }}</div>
+<div class="card-header"></div>
+<br>
+    <form [formGroup]="form">
+      <clr-input-container>
+        <label class="required">Username:</label>
+        <input type="email" clrInput formControlName="username" required />
+        <clr-control-error>Filed is required</clr-control-error>
+      </clr-input-container>
+      <clr-input-container>
+        <label class="required">Password:</label>
+        <input type="password" clrInput formControlName="password" />
+        <clr-control-error>Filed is required</clr-control-error>
+      </clr-input-container>
+      <br />
+      <button
+        class="btn btn-primary btn-block"
+        (click)="formValue.emit(form.value)"
+        [clrLoading]="btnState$"
+        [disabled]="!form.valid"
+      >
+        Login
+      </button>
+      <br>
+      <hr>
+      <div class="text-center">
+        <span class="m"> Forgot Password? Please contact admin</span><br />
+      </div>
+
+      <div class="text-center" *ngIf="isClient">
+        <a (click)="license.emit()">Licensed until:</a> |  <a (click)="setStation.emit()">Station = {{station}}</a>
+      </div>
+    </form>
+  </div>
+</div>

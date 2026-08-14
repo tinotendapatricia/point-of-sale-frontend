@@ -1,0 +1,15 @@
+<ng-container *ngFor="let field of user | keyvalue"
+  ><div class="clr-row" *ngIf="!isHide(field?.key)">
+    <div class="clr-col-6">
+      <span class="clr-control-label">{{
+        decamelize(field?.key) | titlecase
+      }}</span>
+    </div>
+    <div class="clr-col">
+      <span>{{ field?.value }}</span>
+      <span *ngIf="field?.value === null || field?.value === undefined"
+        >--</span
+      >
+    </div>
+  </div></ng-container
+>

@@ -1,0 +1,31 @@
+
+<br />
+<div class="h">Audit Trail</div>
+<hr />
+<br />
+<!-- <button class="btn btn-sm" (click)="createAudit()">Add</button>
+<button class="btn btn-sm" (click)="getAuditList({})">Refresh</button> -->
+<mat-card class="login">
+  <mat-card-content>
+    &nbsp;<button
+      class="act"
+      [routerLink]="['/audits/new']"
+      routerLinkActive="router-link-active"
+    >
+      <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+      New</button
+    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getAuditList({})">
+      <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+      >Refresh
+    </button>
+
+    <pos-frontend-list-audits-ui
+      [auditsList]="(auditsFacade.allAudits$ | async)!"
+      [total]="(auditsFacade.totalAudits$ | async)!"
+      [loading]="(auditsFacade.loading$ | async)!"
+      [placeholderMessage]="'Audits'"
+      (updatedState)="getAuditList($event)"
+
+    ></pos-frontend-list-audits-ui>
+  </mat-card-content>
+</mat-card>

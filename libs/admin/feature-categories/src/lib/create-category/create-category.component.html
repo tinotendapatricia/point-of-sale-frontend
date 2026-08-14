@@ -1,0 +1,14 @@
+<div class="head">Create New Categorie</div>
+<hr />
+<br />
+
+<div class="padding-left-right-1">
+  <pos-frontend-category-form
+    [title]="'Create New Categorie'"
+    (closeModal)="closeModal.emit(false)"
+    (formValue)="createCategorie($event)"
+    [btnState]="(categoriesService.btnState$ | 
+    async)!"
+
+  ></pos-frontend-category-form>
+</div>

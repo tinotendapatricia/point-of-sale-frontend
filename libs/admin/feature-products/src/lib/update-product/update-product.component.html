@@ -1,0 +1,17 @@
+<br />
+<div class="h">Products<span>/New Product</span></div>
+
+<hr />
+<br />
+
+<mat-card class="login">
+  <mat-card-content>
+    <pos-frontend-products-form
+      (closeModal)="closeModal.emit(false)"
+      (formValue)="createProduct($event)"
+      [btnState]="(productsService.btnState$ | async)!"
+      [currency]="(currenciesFacade.defaultCurrency$ | async)?.code"
+      [product]="(productsService.selectedProduct$ | async)!"
+    ></pos-frontend-products-form>
+  </mat-card-content>
+</mat-card>

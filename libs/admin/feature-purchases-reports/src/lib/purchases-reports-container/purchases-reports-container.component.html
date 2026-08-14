@@ -1,0 +1,33 @@
+<br />
+<div class="h">Purchases and GRV Reports</div>
+<hr />
+<br />
+
+<clr-tabs clrLayout="vertical">
+
+  <clr-tab>
+    <button clrTabLink>Purchases vs GRV Summary For Period</button>
+    <clr-tab-content *clrIfActive> 
+      <pos-frontend-purchases-report-grv-vs-purchases-summary></pos-frontend-purchases-report-grv-vs-purchases-summary>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>Purchases Vs GRV Detailed</button>
+    <clr-tab-content *clrIfActive>
+      <pos-frontend-purchases-report-grv-vs-purchases-detail></pos-frontend-purchases-report-grv-vs-purchases-detail>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>Purchase Report By Order Number</button>
+    <clr-tab-content *clrIfActive
+      ><pos-frontend-purchases-report-by-order-number></pos-frontend-purchases-report-by-order-number>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>Receiving By GRV Number</button>
+    <clr-tab-content *clrIfActive>
+      <pos-frontend-receiving-report-by-grv-number></pos-frontend-receiving-report-by-grv-number>
+  
+    </clr-tab-content>
+  </clr-tab>
+</clr-tabs>

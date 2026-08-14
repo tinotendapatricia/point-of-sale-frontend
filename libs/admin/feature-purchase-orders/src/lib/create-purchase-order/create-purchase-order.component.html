@@ -1,0 +1,30 @@
+<br />
+<div class="h">Purchase Order</div>
+<hr />
+<br />
+<!-- <button class="btn btn-sm" (click)="createProduct()">Add</button>
+<button class="btn btn-sm" (click)="getProductList({})">Refresh</button> -->
+<mat-card class="login">
+  <mat-card-content>
+    <!-- &nbsp;<button
+      class="act"
+      [routerLink]="['/products/new']"
+      routerLinkActive="router-link-active"
+    >
+      <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+      New</button
+    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act">
+      <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+      >Refresh
+    </button> -->
+
+    <pos-frontend-purchase-order-form
+      [purchaseOrderNumber]="
+        (purchaseOrderFacade.selectedPurchaseOrder$ | async)?.orderNumber!
+      "
+      [products$]="productsFacade.allProducts$!"
+      [creditors]="(creditorsFacade.allCreditors$ | async)!"
+      (formValue)="onSubmit($event)"
+    ></pos-frontend-purchase-order-form>
+  </mat-card-content>
+</mat-card>

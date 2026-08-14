@@ -1,0 +1,61 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
+    <div class="modal-title">{{ title }}</div>>
+    <div class="modal-body">
+      <form [formGroup]="configurationForm">
+        <div class="clr-row">
+          <div class="clr-col-md-8">
+            <clr-input-container>
+              <label class="required">Station Name</label>
+              <input clrInput type="text" formControlName="stationName" required />
+              <clr-control-error>Station Name is required!</clr-control-error>
+            </clr-input-container>
+          </div>
+          <div class="clr-col-md-4">
+            <clr-input-container>
+              <label class="required">Station Number</label>
+              <input clrInput type="number"  min= "50" formControlName="stationNumber" required />
+              <clr-control-error>Account Number required!</clr-control-error>
+            </clr-input-container>
+          </div>
+        </div>
+
+        <div class="clr-row">
+          <div class="clr-col-md-8">
+            <clr-input-container>
+              <label class="required">Printer Name</label>
+              <input clrInput type="text" formControlName="printerName" required />
+              <clr-control-error>Name is required!</clr-control-error>
+            </clr-input-container>
+          </div>
+          <div class="clr-col-md-4">
+            <clr-input-container>
+              <label class="required">Print Copies</label>
+              <input clrInput type="number" formControlName="copies" required />
+              <clr-control-error>Account is required!</clr-control-error>
+            </clr-input-container>
+          </div>
+        </div>
+        
+      
+     
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline"
+        (click)="closeModal.emit(false)"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-success"
+        [clrLoading]="btnState"
+        (click)="formValue.emit(configurationForm.value)"
+      >
+        Submit
+      </button>
+    </div>
+  </clr-modal>
+  

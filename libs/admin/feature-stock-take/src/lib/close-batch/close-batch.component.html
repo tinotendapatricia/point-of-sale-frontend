@@ -1,0 +1,8 @@
+<pos-frontend-action-confirmation-form
+[message]="'Please Verify all the products You have added in the batch. Are you sure you want to close this batch'"
+[title]="'Close Batch'"
+(proceed)="addProductsToStockBatch()"
+(closeModal)="closeModal.emit(false)"
+>
+
+</pos-frontend-action-confirmation-form>

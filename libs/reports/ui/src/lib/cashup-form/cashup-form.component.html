@@ -1,0 +1,68 @@
+<div class="card">
+  <div class="card-header">Daily Cashup</div>
+  <div class="card-block">
+    <button (click)="togglePrintAngGenerate()">Print Previous Cashup</button>
+    <div *ngIf="!printCashup">
+      <clr-select-container>
+        <label>Select Till Station</label>
+        <select clrSelect [(ngModel)]="station">
+          <option>Select Station</option>
+          <option *ngFor="let till of tills" [value]="till.station+'/'+till.tDate">
+           Station {{ till.station }} for {{ till.tDate }}
+          </option>
+        </select>
+      </clr-select-container>
+
+      <br />
+
+      <div class="clr-row">
+        <div class="clr-col-md-4" *ngFor="let currency of n; let x = index">
+          <div class="text-center">
+            <strong>{{ currency.code }}</strong>
+          </div>
+          <table class="table table-vertical">
+            <tbody>
+              <tr>
+                <th>Type</th>
+                <th>Amount at Hand</th>
+              </tr>
+              <tr *ngFor="let deno of currency.denominations; let y = index">
+                <th>{{ deno.type }}</th>
+
+                <td>
+                  <input type="number" name="amount" [(ngModel)]="deno.value" />
+                </td>
+              </tr>
+              <tr>
+                <th>Total</th>
+                <td>
+                  {{ calculateTotal(currency.denominations) }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <a class="reset">Reset</a>
+        </div>
+      </div>
+      <button class="btn btn-success" (click)="submit()">
+        Generate Cashup Report
+      </button>
+    </div>
+
+    <div *ngIf="printCashup">
+      <br />
+      <div class="clr-row">
+        <div class="clr-col-md-6">
+          <input type="text" />
+        </div>
+        <div class="clr-col-md-6">
+          <input type="date" />
+        </div>
+      </div>
+      <button class="btn btn-success" (click)="submit()">
+        Generate Cashup Report
+      </button>
+    </div>
+  </div>
+</div>

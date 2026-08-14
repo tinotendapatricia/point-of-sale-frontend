@@ -1,0 +1,13 @@
+<pos-frontend-stock-take-count-form
+  (formValue)="initiateStockTake($event)"
+  [batchProducts]="batchProducts"
+  [products]="(productsFacade.allProducts$ | async)!"
+  (adjustedStock)="adjustStock($event)"
+
+></pos-frontend-stock-take-count-form>
+
+<pos-frontend-stock-adjustment
+  *ngIf="isAdjustStock"
+  (closeModal)="isAdjustStock=false"
+  [stockToBeAdjusted]="selectedAdjustedStock"
+></pos-frontend-stock-adjustment>

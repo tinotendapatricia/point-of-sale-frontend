@@ -1,0 +1,51 @@
+<br />
+<div class="h">Sales Reports</div>
+<hr />
+<br />
+
+<clr-tabs clrLayout="vertical">
+  <clr-tab>
+    <button clrTabLink>All Sales Summary Listing For Period</button>
+    <clr-tab-content *clrIfActive
+      ><pos-frontend-all--sales-reports></pos-frontend-all--sales-reports>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>All Sales Detailed Listing For Period</button>
+    <clr-tab-content *clrIfActive
+      ><pos-frontend-sales-report-detailed></pos-frontend-sales-report-detailed>
+    </clr-tab-content>
+  </clr-tab>
+
+  <clr-tab>
+    <button clrTabLink>All Sales by Product and Day</button>
+    <clr-tab-content *clrIfActive>
+      <pos-frontend-sales-by-period-and-product></pos-frontend-sales-by-period-and-product>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>Sales by Debtor and Period</button>
+    <clr-tab-content *clrIfActive
+      ><pos-frontend-sales-by-debtor></pos-frontend-sales-by-debtor>
+    </clr-tab-content>
+  </clr-tab>
+
+  <clr-tab>
+    <button clrTabLink>Top Selling Product</button>
+    <clr-tab-content *clrIfActive
+      ><pos-frontend-top-selling-products-for-period></pos-frontend-top-selling-products-for-period>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>Till Cashup</button>
+    <clr-tab-content *clrIfActive>
+      <pos-frontend-till-cashup-report></pos-frontend-till-cashup-report>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>Gross Profit Report</button>
+    <clr-tab-content *clrIfActive>
+      <pos-frontend-generate-gp-report></pos-frontend-generate-gp-report>>
+    </clr-tab-content>
+  </clr-tab>
+</clr-tabs>

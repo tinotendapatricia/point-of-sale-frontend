@@ -1,0 +1,62 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
+  <h3 class="modal-title">{{ title }}</h3>
+  <div class="modal-body">
+    <form [formGroup]="currencyForm">
+      <clr-input-container>
+        <label class="required">Name</label>
+        <input clrInput type="text" formControlName="name" required />
+        <clr-control-error>Name is required!</clr-control-error>
+      </clr-input-container>
+      <clr-input-container>
+        <label class="required">Code</label>
+        <input clrInput type="text" formControlName="code" required />
+        <clr-control-error>Code is required!</clr-control-error>
+      </clr-input-container>
+      <clr-radio-container clrInline>
+        <label class="required">Active</label>
+        <clr-radio-wrapper>
+          <input
+            type="radio"
+            clrRadio
+            name="active"
+            required
+            [value]="true"
+            formControlName="active"
+          />
+          <label>Yes</label>
+        </clr-radio-wrapper>
+        <clr-radio-wrapper>
+          <input
+            type="radio"
+            clrRadio
+            name="active"
+            required
+            [value]="false"
+            formControlName="active"
+          />
+          <label>No</label>
+        </clr-radio-wrapper>
+
+        <clr-control-error>This field is required!</clr-control-error>
+      </clr-radio-container>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline"
+      (click)="closeModal.emit(false)"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-success"
+      [clrLoading]="btnState"
+      (click)="formValue.emit(currencyForm.value)"
+    >
+      Submit
+    </button>
+  </div>
+</clr-modal>

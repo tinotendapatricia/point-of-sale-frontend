@@ -1,0 +1,41 @@
+<br />
+<div class="h">Groups</div>
+<hr />
+<br />
+<!-- <button class="btn btn-sm" (click)="createGroup()">Add</button>
+<button class="btn btn-sm" (click)="getGroupList({})">Refresh</button> -->
+<mat-card class="login">
+  <mat-card-content>
+    &nbsp;<button class="act" (click)="isCreate = true">
+      <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+      New</button
+    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getGroupList({})">
+      <cds-icon
+        shape="minus-circle"
+        solid
+        style="color: rgb(190, 14, 38)"
+      ></cds-icon
+      >Refresh
+    </button>
+
+    <pos-frontend-list-groups-ui
+      [groupsList]="(groupsFacade.allGroups$ | async)!"
+      [total]="(groupsFacade.totalGroups$ | async)!"
+      [loading]="(groupsFacade.loading$ | async)!"
+      [placeholderMessage]="'Groups'"
+      (updatedState)="getGroupList($event)"
+      (viewGroupPermissions)="viewGroupAuthorities($event)"
+    ></pos-frontend-list-groups-ui>
+  </mat-card-content>
+</mat-card>
+
+<!-- <pos-frontend-change-group-status
+  *ngIf="isChangeStatus"
+  [group]="selectedGroup"
+  (closeModal)="refresh($event)"
+></pos-frontend-change-group-status> -->
+
+<pos-frontend-create-group
+  *ngIf="isCreate"
+  (closeModal)="refresh()"
+></pos-frontend-create-group>

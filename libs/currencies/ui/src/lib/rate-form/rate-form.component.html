@@ -1,0 +1,38 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
+    <h3 class="modal-title">{{ title }}&nbsp;&nbsp;</h3>
+    <div class="modal-body">
+      <form [formGroup]="form">
+        <clr-input-container >
+          <label>Rate</label>
+          <input clrInput type="text" formControlName="rate" required />
+          <clr-control-error>Rate is required!</clr-control-error>
+        </clr-input-container>
+       
+
+        <div class="date">
+          <label>Effective Date</label>
+          <input type="date" formControlName="effectiveDate">
+        </div>
+        
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline"
+        (click)="closeModal.emit(false)"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-success"
+        [clrLoading]="btnState"
+        (click)="formValue.emit(form.value)"
+      >
+        Submit
+      </button>
+    </div>
+  </clr-modal>
+  

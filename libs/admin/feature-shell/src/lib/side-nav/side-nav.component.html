@@ -1,0 +1,115 @@
+<clr-vertical-nav id="show_bg_2" [clr-nav-level]="1">
+  <br />
+  <a clrVerticalNavLink [routerLink]="['/dashboard']" routerLinkActive="active">
+    <cds-icon clrVerticalNavIcon shape="home" solid></cds-icon>
+    DashBoard
+  </a>
+
+  <clr-vertical-nav-group routerLinkActive="active" style="font-size: 12px">
+    <cds-icon clrVerticalNavIcon shape="blocks-group" solid></cds-icon>
+    Products Management
+    <clr-vertical-nav-group-children> 
+    <a clrVerticalNavLink [routerLink]="['/products']" routerLinkActive="active">
+      Products
+    </a>
+    <a clrVerticalNavLink [routerLink]="['/products/break-bulk']" routerLinkActive="active">
+      Break
+    </a>
+    
+  </clr-vertical-nav-group-children>
+  </clr-vertical-nav-group>
+
+  <a
+    clrVerticalNavLink
+    [routerLink]="['/currencies']"
+    routerLinkActive="active"
+  >
+    <cds-icon clrVerticalNavIcon shape="dollar-bill" solid></cds-icon>
+    Currencies
+  </a>
+
+
+  <clr-vertical-nav-group routerLinkActive="active" style="font-size: 12px">
+    <cds-icon clrVerticalNavIcon shape="users" solid></cds-icon>
+    Purchases
+    <clr-vertical-nav-group-children> 
+    <a clrVerticalNavLink [routerLink]="['/creditors']" routerLinkActive="active">
+      Creditors
+    </a>
+    <a clrVerticalNavLink [routerLink]="['/purchase-orders']" routerLinkActive="active">
+      Purchase Orders
+    </a>
+    <a clrVerticalNavLink [routerLink]="['/receive-products']" routerLinkActive="active">
+      Receive Products
+    </a>
+    <a clrVerticalNavLink [routerLink]="['/purchases-reports']" routerLinkActive="active">
+      Reports
+    </a>
+  </clr-vertical-nav-group-children>
+  </clr-vertical-nav-group>
+
+  <clr-vertical-nav-group routerLinkActive="active" style="font-size: 12px">
+    <cds-icon clrVerticalNavIcon shape="users" solid></cds-icon>
+    Sales
+    <clr-vertical-nav-group-children>
+      <a
+        clrVerticalNavLink
+        [routerLink]="['/debtors']"
+        routerLinkActive="active"
+      >
+        Debtors
+      </a>
+      <!-- <a
+        [routerLink]="['/stations']"
+        clrVerticalNavLink
+        routerLinkActive="active"
+      >
+        Stations
+      </a> -->
+      <a
+        [routerLink]="['/sales-reports']"
+        clrVerticalNavLink
+        routerLinkActive="active"
+      >
+        Reports
+      </a>
+    </clr-vertical-nav-group-children></clr-vertical-nav-group
+  >
+  <clr-vertical-nav-group routerLinkActive="active" style="font-size: 12px">
+    <cds-icon clrVerticalNavIcon shape="slider" solid></cds-icon>
+    Stock Management
+    <clr-vertical-nav-group-children>
+      <a
+        clrVerticalNavLink
+        [routerLink]="['/stock-take']"
+        routerLinkActive="active"
+      >
+        Stock Take
+      </a>
+      <a
+        clrVerticalNavLink
+        [routerLink]="['/stocks']"
+        routerLinkActive="active"
+      >
+        Reports
+      </a>
+    </clr-vertical-nav-group-children></clr-vertical-nav-group
+  >
+
+  <a
+    clrVerticalNavLink
+    [routerLink]="['/configurations']"
+    routerLinkActive="active"
+  >
+    <cds-icon clrVerticalNavIcon shape="cog"></cds-icon>
+    Configurations
+  </a>
+  <a clrVerticalNavLink [routerLink]="['/company']" routerLinkActive="active">
+    <cds-icon clrVerticalNavIcon shape="bank"></cds-icon>
+    Company
+  </a>
+  <a clrVerticalNavLink [routerLink]="['/audits']" routerLinkActive="active">
+    <cds-icon clrVerticalNavIcon shape="form"></cds-icon>
+    Audit Trail
+  </a>
+</clr-vertical-nav>

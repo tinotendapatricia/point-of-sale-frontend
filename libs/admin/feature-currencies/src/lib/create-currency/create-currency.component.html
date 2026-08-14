@@ -1,0 +1,8 @@
+
+  <pos-frontend-currency-form
+    [title]="'Create New Currency'"
+    (closeModal)="closeModal.emit(false)"
+    (formValue)="createCurrency($event)"
+    [btnState]="(currenciesService.btnState$ | async)!"
+  ></pos-frontend-currency-form>
+

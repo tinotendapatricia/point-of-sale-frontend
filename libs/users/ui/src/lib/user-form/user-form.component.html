@@ -1,0 +1,46 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
+  <div class="modal-title">{{ title }}</div>
+  <div class="modal-body">
+    <form [formGroup]="userForm">
+      <clr-input-container>
+        <label>Username</label>
+        <input clrInput type="text" formControlName="username" required />
+        <clr-control-error>Firstname is required!</clr-control-error>
+      </clr-input-container>
+      <clr-input-container>
+        <label>Name</label>
+        <input clrInput type="text" formControlName="name" required />
+        <clr-control-error>Firstname is required!</clr-control-error>
+      </clr-input-container>
+
+      
+      <clr-password-container>
+        <label>Password</label>
+        <input
+          clrPassword
+          formControlName="password"
+          type="password"
+          required
+        />
+        <clr-control-error>Username is required</clr-control-error>
+      </clr-password-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline"
+      (click)="closeModal.emit(false)"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-success"
+      [clrLoading]="btnState"
+      (click)="formValue.emit(userForm.value)"
+    >
+      Submit
+    </button>
+  </div>
+</clr-modal>

@@ -1,0 +1,215 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@pos-frontend/admin/feature-audits": [
+        "libs/admin/feature-audits/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-auth": [
+        "libs/admin/feature-auth/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-categories": [
+        "libs/admin/feature-categories/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-company": [
+        "libs/admin/feature-company/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-configurations": [
+        "libs/admin/feature-configurations/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-creditors": [
+        "libs/admin/feature-creditors/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-currencies": [
+        "libs/admin/feature-currencies/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-dashboard": [
+        "libs/admin/feature-dashboard/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-debtors": [
+        "libs/admin/feature-debtors/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-goods-received": [
+        "libs/admin/feature-goods-received/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-groups": [
+        "libs/admin/feature-groups/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-permisions": [
+        "libs/admin/feature-permisions/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-price-list": [
+        "libs/admin/feature-price-list/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-prices": [
+        "libs/admin/feature-prices/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-products": [
+        "libs/admin/feature-products/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-purchase-orders": [
+        "libs/admin/feature-purchase-orders/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-purchases-reports": [
+        "libs/admin/feature-purchases-reports/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-rates": [
+        "libs/admin/feature-rates/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-reports": [
+        "libs/admin/feature-reports/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-roles": [
+        "libs/admin/feature-roles/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-sales-reports": [
+        "libs/admin/feature-sales-reports/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-shell": [
+        "libs/admin/feature-shell/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-stations": [
+        "libs/admin/feature-stations/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-stock-reports": [
+        "libs/admin/feature-stock-reports/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-stock-take": [
+        "libs/admin/feature-stock-take/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-users": [
+        "libs/admin/feature-users/src/index.ts"
+      ],
+      "@pos-frontend/admin/feature-vat": [
+        "libs/admin/feature-vat/src/index.ts"
+      ],
+      "@pos-frontend/audit-trail/data-access": [
+        "libs/audit-trail/data-access/src/index.ts"
+      ],
+      "@pos-frontend/audit-trail/ui": ["libs/audit-trail/ui/src/index.ts"],
+      "@pos-frontend/auth/data-access": ["libs/auth/data-access/src/index.ts"],
+      "@pos-frontend/auth/ui": ["libs/auth/ui/src/index.ts"],
+      "@pos-frontend/categories/data-access": [
+        "libs/categories/data-access/src/index.ts"
+      ],
+      "@pos-frontend/categories/ui": ["libs/categories/ui/src/index.ts"],
+      "@pos-frontend/client/feature-auth": [
+        "libs/client/feature-auth/src/index.ts"
+      ],
+      "@pos-frontend/client/feature-pos": [
+        "libs/client/feature-pos/src/index.ts"
+      ],
+      "@pos-frontend/client/feature-refund": [
+        "libs/client/feature-refund/src/index.ts"
+      ],
+      "@pos-frontend/client/feature-shell": [
+        "libs/client/feature-shell/src/index.ts"
+      ],
+      "@pos-frontend/company-details/data-access": [
+        "libs/company-details/data-access/src/index.ts"
+      ],
+      "@pos-frontend/company-details/ui": [
+        "libs/company-details/ui/src/index.ts"
+      ],
+      "@pos-frontend/configurations/data-access": [
+        "libs/configurations/data-access/src/index.ts"
+      ],
+      "@pos-frontend/configurations/ui": [
+        "libs/configurations/ui/src/index.ts"
+      ],
+      "@pos-frontend/core": ["libs/core/src/index.ts"],
+      "@pos-frontend/creditors/data-access": [
+        "libs/creditors/data-access/src/index.ts"
+      ],
+      "@pos-frontend/creditors/ui": ["libs/creditors/ui/src/index.ts"],
+      "@pos-frontend/currencies/data-access": [
+        "libs/currencies/data-access/src/index.ts"
+      ],
+      "@pos-frontend/currencies/ui": ["libs/currencies/ui/src/index.ts"],
+      "@pos-frontend/debtors/data-access": [
+        "libs/debtors/data-access/src/index.ts"
+      ],
+      "@pos-frontend/debtors/ui": ["libs/debtors/ui/src/index.ts"],
+      "@pos-frontend/feature-audit-trail": [
+        "libs/feature-audit-trail/src/index.ts"
+      ],
+      "@pos-frontend/goods-received/data-access": [
+        "libs/goods-received/data-access/src/index.ts"
+      ],
+      "@pos-frontend/goods-received/ui": [
+        "libs/goods-received/ui/src/index.ts"
+      ],
+      "@pos-frontend/groups/data-access": [
+        "libs/groups/data-access/src/index.ts"
+      ],
+      "@pos-frontend/groups/ui": ["libs/groups/ui/src/index.ts"],
+      "@pos-frontend/licensing/data-access": [
+        "libs/licensing/data-access/src/index.ts"
+      ],
+      "@pos-frontend/licensing/ui": ["libs/licensing/ui/src/index.ts"],
+      "@pos-frontend/pos/data-access": ["libs/pos/data-access/src/index.ts"],
+      "@pos-frontend/pos/ui": ["libs/pos/ui/src/index.ts"],
+      "@pos-frontend/price-list/data-access": [
+        "libs/price-list/data-access/src/index.ts"
+      ],
+      "@pos-frontend/price-list/ui": ["libs/price-list/ui/src/index.ts"],
+      "@pos-frontend/products/data-access": [
+        "libs/products/data-access/src/index.ts"
+      ],
+      "@pos-frontend/products/ui": ["libs/products/ui/src/index.ts"],
+      "@pos-frontend/purchase-orders/data-access": [
+        "libs/purchase-orders/data-access/src/index.ts"
+      ],
+      "@pos-frontend/purchase-orders/ui": [
+        "libs/purchase-orders/ui/src/index.ts"
+      ],
+      "@pos-frontend/reports/data-access": [
+        "libs/reports/data-access/src/index.ts"
+      ],
+      "@pos-frontend/reports/ui": ["libs/reports/ui/src/index.ts"],
+      "@pos-frontend/roles/data-access": [
+        "libs/roles/data-access/src/index.ts"
+      ],
+      "@pos-frontend/roles/ui": ["libs/roles/ui/src/index.ts"],
+      "@pos-frontend/shared/data-access": [
+        "libs/shared/data-access/src/index.ts"
+      ],
+      "@pos-frontend/shared/ui": ["libs/shared/ui/src/index.ts"],
+      "@pos-frontend/shared/utils": ["libs/shared/utils/src/index.ts"],
+      "@pos-frontend/stations/data-access": [
+        "libs/stations/data-access/src/index.ts"
+      ],
+      "@pos-frontend/stations/ui": ["libs/stations/ui/src/index.ts"],
+      "@pos-frontend/stock-movement/data-access": [
+        "libs/stock-movement/data-access/src/index.ts"
+      ],
+      "@pos-frontend/stock-movement/ui": [
+        "libs/stock-movement/ui/src/index.ts"
+      ],
+      "@pos-frontend/stock-take/data-access": [
+        "libs/stock-take/data-access/src/index.ts"
+      ],
+      "@pos-frontend/stock-take/ui": ["libs/stock-take/ui/src/index.ts"],
+      "@pos-frontend/users/data-access": [
+        "libs/users/data-access/src/index.ts"
+      ],
+      "@pos-frontend/users/ui": ["libs/users/ui/src/index.ts"],
+      "@pos-frontend/vat/data-access": ["libs/vat/data-access/src/index.ts"],
+      "@pos-frontend/vat/ui": ["libs/vat/ui/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
