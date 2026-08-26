@@ -1,10 +1,8 @@
 //import { ClrDatagridStateInterface } from '@clr/angular';
-import { Ng2IzitoastService } from 'ng2-izitoast';
+declare const iziToast: any;
 
 export class Utilities {
   static displayToast(type: string, message?: string) {
-    const iziToast = new Ng2IzitoastService();
-
     switch (type) {
       case 'success':
         iziToast.success({

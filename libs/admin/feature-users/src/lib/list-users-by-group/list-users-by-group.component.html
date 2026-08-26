@@ -7,14 +7,15 @@
         name="groupId"
         [(ngModel)]="groupId"
         (change)="getUsersListByGroup()"
-      >
-        <option value="one">Select Group</option>
-        <option
-          [value]="group.id"
-          *ngFor="let group of groupsFacade.allGroups$ | async"
         >
-          {{ group.name }}
-        </option>
+        <option value="one">Select Group</option>
+        @for (group of groupsFacade.allGroups$ | async; track group) {
+          <option
+            [value]="group.id"
+            >
+            {{ group.name }}
+          </option>
+        }
       </select>
     </clr-select-container>
   </div>
@@ -23,21 +24,23 @@
 <div>
   <button class="btn btn-sm" (click)="createUser()">Add</button>
   <button class="btn btn-sm" (click)="getUserList({})">Refresh</button>
-  <pos-frontend-list-users-ui
-    *ngIf="groupId"
-    [userList]="(usersFacade.allUsers$ | async)!"
-    [total]="(usersFacade.totalUsers$ | async)!"
-    [loading]="(usersFacade.loading$ | async)!"
-    [placeholderMessage]="'Users'"
-    (updatedState)="getUserList($event)"
-    (updateSelected)="updateUser($event)"
-    (viewSelected)="viewUser($event)"
-    (changeSelectedUserStatus)="changeUserStatus($event)"
-    (viewUserAuthorities)="viewUserAuthorities($event)"
-  ></pos-frontend-list-users-ui>
+  @if (groupId) {
+    <pos-frontend-list-users-ui
+      [userList]="(usersFacade.allUsers$ | async)!"
+      [total]="(usersFacade.totalUsers$ | async)!"
+      [loading]="(usersFacade.loading$ | async)!"
+      [placeholderMessage]="'Users'"
+      (updatedState)="getUserList($event)"
+      (updateSelected)="updateUser($event)"
+      (viewSelected)="viewUser($event)"
+      (changeSelectedUserStatus)="changeUserStatus($event)"
+      (viewUserAuthorities)="viewUserAuthorities($event)"
+    ></pos-frontend-list-users-ui>
+  }
 </div>
-<pos-frontend-change-user-status
-  *ngIf="isChangeStatus"
-  [user]="selectedUser"
-  (closeModal)="refresh($event)"
-></pos-frontend-change-user-status>
+@if (isChangeStatus) {
+  <pos-frontend-change-user-status
+    [user]="selectedUser"
+    (closeModal)="refresh($event)"
+  ></pos-frontend-change-user-status>
+}
