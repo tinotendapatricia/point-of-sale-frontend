@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ProductsEntity, ProductsFacade } from '@pos-frontend/products/data-access';
 
 @Component({
-  selector: 'pos-frontend-update-price',
-  templateUrl: './update-price.component.html',
-  styleUrls: ['./update-price.component.scss'],
+    selector: 'pos-frontend-update-price',
+    templateUrl: './update-price.component.html',
+    styleUrls: ['./update-price.component.scss'],
+    standalone: false
 })
 export class UpdatePriceComponent {
 

@@ -4,9 +4,10 @@ import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-print-adjustment',
-  templateUrl: './print-adjustment.component.html',
-  styleUrls: ['./print-adjustment.component.scss'],
+    selector: 'pos-frontend-print-adjustment',
+    templateUrl: './print-adjustment.component.html',
+    styleUrls: ['./print-adjustment.component.scss'],
+    standalone: false
 })
 export class PrintAdjustmentComponent implements OnDestroy {
 

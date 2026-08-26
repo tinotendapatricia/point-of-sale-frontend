@@ -3,9 +3,10 @@ import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
 
 @Component({
-  selector: 'pos-frontend-create-stock-batch',
-  templateUrl: './create-stock-batch.component.html',
-  styleUrls: ['./create-stock-batch.component.scss'],
+    selector: 'pos-frontend-create-stock-batch',
+    templateUrl: './create-stock-batch.component.html',
+    styleUrls: ['./create-stock-batch.component.scss'],
+    standalone: false
 })
 export class CreateStockBatchComponent implements OnInit  {
 

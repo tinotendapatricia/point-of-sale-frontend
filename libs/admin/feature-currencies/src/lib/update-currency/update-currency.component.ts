@@ -6,9 +6,10 @@ import {
 } from '@pos-frontend/currencies/data-access';
 
 @Component({
-  selector: 'pos-frontend-update-currency',
-  templateUrl: './update-currency.component.html',
-  styleUrls: ['./update-currency.component.scss'],
+    selector: 'pos-frontend-update-currency',
+    templateUrl: './update-currency.component.html',
+    styleUrls: ['./update-currency.component.scss'],
+    standalone: false
 })
 export class UpdateCurrencyComponent {
   @Input() currency!: CurrenciesEntity;

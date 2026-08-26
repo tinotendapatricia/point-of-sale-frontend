@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { VatEntity, VatFacade } from '@pos-frontend/vat/data-access';
 
 @Component({
-  selector: 'pos-frontend-update-vat',
-  templateUrl: './update-vat.component.html',
-  styleUrls: ['./update-vat.component.css'],
+    selector: 'pos-frontend-update-vat',
+    templateUrl: './update-vat.component.html',
+    styleUrls: ['./update-vat.component.css'],
+    standalone: false
 })
 export class UpdateVatComponent {
   @Input() vat!: VatEntity;

@@ -6,9 +6,10 @@ import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
 
 
 @Component({
-  selector: 'pos-frontend-update-user',
-  templateUrl: './update-user.component.html',
-  styleUrls: ['./update-user.component.scss'],
+    selector: 'pos-frontend-update-user',
+    templateUrl: './update-user.component.html',
+    styleUrls: ['./update-user.component.scss'],
+    standalone: false
 })
 export class UpdateUserComponent implements OnInit {
   @Input() user!:UsersEntity

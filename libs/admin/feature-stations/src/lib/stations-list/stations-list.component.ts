@@ -12,9 +12,10 @@ import {
 } from '@pos-frontend/stations/data-access';
 
 @Component({
-  selector: 'pos-frontend-stations-list',
-  templateUrl: './stations-list.component.html',
-  styleUrls: ['./stations-list.component.scss'],
+    selector: 'pos-frontend-stations-list',
+    templateUrl: './stations-list.component.html',
+    styleUrls: ['./stations-list.component.scss'],
+    standalone: false
 })
 export class StationsListComponent implements AfterViewChecked {
   public isUpdate = false;

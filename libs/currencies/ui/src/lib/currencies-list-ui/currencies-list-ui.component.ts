@@ -3,9 +3,10 @@ import { ClrDatagridStateInterface } from '@clr/angular';
 import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
 
 @Component({
-  selector: 'pos-frontend-currencies-list-ui',
-  templateUrl: './currencies-list-ui.component.html',
-  styleUrls: ['./currencies-list-ui.component.scss'],
+    selector: 'pos-frontend-currencies-list-ui',
+    templateUrl: './currencies-list-ui.component.html',
+    styleUrls: ['./currencies-list-ui.component.scss'],
+    standalone: false
 })
 export class CurrenciesListUiComponent {
   @Input() currenciesList: CurrenciesEntity[] = [];

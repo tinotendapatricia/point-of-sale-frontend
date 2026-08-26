@@ -6,9 +6,10 @@ import {
 } from '@pos-frontend/currencies/data-access';
 
 @Component({
-  selector: 'pos-frontend-make-default',
-  templateUrl: './make-default.component.html',
-  styleUrls: ['./make-default.component.scss'],
+    selector: 'pos-frontend-make-default',
+    templateUrl: './make-default.component.html',
+    styleUrls: ['./make-default.component.scss'],
+    standalone: false
 })
 export class MakeDefaultComponent implements OnInit {
   @Input() currency!: CurrenciesEntity;

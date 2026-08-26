@@ -4,9 +4,10 @@ import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-sales-report-detailed',
-  templateUrl: './sales-report-detailed.component.html',
-  styleUrls: ['./sales-report-detailed.component.scss'],
+    selector: 'pos-frontend-sales-report-detailed',
+    templateUrl: './sales-report-detailed.component.html',
+    styleUrls: ['./sales-report-detailed.component.scss'],
+    standalone: false
 })
 export class SalesReportDetailedComponent implements OnDestroy {
 

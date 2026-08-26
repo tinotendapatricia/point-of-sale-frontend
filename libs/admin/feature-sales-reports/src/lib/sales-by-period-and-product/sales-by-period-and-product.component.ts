@@ -5,9 +5,10 @@ import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-sales-by-period-and-product',
-  templateUrl: './sales-by-period-and-product.component.html',
-  styleUrls: ['./sales-by-period-and-product.component.scss'],
+    selector: 'pos-frontend-sales-by-period-and-product',
+    templateUrl: './sales-by-period-and-product.component.html',
+    styleUrls: ['./sales-by-period-and-product.component.scss'],
+    standalone: false
 })
 export class SalesByPeriodAndProductComponent implements OnInit, OnDestroy {
   btnState = ClrLoadingState.DEFAULT;

@@ -3,9 +3,10 @@ import { ClrDatagridStateInterface } from '@clr/angular';
 import { CategoriesEntity } from '@pos-frontend/categories/data-access';
 
 @Component({
-  selector: 'pos-frontend-category-list-ui',
-  templateUrl: './category-list-ui.component.html',
-  styleUrls: ['./category-list-ui.component.scss'],
+    selector: 'pos-frontend-category-list-ui',
+    templateUrl: './category-list-ui.component.html',
+    styleUrls: ['./category-list-ui.component.scss'],
+    standalone: false
 })
 export class CategoryListUiComponent {
   @Input() categoriesList: CategoriesEntity[] = [];

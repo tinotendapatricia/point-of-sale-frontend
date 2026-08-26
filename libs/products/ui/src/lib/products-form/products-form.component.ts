@@ -14,9 +14,10 @@ import { CategoriesEntity } from '@pos-frontend/categories/data-access';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
 
 @Component({
-  selector: 'pos-frontend-products-form',
-  templateUrl: './products-form.component.html',
-  styleUrls: ['./products-form.component.scss'],
+    selector: 'pos-frontend-products-form',
+    templateUrl: './products-form.component.html',
+    styleUrls: ['./products-form.component.scss'],
+    standalone: false
 })
 export class ProductsFormComponent implements OnInit{
   @Input() product!: ProductsEntity;

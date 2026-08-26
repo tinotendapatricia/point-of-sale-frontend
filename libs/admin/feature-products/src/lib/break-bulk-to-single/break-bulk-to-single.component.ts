@@ -14,9 +14,10 @@ import {
 import { Utilities } from '@pos-frontend/shared/utils';
 
 @Component({
-  selector: 'pos-frontend-break-bulk-to-single',
-  templateUrl: './break-bulk-to-single.component.html',
-  styleUrls: ['./break-bulk-to-single.component.scss'],
+    selector: 'pos-frontend-break-bulk-to-single',
+    templateUrl: './break-bulk-to-single.component.html',
+    styleUrls: ['./break-bulk-to-single.component.scss'],
+    standalone: false
 })
 export class BreakBulkToSingleComponent implements AfterViewChecked, OnInit {
   public isUpdate = false;

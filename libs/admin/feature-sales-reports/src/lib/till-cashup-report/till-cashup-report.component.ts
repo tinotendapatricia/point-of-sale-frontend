@@ -7,9 +7,10 @@ import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-till-cashup-report',
-  templateUrl: './till-cashup-report.component.html',
-  styleUrls: ['./till-cashup-report.component.scss'],
+    selector: 'pos-frontend-till-cashup-report',
+    templateUrl: './till-cashup-report.component.html',
+    styleUrls: ['./till-cashup-report.component.scss'],
+    standalone: false
 })
 export class TillCashupReportComponent implements OnInit, OnDestroy {
   btnState = ClrLoadingState.DEFAULT;

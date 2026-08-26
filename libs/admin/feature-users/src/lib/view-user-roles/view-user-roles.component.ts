@@ -4,9 +4,10 @@ import { RolesFacade } from '@pos-frontend/roles/data-access';
 import { UsersFacade } from '@pos-frontend/users/data-access';
 
 @Component({
-  selector: 'pos-frontend-view-user-roles',
-  templateUrl: './view-user-roles.component.html',
-  styleUrls: ['./view-user-roles.component.scss'],
+    selector: 'pos-frontend-view-user-roles',
+    templateUrl: './view-user-roles.component.html',
+    styleUrls: ['./view-user-roles.component.scss'],
+    standalone: false
 })
 export class ViewUserRolesComponent implements OnInit {
   constructor(

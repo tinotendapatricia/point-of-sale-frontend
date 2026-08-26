@@ -7,9 +7,10 @@ import {
 } from '@pos-frontend/debtors/data-access';
 
 @Component({
-  selector: 'pos-frontend-list-debtors',
-  templateUrl: './list-debtors.component.html',
-  styleUrls: ['./list-debtors.component.scss'],
+    selector: 'pos-frontend-list-debtors',
+    templateUrl: './list-debtors.component.html',
+    styleUrls: ['./list-debtors.component.scss'],
+    standalone: false
 })
 export class ListDebtorsComponent implements AfterViewChecked {
   public isUpdate = false;

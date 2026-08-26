@@ -11,9 +11,10 @@ import { ClrLoadingState } from '@clr/angular';
 import { VatEntity } from '@pos-frontend/vat/data-access';
 
 @Component({
-  selector: 'pos-frontend-vat-form',
-  templateUrl: './vat-form.component.html',
-  styleUrls: ['./vat-form.component.scss'],
+    selector: 'pos-frontend-vat-form',
+    templateUrl: './vat-form.component.html',
+    styleUrls: ['./vat-form.component.scss'],
+    standalone: false
 })
 export class VatFormComponent implements OnInit {
   @Input() vat!: VatEntity;

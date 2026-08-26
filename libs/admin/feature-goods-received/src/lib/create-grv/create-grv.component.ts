@@ -3,9 +3,10 @@ import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { PurchaseOrderFacade } from '@pos-frontend/purchase-orders/data-access';
 
 @Component({
-  selector: 'pos-frontend-create-grv',
-  templateUrl: './create-grv.component.html',
-  styleUrls: ['./create-grv.component.scss'],
+    selector: 'pos-frontend-create-grv',
+    templateUrl: './create-grv.component.html',
+    styleUrls: ['./create-grv.component.scss'],
+    standalone: false
 })
 export class CreateGrvComponent implements OnInit {
   constructor(public purchaseOrderFacade: PurchaseOrderFacade,

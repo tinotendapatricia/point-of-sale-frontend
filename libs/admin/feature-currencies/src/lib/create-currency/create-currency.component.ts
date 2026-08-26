@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 
 @Component({
-  selector: 'pos-frontend-create-currency',
-  templateUrl: './create-currency.component.html',
-  styleUrls: ['./create-currency.component.scss'],
+    selector: 'pos-frontend-create-currency',
+    templateUrl: './create-currency.component.html',
+    styleUrls: ['./create-currency.component.scss'],
+    standalone: false
 })
 export class CreateCurrencyComponent {
   @Output() closeModal = new EventEmitter();

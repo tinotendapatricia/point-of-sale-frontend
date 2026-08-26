@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { GroupsFacade } from '@pos-frontend/groups/data-access';
 
 @Component({
-  selector: 'pos-frontend-create-group',
-  templateUrl: './create-group.component.html',
-  styleUrls: ['./create-group.component.scss'],
+    selector: 'pos-frontend-create-group',
+    templateUrl: './create-group.component.html',
+    styleUrls: ['./create-group.component.scss'],
+    standalone: false
 })
 export class CreateGroupComponent {
   @Output() closeModal = new EventEmitter();

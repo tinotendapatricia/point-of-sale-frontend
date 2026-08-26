@@ -3,9 +3,10 @@ import { UntypedFormGroup, FormBuilder } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
 
 @Component({
-  selector: 'pos-frontend-rate-form',
-  templateUrl: './rate-form.component.html',
-  styleUrls: ['./rate-form.component.scss'],
+    selector: 'pos-frontend-rate-form',
+    templateUrl: './rate-form.component.html',
+    styleUrls: ['./rate-form.component.scss'],
+    standalone: false
 })
 export class RateFormComponent {
 

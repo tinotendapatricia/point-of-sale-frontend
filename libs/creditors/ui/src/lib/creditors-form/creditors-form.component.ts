@@ -4,9 +4,10 @@ import { ClrLoadingState } from '@clr/angular';
 import { CreditorsEntity } from '@pos-frontend/creditors/data-access';
 
 @Component({
-  selector: 'pos-frontend-creditors-form',
-  templateUrl: './creditors-form.component.html',
-  styleUrls: ['./creditors-form.component.scss'],
+    selector: 'pos-frontend-creditors-form',
+    templateUrl: './creditors-form.component.html',
+    styleUrls: ['./creditors-form.component.scss'],
+    standalone: false
 })
 export class CreditorsFormComponent implements OnInit {
   @Input() creditor!: CreditorsEntity;

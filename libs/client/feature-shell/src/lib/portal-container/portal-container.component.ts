@@ -3,9 +3,10 @@ import { AuthenticationService } from '@pos-frontend/auth/data-access';
 import { UsersFacade } from '@pos-frontend/users/data-access';
 
 @Component({
-  selector: 'pos-frontend-portal-container',
-  templateUrl: './portal-container.component.html',
-  styleUrls: ['./portal-container.component.scss'],
+    selector: 'pos-frontend-portal-container',
+    templateUrl: './portal-container.component.html',
+    styleUrls: ['./portal-container.component.scss'],
+    standalone: false
 })
 export class PortalContainerComponent implements OnInit {
 

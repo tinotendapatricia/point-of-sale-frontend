@@ -3,9 +3,10 @@ import { Observable } from 'rxjs';
 import { DashboardService } from '../services/dashboard.service';
 
 @Component({
-  selector: 'pos-frontend-low-selling-product',
-  templateUrl: './low-selling-product.component.html',
-  styleUrls: ['./low-selling-product.component.scss'],
+    selector: 'pos-frontend-low-selling-product',
+    templateUrl: './low-selling-product.component.html',
+    styleUrls: ['./low-selling-product.component.scss'],
+    standalone: false
 })
 export class LowSellingProductComponent implements OnInit {
   //data: any[] = [];

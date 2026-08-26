@@ -4,9 +4,10 @@ import { ClrLoadingState } from '@clr/angular';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
 
 @Component({
-  selector: 'pos-frontend-update-cost-and-price',
-  templateUrl: './update-cost-and-price.component.html',
-  styleUrls: ['./update-cost-and-price.component.scss'],
+    selector: 'pos-frontend-update-cost-and-price',
+    templateUrl: './update-cost-and-price.component.html',
+    styleUrls: ['./update-cost-and-price.component.scss'],
+    standalone: false
 })
 export class UpdateCostAndPriceComponent implements OnInit { 
   @Input() product!: ProductsEntity;

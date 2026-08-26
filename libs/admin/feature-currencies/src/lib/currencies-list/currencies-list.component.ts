@@ -13,9 +13,10 @@ import {
 } from '@pos-frontend/currencies/data-access';
 
 @Component({
-  selector: 'pos-frontend-currencies-list',
-  templateUrl: './currencies-list.component.html',
-  styleUrls: ['./currencies-list.component.scss'],
+    selector: 'pos-frontend-currencies-list',
+    templateUrl: './currencies-list.component.html',
+    styleUrls: ['./currencies-list.component.scss'],
+    standalone: false
 })
 export class CurrenciesListComponent implements OnInit, AfterViewChecked {
   public isUpdate = false;

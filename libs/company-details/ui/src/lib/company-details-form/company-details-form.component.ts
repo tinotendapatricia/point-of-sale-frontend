@@ -4,9 +4,10 @@ import { ClrLoadingState } from '@clr/angular';
 import {CompanyEntity } from '@pos-frontend/company-details/data-access';
 
 @Component({
-  selector: 'pos-frontend-company-details-form',
-  templateUrl: './company-details-form.component.html',
-  styleUrls: ['./company-details-form.component.scss'],
+    selector: 'pos-frontend-company-details-form',
+    templateUrl: './company-details-form.component.html',
+    styleUrls: ['./company-details-form.component.scss'],
+    standalone: false
 })
 export class CompanyDetailsFormComponent implements OnInit  {
  

@@ -4,9 +4,10 @@ import { ClrLoadingState } from '@clr/angular';
 import { StationsEntity } from '@pos-frontend/stations/data-access';
 
 @Component({
-  selector: 'pos-frontend-station-form',
-  templateUrl: './station-form.component.html',
-  styleUrls: ['./station-form.component.scss'],
+    selector: 'pos-frontend-station-form',
+    templateUrl: './station-form.component.html',
+    styleUrls: ['./station-form.component.scss'],
+    standalone: false
 })
 export class StationFormComponent implements OnInit  {
 

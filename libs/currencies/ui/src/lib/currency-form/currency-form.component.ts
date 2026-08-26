@@ -4,9 +4,10 @@ import { ClrLoadingState } from '@clr/angular';
 import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
 
 @Component({
-  selector: 'pos-frontend-currency-form',
-  templateUrl: './currency-form.component.html',
-  styleUrls: ['./currency-form.component.scss'],
+    selector: 'pos-frontend-currency-form',
+    templateUrl: './currency-form.component.html',
+    styleUrls: ['./currency-form.component.scss'],
+    standalone: false
 })
 export class CurrencyFormComponent implements OnInit {
   @Input() currency!: CurrenciesEntity;

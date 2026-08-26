@@ -5,9 +5,10 @@ import { PurchaseOrderFacade } from '@pos-frontend/purchase-orders/data-access';
 import { VatFacade } from '@pos-frontend/vat/data-access';
 
 @Component({
-  selector: 'pos-frontend-create-purchase-order',
-  templateUrl: './create-purchase-order.component.html',
-  styleUrls: ['./create-purchase-order.component.scss'],
+    selector: 'pos-frontend-create-purchase-order',
+    templateUrl: './create-purchase-order.component.html',
+    styleUrls: ['./create-purchase-order.component.scss'],
+    standalone: false
 })
 export class CreatePurchaseOrderComponent implements OnInit {
   constructor(

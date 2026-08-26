@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { StationsFacade } from '@pos-frontend/stations/data-access';
 
 @Component({
-  selector: 'pos-frontend-create-station',
-  templateUrl: './create-station.component.html',
-  styleUrls: ['./create-station.component.scss'],
+    selector: 'pos-frontend-create-station',
+    templateUrl: './create-station.component.html',
+    styleUrls: ['./create-station.component.scss'],
+    standalone: false
 })
 export class CreateStationComponent {
   @Output() closeModal = new EventEmitter();

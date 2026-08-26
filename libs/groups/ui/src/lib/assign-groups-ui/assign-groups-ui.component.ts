@@ -12,9 +12,10 @@ import { ClrLoadingState } from '@clr/angular';
 import { RolesEntity } from '@pos-frontend/roles/data-access';
 
 @Component({
-  selector: 'pos-frontend-assign-groups-ui',
-  templateUrl: './assign-groups-ui.component.html',
-  styleUrls: ['./assign-groups-ui.component.scss'],
+    selector: 'pos-frontend-assign-groups-ui',
+    templateUrl: './assign-groups-ui.component.html',
+    styleUrls: ['./assign-groups-ui.component.scss'],
+    standalone: false
 })
 export class AssignGroupsUiComponent implements OnInit, OnChanges {
   @Input() roles: RolesEntity[] = [];

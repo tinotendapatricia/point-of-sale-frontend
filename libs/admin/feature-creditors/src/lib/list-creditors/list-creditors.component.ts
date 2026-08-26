@@ -13,9 +13,10 @@ import {
 } from '@pos-frontend/creditors/data-access';
 
 @Component({
-  selector: 'pos-frontend-list-creditors',
-  templateUrl: './list-creditors.component.html',
-  styleUrls: ['./list-creditors.component.scss'],
+    selector: 'pos-frontend-list-creditors',
+    templateUrl: './list-creditors.component.html',
+    styleUrls: ['./list-creditors.component.scss'],
+    standalone: false
 })
 export class ListCreditorsComponent implements AfterViewChecked {
   public isUpdate = false;

@@ -3,9 +3,10 @@ import { AuditsEntity } from '@pos-frontend/audit-trail/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 
 @Component({
-  selector: 'pos-frontend-audits-details',
-  templateUrl: './audits-details.component.html',
-  styleUrls: ['./audits-details.component.scss'],
+    selector: 'pos-frontend-audits-details',
+    templateUrl: './audits-details.component.html',
+    styleUrls: ['./audits-details.component.scss'],
+    standalone: false
 })
 export class AuditsDetailsComponent {
   @Input() audit!: AuditsEntity;

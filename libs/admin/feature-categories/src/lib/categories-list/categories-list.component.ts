@@ -4,9 +4,10 @@ import { ClrDatagridStateInterface } from '@clr/angular';
 import { CategoriesEntity, CategoriesFacade } from '@pos-frontend/categories/data-access';
 
 @Component({
-  selector: 'pos-frontend-categories-list',
-  templateUrl: './categories-list.component.html',
-  styleUrls: ['./categories-list.component.css']
+    selector: 'pos-frontend-categories-list',
+    templateUrl: './categories-list.component.html',
+    styleUrls: ['./categories-list.component.css'],
+    standalone: false
 })
 export class CategoriesListComponent {
   public isUpdate = false;

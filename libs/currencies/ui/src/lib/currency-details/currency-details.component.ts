@@ -3,9 +3,10 @@ import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 
 @Component({
-  selector: 'pos-frontend-currency-details',
-  templateUrl: './currency-details.component.html',
-  styleUrls: ['./currency-details.component.scss'],
+    selector: 'pos-frontend-currency-details',
+    templateUrl: './currency-details.component.html',
+    styleUrls: ['./currency-details.component.scss'],
+    standalone: false
 })
 export class CurrencyDetailsComponent {
   @Input() currency!: CurrenciesEntity;

@@ -4,9 +4,10 @@ import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-print-batch',
-  templateUrl: './print-batch.component.html',
-  styleUrls: ['./print-batch.component.scss'],
+    selector: 'pos-frontend-print-batch',
+    templateUrl: './print-batch.component.html',
+    styleUrls: ['./print-batch.component.scss'],
+    standalone: false
 })
 export class PrintBatchComponent implements OnDestroy {
 

@@ -4,9 +4,10 @@ import { Utilities } from '@pos-frontend/shared/utils';
 import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
 
 @Component({
-  selector: 'pos-frontend-close-batch',
-  templateUrl: './close-batch.component.html',
-  styleUrls: ['./close-batch.component.scss'],
+    selector: 'pos-frontend-close-batch',
+    templateUrl: './close-batch.component.html',
+    styleUrls: ['./close-batch.component.scss'],
+    standalone: false
 })
 export class CloseBatchComponent implements OnInit  {
 @Input() batch :any

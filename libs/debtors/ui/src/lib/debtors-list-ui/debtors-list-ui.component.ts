@@ -3,9 +3,10 @@ import { ClrDatagridStateInterface } from '@clr/angular';
 import { DebtorsEntity } from '@pos-frontend/debtors/data-access';
 
 @Component({
-  selector: 'pos-frontend-debtors-list-ui',
-  templateUrl: './debtors-list-ui.component.html',
-  styleUrls: ['./debtors-list-ui.component.scss'],
+    selector: 'pos-frontend-debtors-list-ui',
+    templateUrl: './debtors-list-ui.component.html',
+    styleUrls: ['./debtors-list-ui.component.scss'],
+    standalone: false
 })
 export class DebtorsListUiComponent {
   @Input() debtorsList: DebtorsEntity[] = [];

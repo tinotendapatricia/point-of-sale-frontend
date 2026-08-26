@@ -2,9 +2,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CompanyService } from '@pos-frontend/company-details/data-access';
 
 @Component({
-  selector: 'pos-frontend-create-company-details',
-  templateUrl: './create-company-details.component.html',
-  styleUrls: ['./create-company-details.component.scss'],
+    selector: 'pos-frontend-create-company-details',
+    templateUrl: './create-company-details.component.html',
+    styleUrls: ['./create-company-details.component.scss'],
+    standalone: false
 })
 export class CreateCompanyDetailsComponent  {
 

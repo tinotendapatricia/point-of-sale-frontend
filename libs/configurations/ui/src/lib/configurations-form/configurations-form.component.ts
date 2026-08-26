@@ -5,9 +5,10 @@ import { ConfigurationsEntity } from '@pos-frontend/configurations/data-access';
 import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
 
 @Component({
-  selector: 'pos-frontend-configurations-form',
-  templateUrl: './configurations-form.component.html',
-  styleUrls: ['./configurations-form.component.scss'],
+    selector: 'pos-frontend-configurations-form',
+    templateUrl: './configurations-form.component.html',
+    styleUrls: ['./configurations-form.component.scss'],
+    standalone: false
 })
 export class ConfigurationsFormComponent implements OnInit {
   @Input() configuration!: ConfigurationsEntity;

@@ -5,9 +5,10 @@ import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-sales-by-station',
-  templateUrl: './sales-by-station.component.html',
-  styleUrls: ['./sales-by-station.component.scss'],
+    selector: 'pos-frontend-sales-by-station',
+    templateUrl: './sales-by-station.component.html',
+    styleUrls: ['./sales-by-station.component.scss'],
+    standalone: false
 })
 export class SalesByStationComponent implements OnInit, OnDestroy {
   btnState = ClrLoadingState.DEFAULT;

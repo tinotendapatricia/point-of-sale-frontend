@@ -4,9 +4,10 @@ import { UsersFacade } from '@pos-frontend/users/data-access';
 
 
 @Component({
-  selector: 'pos-frontend-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+    selector: 'pos-frontend-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    standalone: false
 })
 export class HeaderComponent implements OnInit {
   isClose = false;

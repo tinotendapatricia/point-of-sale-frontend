@@ -5,9 +5,10 @@ import { ConfigurationsService } from '@pos-frontend/configurations/data-access'
 import { Utilities } from '@pos-frontend/shared/utils';
 
 @Component({
-  selector: 'pos-frontend-create-configurations',
-  templateUrl: './create-configurations.component.html',
-  styleUrls: ['./create-configurations.component.scss'],
+    selector: 'pos-frontend-create-configurations',
+    templateUrl: './create-configurations.component.html',
+    styleUrls: ['./create-configurations.component.scss'],
+    standalone: false
 })
 export class CreateConfigurationsComponent {
   @Output() closeModal = new EventEmitter();

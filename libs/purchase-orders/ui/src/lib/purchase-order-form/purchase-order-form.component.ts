@@ -12,9 +12,10 @@ import { CreditorsEntity } from '@pos-frontend/creditors/data-access';
 import { NgSelectConfig } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'pos-frontend-purchase-order-form',
-  templateUrl: './purchase-order-form.component.html',
-  styleUrls: ['./purchase-order-form.component.scss'],
+    selector: 'pos-frontend-purchase-order-form',
+    templateUrl: './purchase-order-form.component.html',
+    styleUrls: ['./purchase-order-form.component.scss'],
+    standalone: false
 })
 export class PurchaseOrderFormComponent implements OnInit {
   @Input() purchaseOrderNumber!: string;

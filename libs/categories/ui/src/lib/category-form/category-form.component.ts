@@ -4,9 +4,10 @@ import { ClrLoadingState } from '@clr/angular';
 import { CategoriesEntity } from '@pos-frontend/categories/data-access';
 
 @Component({
-  selector: 'pos-frontend-category-form',
-  templateUrl: './category-form.component.html',
-  styleUrls: ['./category-form.component.scss'],
+    selector: 'pos-frontend-category-form',
+    templateUrl: './category-form.component.html',
+    styleUrls: ['./category-form.component.scss'],
+    standalone: false
 })
 export class CategoryFormComponent {
   @Input() categorie!: CategoriesEntity;

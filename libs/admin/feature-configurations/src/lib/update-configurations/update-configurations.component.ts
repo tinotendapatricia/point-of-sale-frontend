@@ -5,9 +5,10 @@ import { ConfigurationsEntity, ConfigurationsService } from '@pos-frontend/confi
 import { Utilities } from '@pos-frontend/shared/utils';
 
 @Component({
-  selector: 'pos-frontend-update-configurations',
-  templateUrl: './update-configurations.component.html',
-  styleUrls: ['./update-configurations.component.scss'],
+    selector: 'pos-frontend-update-configurations',
+    templateUrl: './update-configurations.component.html',
+    styleUrls: ['./update-configurations.component.scss'],
+    standalone: false
 })
 export class UpdateConfigurationsComponent {
   

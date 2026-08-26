@@ -4,9 +4,10 @@ import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-current-stock-listing-report',
-  templateUrl: './current-stock-listing-report.component.html',
-  styleUrls: ['./current-stock-listing-report.component.scss'],
+    selector: 'pos-frontend-current-stock-listing-report',
+    templateUrl: './current-stock-listing-report.component.html',
+    styleUrls: ['./current-stock-listing-report.component.scss'],
+    standalone: false
 })
 export class CurrentStockListingReportComponent implements OnDestroy {
 

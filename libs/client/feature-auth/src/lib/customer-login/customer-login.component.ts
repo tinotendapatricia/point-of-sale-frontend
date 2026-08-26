@@ -7,9 +7,10 @@ import { Utilities } from '@pos-frontend/shared/utils';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-customer-login',
-  templateUrl: './customer-login.component.html',
-  styleUrls: ['./customer-login.component.scss'],
+    selector: 'pos-frontend-customer-login',
+    templateUrl: './customer-login.component.html',
+    styleUrls: ['./customer-login.component.scss'],
+    standalone: false
 })
 export class CustomerLoginComponent implements OnInit {
   sub2 = new Subscription();

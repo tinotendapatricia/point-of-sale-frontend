@@ -7,9 +7,10 @@ import { UsersFacade } from '@pos-frontend/users/data-access';
 //import { GroupsFacade } from '@pos-frontend/groups/data-access';
 
 @Component({
-  selector: 'pos-frontend-create-user',
-  templateUrl: './create-user.component.html',
-  styleUrls: ['./create-user.component.scss'],
+    selector: 'pos-frontend-create-user',
+    templateUrl: './create-user.component.html',
+    styleUrls: ['./create-user.component.scss'],
+    standalone: false
 })
 export class CreateUserComponent implements OnInit {
   @Output() closeModal = new EventEmitter();

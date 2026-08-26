@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
 
 @Component({
-  selector: 'pos-frontend-stock-take-form',
-  templateUrl: './stock-take-form.component.html',
-  styleUrls: ['./stock-take-form.component.scss'],
+    selector: 'pos-frontend-stock-take-form',
+    templateUrl: './stock-take-form.component.html',
+    styleUrls: ['./stock-take-form.component.scss'],
+    standalone: false
 })
 export class StockTakeFormComponent implements OnInit {
   @Input() products: ProductsEntity[] = [];

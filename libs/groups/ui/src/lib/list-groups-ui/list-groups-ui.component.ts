@@ -3,9 +3,10 @@ import { GroupsEntity } from '@pos-frontend/groups/data-access';
 import { ClrDatagridStateInterface } from '@clr/angular';
 
 @Component({
-  selector: 'pos-frontend-list-groups-ui',
-  templateUrl: './list-groups-ui.component.html',
-  styleUrls: ['./list-groups-ui.component.scss'],
+    selector: 'pos-frontend-list-groups-ui',
+    templateUrl: './list-groups-ui.component.html',
+    styleUrls: ['./list-groups-ui.component.scss'],
+    standalone: false
 })
 export class ListGroupsUiComponent implements OnInit {
   @Input() groupsList: GroupsEntity[] = [];

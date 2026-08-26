@@ -3,9 +3,10 @@ import { Utilities } from '@pos-frontend/shared/utils';
 import { VatEntity } from '@pos-frontend/vat/data-access';
 
 @Component({
-  selector: 'pos-frontend-vat-details',
-  templateUrl: './vat-details.component.html',
-  styleUrls: ['./vat-details.component.scss'],
+    selector: 'pos-frontend-vat-details',
+    templateUrl: './vat-details.component.html',
+    styleUrls: ['./vat-details.component.scss'],
+    standalone: false
 })
 export class VatDetailsComponent {
   @Input() vat!: VatEntity;

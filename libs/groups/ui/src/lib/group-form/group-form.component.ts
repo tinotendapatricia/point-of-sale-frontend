@@ -4,9 +4,10 @@ import { ClrLoadingState } from '@clr/angular';
 import { GroupsEntity } from '@pos-frontend/groups/data-access';
 
 @Component({
-  selector: 'pos-frontend-group-form',
-  templateUrl: './group-form.component.html',
-  styleUrls: ['./group-form.component.scss'],
+    selector: 'pos-frontend-group-form',
+    templateUrl: './group-form.component.html',
+    styleUrls: ['./group-form.component.scss'],
+    standalone: false
 })
 export class GroupFormComponent implements OnInit {
   @Input() group!: GroupsEntity;

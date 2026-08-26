@@ -11,9 +11,10 @@ import { VatFacade } from '@pos-frontend/vat/data-access';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-pos-home',
-  templateUrl: './pos-home.component.html',
-  styleUrls: ['./pos-home.component.scss'],
+    selector: 'pos-frontend-pos-home',
+    templateUrl: './pos-home.component.html',
+    styleUrls: ['./pos-home.component.scss'],
+    standalone: false
 })
 export class PosHomeComponent implements OnInit {
   constructor(

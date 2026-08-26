@@ -3,9 +3,10 @@ import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
 import { ProductsFacade, ProductsService } from '@pos-frontend/products/data-access'
 
 @Component({
-  selector: 'pos-frontend-stock-take-container',
-  templateUrl: './stock-take-container.component.html',
-  styleUrls: ['./stock-take-container.component.scss'],
+    selector: 'pos-frontend-stock-take-container',
+    templateUrl: './stock-take-container.component.html',
+    styleUrls: ['./stock-take-container.component.scss'],
+    standalone: false
 })
 export class StockTakeContainerComponent {
  

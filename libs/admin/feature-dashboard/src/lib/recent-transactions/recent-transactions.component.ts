@@ -3,9 +3,10 @@ import { Observable } from 'rxjs';
 import { DashboardService } from '../services/dashboard.service';
 
 @Component({
-  selector: 'pos-frontend-recent-transactions',
-  templateUrl: './recent-transactions.component.html',
-  styleUrls: ['./recent-transactions.component.scss'],
+    selector: 'pos-frontend-recent-transactions',
+    templateUrl: './recent-transactions.component.html',
+    styleUrls: ['./recent-transactions.component.scss'],
+    standalone: false
 })
 export class RecentTransactionsComponent  implements OnInit {
 

@@ -3,9 +3,10 @@ import { ClrDatagridStateInterface } from '@clr/angular';
 import { AuditsEntity } from '@pos-frontend/audit-trail/data-access';
 
 @Component({
-  selector: 'pos-frontend-list-audits-ui',
-  templateUrl: './list-audits-ui.component.html',
-  styleUrls: ['./list-audits-ui.component.scss'],
+    selector: 'pos-frontend-list-audits-ui',
+    templateUrl: './list-audits-ui.component.html',
+    styleUrls: ['./list-audits-ui.component.scss'],
+    standalone: false
 })
 export class ListAuditsUiComponent {
   @Input() auditsList: AuditsEntity[] = [];

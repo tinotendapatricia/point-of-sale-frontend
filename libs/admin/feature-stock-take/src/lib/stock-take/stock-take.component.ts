@@ -3,9 +3,10 @@ import { ProductsEntity, ProductsFacade } from '@pos-frontend/products/data-acce
 import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
 
 @Component({
-  selector: 'pos-frontend-stock-take',
-  templateUrl: './stock-take.component.html',
-  styleUrls: ['./stock-take.component.scss'],
+    selector: 'pos-frontend-stock-take',
+    templateUrl: './stock-take.component.html',
+    styleUrls: ['./stock-take.component.scss'],
+    standalone: false
 })
 export class StockTakeComponent   {
   batchProducts:any

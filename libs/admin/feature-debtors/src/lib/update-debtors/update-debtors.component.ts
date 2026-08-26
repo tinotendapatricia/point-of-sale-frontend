@@ -4,9 +4,10 @@ import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { DebtorsEntity, DebtorsFacade } from '@pos-frontend/debtors/data-access';
 
 @Component({
-  selector: 'pos-frontend-update-debtors',
-  templateUrl: './update-debtors.component.html',
-  styleUrls: ['./update-debtors.component.scss'],
+    selector: 'pos-frontend-update-debtors',
+    templateUrl: './update-debtors.component.html',
+    styleUrls: ['./update-debtors.component.scss'],
+    standalone: false
 })
 export class UpdateDebtorsComponent {
 

@@ -4,9 +4,10 @@ import { GroupsFacade } from '@pos-frontend/groups/data-access';
 import { RolesFacade } from '@pos-frontend/roles/data-access';
 
 @Component({
-  selector: 'pos-frontend-view-group-authorities',
-  templateUrl: './view-group-authorities.component.html',
-  styleUrls: ['./view-group-authorities.component.scss'],
+    selector: 'pos-frontend-view-group-authorities',
+    templateUrl: './view-group-authorities.component.html',
+    styleUrls: ['./view-group-authorities.component.scss'],
+    standalone: false
 })
 export class ViewGroupAuthoritiesComponent implements OnInit {
   constructor(

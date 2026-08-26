@@ -7,9 +7,10 @@ import {
 } from '@pos-frontend/products/data-access';
 
 @Component({
-  selector: 'pos-frontend-list-products',
-  templateUrl: './list-products.component.html',
-  styleUrls: ['./list-products.component.scss'],
+    selector: 'pos-frontend-list-products',
+    templateUrl: './list-products.component.html',
+    styleUrls: ['./list-products.component.scss'],
+    standalone: false
 })
 export class ListProductsComponent implements AfterViewChecked {
   public isUpdate = false;

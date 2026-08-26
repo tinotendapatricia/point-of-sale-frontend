@@ -5,9 +5,10 @@ import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-sales-by-debtor',
-  templateUrl: './sales-by-debtor.component.html',
-  styleUrls: ['./sales-by-debtor.component.scss'],
+    selector: 'pos-frontend-sales-by-debtor',
+    templateUrl: './sales-by-debtor.component.html',
+    styleUrls: ['./sales-by-debtor.component.scss'],
+    standalone: false
 })
 export class SalesByDebtorComponent implements OnInit, OnDestroy{
 

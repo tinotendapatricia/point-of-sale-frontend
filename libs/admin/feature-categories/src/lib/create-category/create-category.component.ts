@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { CategoriesFacade } from '@pos-frontend/categories/data-access';
 
 @Component({
-  selector: 'pos-frontend-create-category',
-  templateUrl: './create-category.component.html',
-  styleUrls: ['./create-category.component.css']
+    selector: 'pos-frontend-create-category',
+    templateUrl: './create-category.component.html',
+    styleUrls: ['./create-category.component.css'],
+    standalone: false
 })
 export class CreateCategoryComponent {
   @Output() closeModal = new EventEmitter();

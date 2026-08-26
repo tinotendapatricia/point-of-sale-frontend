@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { CreditorsFacade } from '@pos-frontend/creditors/data-access';
 
 @Component({
-  selector: 'pos-frontend-update-creditor',
-  templateUrl: './update-creditor.component.html',
-  styleUrls: ['./update-creditor.component.scss'],
+    selector: 'pos-frontend-update-creditor',
+    templateUrl: './update-creditor.component.html',
+    styleUrls: ['./update-creditor.component.scss'],
+    standalone: false
 })
 export class UpdateCreditorComponent {
 

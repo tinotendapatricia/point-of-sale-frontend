@@ -1,8 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'pos-frontend-nx-welcome',
-  template: `
+    selector: 'pos-frontend-nx-welcome',
+    template: `
     <!--
      * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      This is a starter component and can be deleted.
@@ -416,7 +416,8 @@ import { Component, ViewEncapsulation } from '@angular/core';
     </style>
     <button mat-raised-button color="primary">Primary</button>
   `,
-  styles: [],
-  encapsulation: ViewEncapsulation.None,
+    styles: [],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class NxWelcomeComponent {}

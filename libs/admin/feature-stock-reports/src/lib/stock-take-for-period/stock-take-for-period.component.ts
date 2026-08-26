@@ -4,9 +4,10 @@ import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-stock-take-for-period',
-  templateUrl: './stock-take-for-period.component.html',
-  styleUrls: ['./stock-take-for-period.component.scss'],
+    selector: 'pos-frontend-stock-take-for-period',
+    templateUrl: './stock-take-for-period.component.html',
+    styleUrls: ['./stock-take-for-period.component.scss'],
+    standalone: false
 })
 export class StockTakeForPeriodComponent implements OnDestroy {
 

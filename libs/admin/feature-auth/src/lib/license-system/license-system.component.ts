@@ -3,9 +3,10 @@ import { CompanyService } from '@pos-frontend/company-details/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 
 @Component({
-  selector: 'pos-frontend-license-system',
-  templateUrl: './license-system.component.html',
-  styleUrls: ['./license-system.component.scss'],
+    selector: 'pos-frontend-license-system',
+    templateUrl: './license-system.component.html',
+    styleUrls: ['./license-system.component.scss'],
+    standalone: false
 })
 export class LicenseSystemComponent {
 

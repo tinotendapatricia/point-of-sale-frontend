@@ -5,9 +5,10 @@ import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
 import { DebtorsEntity } from '@pos-frontend/debtors/data-access';
 
 @Component({
-  selector: 'pos-frontend-debtors-form',
-  templateUrl: './debtors-form.component.html',
-  styleUrls: ['./debtors-form.component.scss'],
+    selector: 'pos-frontend-debtors-form',
+    templateUrl: './debtors-form.component.html',
+    styleUrls: ['./debtors-form.component.scss'],
+    standalone: false
 })
 export class DebtorsFormComponent {
   @Input() debtor!: DebtorsEntity;

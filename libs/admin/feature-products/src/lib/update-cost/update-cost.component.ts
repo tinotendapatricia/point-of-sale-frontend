@@ -3,9 +3,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProductsEntity, ProductsFacade } from '@pos-frontend/products/data-access';
 
 @Component({
-  selector: 'pos-frontend-update-cost',
-  templateUrl: './update-cost.component.html',
-  styleUrls: ['./update-cost.component.scss'],
+    selector: 'pos-frontend-update-cost',
+    templateUrl: './update-cost.component.html',
+    styleUrls: ['./update-cost.component.scss'],
+    standalone: false
 })
 export class UpdateCostComponent implements OnInit {
   @Input() product:ProductsEntity | undefined

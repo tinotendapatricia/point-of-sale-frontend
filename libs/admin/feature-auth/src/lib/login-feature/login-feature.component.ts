@@ -7,9 +7,10 @@ import { CompanyService } from '@pos-frontend/company-details/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-login-feature',
-  templateUrl: './login-feature.component.html',
-  styleUrls: ['./login-feature.component.scss'],
+    selector: 'pos-frontend-login-feature',
+    templateUrl: './login-feature.component.html',
+    styleUrls: ['./login-feature.component.scss'],
+    standalone: false
 })
 export class LoginFeatureComponent implements OnDestroy, OnInit {
   isLicense = false;

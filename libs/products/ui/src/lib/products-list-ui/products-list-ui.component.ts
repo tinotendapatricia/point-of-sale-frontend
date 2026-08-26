@@ -3,9 +3,10 @@ import { ClrDatagridStateInterface } from '@clr/angular';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
 
 @Component({
-  selector: 'pos-frontend-products-list-ui',
-  templateUrl: './products-list-ui.component.html',
-  styleUrls: ['./products-list-ui.component.scss'],
+    selector: 'pos-frontend-products-list-ui',
+    templateUrl: './products-list-ui.component.html',
+    styleUrls: ['./products-list-ui.component.scss'],
+    standalone: false
 })
 export class ProductsListUiComponent {
   @Input() productList: ProductsEntity[] = [];

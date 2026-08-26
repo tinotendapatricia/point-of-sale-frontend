@@ -12,9 +12,10 @@ import { CashupEntity } from '@pos-frontend/reports/data-access';
 import { SumArray } from '@pos-frontend/shared/utils';
 
 @Component({
-  selector: 'pos-frontend-cashup-form',
-  templateUrl: './cashup-form.component.html',
-  styleUrls: ['./cashup-form.component.scss'],
+    selector: 'pos-frontend-cashup-form',
+    templateUrl: './cashup-form.component.html',
+    styleUrls: ['./cashup-form.component.scss'],
+    standalone: false
 })
 export class CashupFormComponent implements OnChanges {
   @Output() formValue = new EventEmitter();

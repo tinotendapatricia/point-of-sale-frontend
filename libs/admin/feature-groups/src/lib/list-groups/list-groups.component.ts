@@ -4,9 +4,10 @@ import { ClrDatagridStateInterface } from '@clr/angular';
 import { GroupsEntity, GroupsFacade } from '@pos-frontend/groups/data-access';
 
 @Component({
-  selector: 'pos-frontend-list-groups',
-  templateUrl: './list-groups.component.html',
-  styleUrls: ['./list-groups.component.scss'],
+    selector: 'pos-frontend-list-groups',
+    templateUrl: './list-groups.component.html',
+    styleUrls: ['./list-groups.component.scss'],
+    standalone: false
 })
 export class ListGroupsComponent implements OnInit {
   public isUpdate = false;

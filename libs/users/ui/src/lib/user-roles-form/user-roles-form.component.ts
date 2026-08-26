@@ -4,9 +4,10 @@ import { ClrLoadingState } from '@clr/angular';
 import { RolesEntity } from '@pos-frontend/roles/data-access';
 
 @Component({
-  selector: 'pos-frontend-user-roles-form',
-  templateUrl: './user-roles-form.component.html',
-  styleUrls: ['./user-roles-form.component.scss'],
+    selector: 'pos-frontend-user-roles-form',
+    templateUrl: './user-roles-form.component.html',
+    styleUrls: ['./user-roles-form.component.scss'],
+    standalone: false
 })
 export class UserRolesFormComponent implements OnInit, OnChanges {
 

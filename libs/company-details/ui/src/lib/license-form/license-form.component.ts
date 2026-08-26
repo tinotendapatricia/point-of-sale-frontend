@@ -4,9 +4,10 @@ import { ClrLoadingState } from '@clr/angular';
 import { CompanyEntity } from '@pos-frontend/company-details/data-access';
 
 @Component({
-  selector: 'pos-frontend-license-form',
-  templateUrl: './license-form.component.html',
-  styleUrls: ['./license-form.component.scss'],
+    selector: 'pos-frontend-license-form',
+    templateUrl: './license-form.component.html',
+    styleUrls: ['./license-form.component.scss'],
+    standalone: false
 })
 export class LicenseFormComponent implements OnInit {
 

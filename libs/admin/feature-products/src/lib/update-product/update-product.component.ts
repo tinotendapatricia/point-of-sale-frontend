@@ -4,9 +4,10 @@ import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 
 @Component({
-  selector: 'pos-frontend-update-product',
-  templateUrl: './update-product.component.html',
-  styleUrls: ['./update-product.component.scss'],
+    selector: 'pos-frontend-update-product',
+    templateUrl: './update-product.component.html',
+    styleUrls: ['./update-product.component.scss'],
+    standalone: false
 })
 export class UpdateProductComponent {
 

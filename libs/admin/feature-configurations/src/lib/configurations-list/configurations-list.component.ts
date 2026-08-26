@@ -3,9 +3,10 @@ import { ConfigurationsEntity, ConfigurationsService } from '@pos-frontend/confi
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-configurations-list',
-  templateUrl: './configurations-list.component.html',
-  styleUrls: ['./configurations-list.component.scss'],
+    selector: 'pos-frontend-configurations-list',
+    templateUrl: './configurations-list.component.html',
+    styleUrls: ['./configurations-list.component.scss'],
+    standalone: false
 })
 export class ConfigurationsListComponent  implements AfterViewChecked, OnInit{
   public isUpdate = false;

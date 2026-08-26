@@ -5,9 +5,10 @@ import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-generate-gp-report',
-  templateUrl: './generate-gp-report.component.html',
-  styleUrls: ['./generate-gp-report.component.scss'],
+    selector: 'pos-frontend-generate-gp-report',
+    templateUrl: './generate-gp-report.component.html',
+    styleUrls: ['./generate-gp-report.component.scss'],
+    standalone: false
 })
 export class GenerateGpReportComponent implements OnInit, OnDestroy {
   btnState = ClrLoadingState.DEFAULT;

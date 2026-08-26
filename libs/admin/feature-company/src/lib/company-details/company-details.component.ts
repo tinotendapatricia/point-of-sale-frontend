@@ -3,9 +3,10 @@ import { CompanyEntity, CompanyService } from '@pos-frontend/company-details/dat
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-company-details',
-  templateUrl: './company-details.component.html',
-  styleUrls: ['./company-details.component.scss'],
+    selector: 'pos-frontend-company-details',
+    templateUrl: './company-details.component.html',
+    styleUrls: ['./company-details.component.scss'],
+    standalone: false
 })
 export class CompanyDetailsComponent implements OnInit  {
 

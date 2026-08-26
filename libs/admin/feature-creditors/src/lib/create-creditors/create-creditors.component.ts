@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { CreditorsFacade } from '@pos-frontend/creditors/data-access';
 
 @Component({
-  selector: 'pos-frontend-create-creditors',
-  templateUrl: './create-creditors.component.html',
-  styleUrls: ['./create-creditors.component.scss'],
+    selector: 'pos-frontend-create-creditors',
+    templateUrl: './create-creditors.component.html',
+    styleUrls: ['./create-creditors.component.scss'],
+    standalone: false
 })
 export class CreateCreditorsComponent {
   @Output() closeModal = new EventEmitter();

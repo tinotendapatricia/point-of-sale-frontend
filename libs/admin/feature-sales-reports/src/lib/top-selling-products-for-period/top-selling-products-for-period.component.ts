@@ -5,9 +5,10 @@ import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-top-selling-products-for-period',
-  templateUrl: './top-selling-products-for-period.component.html',
-  styleUrls: ['./top-selling-products-for-period.component.scss'],
+    selector: 'pos-frontend-top-selling-products-for-period',
+    templateUrl: './top-selling-products-for-period.component.html',
+    styleUrls: ['./top-selling-products-for-period.component.scss'],
+    standalone: false
 })
 export class TopSellingProductsForPeriodComponent implements OnInit, OnDestroy{
 

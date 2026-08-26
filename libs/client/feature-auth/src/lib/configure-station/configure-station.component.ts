@@ -4,9 +4,10 @@ import { Utilities } from '@pos-frontend/shared/utils';
 import { config } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-configure-station',
-  templateUrl: './configure-station.component.html',
-  styleUrls: ['./configure-station.component.scss'],
+    selector: 'pos-frontend-configure-station',
+    templateUrl: './configure-station.component.html',
+    styleUrls: ['./configure-station.component.scss'],
+    standalone: false
 })
 export class ConfigureStationComponent {
   @Output() closeModal = new EventEmitter();

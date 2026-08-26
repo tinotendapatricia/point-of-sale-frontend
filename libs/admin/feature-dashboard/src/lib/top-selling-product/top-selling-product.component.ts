@@ -3,9 +3,10 @@ import { Observable } from 'rxjs';
 import { DashboardService } from '../services/dashboard.service';
 
 @Component({
-  selector: 'pos-frontend-top-selling-product',
-  templateUrl: './top-selling-product.component.html',
-  styleUrls: ['./top-selling-product.component.scss'],
+    selector: 'pos-frontend-top-selling-product',
+    templateUrl: './top-selling-product.component.html',
+    styleUrls: ['./top-selling-product.component.scss'],
+    standalone: false
 })
 export class TopSellingProductComponent implements OnInit  {
 

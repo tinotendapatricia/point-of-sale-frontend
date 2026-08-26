@@ -6,9 +6,10 @@ import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-stock-adjustment',
-  templateUrl: './stock-adjustment.component.html',
-  styleUrls: ['./stock-adjustment.component.css'],
+    selector: 'pos-frontend-stock-adjustment',
+    templateUrl: './stock-adjustment.component.html',
+    styleUrls: ['./stock-adjustment.component.css'],
+    standalone: false
 })
 export class StockAdjustmentComponent implements OnDestroy {
   @Output() closeModal = new EventEmitter();

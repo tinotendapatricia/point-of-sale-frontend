@@ -4,9 +4,10 @@ import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 
 @Component({
-  selector: 'pos-frontend-create-product',
-  templateUrl: './create-product.component.html',
-  styleUrls: ['./create-product.component.scss'],
+    selector: 'pos-frontend-create-product',
+    templateUrl: './create-product.component.html',
+    styleUrls: ['./create-product.component.scss'],
+    standalone: false
 })
 export class CreateProductComponent {
   @Output() closeModal = new EventEmitter();

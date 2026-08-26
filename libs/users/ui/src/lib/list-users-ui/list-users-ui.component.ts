@@ -16,9 +16,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ClrDatagridStateInterface } from '@clr/angular';
 
 @Component({
-  selector: 'pos-frontend-list-users-ui',
-  templateUrl: './list-users-ui.component.html',
-  styleUrls: ['./list-users-ui.component.scss'],
+    selector: 'pos-frontend-list-users-ui',
+    templateUrl: './list-users-ui.component.html',
+    styleUrls: ['./list-users-ui.component.scss'],
+    standalone: false
 })
 export class ListUsersUiComponent implements OnChanges {
   @Input() userList: UsersEntity[] = [];

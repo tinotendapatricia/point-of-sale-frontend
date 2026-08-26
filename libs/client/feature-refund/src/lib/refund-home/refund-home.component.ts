@@ -7,9 +7,10 @@ import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { VatFacade } from '@pos-frontend/vat/data-access';
 
 @Component({
-  selector: 'pos-frontend-refund-home',
-  templateUrl: './refund-home.component.html',
-  styleUrls: ['./refund-home.component.scss'],
+    selector: 'pos-frontend-refund-home',
+    templateUrl: './refund-home.component.html',
+    styleUrls: ['./refund-home.component.scss'],
+    standalone: false
 })
 export class RefundHomeComponent  implements OnInit {
 

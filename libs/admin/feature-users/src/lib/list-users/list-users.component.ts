@@ -10,9 +10,10 @@ import { ClrDatagridStateInterface } from '@clr/angular';
 import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
 
 @Component({
-  selector: 'pos-frontend-list-users',
-  templateUrl: './list-users.component.html',
-  styleUrls: ['./list-users.component.scss'],
+    selector: 'pos-frontend-list-users',
+    templateUrl: './list-users.component.html',
+    styleUrls: ['./list-users.component.scss'],
+    standalone: false
 })
 export class ListUsersComponent implements OnInit, AfterViewChecked {
   public isUpdate = false;

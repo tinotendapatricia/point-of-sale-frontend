@@ -4,9 +4,10 @@ import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-adjustment-vs-batch',
-  templateUrl: './adjustment-vs-batch.component.html',
-  styleUrls: ['./adjustment-vs-batch.component.scss'],
+    selector: 'pos-frontend-adjustment-vs-batch',
+    templateUrl: './adjustment-vs-batch.component.html',
+    styleUrls: ['./adjustment-vs-batch.component.scss'],
+    standalone: false
 })
 export class AdjustmentVsBatchComponent implements OnDestroy {
 

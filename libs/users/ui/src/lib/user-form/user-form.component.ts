@@ -10,9 +10,10 @@ import { UsersEntity } from '@pos-frontend/users/data-access';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-user-form',
-  templateUrl: './user-form.component.html',
-  styleUrls: ['./user-form.component.scss'],
+    selector: 'pos-frontend-user-form',
+    templateUrl: './user-form.component.html',
+    styleUrls: ['./user-form.component.scss'],
+    standalone: false
 })
 export class UserFormComponent implements OnInit {
   @Input() user!: UsersEntity;

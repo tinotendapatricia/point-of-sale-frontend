@@ -4,9 +4,10 @@ import { PurchasesReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-purchases-report-by-order-number',
-  templateUrl: './purchases-report-by-order-number.component.html',
-  styleUrls: ['./purchases-report-by-order-number.component.scss'],
+    selector: 'pos-frontend-purchases-report-by-order-number',
+    templateUrl: './purchases-report-by-order-number.component.html',
+    styleUrls: ['./purchases-report-by-order-number.component.scss'],
+    standalone: false
 })
 export class PurchasesReportByOrderNumberComponent implements OnDestroy {
 

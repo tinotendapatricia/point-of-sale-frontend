@@ -18,9 +18,10 @@ import { PosEntity } from '@pos-frontend/pos/data-access';
 import { SumTotalAmount } from '@pos-frontend/shared/utils';
 
 @Component({
-  selector: 'pos-frontend-pos-form',
-  templateUrl: './pos-form.component.html',
-  styleUrls: ['./pos-form.component.scss'],
+    selector: 'pos-frontend-pos-form',
+    templateUrl: './pos-form.component.html',
+    styleUrls: ['./pos-form.component.scss'],
+    standalone: false
 })
 export class PosFormComponent implements OnInit, OnChanges {
   @Input() btnState!: ClrLoadingState;

@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { CurrenciesEntity, CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 
 @Component({
-  selector: 'pos-frontend-update-rate',
-  templateUrl: './update-rate.component.html',
-  styleUrls: ['./update-rate.component.scss'],
+    selector: 'pos-frontend-update-rate',
+    templateUrl: './update-rate.component.html',
+    styleUrls: ['./update-rate.component.scss'],
+    standalone: false
 })
 export class UpdateRateComponent {
   @Input() currency!:CurrenciesEntity

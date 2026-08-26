@@ -4,9 +4,10 @@ import { ClrDatagridStateInterface } from '@clr/angular';
 import { AuditsEntity, AuditsFacade } from '@pos-frontend/audit-trail/data-access';
 
 @Component({
-  selector: 'pos-frontend-list-audits',
-  templateUrl: './list-audits.component.html',
-  styleUrls: ['./list-audits.component.scss'],
+    selector: 'pos-frontend-list-audits',
+    templateUrl: './list-audits.component.html',
+    styleUrls: ['./list-audits.component.scss'],
+    standalone: false
 })
 export class ListAuditsComponent {
   public isUpdate = false;

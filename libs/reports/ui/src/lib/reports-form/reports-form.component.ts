@@ -5,9 +5,10 @@ import { DebtorsEntity } from '@pos-frontend/debtors/data-access';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
 
 @Component({
-  selector: 'pos-frontend-reports-form',
-  templateUrl: './reports-form.component.html',
-  styleUrls: ['./reports-form.component.scss'],
+    selector: 'pos-frontend-reports-form',
+    templateUrl: './reports-form.component.html',
+    styleUrls: ['./reports-form.component.scss'],
+    standalone: false
 })
 export class ReportsFormComponent implements OnInit {
   //@Input() report!: ReportsEntity;

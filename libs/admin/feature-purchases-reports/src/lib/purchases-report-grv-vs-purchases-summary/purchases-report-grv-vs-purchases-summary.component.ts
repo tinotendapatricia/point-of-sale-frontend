@@ -4,9 +4,10 @@ import { PurchasesReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-purchases-report-grv-vs-purchases-summary',
-  templateUrl: './purchases-report-grv-vs-purchases-summary.component.html',
-  styleUrls: ['./purchases-report-grv-vs-purchases-summary.component.scss'],
+    selector: 'pos-frontend-purchases-report-grv-vs-purchases-summary',
+    templateUrl: './purchases-report-grv-vs-purchases-summary.component.html',
+    styleUrls: ['./purchases-report-grv-vs-purchases-summary.component.scss'],
+    standalone: false
 })
 export class PurchasesReportGrvVsPurchasesSummaryComponent implements OnDestroy {
 

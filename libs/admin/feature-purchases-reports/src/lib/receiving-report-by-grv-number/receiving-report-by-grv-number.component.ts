@@ -4,9 +4,10 @@ import { PurchasesReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pos-frontend-receiving-report-by-grv-number',
-  templateUrl: './receiving-report-by-grv-number.component.html',
-  styleUrls: ['./receiving-report-by-grv-number.component.scss'],
+    selector: 'pos-frontend-receiving-report-by-grv-number',
+    templateUrl: './receiving-report-by-grv-number.component.html',
+    styleUrls: ['./receiving-report-by-grv-number.component.scss'],
+    standalone: false
 })
 export class ReceivingReportByGrvNumberComponent implements OnDestroy {
 

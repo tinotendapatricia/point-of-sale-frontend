@@ -16,9 +16,10 @@ import {
 } from '@pos-frontend/shared/utils';
 
 @Component({
-  selector: 'pos-frontend-grv-form',
-  templateUrl: './grv-form.component.html',
-  styleUrls: ['./grv-form.component.css'],
+    selector: 'pos-frontend-grv-form',
+    templateUrl: './grv-form.component.html',
+    styleUrls: ['./grv-form.component.css'],
+    standalone: false
 })
 export class GrvFormComponent implements OnChanges {
   form!: FormGroup;
