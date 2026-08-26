@@ -4,25 +4,31 @@
 </clr-input-container>
 <button (click)="startComparison()" class="btn btn-primary btn-sm">Start Stock Take Comparison</button>
 
-<table class="table" *ngIf="newArray.length>0">
-  <thead>
-    <th>Product Id</th>
-    <th>Product Name</th>
-    <th>Batch Count</th>
-    <th>System Count</th>
-    <th>Variance</th>
-    <th></th>
-  </thead>
-  <tbody>
-    <tr *ngFor="let product of newArray">
-      <td>{{ product.productId }}</td>
-      <td>{{ product.name }}</td>
-      <td>{{ product.batchCount }}</td>
-      <td>{{ product.systemCount }}</td>
-      <td>{{ product.variance }}</td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
+@if (newArray.length>0) {
+  <table class="table">
+    <thead>
+      <th>Product Id</th>
+      <th>Product Name</th>
+      <th>Batch Count</th>
+      <th>System Count</th>
+      <th>Variance</th>
+      <th></th>
+    </thead>
+    <tbody>
+      @for (product of newArray; track product) {
+        <tr>
+          <td>{{ product.productId }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.batchCount }}</td>
+          <td>{{ product.systemCount }}</td>
+          <td>{{ product.variance }}</td>
+          <td></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
 
-<button class="btn btn-primary" (click)="adjustStock()" *ngIf="newArray.length!>0">Adjust Stock</button>
+@if (newArray.length!>0) {
+  <button class="btn btn-primary" (click)="adjustStock()">Adjust Stock</button>
+}

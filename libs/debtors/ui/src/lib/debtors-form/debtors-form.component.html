@@ -18,9 +18,11 @@
             <label>Currency</label>
             <select clrSelect formControlName="currency">
               <option>Select Currency</option>
-              <option [value]="currency.id" *ngFor="let currency of currencies">
-                {{ currency.name }}
-              </option>
+              @for (currency of currencies; track currency) {
+                <option [value]="currency.id">
+                  {{ currency.name }}
+                </option>
+              }
             </select>
             <clr-control-error>Group is required!</clr-control-error>
           </clr-select-container>
@@ -39,7 +41,7 @@
       type="button"
       class="btn btn-outline"
       (click)="closeModal.emit(false)"
-    >
+      >
       Cancel
     </button>
     <button
@@ -47,7 +49,7 @@
       class="btn btn-success"
       [clrLoading]="btnState"
       (click)="formValue.emit(debtorForm.value)"
-    >
+      >
       Submit
     </button>
   </div>

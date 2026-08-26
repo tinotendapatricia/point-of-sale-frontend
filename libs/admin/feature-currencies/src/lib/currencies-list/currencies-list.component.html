@@ -7,10 +7,10 @@
 <mat-card class="login">
   <mat-card-content>
     &nbsp;<button class="act" (click)="isCreate = true">
-      <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
-      New</button
+    <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+    New</button
     >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getCurrencyList({})">
-      <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+    <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
       >Refresh
     </button>
 
@@ -28,25 +28,29 @@
   </mat-card-content>
 </mat-card>
 
-<pos-frontend-make-default
-  *ngIf="isMakeDefault"
-  [currency]="selectedCurrency"
-  (closeModal)="refresh()"
-></pos-frontend-make-default>
+@if (isMakeDefault) {
+  <pos-frontend-make-default
+    [currency]="selectedCurrency"
+    (closeModal)="refresh()"
+  ></pos-frontend-make-default>
+}
 
-<pos-frontend-create-currency
-  *ngIf="isCreate"
-  (closeModal)="refresh()"
-></pos-frontend-create-currency>
+@if (isCreate) {
+  <pos-frontend-create-currency
+    (closeModal)="refresh()"
+  ></pos-frontend-create-currency>
+}
 
-<pos-frontend-update-rate
-  *ngIf="isUpdateRate"
-  [currency]="selectedCurrency"
-  (closeModal)="refresh()"
-></pos-frontend-update-rate>
+@if (isUpdateRate) {
+  <pos-frontend-update-rate
+    [currency]="selectedCurrency"
+    (closeModal)="refresh()"
+  ></pos-frontend-update-rate>
+}
 
-<pos-frontend-update-currency
-  *ngIf="isUpdate"
-  [currency]="selectedCurrency"
-  (closeModal)="refresh()"
-></pos-frontend-update-currency>
+@if (isUpdate) {
+  <pos-frontend-update-currency
+    [currency]="selectedCurrency"
+    (closeModal)="refresh()"
+  ></pos-frontend-update-currency>
+}

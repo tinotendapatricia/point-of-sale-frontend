@@ -1,18 +1,22 @@
 
 
 
-    <table class="table table-vertical">
-      <tbody>
-        <tr *ngFor="let field of audit.resource | keyvalue">
-          <ng-container *ngIf="!isHide(field?.key)">
-            <th>{{ decamelize(field.key) | titlecase }}</th>
-            <td>
-              {{ field?.value }}
-              <span *ngIf="field?.value === null || field?.value === undefined"
+<table class="table table-vertical">
+  <tbody>
+    @for (field of audit.resource | keyvalue; track field) {
+      <tr>
+        @if (!isHide(field?.key)) {
+          <th>{{ decamelize(field.key) | titlecase }}</th>
+          <td>
+            {{ field?.value }}
+            @if (field?.value === null || field?.value === undefined) {
+              <span
                 >--</span
-              >
+                >
+              }
             </td>
-          </ng-container>
+          }
         </tr>
-      </tbody>
-    </table>
+      }
+    </tbody>
+  </table>

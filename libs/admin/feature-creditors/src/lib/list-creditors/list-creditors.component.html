@@ -7,10 +7,10 @@
 <mat-card class="login">
   <mat-card-content>
     &nbsp;<button class="act" (click)="isCreate = true">
-      <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
-      New</button
+    <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+    New</button
     >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getCreditorList({})">
-      <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+    <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
       >Refresh
     </button>
 
@@ -20,20 +20,22 @@
       [loading]="(creditorsFacade.loading$ | async)!"
       [placeholderMessage]="'Creditors'"
       (updatedState)="getCreditorList($event)"
-      
+
       (updateSelected)="updateCreditor($event)"
     ></pos-frontend-list-creditors-ui>
   </mat-card-content>
 </mat-card>
 
-<pos-frontend-create-creditors
-  *ngIf="isCreate"
-  (closeModal)="refresh()"
-></pos-frontend-create-creditors>
+@if (isCreate) {
+  <pos-frontend-create-creditors
+    (closeModal)="refresh()"
+  ></pos-frontend-create-creditors>
+}
 
-<pos-frontend-update-creditor
-  *ngIf="isUpdate"
-  [creditor]="selectedCreditor"
-  (closeModal)="refresh()"
-></pos-frontend-update-creditor>
+@if (isUpdate) {
+  <pos-frontend-update-creditor
+    [creditor]="selectedCreditor"
+    (closeModal)="refresh()"
+  ></pos-frontend-update-creditor>
+}
 

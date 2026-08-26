@@ -7,15 +7,15 @@
 <mat-card class="login">
   <mat-card-content>
     &nbsp;<button class="act" (click)="isCreate = true">
-      <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
-      New</button
+    <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+    New</button
     >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getConfigurationList()">
-      <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+    <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
       >Refresh
     </button>
 
     <pos-frontend-configurations-list-ui
- 
+
       [configurationsList]="(configurations$ | async)!"
       [total]="(configurations$ | async)?.length!"
       [placeholderMessage]="'Configurations'"
@@ -24,13 +24,15 @@
   </mat-card-content>
 </mat-card>
 
-<pos-frontend-create-configurations
-  *ngIf="isCreate"
-  (closeModal)="refresh()"
-></pos-frontend-create-configurations>
+@if (isCreate) {
+  <pos-frontend-create-configurations
+    (closeModal)="refresh()"
+  ></pos-frontend-create-configurations>
+}
 
-<pos-frontend-update-configurations
-  *ngIf="isUpdate"
-  [configuration]="selectedConfiguration"
-  (closeModal)="refresh()"
-></pos-frontend-update-configurations>
+@if (isUpdate) {
+  <pos-frontend-update-configurations
+    [configuration]="selectedConfiguration"
+    (closeModal)="refresh()"
+  ></pos-frontend-update-configurations>
+}

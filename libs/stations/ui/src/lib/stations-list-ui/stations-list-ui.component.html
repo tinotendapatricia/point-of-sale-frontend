@@ -3,7 +3,7 @@
     [clrDgLoading]="loading"
     (clrDgRefresh)="updatedState.emit($event)"
     class="datagrid-compact"
-  >
+    >
     <clr-dg-column [clrDgField]="'name'">Account</clr-dg-column>
     <clr-dg-column [clrDgField]="'createdBy'">Name</clr-dg-column>
     <clr-dg-column [clrDgField]="'createdBy'">Address</clr-dg-column>
@@ -12,23 +12,26 @@
 
     <clr-dg-placeholder>{{ placeholderMessage }}</clr-dg-placeholder>
 
-    <clr-dg-row *ngFor="let station of stationsList">
-      <clr-dg-action-overflow>
-        <button class="action-item">Update</button>
-      </clr-dg-action-overflow>
-      <clr-dg-cell>{{ station?.number }}</clr-dg-cell>
-      <clr-dg-cell>{{ station?.name }}</clr-dg-cell>
+    @for (station of stationsList; track station) {
+      <clr-dg-row>
+        <clr-dg-action-overflow>
+          <button class="action-item">Update</button>
+        </clr-dg-action-overflow>
+        <clr-dg-cell>{{ station?.number }}</clr-dg-cell>
+        <clr-dg-cell>{{ station?.name }}</clr-dg-cell>
+        <clr-dg-cell></clr-dg-cell>
+      </clr-dg-row>
+    }
 
-      <clr-dg-cell></clr-dg-cell>
-    </clr-dg-row>
-
-    <clr-dg-footer *ngIf="total > 0">
-      {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
-      {{ pagination.totalItems }} Stations
-      <clr-dg-pagination
-        #pagination
-        [clrDgTotalItems]="total"
-      ></clr-dg-pagination>
-    </clr-dg-footer>
+    @if (total > 0) {
+      <clr-dg-footer>
+        {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+        {{ pagination.totalItems }} Stations
+        <clr-dg-pagination
+          #pagination
+          [clrDgTotalItems]="total"
+        ></clr-dg-pagination>
+      </clr-dg-footer>
+    }
   </clr-datagrid>
 </div>

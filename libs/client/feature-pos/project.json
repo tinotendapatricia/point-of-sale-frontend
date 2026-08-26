@@ -3,14 +3,15 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/client/feature-pos/src",
   "prefix": "pos-frontend",
-  "tags": [],
   "projectType": "library",
+  "tags": [],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/client/feature-pos/jest.config.ts"
+        "jestConfig": "libs/client/feature-pos/jest.config.ts",
+        "tsConfig": "libs/client/feature-pos/tsconfig.spec.json"
       }
     },
     "lint": {

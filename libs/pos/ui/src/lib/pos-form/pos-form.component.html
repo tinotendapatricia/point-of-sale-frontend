@@ -6,8 +6,12 @@
 
     <button class="cancel" (click)="cancelTransaction()">Cancel</button>
     <br /><br />
-    <button class="void" [routerLink]="['/refund']" *ngIf="isSale">Refund</button>
-    <button class="void" [routerLink]="['/pos']" *ngIf="isRefund">Point of Sale</button>
+    @if (isSale) {
+      <button class="void" [routerLink]="['/refund']">Refund</button>
+    }
+    @if (isRefund) {
+      <button class="void" [routerLink]="['/pos']">Point of Sale</button>
+    }
     <br /><br />
   </div>
   <div class="clr-col-7 main">
@@ -16,17 +20,19 @@
         <div class="clr-col-sm-6 mt-6">
           <label>Product</label>
           <ng-select formControlName="code" #select (change)="onSubmit()">
-            <ng-option
-              *ngFor="let product of products"
-              [value]="product.code"
-              [disabled]="!rate || product.quantity < 1"
-              >{{ product.name }} {{ product.code }}
-              {{ product.barcode }} <span
-                style="color: red"
-                *ngIf="product.quantity < 1"
-                >Out of stock</span
-              >
-            </ng-option>
+            @for (product of products; track product) {
+              <ng-option
+                [value]="product.code"
+                [disabled]="!rate || product.quantity < 1"
+                >{{ product.name }} {{ product.code }}
+                {{ product.barcode }} @if (product.quantity < 1) {
+                <span
+                  style="color: red"
+                  >Out of stock</span
+                  >
+                }
+              </ng-option>
+            }
           </ng-select>
         </div>
         <div class="clr-col-sm-3">
@@ -38,172 +44,182 @@
             formControlName="quantity"
             [value]="1"
             style="margin-top: 8px"
-          /><button></button>
-        </div>
-        <div class="clr-col-sm-3">
-          <label></label><br /><br />
-          <input
-            type="text"
-            class="mt-7"
-            placeholder="Reference"
-            formControlName="reference"
-            style="margin-top: 8px"
-          /><button></button>
-        </div>
-
-        <input type="submit" hidden />
-      </div>
-    </form>
-
-    <div class="table-container">
-      <table class="table table-compact">
-        <thead>
-          <th>Product</th>
-          <th>Description</th>
-          <th>Quantity</th>
-          <th>Price</th>
-          <th></th>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of selectedProducts; let i = index">
-            <td>{{ item.code }}</td>
-            <td>{{ item.description }}</td>
-            <td> {{ item.quantity }}</td>
-            <td (click)="log(item.price)">
-              {{ item.price * rate * item.quantity | currency }}
-            </td>
-            <td>
-              <cds-icon
-                shape="minus-circle"
-                style="color: rgb(228, 72, 72); cursor: pointer"
-                (click)="remove(i, item)"
-              ></cds-icon>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <span style="color: rgb(214, 33, 33); font-weight: 900">{{ err }}</span>
-    <button
-      class="btn1 fin"
-      (click)="initChange()"
-      [disabled]="selectedProducts.length <= 0 || !debtorId"
-      [clrLoading]="btnState"
-    >
-      Process and Print Receipt
-    </button>
-  </div>
-
-  <div class="clr-col-3 payments">
-  <div class="stat" [ngClass]="isRefund ? 'refund':'sale'">
-   {{isRefund ? 'Refund':'Sale'}}
-  </div>
-    <br />
-    <br />
-    <div class="amts">
-      <span class="a"
-        >Total Amount: {{ calculateTotalAmount() * rate | currency }}</span
-      >
-      <br />
-
-      <span class="b" *ngIf="sale"
-        >Invoice created: {{ sale?.invoiceNumber }} - Next Customer</span
-      >
-
-      <br /><br />
-      <div class="acc">
-        <label>Account</label>
-        <ng-select [(ngModel)]="debtorId" (change)="convertPrice()">
-          <ng-option *ngFor="let debtor of debtors" [value]="debtor.id"
-            >{{ debtor.account }}-{{ debtor.name }}</ng-option
-          >
-        </ng-select>
-      </div>
-    </div>
-  </div>
-</div>
-
-<clr-modal
-  [(clrModalOpen)]="opened"
-  [clrModalClosable]="false"
-  [clrModalSize]="'sm'"
->
-  <div class="modal-title">Tender Details</div>
-  <hr />
-  <div class="modal-body">
-    <strong>Change:</strong>&nbsp;&nbsp;{{
-      changeDebtor
-        ? (change - (calculateTotalAmount() * rate))*changeDebtor.currency.rate[0].value
-        : change - calculateTotalAmount() * rate
-    }}
-    <form [formGroup]="changeForm">
-      <div class="clr-row">
-        <div class="clr-col-md-6">
-          <clr-input-container>
-            <label>Tender Amount</label>
+            /><button></button>
+          </div>
+          <div class="clr-col-sm-3">
+            <label></label><br /><br />
             <input
-              clrInput
-              type="number"
-              formControlName="amountOffered"
-              (keyup)="calculateChange()"
-              required
-            />
-          </clr-input-container>
+              type="text"
+              class="mt-7"
+              placeholder="Reference"
+              formControlName="reference"
+              style="margin-top: 8px"
+              /><button></button>
+            </div>
+
+            <input type="submit" hidden />
+          </div>
+        </form>
+
+        <div class="table-container">
+          <table class="table table-compact">
+            <thead>
+              <th>Product</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th></th>
+            </thead>
+            <tbody>
+              @for (item of selectedProducts; track item; let i = $index) {
+                <tr>
+                  <td>{{ item.code }}</td>
+                  <td>{{ item.description }}</td>
+                  <td> {{ item.quantity }}</td>
+                  <td (click)="log(item.price)">
+                    {{ item.price * rate * item.quantity | currency }}
+                  </td>
+                  <td>
+                    <cds-icon
+                      shape="minus-circle"
+                      style="color: rgb(228, 72, 72); cursor: pointer"
+                      (click)="remove(i, item)"
+                    ></cds-icon>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
         </div>
-        <div class="clr-col-md-6">
-          <clr-input-container>
-            <label>Cost of Goods</label>
-            <input clrInput type="number" formControlName="costOfGoods" />
-          </clr-input-container>
-        </div>
+        <span style="color: rgb(214, 33, 33); font-weight: 900">{{ err }}</span>
+        <button
+          class="btn1 fin"
+          (click)="initChange()"
+          [disabled]="selectedProducts.length <= 0 || !debtorId"
+          [clrLoading]="btnState"
+          >
+          Process and Print Receipt
+        </button>
       </div>
 
-      <clr-radio-container clrInline>
-        <label class="required">Foreign Change?</label>
-        <clr-radio-wrapper>
-          <input
-            type="radio"
-            clrRadio
-            name="foreignDebtor"
-            required
-            [value]="true"
-            formControlName="foreignDebtor"
-          />
-          <label>Yes</label>
-        </clr-radio-wrapper>
-        <clr-radio-wrapper>
-          <input
-            type="radio"
-            clrRadio
-            name="foreignDebtor"
-            required
-            [value]="false"
-            formControlName="foreignDebtor"
-          />
-          <label>No</label>
-        </clr-radio-wrapper>
-      </clr-radio-container>
+      <div class="clr-col-3 payments">
+        <div class="stat" [ngClass]="isRefund ? 'refund':'sale'">
+          {{isRefund ? 'Refund':'Sale'}}
+        </div>
+        <br />
+        <br />
+        <div class="amts">
+          <span class="a"
+            >Total Amount: {{ calculateTotalAmount() * rate | currency }}</span
+            >
+            <br />
 
-      <clr-select-container *ngIf=" changeForm.get('foreignDebtor')?.value">
-        <label>Account</label>
-        <select clrSelect formControlName="changeDebtor">
-          <option>Select Change Currency</option>
-          <option *ngFor="let debtor of debtors" [value]="debtor.id">
-            {{ debtor.account }}-{{ debtor.name }}
-          </option>
-        </select> </clr-select-container
-      ><br /><br />
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline" (click)="opened=false">Cancel</button>
-    <button
-      type="button"
-      class="btn btn-success"
-      [clrLoading]="btnState"
-      (click)="processReceipt()"
-    >
-      Process
-    </button>
-  </div>
-</clr-modal>
+            @if (sale) {
+              <span class="b"
+                >Invoice created: {{ sale?.invoiceNumber }} - Next Customer</span
+                >
+            }
+
+            <br /><br />
+            <div class="acc">
+              <label>Account</label>
+              <ng-select [(ngModel)]="debtorId" (change)="convertPrice()">
+                @for (debtor of debtors; track debtor) {
+                  <ng-option [value]="debtor.id"
+                    >{{ debtor.account }}-{{ debtor.name }}</ng-option
+                    >
+                  }
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <clr-modal
+          [(clrModalOpen)]="opened"
+          [clrModalClosable]="false"
+          [clrModalSize]="'sm'"
+          >
+          <div class="modal-title">Tender Details</div>
+          <hr />
+          <div class="modal-body">
+            <strong>Change:</strong>&nbsp;&nbsp;{{
+            changeDebtor
+            ? (change - (calculateTotalAmount() * rate))*changeDebtor.currency.rate[0].value
+            : change - calculateTotalAmount() * rate
+            }}
+            <form [formGroup]="changeForm">
+              <div class="clr-row">
+                <div class="clr-col-md-6">
+                  <clr-input-container>
+                    <label>Tender Amount</label>
+                    <input
+                      clrInput
+                      type="number"
+                      formControlName="amountOffered"
+                      (keyup)="calculateChange()"
+                      required
+                      />
+                    </clr-input-container>
+                  </div>
+                  <div class="clr-col-md-6">
+                    <clr-input-container>
+                      <label>Cost of Goods</label>
+                      <input clrInput type="number" formControlName="costOfGoods" />
+                    </clr-input-container>
+                  </div>
+                </div>
+
+                <clr-radio-container clrInline>
+                  <label class="required">Foreign Change?</label>
+                  <clr-radio-wrapper>
+                    <input
+                      type="radio"
+                      clrRadio
+                      name="foreignDebtor"
+                      required
+                      [value]="true"
+                      formControlName="foreignDebtor"
+                      />
+                      <label>Yes</label>
+                    </clr-radio-wrapper>
+                    <clr-radio-wrapper>
+                      <input
+                        type="radio"
+                        clrRadio
+                        name="foreignDebtor"
+                        required
+                        [value]="false"
+                        formControlName="foreignDebtor"
+                        />
+                        <label>No</label>
+                      </clr-radio-wrapper>
+                    </clr-radio-container>
+
+                    @if ( changeForm.get('foreignDebtor')?.value) {
+                      <clr-select-container>
+                        <label>Account</label>
+                        <select clrSelect formControlName="changeDebtor">
+                          <option>Select Change Currency</option>
+                          @for (debtor of debtors; track debtor) {
+                            <option [value]="debtor.id">
+                              {{ debtor.account }}-{{ debtor.name }}
+                            </option>
+                          }
+                        </select> </clr-select-container
+                        >
+                      }<br /><br />
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" (click)="opened=false">Cancel</button>
+                    <button
+                      type="button"
+                      class="btn btn-success"
+                      [clrLoading]="btnState"
+                      (click)="processReceipt()"
+                      >
+                      Process
+                    </button>
+                  </div>
+                </clr-modal>

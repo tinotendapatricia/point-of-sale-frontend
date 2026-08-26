@@ -3,14 +3,15 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/debtors/ui/src",
   "prefix": "pos-frontend",
-  "tags": [],
   "projectType": "library",
+  "tags": [],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/debtors/ui/jest.config.ts"
+        "jestConfig": "libs/debtors/ui/jest.config.ts",
+        "tsConfig": "libs/debtors/ui/tsconfig.spec.json"
       }
     },
     "lint": {

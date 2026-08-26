@@ -6,8 +6,9 @@
 
 ></pos-frontend-stock-take-count-form>
 
-<pos-frontend-stock-adjustment
-  *ngIf="isAdjustStock"
-  (closeModal)="isAdjustStock=false"
-  [stockToBeAdjusted]="selectedAdjustedStock"
-></pos-frontend-stock-adjustment>
+@if (isAdjustStock) {
+  <pos-frontend-stock-adjustment
+    (closeModal)="isAdjustStock=false"
+    [stockToBeAdjusted]="selectedAdjustedStock"
+  ></pos-frontend-stock-adjustment>
+}

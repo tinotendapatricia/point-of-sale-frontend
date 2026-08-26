@@ -3,14 +3,15 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/stock-take/data-access/src",
   "prefix": "pos-frontend",
-  "tags": [],
   "projectType": "library",
+  "tags": [],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/stock-take/data-access/jest.config.ts"
+        "jestConfig": "libs/stock-take/data-access/jest.config.ts",
+        "tsConfig": "libs/stock-take/data-access/tsconfig.spec.json"
       }
     },
     "lint": {

@@ -7,64 +7,68 @@
         name="purchaseOrder"
         clrInput
         [(ngModel)]="purchaseOrder"
-      />
-    </clr-input-container>
+        />
+      </clr-input-container>
+    </div>
+    <div class="clr-col-md-3">
+      <clr-input-container>
+        <label>Reference</label>
+        <input type="text" clrInput  [(ngModel)]="reference" />
+      </clr-input-container>
+    </div>
   </div>
-  <div class="clr-col-md-3">
-    <clr-input-container>
-      <label>Reference</label>
-      <input type="text" clrInput  [(ngModel)]="reference" />
-    </clr-input-container>
-  </div>
-</div>
-<br />
-<button
-  class="btn btn-sm btn-primary"
-  (click)="getPurchaseOrder.emit(purchaseOrder)"
-  [disabled]="orders.length>0"
->
-  Get Purchase Order Products
-</button>
+  <br />
+  <button
+    class="btn btn-sm btn-primary"
+    (click)="getPurchaseOrder.emit(purchaseOrder)"
+    [disabled]="orders.length>0"
+    >
+    Get Purchase Order Products
+  </button>
 
-<div class="card-header"></div>
-<div *ngIf="order">
-  <h5>Goods Received</h5>
-  <table class="table table-compact">
-    <thead>
-      <th>Product</th>
-      <th>Purchased Quantity</th>
-      <th>Qty Received</th>
-      <th>Purchased Value</th>
-      <th>Received Value</th>
-    </thead>
-    <tbody>
-      <tr *ngFor="let prod of orders; let i = index">
-        <td>{{ prod.name }}</td>
-        <td>{{ prod.quantity }}</td>
-        <td>
-          <input
-            type="number"
-            [(ngModel)]="prod.qtyReceived"
-            (keyup)="updateProduct(prod, i)"
-          />
-        </td>
-        <td>{{ prod.amount | currency : '' }}</td>
-        <td >
-          {{ prod.qtyReceived * (prod.amount / prod.quantity)|currency:'' }}
-        </td>
-      </tr>
-      <tr>
-        <td><strong>Total</strong></td>
-        <td><strong>{{calculateQuantity(orders)}}</strong> </td>
-        <td><strong>{{calculateQtyReceived(dataToBeSubmitted)}}</strong></td>
-        <td> <strong>{{totalPurchaseCost|currency}}</strong></td>
-        <td><strong>{{calculateReceivedValue(dataToBeSubmitted)|currency}}</strong></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<br /><br />
+  <div class="card-header"></div>
+  @if (order) {
+    <div>
+      <h5>Goods Received</h5>
+      <table class="table table-compact">
+        <thead>
+          <th>Product</th>
+          <th>Purchased Quantity</th>
+          <th>Qty Received</th>
+          <th>Purchased Value</th>
+          <th>Received Value</th>
+        </thead>
+        <tbody>
+          @for (prod of orders; track prod; let i = $index) {
+            <tr>
+              <td>{{ prod.name }}</td>
+              <td>{{ prod.quantity }}</td>
+              <td>
+                <input
+                  type="number"
+                  [(ngModel)]="prod.qtyReceived"
+                  (keyup)="updateProduct(prod, i)"
+                  />
+                </td>
+                <td>{{ prod.amount | currency : '' }}</td>
+                <td >
+                  {{ prod.qtyReceived * (prod.amount / prod.quantity)|currency:'' }}
+                </td>
+              </tr>
+            }
+            <tr>
+              <td><strong>Total</strong></td>
+              <td><strong>{{calculateQuantity(orders)}}</strong> </td>
+              <td><strong>{{calculateQtyReceived(dataToBeSubmitted)}}</strong></td>
+              <td> <strong>{{totalPurchaseCost|currency}}</strong></td>
+              <td><strong>{{calculateReceivedValue(dataToBeSubmitted)|currency}}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    }
+    <br /><br />
 
-<button class="btn btn-success" (click)="submit()"
-[disabled]="stat"
->Update Products</button>
+    <button class="btn btn-success" (click)="submit()"
+      [disabled]="stat"
+    >Update Products</button>

@@ -5,18 +5,23 @@
   (license)="license()"
 ></pos-frontend-login-form>
 
-<p class="text-center" style="color: red; font-weight: 900" *ngIf="calDateDifference(expiryDate)>=1&& calDateDifference(expiryDate)<=8">
-  Your license will expire on {{expiryDate}}, days remaining {{ calDateDifference(expiryDate) }} day(s). Please
-  renew.
-</p>
-<p class="text-center" style="color: red; font-weight: 900; font-size:20px" *ngIf="calDateDifference(expiryDate)<=0">
-  LICENSE EXPIRED.PLEASE RENEW
-</p>
+@if (calDateDifference(expiryDate)>=1&& calDateDifference(expiryDate)<=8) {
+  <p class="text-center" style="color: red; font-weight: 900">
+    Your license will expire on {{expiryDate}}, days remaining {{ calDateDifference(expiryDate) }} day(s). Please
+    renew.
+  </p>
+}
+@if (calDateDifference(expiryDate)<=0) {
+  <p class="text-center" style="color: red; font-weight: 900; font-size:20px">
+    LICENSE EXPIRED.PLEASE RENEW
+  </p>
+}
 
-<pos-frontend-license-system
-  *ngIf="isLicense"
-  (closeModal)="isLicense = false"
-></pos-frontend-license-system>
+@if (isLicense) {
+  <pos-frontend-license-system
+    (closeModal)="isLicense = false"
+  ></pos-frontend-license-system>
+}
 
 <div class="floating-btn" (click)="isLicense = true">
   <cds-icon shape="key" size="28" solid style="color: purple"></cds-icon>

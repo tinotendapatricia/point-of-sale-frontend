@@ -1,21 +1,26 @@
 
 <div class="card">
-    <div class="card-block">
-        <div class="batch" *ngIf="batchNumber">Batch Number: {{batchNumber}}</div>
-        <button class="btn btn-primary" *ngIf="!batchNumber" (click)="initiateBatch()">Initiate Stock Take</button>
-        <br>
-        <pos-frontend-stock-take-form *ngIf="batchNumber"
-        [products]="(productsFacade.allProducts$|async)!"
-        (formValue)="isAddProductsToStockBatch($event)"
-        
+  <div class="card-block">
+    @if (batchNumber) {
+      <div class="batch">Batch Number: {{batchNumber}}</div>
+    }
+    @if (!batchNumber) {
+      <button class="btn btn-primary" (click)="initiateBatch()">Initiate Stock Take</button>
+    }
+    <br>
+      @if (batchNumber) {
+        <pos-frontend-stock-take-form
+          [products]="(productsFacade.allProducts$|async)!"
+          (formValue)="isAddProductsToStockBatch($event)"
         ></pos-frontend-stock-take-form>
+      }
     </div>
-</div>
+  </div>
 
-<pos-frontend-close-batch
-*ngIf="isCloseBatch"
-[batchNumber]="batchNumber!"
-[batch]="selectedBatch"
-(closeModal)="close()"
-
-></pos-frontend-close-batch>
+  @if (isCloseBatch) {
+    <pos-frontend-close-batch
+      [batchNumber]="batchNumber!"
+      [batch]="selectedBatch"
+      (closeModal)="close()"
+    ></pos-frontend-close-batch>
+  }

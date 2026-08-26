@@ -7,10 +7,10 @@
 <mat-card class="login">
   <mat-card-content>
     &nbsp;<button class="act" (click)="isCreate = true">
-      <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
-      New</button
+    <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+    New</button
     >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getStationList({})">
-      <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+    <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
       >Refresh
     </button>
 
@@ -25,7 +25,8 @@
   </mat-card-content>
 </mat-card>
 
-<pos-frontend-create-station
-  *ngIf="isCreate"
-  (closeModal)="refresh()"
-></pos-frontend-create-station>
+@if (isCreate) {
+  <pos-frontend-create-station
+    (closeModal)="refresh()"
+  ></pos-frontend-create-station>
+}

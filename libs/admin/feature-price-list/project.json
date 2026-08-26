@@ -3,14 +3,15 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/admin/feature-price-list/src",
   "prefix": "pos-frontend",
-  "tags": [],
   "projectType": "library",
+  "tags": [],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/admin/feature-price-list/jest.config.ts"
+        "jestConfig": "libs/admin/feature-price-list/jest.config.ts",
+        "tsConfig": "libs/admin/feature-price-list/tsconfig.spec.json"
       }
     },
     "lint": {

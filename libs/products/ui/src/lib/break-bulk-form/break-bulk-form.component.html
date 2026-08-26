@@ -2,37 +2,43 @@
 <form [formGroup]="form">
   <label>Parent Product</label>
   <ng-select formControlName="parentId">
-    <ng-option *ngFor="let product of products" [value]="product.id"
-      >{{ product.name }} {{ product.code }} {{ product.barcode }}
-      <span style="color: red" *ngIf="product.quantity < 1">Out of stock</span>
-    </ng-option>
+    @for (product of products; track product) {
+      <ng-option [value]="product.id"
+        >{{ product.name }} {{ product.code }} {{ product.barcode }}
+        @if (product.quantity < 1) {
+          <span style="color: red">Out of stock</span>
+        }
+      </ng-option>
+    }
   </ng-select>
-<br>
-  <label >Child Product</label>
-  <ng-select formControlName="childId">
-    <ng-option *ngFor="let product of products" [value]="product.id"
-      >{{ product.name }} {{ product.code }} {{ product.barcode }}
-    </ng-option>
-  </ng-select>
-  <clr-input-container>
-    <label >Quantity</label>
-    <input clrInput type="number" formControlName="quantity" required />
-    <clr-control-error>Quantity is required!</clr-control-error>
-  </clr-input-container>
+  <br>
+    <label >Child Product</label>
+    <ng-select formControlName="childId">
+      @for (product of products; track product) {
+        <ng-option [value]="product.id"
+          >{{ product.name }} {{ product.code }} {{ product.barcode }}
+        </ng-option>
+      }
+    </ng-select>
+    <clr-input-container>
+      <label >Quantity</label>
+      <input clrInput type="number" formControlName="quantity" required />
+      <clr-control-error>Quantity is required!</clr-control-error>
+    </clr-input-container>
 
-  <clr-input-container>
-    <label>Parent Size</label>
-    <input clrInput type="number" formControlName="parentSize" required />
-    <clr-control-error>Parent Size is required!</clr-control-error>
-  </clr-input-container>
-</form>
-<br />
-<button type="button" class="btn btn-outline">Cancel</button>
-<button
-  type="button"
-  class="btn btn-success"
-  [clrLoading]="btnState"
-  (click)="formValue.emit(form.value)"
->
-  Submit
-</button>
+    <clr-input-container>
+      <label>Parent Size</label>
+      <input clrInput type="number" formControlName="parentSize" required />
+      <clr-control-error>Parent Size is required!</clr-control-error>
+    </clr-input-container>
+  </form>
+  <br />
+  <button type="button" class="btn btn-outline">Cancel</button>
+  <button
+    type="button"
+    class="btn btn-success"
+    [clrLoading]="btnState"
+    (click)="formValue.emit(form.value)"
+    >
+    Submit
+  </button>

@@ -1,138 +1,141 @@
 <div style="float: right">
   <button class="btn btn-success" (click)="onCreateDocument()">
     Create Purchase Order</button
-  >&nbsp;&nbsp;
-  <span class="dem">PON: {{ purchaseOrderNumber }}</span>
-</div>
-<br />
-<br />
-<hr />
-<form [formGroup]="form">
-  <fieldset>
-    <legend>Creditors Details</legend>
-    <div class="clr-row">
-      <div class="clr-col-md-3">
-        <div class="date">
-          <label class="required">Date</label>
-          <input type="date" formControlName="date" />
-        </div>
-      </div>
-      <div class="clr-col-md-4">
-        <div class="select">
-          <label class="required">Creditor</label>
-          <ng-select formControlName="creditor">
-            <ng-option
-              *ngFor="let creditor of creditors "
-              [value]="creditor.id"
-              >{{ creditor.name }}
-            </ng-option> 
-          </ng-select>
-        </div>
-      </div>
-      <div class="clr-col-md-5">
-        <clr-input-container>
-          <label class="required">Reference</label>
-          <input
-            clrInput
-            type="text"
-            formControlName="reference"
-          >
-        </clr-input-container>
-      </div>
-    </div>
-    <br />
-  </fieldset>
-  <br />
-  <div class="clr-row">
-    <div class="clr-col-md-5">
-      <fieldset>
-        <legend>Product Item</legend>
-        <br />
-        <div class="clr-row">
-          <div class="clr-col-md-6">
-            <div class="select">
-              <label class="required">Product</label>
-              <ng-select formControlName="code" (change)="selectedProd()">
-                <ng-option
-                  *ngFor="let item of products$ | async"
-                  [value]="item.code"
-                  >{{ item.name }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-          <div class="clr-col-md-6">
-            <clr-input-container>
-              <label class="required">Product Name</label>
-              <input clrInput type="text" formControlName="name" />
-            </clr-input-container>
-          </div>
-        </div>
-        <div class="clr-row">
-          <div class="clr-col-md-6">
-            <clr-input-container>
-              <label class="required">Quantity</label>
-              <input
-                clrInput
-                type="number"
-                formControlName="quantityPurchased"
-              />
-            </clr-input-container>
-          </div>
-          <div class="clr-col-md-6">
-            <clr-input-container>
-              <label class="required">Unit Cost</label>
-              <input clrInput type="number" formControlName="cost" />
-            </clr-input-container>
-          </div>
-        </div>
-        <br />
-        <hr />
-
-        <div class="text-center">
-          <button
-            class="btn btn-sm btn-success"
-            type="submit"
-            (click)="addProducts()"
-          >
-           {{btnText}}
-          </button>
-        </div>
-      </fieldset>
-    </div>
-
-    <div class="clr-col-md-7">
-      <fieldset>
-        <legend>Products</legend>
-
-        <table class="table table-compact">
-          <thead>
-            <tr>
-              <th class="left">Product Code</th>
-              <th>Description</th>
-              <th>Quantity</th>
-              <th>Value</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let m of productToBeSubmitted; let i = index">
-              <td class="left">{{ m.code }}</td>
-              <td>{{ m.description }}</td>
-              <td>{{ m.quantityPurchased }}</td>
-              <td>{{m.cost|currency}}</td>
-              <td><cds-icon shape="pencil" solid (click)="updateProduct(m, i)"></cds-icon>&nbsp;&nbsp;&nbsp;
-              <cds-icon shape="minus-circle" solid style="color: red" (click)="removeProduct(i)"></cds-icon></td>
-              
-            </tr>
-          </tbody>
-        </table>
-        <br />
-        <div class="text-center tot">
-          <span>{{calculateTotal(productToBeSubmitted)|currency}}</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{calculateQuantity(productToBeSubmitted)}}</span>
-        </div>
-      </fieldset>
-    </div>
+    >&nbsp;&nbsp;
+    <span class="dem">PON: {{ purchaseOrderNumber }}</span>
   </div>
-</form>
+  <br />
+  <br />
+  <hr />
+  <form [formGroup]="form">
+    <fieldset>
+      <legend>Creditors Details</legend>
+      <div class="clr-row">
+        <div class="clr-col-md-3">
+          <div class="date">
+            <label class="required">Date</label>
+            <input type="date" formControlName="date" />
+          </div>
+        </div>
+        <div class="clr-col-md-4">
+          <div class="select">
+            <label class="required">Creditor</label>
+            <ng-select formControlName="creditor">
+              @for (creditor of creditors ; track creditor) {
+                <ng-option
+                  [value]="creditor.id"
+                  >{{ creditor.name }}
+                </ng-option>
+              }
+            </ng-select>
+          </div>
+        </div>
+        <div class="clr-col-md-5">
+          <clr-input-container>
+            <label class="required">Reference</label>
+            <input
+              clrInput
+              type="text"
+              formControlName="reference"
+              >
+            </clr-input-container>
+          </div>
+        </div>
+        <br />
+      </fieldset>
+      <br />
+      <div class="clr-row">
+        <div class="clr-col-md-5">
+          <fieldset>
+            <legend>Product Item</legend>
+            <br />
+            <div class="clr-row">
+              <div class="clr-col-md-6">
+                <div class="select">
+                  <label class="required">Product</label>
+                  <ng-select formControlName="code" (change)="selectedProd()">
+                    @for (item of products$ | async; track item) {
+                      <ng-option
+                        [value]="item.code"
+                        >{{ item.name }}
+                      </ng-option>
+                    }
+                  </ng-select>
+                </div>
+              </div>
+              <div class="clr-col-md-6">
+                <clr-input-container>
+                  <label class="required">Product Name</label>
+                  <input clrInput type="text" formControlName="name" />
+                </clr-input-container>
+              </div>
+            </div>
+            <div class="clr-row">
+              <div class="clr-col-md-6">
+                <clr-input-container>
+                  <label class="required">Quantity</label>
+                  <input
+                    clrInput
+                    type="number"
+                    formControlName="quantityPurchased"
+                    />
+                  </clr-input-container>
+                </div>
+                <div class="clr-col-md-6">
+                  <clr-input-container>
+                    <label class="required">Unit Cost</label>
+                    <input clrInput type="number" formControlName="cost" />
+                  </clr-input-container>
+                </div>
+              </div>
+              <br />
+              <hr />
+
+              <div class="text-center">
+                <button
+                  class="btn btn-sm btn-success"
+                  type="submit"
+                  (click)="addProducts()"
+                  >
+                  {{btnText}}
+                </button>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="clr-col-md-7">
+            <fieldset>
+              <legend>Products</legend>
+
+              <table class="table table-compact">
+                <thead>
+                  <tr>
+                    <th class="left">Product Code</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Value</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (m of productToBeSubmitted; track m; let i = $index) {
+                    <tr>
+                      <td class="left">{{ m.code }}</td>
+                      <td>{{ m.description }}</td>
+                      <td>{{ m.quantityPurchased }}</td>
+                      <td>{{m.cost|currency}}</td>
+                      <td><cds-icon shape="pencil" solid (click)="updateProduct(m, i)"></cds-icon>&nbsp;&nbsp;&nbsp;
+                      <cds-icon shape="minus-circle" solid style="color: red" (click)="removeProduct(i)"></cds-icon></td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+              <br />
+              <div class="text-center tot">
+                <span>{{calculateTotal(productToBeSubmitted)|currency}}</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{calculateQuantity(productToBeSubmitted)}}</span>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </form>

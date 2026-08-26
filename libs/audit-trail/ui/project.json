@@ -3,14 +3,15 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/audit-trail/ui/src",
   "prefix": "pos-frontend",
-  "tags": [],
   "projectType": "library",
+  "tags": [],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/audit-trail/ui/jest.config.ts"
+        "jestConfig": "libs/audit-trail/ui/jest.config.ts",
+        "tsConfig": "libs/audit-trail/ui/tsconfig.spec.json"
       }
     },
     "lint": {

@@ -7,10 +7,10 @@
 <mat-card class="login">
   <mat-card-content>
     &nbsp;<button class="act" (click)="isCreate = true">
-      <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
-      New</button
+    <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+    New</button
     >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getUserList({})">
-      <cds-icon shape="sync" solid style="color: rgb(56, 12, 177)"></cds-icon
+    <cds-icon shape="sync" solid style="color: rgb(56, 12, 177)"></cds-icon
       >Refresh
     </button>
 
@@ -28,18 +28,20 @@
 </mat-card>
 
 <!-- <pos-frontend-change-user-status
-  *ngIf="isChangeStatus"
-  [user]="selectedUser"
-  (closeModal)="refresh($event)"
+*ngIf="isChangeStatus"
+[user]="selectedUser"
+(closeModal)="refresh($event)"
 ></pos-frontend-change-user-status> -->
 
-<pos-frontend-create-user
-  *ngIf="isCreate"
-  (closeModal)="refresh()"
-></pos-frontend-create-user>
+@if (isCreate) {
+  <pos-frontend-create-user
+    (closeModal)="refresh()"
+  ></pos-frontend-create-user>
+}
 
-<pos-frontend-update-user
-  *ngIf="isUpdate"
-  [user]="selectedUser"
-  (closeModal)="refresh()"
-></pos-frontend-update-user>
+@if (isUpdate) {
+  <pos-frontend-update-user
+    [user]="selectedUser"
+    (closeModal)="refresh()"
+  ></pos-frontend-update-user>
+}

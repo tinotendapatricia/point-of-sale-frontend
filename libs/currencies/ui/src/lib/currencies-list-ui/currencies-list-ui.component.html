@@ -3,7 +3,7 @@
     [clrDgLoading]="loading"
     (clrDgRefresh)="updatedState.emit($event)"
     class="datagrid-compact"
-  >
+    >
     <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
     <clr-dg-column [clrDgField]="'ccde'">Code</clr-dg-column>
     <clr-dg-column>Status</clr-dg-column>
@@ -13,59 +13,73 @@
 
     <clr-dg-placeholder>{{ placeholderMessage }}</clr-dg-placeholder>
 
-    <clr-dg-row *ngFor="let currency of currenciesList" [clrDgItem]="currency">
-      <clr-dg-action-overflow>
-        <button class="action-item" (click)="makeDefault.emit(currency)">
-          Make Default Currency
-        </button>
+    @for (currency of currenciesList; track currency) {
+      <clr-dg-row [clrDgItem]="currency">
+        <clr-dg-action-overflow>
+          <button class="action-item" (click)="makeDefault.emit(currency)">
+            Make Default Currency
+          </button>
+          <button class="action-item" (click)="updateRate.emit(currency)">
+            Update Rate
+          </button>
+        </clr-dg-action-overflow>
+        <clr-dg-cell>{{ currency?.name }}</clr-dg-cell>
+        <clr-dg-cell>{{ currency?.code }}</clr-dg-cell>
+        <clr-dg-cell>
+          @if (currency?.active) {
+            <span class="label label-success">Active</span>
+          }
+          @if (!currency?.active) {
+            <span class="label label-danger"
+              >Inactive</span
+              >
+            }
+          </clr-dg-cell>
+          <clr-dg-cell>
+            @if (currency?.isDefault) {
+              <span class="label label-success">Yes</span>
+            }
+            @if (!currency?.isDefault) {
+              <span class="label label-danger">No</span>
+            }
+          </clr-dg-cell>
+          <clr-dg-cell
+            >
+            @if (currency?.rate.length>0!) {
+              <span>{{currency?.rate[0]?.value|currency}}</span>
+            }
+            @if (currency?.rate.length<=0!) {
+              <span>$0.00</span>
+            }
+          </clr-dg-cell>
+          <clr-dg-cell>
+            <cds-icon
+              shape="pencil"
+              solid
+              style="color: green"
+              (click)="updateSelected.emit(currency)"
+            ></cds-icon>
+          </clr-dg-cell>
+        </clr-dg-row>
+      }
+      <clr-dg-detail *clrIfDetail="let detail">
+        <clr-dg-detail-header>{{ detail.name }}</clr-dg-detail-header>
+        <clr-dg-detail-body>
+          <pos-frontend-currency-details
+            [currency]="detail"
+          ></pos-frontend-currency-details>
+        </clr-dg-detail-body>
+      </clr-dg-detail>
 
-        <button class="action-item" (click)="updateRate.emit(currency)">
-          Update Rate
-        </button>
-      </clr-dg-action-overflow>
-      <clr-dg-cell>{{ currency?.name }}</clr-dg-cell>
-      <clr-dg-cell>{{ currency?.code }}</clr-dg-cell>
-      <clr-dg-cell>
-        <span class="label label-success" *ngIf="currency?.active">Active</span>
-        <span class="label label-danger" *ngIf="!currency?.active"
-          >Inactive</span
-        >
-      </clr-dg-cell>
-      <clr-dg-cell>
-        <span class="label label-success" *ngIf="currency?.isDefault">Yes</span>
-        <span class="label label-danger" *ngIf="!currency?.isDefault">No</span>
-      </clr-dg-cell>
-      <clr-dg-cell
-        >
-      <span *ngIf="currency?.rate.length>0!">{{currency?.rate[0]?.value|currency}}</span>
-      <span *ngIf="currency?.rate.length<=0!">$0.00</span>
-        
-      </clr-dg-cell>
-      <clr-dg-cell>
-        <cds-icon
-          shape="pencil"
-          solid
-          style="color: green"
-          (click)="updateSelected.emit(currency)"
-        ></cds-icon>
-      </clr-dg-cell>
-    </clr-dg-row>
-    <clr-dg-detail *clrIfDetail="let detail">
-      <clr-dg-detail-header>{{ detail.name }}</clr-dg-detail-header>
-      <clr-dg-detail-body>
-        <pos-frontend-currency-details
-          [currency]="detail"
-        ></pos-frontend-currency-details>
-      </clr-dg-detail-body>
-    </clr-dg-detail>
-
-    <clr-dg-footer *ngIf="total > 0">
-      {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
-      {{ pagination.totalItems }} Currencies
-      <clr-dg-pagination
-        #pagination
-        [clrDgTotalItems]="total"
-      ></clr-dg-pagination>
-    </clr-dg-footer>
-  </clr-datagrid>
-</div>
+      @if (total > 0) {
+        <clr-dg-footer>
+          {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+          {{ pagination.totalItems }} Currencies
+          <clr-dg-pagination
+            #pagination
+            [clrDgTotalItems]="total"
+          ></clr-dg-pagination>
+        </clr-dg-footer>
+      }
+    </clr-datagrid>
+  </div>

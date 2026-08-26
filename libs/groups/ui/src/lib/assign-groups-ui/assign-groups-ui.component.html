@@ -11,32 +11,34 @@
           required
           [checked]="isAllSelected()"
           (click)="pushAllRoles()"
-        />
-        <label><strong>Assign All</strong></label>
-      </clr-checkbox-wrapper>
-    </clr-checkbox-container>
+          />
+          <label><strong>Assign All</strong></label>
+        </clr-checkbox-wrapper>
+      </clr-checkbox-container>
+    </div>
   </div>
-</div>
-<div class="clr-row">
-  <div class="clr-col-md-2" *ngFor="let role of roles">
-    <clr-checkbox-container>
-      <clr-checkbox-wrapper>
-        <input
-          type="checkbox"
-          clrCheckbox
-          required
-          [value]="role.id"
-          [checked]="isChecked(role.id)"
-          (click)="pushToCheckedRoles(role.id)"
-        />
-        <label>{{ role.name.split('_').join(' ') | titlecase }}</label>
-      </clr-checkbox-wrapper>
-    </clr-checkbox-container>
-  </div>
-</div>
-<div class="card-header"></div>
-<br />
-<button class="btn" [routerLink]="['/groups']">Cancel</button>
-<button class="btn btn-primary" [clrLoading]="btnState" (click)="onSave()">
-  Save
-</button>
+  <div class="clr-row">
+    @for (role of roles; track role) {
+      <div class="clr-col-md-2">
+        <clr-checkbox-container>
+          <clr-checkbox-wrapper>
+            <input
+              type="checkbox"
+              clrCheckbox
+              required
+              [value]="role.id"
+              [checked]="isChecked(role.id)"
+              (click)="pushToCheckedRoles(role.id)"
+              />
+              <label>{{ role.name.split('_').join(' ') | titlecase }}</label>
+            </clr-checkbox-wrapper>
+          </clr-checkbox-container>
+        </div>
+      }
+    </div>
+    <div class="card-header"></div>
+    <br />
+    <button class="btn" [routerLink]="['/groups']">Cancel</button>
+    <button class="btn btn-primary" [clrLoading]="btnState" (click)="onSave()">
+      Save
+    </button>

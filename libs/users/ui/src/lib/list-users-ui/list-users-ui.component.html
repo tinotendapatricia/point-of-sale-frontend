@@ -2,70 +2,76 @@
   [clrDgLoading]="loading"
   (clrDgRefresh)="updatedState.emit($event)"
   class="datagrid-compact"
->
+  >
   <clr-dg-column [clrDgField]="'name'">Username</clr-dg-column>
   <clr-dg-column>Name</clr-dg-column>
   <clr-dg-column>Status</clr-dg-column>
 
   <clr-dg-column></clr-dg-column>
 
-  <clr-dg-row *ngFor="let user of userList" [clrDgItem]="user">
-   <clr-dg-action-overflow>
-      <button class="action-item" (click)="viewUserAuthorities.emit(user)">
-        Add user permissions
-      </button>
-      <button
-        class="action-item"
-        *ngIf="!user.active"
-        (click)="changeSelectedUserStatus.emit(user)"
-      >
-        Activate
-      </button>
-      <button
-        class="action-item"
-        *ngIf="user.active"
-        (click)="changeSelectedUserStatus.emit(user)"
-      >
-        Deactivate
-      </button>
-    </clr-dg-action-overflow> 
-    <clr-dg-cell>
-      <div class="m"></div>
-      {{ user?.username }}</clr-dg-cell
-    >
-
-    <clr-dg-cell
-      ><a>{{ user.name }}</a></clr-dg-cell
-    >
-
-    <clr-dg-cell>
-      <span class="lab-success" *ngIf="user.active">Active</span>
-      <span class="lab-danger" *ngIf="!user.active">Inactive</span>
-    </clr-dg-cell>
-
-    <clr-dg-cell>
-      <cds-icon shape="pencil" solid style="color: green;cursor: pointer;"(click)="updateSelected.emit(user)"></cds-icon>
-
-      <!-- &nbsp;&nbsp;
-      <clr-icon
-        shape="trash"
-        class="is-solid"
-        (click)="deleteUser.emit(user)"
-      ></clr-icon> -->
-    </clr-dg-cell>
-  </clr-dg-row>
-  <!-- <clr-dg-detail *clrIfDetail="let detail">
-    <clr-dg-detail-header>{{ detail.name }}</clr-dg-detail-header>
-    <clr-dg-detail-body>
-      <leave-management-system-user-details [user]="detail"></leave-management-system-user-details>
-    </clr-dg-detail-body>
-  </clr-dg-detail> -->
-  <clr-dg-footer *ngIf="total > 0">
-    {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
-    {{ pagination.totalItems }} Users
-    <clr-dg-pagination
-      #pagination
-      [clrDgTotalItems]="total"
-    ></clr-dg-pagination>
-  </clr-dg-footer>
-</clr-datagrid>
+  @for (user of userList; track user) {
+    <clr-dg-row [clrDgItem]="user">
+      <clr-dg-action-overflow>
+        <button class="action-item" (click)="viewUserAuthorities.emit(user)">
+          Add user permissions
+        </button>
+        @if (!user.active) {
+          <button
+            class="action-item"
+            (click)="changeSelectedUserStatus.emit(user)"
+            >
+            Activate
+          </button>
+        }
+        @if (user.active) {
+          <button
+            class="action-item"
+            (click)="changeSelectedUserStatus.emit(user)"
+            >
+            Deactivate
+          </button>
+        }
+      </clr-dg-action-overflow>
+      <clr-dg-cell>
+        <div class="m"></div>
+        {{ user?.username }}</clr-dg-cell
+        >
+        <clr-dg-cell
+          ><a>{{ user.name }}</a></clr-dg-cell
+          >
+          <clr-dg-cell>
+            @if (user.active) {
+              <span class="lab-success">Active</span>
+            }
+            @if (!user.active) {
+              <span class="lab-danger">Inactive</span>
+            }
+          </clr-dg-cell>
+          <clr-dg-cell>
+            <cds-icon shape="pencil" solid style="color: green;cursor: pointer;"(click)="updateSelected.emit(user)"></cds-icon>
+            <!-- &nbsp;&nbsp;
+            <clr-icon
+              shape="trash"
+              class="is-solid"
+              (click)="deleteUser.emit(user)"
+            ></clr-icon> -->
+          </clr-dg-cell>
+        </clr-dg-row>
+      }
+      <!-- <clr-dg-detail *clrIfDetail="let detail">
+      <clr-dg-detail-header>{{ detail.name }}</clr-dg-detail-header>
+      <clr-dg-detail-body>
+        <leave-management-system-user-details [user]="detail"></leave-management-system-user-details>
+      </clr-dg-detail-body>
+    </clr-dg-detail> -->
+    @if (total > 0) {
+      <clr-dg-footer>
+        {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+        {{ pagination.totalItems }} Users
+        <clr-dg-pagination
+          #pagination
+          [clrDgTotalItems]="total"
+        ></clr-dg-pagination>
+      </clr-dg-footer>
+    }
+  </clr-datagrid>

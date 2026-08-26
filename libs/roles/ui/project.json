@@ -3,14 +3,15 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/roles/ui/src",
   "prefix": "pos-frontend",
-  "tags": [],
   "projectType": "library",
+  "tags": [],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/roles/ui/jest.config.ts"
+        "jestConfig": "libs/roles/ui/jest.config.ts",
+        "tsConfig": "libs/roles/ui/tsconfig.spec.json"
       }
     },
     "lint": {

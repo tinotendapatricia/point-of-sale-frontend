@@ -3,7 +3,7 @@
     [clrDgLoading]="loading"
     (clrDgRefresh)="updatedState.emit($event)"
     class="datagrid-compact"
-  >
+    >
     <clr-dg-column [clrDgField]="'name'">Account</clr-dg-column>
     <clr-dg-column [clrDgField]="'createdBy'">Name</clr-dg-column>
     <clr-dg-column [clrDgField]="'createdBy'">Discount</clr-dg-column>
@@ -12,20 +12,26 @@
 
     <clr-dg-placeholder>{{ placeholderMessage }}</clr-dg-placeholder>
 
-    <clr-dg-row *ngFor="let debtor of debtorsList">
-      <clr-dg-cell>{{ debtor?.account }}</clr-dg-cell>
-      <clr-dg-cell>{{ debtor?.name }}</clr-dg-cell>
-      <clr-dg-cell>{{ debtor?.discount }} <span *ngIf="!debtor.discount">--</span></clr-dg-cell>
-      <clr-dg-cell><cds-icon shape="pencil" solid style="color: green;cursor: pointer;" (click)="updateSelected.emit(debtor)"></cds-icon></clr-dg-cell>
-    </clr-dg-row>
+    @for (debtor of debtorsList; track debtor) {
+      <clr-dg-row>
+        <clr-dg-cell>{{ debtor?.account }}</clr-dg-cell>
+        <clr-dg-cell>{{ debtor?.name }}</clr-dg-cell>
+        <clr-dg-cell>{{ debtor?.discount }} @if (!debtor.discount) {
+          <span>--</span>
+        }</clr-dg-cell>
+        <clr-dg-cell><cds-icon shape="pencil" solid style="color: green;cursor: pointer;" (click)="updateSelected.emit(debtor)"></cds-icon></clr-dg-cell>
+      </clr-dg-row>
+    }
 
-    <clr-dg-footer *ngIf="total > 0">
-      {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
-      {{ pagination.totalItems }} Debtors
-      <clr-dg-pagination
-        #pagination
-        [clrDgTotalItems]="total"
-      ></clr-dg-pagination>
-    </clr-dg-footer>
+    @if (total > 0) {
+      <clr-dg-footer>
+        {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+        {{ pagination.totalItems }} Debtors
+        <clr-dg-pagination
+          #pagination
+          [clrDgTotalItems]="total"
+        ></clr-dg-pagination>
+      </clr-dg-footer>
+    }
   </clr-datagrid>
 </div>

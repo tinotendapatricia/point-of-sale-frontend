@@ -1,15 +1,19 @@
-<ng-container *ngFor="let field of vat | keyvalue"
-  ><div class="clr-row" *ngIf="!isHide(field?.key)">
-    <div class="clr-col-6">
-      <span class="clr-control-label">{{
-        decamelize(field?.key) | titlecase
-      }}</span>
-    </div>
-    <div class="clr-col">
-      <span>{{ field?.value }}</span>
-      <span *ngIf="field?.value === null || field?.value === undefined"
-        >--</span
-      >
-    </div>
-  </div></ng-container
->
+@for (field of vat | keyvalue; track field) {
+  @if (!isHide(field?.key)) {
+    <div class="clr-row">
+      <div class="clr-col-6">
+        <span class="clr-control-label">{{
+          decamelize(field?.key) | titlecase
+        }}</span>
+      </div>
+      <div class="clr-col">
+        <span>{{ field?.value }}</span>
+        @if (field?.value === null || field?.value === undefined) {
+          <span
+            >--</span
+            >
+          }
+        </div>
+      </div>
+    }
+  }

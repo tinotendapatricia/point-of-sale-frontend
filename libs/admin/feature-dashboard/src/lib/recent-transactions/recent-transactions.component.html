@@ -1,15 +1,17 @@
 <h5>Recent Transactions</h5>
 <table class="table table-compact">
-<thead>
+  <thead>
     <th>Invoice Number</th>
     <th>Amount</th>
     <th>Debtor</th>
-</thead>
-<tbody>
-    <tr *ngFor="let data of sales$|async">
+  </thead>
+  <tbody>
+    @for (data of sales$|async; track data) {
+      <tr>
         <td>{{data.invoiceNumber}}</td>
         <td>{{data.totalAmount|currency}}</td>
         <td>{{data.debtorAccount}}-{{data.debtorName}}</td>
-    </tr>
-</tbody>
+      </tr>
+    }
+  </tbody>
 </table>
