@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ClrLoadingState } from '@clr/angular';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
 import { ReportsService } from '@pos-frontend/reports/data-access';
@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
     selector: 'pos-frontend-top-selling-products-for-period',
     templateUrl: './top-selling-products-for-period.component.html',
     styleUrls: ['./top-selling-products-for-period.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TopSellingProductsForPeriodComponent implements OnInit, OnDestroy{

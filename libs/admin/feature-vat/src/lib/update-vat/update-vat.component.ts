@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { VatEntity, VatFacade } from '@pos-frontend/vat/data-access';
 
@@ -6,6 +6,7 @@ import { VatEntity, VatFacade } from '@pos-frontend/vat/data-access';
     selector: 'pos-frontend-update-vat',
     templateUrl: './update-vat.component.html',
     styleUrls: ['./update-vat.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UpdateVatComponent {

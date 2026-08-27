@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
 
@@ -6,6 +6,7 @@ import { ProductsEntity } from '@pos-frontend/products/data-access';
     selector: 'pos-frontend-stock-take-form',
     templateUrl: './stock-take-form.component.html',
     styleUrls: ['./stock-take-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class StockTakeFormComponent implements OnInit {

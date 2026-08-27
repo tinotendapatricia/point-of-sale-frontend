@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ClrLoadingState } from '@clr/angular';
 import { PurchasesReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
     selector: 'pos-frontend-purchases-report-grv-vs-purchases-summary',
     templateUrl: './purchases-report-grv-vs-purchases-summary.component.html',
     styleUrls: ['./purchases-report-grv-vs-purchases-summary.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PurchasesReportGrvVsPurchasesSummaryComponent implements OnDestroy {

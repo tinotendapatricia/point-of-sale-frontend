@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
@@ -17,6 +18,7 @@ import { Utilities } from '@pos-frontend/shared/utils';
     selector: 'pos-frontend-break-bulk-to-single',
     templateUrl: './break-bulk-to-single.component.html',
     styleUrls: ['./break-bulk-to-single.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class BreakBulkToSingleComponent implements AfterViewChecked, OnInit {

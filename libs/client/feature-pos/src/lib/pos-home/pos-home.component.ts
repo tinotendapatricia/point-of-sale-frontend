@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
     selector: 'pos-frontend-pos-home',
     templateUrl: './pos-home.component.html',
     styleUrls: ['./pos-home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PosHomeComponent implements OnInit {

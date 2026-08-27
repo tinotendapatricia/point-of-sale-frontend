@@ -3,6 +3,7 @@ import {
   OnInit,
   ChangeDetectorRef,
   AfterViewChecked,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
@@ -13,6 +14,7 @@ import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
     selector: 'pos-frontend-list-users',
     templateUrl: './list-users.component.html',
     styleUrls: ['./list-users.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ListUsersComponent implements OnInit, AfterViewChecked {

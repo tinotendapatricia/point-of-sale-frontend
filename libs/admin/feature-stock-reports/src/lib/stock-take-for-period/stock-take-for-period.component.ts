@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ClrLoadingState } from '@clr/angular';
 import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
     selector: 'pos-frontend-stock-take-for-period',
     templateUrl: './stock-take-for-period.component.html',
     styleUrls: ['./stock-take-for-period.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class StockTakeForPeriodComponent implements OnDestroy {

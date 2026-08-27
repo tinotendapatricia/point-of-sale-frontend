@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
 
@@ -6,6 +6,7 @@ import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
     selector: 'pos-frontend-create-stock-batch',
     templateUrl: './create-stock-batch.component.html',
     styleUrls: ['./create-stock-batch.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CreateStockBatchComponent implements OnInit  {

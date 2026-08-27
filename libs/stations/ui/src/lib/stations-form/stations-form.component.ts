@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup, FormBuilder } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
 import { StationsEntity } from '@pos-frontend/stations/data-access';
@@ -7,6 +7,7 @@ import { StationsEntity } from '@pos-frontend/stations/data-access';
     selector: 'pos-frontend-stations-form',
     templateUrl: './stations-form.component.html',
     styleUrls: ['./stations-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class StationsFormComponent  implements OnInit{

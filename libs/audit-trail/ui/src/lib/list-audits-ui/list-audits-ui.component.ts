@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { ClrDatagridStateInterface } from '@clr/angular';
 import { AuditsEntity } from '@pos-frontend/audit-trail/data-access';
 
@@ -6,6 +6,7 @@ import { AuditsEntity } from '@pos-frontend/audit-trail/data-access';
     selector: 'pos-frontend-list-audits-ui',
     templateUrl: './list-audits-ui.component.html',
     styleUrls: ['./list-audits-ui.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ListAuditsUiComponent {

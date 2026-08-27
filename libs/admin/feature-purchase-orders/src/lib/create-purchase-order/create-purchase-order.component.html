@@ -20,7 +20,7 @@
 
     <pos-frontend-purchase-order-form
       [purchaseOrderNumber]="
-        (purchaseOrderFacade.selectedPurchaseOrder$ | async)?.orderNumber!
+        $safeNavigationMigration((purchaseOrderFacade.selectedPurchaseOrder$ | async)?.orderNumber)!
       "
       [products$]="productsFacade.allProducts$!"
       [creditors]="(creditorsFacade.allCreditors$ | async)!"

@@ -21,8 +21,8 @@
     </button> -->
     <pos-frontend-user-roles-form
       [roles]="(rolesFacade.allRoles$ | async)!"
-      [userRoles]="(userFacade.selectedUser$ | async)?.roles!"
-      [userId]="(userFacade.selectedUser$ | async)?.id!"
+      [userRoles]="$safeNavigationMigration((userFacade.selectedUser$ | async)?.roles)!"
+      [userId]="$safeNavigationMigration((userFacade.selectedUser$ | async)?.id)!"
       (save)="onSubmit($event)"
     ></pos-frontend-user-roles-form>
   </mat-card-content>

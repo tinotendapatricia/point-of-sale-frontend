@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ClrLoadingState } from '@clr/angular';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { ReportsService } from '@pos-frontend/reports/data-access';
@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
     selector: 'pos-frontend-sales-by-station',
     templateUrl: './sales-by-station.component.html',
     styleUrls: ['./sales-by-station.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SalesByStationComponent implements OnInit, OnDestroy {

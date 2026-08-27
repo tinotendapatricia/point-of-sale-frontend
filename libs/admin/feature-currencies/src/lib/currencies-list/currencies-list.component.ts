@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
@@ -16,6 +17,7 @@ import {
     selector: 'pos-frontend-currencies-list',
     templateUrl: './currencies-list.component.html',
     styleUrls: ['./currencies-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CurrenciesListComponent implements OnInit, AfterViewChecked {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
 import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
@@ -7,6 +7,7 @@ import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
     selector: 'pos-frontend-currency-form',
     templateUrl: './currency-form.component.html',
     styleUrls: ['./currency-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CurrencyFormComponent implements OnInit {

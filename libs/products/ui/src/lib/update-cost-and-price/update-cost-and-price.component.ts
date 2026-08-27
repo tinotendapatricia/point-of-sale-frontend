@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
@@ -7,6 +7,7 @@ import { ProductsEntity } from '@pos-frontend/products/data-access';
     selector: 'pos-frontend-update-cost-and-price',
     templateUrl: './update-cost-and-price.component.html',
     styleUrls: ['./update-cost-and-price.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UpdateCostAndPriceComponent implements OnInit { 

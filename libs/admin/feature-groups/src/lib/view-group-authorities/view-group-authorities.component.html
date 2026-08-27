@@ -21,8 +21,8 @@
     </button> -->
     <pos-frontend-assign-groups-ui
       [roles]="(rolesFacade.allRoles$ | async)!"
-      [groupRoles]="(groupFacade.selectedGroup$ | async)?.roles!"
-      [groupId]="(groupFacade.selectedGroup$ | async)?.id!"
+      [groupRoles]="$safeNavigationMigration((groupFacade.selectedGroup$ | async)?.roles)!"
+      [groupId]="$safeNavigationMigration((groupFacade.selectedGroup$ | async)?.id)!"
       (save)="onSubmit($event)"
     ></pos-frontend-assign-groups-ui>
   </mat-card-content>

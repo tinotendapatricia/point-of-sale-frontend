@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup, FormBuilder } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
 import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
@@ -8,6 +8,7 @@ import { DebtorsEntity } from '@pos-frontend/debtors/data-access';
     selector: 'pos-frontend-debtors-form',
     templateUrl: './debtors-form.component.html',
     styleUrls: ['./debtors-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DebtorsFormComponent {

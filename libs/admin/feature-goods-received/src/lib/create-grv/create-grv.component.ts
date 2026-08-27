@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { PurchaseOrderFacade } from '@pos-frontend/purchase-orders/data-access';
 
@@ -6,6 +6,7 @@ import { PurchaseOrderFacade } from '@pos-frontend/purchase-orders/data-access';
     selector: 'pos-frontend-create-grv',
     templateUrl: './create-grv.component.html',
     styleUrls: ['./create-grv.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CreateGrvComponent implements OnInit {

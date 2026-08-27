@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { UntypedFormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,6 +18,7 @@ import { ProductsEntity } from '@pos-frontend/products/data-access';
     selector: 'pos-frontend-products-form',
     templateUrl: './products-form.component.html',
     styleUrls: ['./products-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ProductsFormComponent implements OnInit{

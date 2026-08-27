@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
 import { CategoriesEntity, CategoriesFacade } from '@pos-frontend/categories/data-access';
@@ -7,6 +7,7 @@ import { CategoriesEntity, CategoriesFacade } from '@pos-frontend/categories/dat
     selector: 'pos-frontend-categories-list',
     templateUrl: './categories-list.component.html',
     styleUrls: ['./categories-list.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CategoriesListComponent {

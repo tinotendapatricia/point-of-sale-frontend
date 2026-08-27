@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, UntypedFormGroup } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
@@ -7,6 +7,7 @@ import { ProductsEntity } from '@pos-frontend/products/data-access';
     selector: 'pos-frontend-break-bulk-form',
     templateUrl: './break-bulk-form.component.html',
     styleUrls: ['./break-bulk-form.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class BreakBulkFormComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'pos-frontend-nx-welcome',
@@ -418,6 +418,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
   `,
     styles: [],
     encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class NxWelcomeComponent {}

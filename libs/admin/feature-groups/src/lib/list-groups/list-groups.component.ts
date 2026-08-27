@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
 import { GroupsEntity, GroupsFacade } from '@pos-frontend/groups/data-access';
@@ -7,6 +7,7 @@ import { GroupsEntity, GroupsFacade } from '@pos-frontend/groups/data-access';
     selector: 'pos-frontend-list-groups',
     templateUrl: './list-groups.component.html',
     styleUrls: ['./list-groups.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ListGroupsComponent implements OnInit {

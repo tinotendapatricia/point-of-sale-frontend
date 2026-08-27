@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CompanyService } from '@pos-frontend/company-details/data-access';
 
 @Component({
     selector: 'pos-frontend-create-company-details',
     templateUrl: './create-company-details.component.html',
     styleUrls: ['./create-company-details.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CreateCompanyDetailsComponent  {

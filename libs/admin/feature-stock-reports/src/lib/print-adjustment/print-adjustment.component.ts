@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ClrLoadingState } from '@clr/angular';
 import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
     selector: 'pos-frontend-print-adjustment',
     templateUrl: './print-adjustment.component.html',
     styleUrls: ['./print-adjustment.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PrintAdjustmentComponent implements OnDestroy {

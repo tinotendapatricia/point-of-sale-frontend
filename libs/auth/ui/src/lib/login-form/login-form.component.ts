@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import {
   UntypedFormGroup,
   UntypedFormControl,
@@ -11,6 +11,7 @@ import { ClrLoadingState } from '@clr/angular';
     selector: 'pos-frontend-login-form',
     templateUrl: './login-form.component.html',
     styleUrls: ['./login-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LoginFormComponent implements OnInit {

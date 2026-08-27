@@ -16,7 +16,7 @@
         <clr-dg-action-overflow>
           <button
             class="action-item"
-            (click)="viewGroupPermissions.emit(group?.id)"
+            (click)="viewGroupPermissions.emit($safeNavigationMigration(group?.id))"
             >
             Update
           </button>
@@ -24,7 +24,7 @@
         <clr-dg-cell>{{ group?.name }}</clr-dg-cell>
         <clr-dg-cell>{{ group?.createdBy }}</clr-dg-cell>
         <clr-dg-cell>
-          <a (click)="viewGroupPermissions.emit(group?.id)">
+          <a (click)="viewGroupPermissions.emit($safeNavigationMigration(group?.id))">
             View Group Permissions
           </a>
         </clr-dg-cell>

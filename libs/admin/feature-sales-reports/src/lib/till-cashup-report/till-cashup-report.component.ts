@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ClrLoadingState } from '@clr/angular';
 import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
     selector: 'pos-frontend-till-cashup-report',
     templateUrl: './till-cashup-report.component.html',
     styleUrls: ['./till-cashup-report.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TillCashupReportComponent implements OnInit, OnDestroy {

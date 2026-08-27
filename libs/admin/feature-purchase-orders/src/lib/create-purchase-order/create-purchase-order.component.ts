@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CreditorsFacade } from '@pos-frontend/creditors/data-access';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { PurchaseOrderFacade } from '@pos-frontend/purchase-orders/data-access';
@@ -8,6 +8,7 @@ import { VatFacade } from '@pos-frontend/vat/data-access';
     selector: 'pos-frontend-create-purchase-order',
     templateUrl: './create-purchase-order.component.html',
     styleUrls: ['./create-purchase-order.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CreatePurchaseOrderComponent implements OnInit {

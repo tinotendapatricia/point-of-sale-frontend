@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   CurrenciesEntity,
@@ -9,6 +9,7 @@ import {
     selector: 'pos-frontend-update-currency',
     templateUrl: './update-currency.component.html',
     styleUrls: ['./update-currency.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UpdateCurrencyComponent {

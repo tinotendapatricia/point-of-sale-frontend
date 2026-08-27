@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup, FormBuilder } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
 import { GroupsEntity } from '@pos-frontend/groups/data-access';
@@ -7,6 +7,7 @@ import { GroupsEntity } from '@pos-frontend/groups/data-access';
     selector: 'pos-frontend-group-form',
     templateUrl: './group-form.component.html',
     styleUrls: ['./group-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupFormComponent implements OnInit {

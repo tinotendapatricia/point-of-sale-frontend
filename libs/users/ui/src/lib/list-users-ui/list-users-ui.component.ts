@@ -8,6 +8,7 @@ import {
   AfterViewInit,
   OnChanges,
   SimpleChanges,
+  ChangeDetectionStrategy
 } from '@angular/core';
 //import { ClrDatagridStateInterface } from '@clr/angular';
 import { UsersEntity } from '@pos-frontend/users/data-access';
@@ -19,6 +20,7 @@ import { ClrDatagridStateInterface } from '@clr/angular';
     selector: 'pos-frontend-list-users-ui',
     templateUrl: './list-users-ui.component.html',
     styleUrls: ['./list-users-ui.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ListUsersUiComponent implements OnChanges {

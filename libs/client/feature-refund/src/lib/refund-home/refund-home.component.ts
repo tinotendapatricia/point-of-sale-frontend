@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
@@ -10,6 +10,7 @@ import { VatFacade } from '@pos-frontend/vat/data-access';
     selector: 'pos-frontend-refund-home',
     templateUrl: './refund-home.component.html',
     styleUrls: ['./refund-home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RefundHomeComponent  implements OnInit {

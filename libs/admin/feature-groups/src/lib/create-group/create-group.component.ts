@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { GroupsFacade } from '@pos-frontend/groups/data-access';
 
@@ -6,6 +6,7 @@ import { GroupsFacade } from '@pos-frontend/groups/data-access';
     selector: 'pos-frontend-create-group',
     templateUrl: './create-group.component.html',
     styleUrls: ['./create-group.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CreateGroupComponent {

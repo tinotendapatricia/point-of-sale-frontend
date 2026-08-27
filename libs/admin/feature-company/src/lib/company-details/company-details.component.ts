@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CompanyEntity, CompanyService } from '@pos-frontend/company-details/data-access';
 import { Observable } from 'rxjs';
 
@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
     selector: 'pos-frontend-company-details',
     templateUrl: './company-details.component.html',
     styleUrls: ['./company-details.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CompanyDetailsComponent implements OnInit  {

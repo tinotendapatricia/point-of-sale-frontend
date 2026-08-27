@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RolesFacade } from '@pos-frontend/roles/data-access';
 import { UsersFacade } from '@pos-frontend/users/data-access';
@@ -7,6 +7,7 @@ import { UsersFacade } from '@pos-frontend/users/data-access';
     selector: 'pos-frontend-view-user-roles',
     templateUrl: './view-user-roles.component.html',
     styleUrls: ['./view-user-roles.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ViewUserRolesComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,6 +9,7 @@ import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
     selector: 'pos-frontend-update-user',
     templateUrl: './update-user.component.html',
     styleUrls: ['./update-user.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UpdateUserComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CompanyService } from '@pos-frontend/company-details/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 
@@ -6,6 +6,7 @@ import { Utilities } from '@pos-frontend/shared/utils';
     selector: 'pos-frontend-license-system',
     templateUrl: './license-system.component.html',
     styleUrls: ['./license-system.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LicenseSystemComponent {

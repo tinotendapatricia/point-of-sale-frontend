@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { DebtorsEntity, DebtorsFacade } from '@pos-frontend/debtors/data-access';
@@ -7,6 +7,7 @@ import { DebtorsEntity, DebtorsFacade } from '@pos-frontend/debtors/data-access'
     selector: 'pos-frontend-update-debtors',
     templateUrl: './update-debtors.component.html',
     styleUrls: ['./update-debtors.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UpdateDebtorsComponent {

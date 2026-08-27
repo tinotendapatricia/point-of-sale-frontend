@@ -59,10 +59,10 @@
               ><a>{{ product.quantity }}</a></clr-dg-cell
               >
               <clr-dg-cell
-                ><a>{{product.cost[0]?.value|currency}}</a></clr-dg-cell
+                ><a>{{$safeNavigationMigration(product.cost[0]?.value)|currency}}</a></clr-dg-cell
                 >
                 <clr-dg-cell
-                  ><a>{{product.price[0]?.value|currency}}</a></clr-dg-cell
+                  ><a>{{$safeNavigationMigration(product.price[0]?.value)|currency}}</a></clr-dg-cell
                   >
                   <!-- <clr-dg-cell>
                   <span class="lab-success" *ngIf="product.includeVat"

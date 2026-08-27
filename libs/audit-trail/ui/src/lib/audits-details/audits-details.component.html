@@ -5,11 +5,11 @@
   <tbody>
     @for (field of audit.resource | keyvalue; track field) {
       <tr>
-        @if (!isHide(field?.key)) {
+        @if (!isHide($safeNavigationMigration(field?.key))) {
           <th>{{ decamelize(field.key) | titlecase }}</th>
           <td>
             {{ field?.value }}
-            @if (field?.value === null || field?.value === undefined) {
+            @if ($safeNavigationMigration(field?.value) === null || $safeNavigationMigration(field?.value) === undefined) {
               <span
                 >--</span
                 >

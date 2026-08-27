@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CurrenciesEntity, CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 
@@ -6,6 +6,7 @@ import { CurrenciesEntity, CurrenciesFacade } from '@pos-frontend/currencies/dat
     selector: 'pos-frontend-update-rate',
     templateUrl: './update-rate.component.html',
     styleUrls: ['./update-rate.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UpdateRateComponent {

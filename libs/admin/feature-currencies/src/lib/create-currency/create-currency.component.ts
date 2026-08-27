@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 
@@ -6,6 +6,7 @@ import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
     selector: 'pos-frontend-create-currency',
     templateUrl: './create-currency.component.html',
     styleUrls: ['./create-currency.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CreateCurrencyComponent {

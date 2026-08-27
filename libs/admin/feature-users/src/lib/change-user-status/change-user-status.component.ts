@@ -6,6 +6,7 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { ClrLoadingState } from '@clr/angular';
 import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
@@ -13,6 +14,7 @@ import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
 @Component({
   selector: 'pos-frontend-change-user-status',
   templateUrl: './change-user-status.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./change-user-status.component.scss'],
 })
 export class ChangeUserStatusComponent implements OnInit, OnDestroy {

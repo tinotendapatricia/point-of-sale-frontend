@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { UsersEntity } from '@pos-frontend/users/data-access';
 
 @Component({
   selector: 'pos-frontend-user-details',
   templateUrl: './user-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./user-details.component.scss'],
 })
 export class UserDetailsComponent {

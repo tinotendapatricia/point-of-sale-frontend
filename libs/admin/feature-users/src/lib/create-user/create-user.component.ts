@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 
 import { Router } from '@angular/router';
 //import { GroupsEntity, GroupsFacade } from '@pos-frontend/groups/data-access';
@@ -10,6 +10,7 @@ import { UsersFacade } from '@pos-frontend/users/data-access';
     selector: 'pos-frontend-create-user',
     templateUrl: './create-user.component.html',
     styleUrls: ['./create-user.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CreateUserComponent implements OnInit {

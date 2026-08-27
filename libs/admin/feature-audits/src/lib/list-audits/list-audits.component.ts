@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
 import { AuditsEntity, AuditsFacade } from '@pos-frontend/audit-trail/data-access';
@@ -7,6 +7,7 @@ import { AuditsEntity, AuditsFacade } from '@pos-frontend/audit-trail/data-acces
     selector: 'pos-frontend-list-audits',
     templateUrl: './list-audits.component.html',
     styleUrls: ['./list-audits.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ListAuditsComponent {

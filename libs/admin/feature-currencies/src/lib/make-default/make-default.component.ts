@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   CurrenciesEntity,
@@ -9,6 +9,7 @@ import {
     selector: 'pos-frontend-make-default',
     templateUrl: './make-default.component.html',
     styleUrls: ['./make-default.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MakeDefaultComponent implements OnInit {

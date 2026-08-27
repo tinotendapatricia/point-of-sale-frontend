@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { VatFacade } from '@pos-frontend/vat/data-access';
 
 @Component({
     selector: 'pos-frontend-view-vat',
     templateUrl: './view-vat.component.html',
     styleUrls: ['./view-vat.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ViewVatComponent implements OnInit {

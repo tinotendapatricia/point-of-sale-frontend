@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClrLoadingState } from '@clr/angular';
 
@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
     selector: 'pos-frontend-login-feature',
     templateUrl: './login-feature.component.html',
     styleUrls: ['./login-feature.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LoginFeatureComponent implements OnDestroy, OnInit {

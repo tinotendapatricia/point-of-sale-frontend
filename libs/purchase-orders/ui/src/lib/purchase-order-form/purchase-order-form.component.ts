@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
 import {
@@ -15,6 +15,7 @@ import { NgSelectConfig } from '@ng-select/ng-select';
     selector: 'pos-frontend-purchase-order-form',
     templateUrl: './purchase-order-form.component.html',
     styleUrls: ['./purchase-order-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PurchaseOrderFormComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CreditorsFacade } from '@pos-frontend/creditors/data-access';
 
@@ -6,6 +6,7 @@ import { CreditorsFacade } from '@pos-frontend/creditors/data-access';
     selector: 'pos-frontend-create-creditors',
     templateUrl: './create-creditors.component.html',
     styleUrls: ['./create-creditors.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CreateCreditorsComponent {

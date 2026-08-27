@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { config } from 'rxjs';
@@ -7,6 +7,7 @@ import { config } from 'rxjs';
     selector: 'pos-frontend-configure-station',
     templateUrl: './configure-station.component.html',
     styleUrls: ['./configure-station.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ConfigureStationComponent {

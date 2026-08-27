@@ -5,6 +5,7 @@ import {
   OnChanges,
   Output,
   SimpleChanges,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
@@ -19,6 +20,7 @@ import {
     selector: 'pos-frontend-grv-form',
     templateUrl: './grv-form.component.html',
     styleUrls: ['./grv-form.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GrvFormComponent implements OnChanges {

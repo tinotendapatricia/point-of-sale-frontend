@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AuthFacade } from '@pos-frontend/auth/data-access';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 
@@ -6,6 +6,7 @@ import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
     selector: 'pos-frontend-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HeaderComponent implements OnInit {

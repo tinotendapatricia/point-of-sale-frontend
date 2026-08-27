@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
 import { ProductsFacade, ProductsService } from '@pos-frontend/products/data-access'
 
@@ -6,6 +6,7 @@ import { ProductsFacade, ProductsService } from '@pos-frontend/products/data-acc
     selector: 'pos-frontend-stock-take-container',
     templateUrl: './stock-take-container.component.html',
     styleUrls: ['./stock-take-container.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class StockTakeContainerComponent {

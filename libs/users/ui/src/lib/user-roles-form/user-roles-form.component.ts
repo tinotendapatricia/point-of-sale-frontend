@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup, FormBuilder } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
 import { RolesEntity } from '@pos-frontend/roles/data-access';
@@ -7,6 +7,7 @@ import { RolesEntity } from '@pos-frontend/roles/data-access';
     selector: 'pos-frontend-user-roles-form',
     templateUrl: './user-roles-form.component.html',
     styleUrls: ['./user-roles-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UserRolesFormComponent implements OnInit, OnChanges {

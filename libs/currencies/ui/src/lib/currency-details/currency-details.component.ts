@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 
@@ -6,6 +6,7 @@ import { Utilities } from '@pos-frontend/shared/utils';
     selector: 'pos-frontend-currency-details',
     templateUrl: './currency-details.component.html',
     styleUrls: ['./currency-details.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CurrencyDetailsComponent {

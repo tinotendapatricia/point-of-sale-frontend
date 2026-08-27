@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, Validators, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ClrLoadingState } from '@clr/angular';
@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
     selector: 'pos-frontend-user-form',
     templateUrl: './user-form.component.html',
     styleUrls: ['./user-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UserFormComponent implements OnInit {

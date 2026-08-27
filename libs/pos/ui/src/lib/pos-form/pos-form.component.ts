@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { NgSelectConfig } from '@ng-select/ng-select';
@@ -21,6 +22,7 @@ import { SumTotalAmount } from '@pos-frontend/shared/utils';
     selector: 'pos-frontend-pos-form',
     templateUrl: './pos-form.component.html',
     styleUrls: ['./pos-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PosFormComponent implements OnInit, OnChanges {

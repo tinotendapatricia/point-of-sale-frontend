@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { VatEntity } from '@pos-frontend/vat/data-access';
 
@@ -6,6 +6,7 @@ import { VatEntity } from '@pos-frontend/vat/data-access';
     selector: 'pos-frontend-vat-details',
     templateUrl: './vat-details.component.html',
     styleUrls: ['./vat-details.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class VatDetailsComponent {

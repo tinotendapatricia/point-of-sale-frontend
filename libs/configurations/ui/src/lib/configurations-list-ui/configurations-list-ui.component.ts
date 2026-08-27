@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { ClrDatagridStateInterface } from '@clr/angular';
 import { ConfigurationsEntity } from '@pos-frontend/configurations/data-access';
 
@@ -6,6 +6,7 @@ import { ConfigurationsEntity } from '@pos-frontend/configurations/data-access';
     selector: 'pos-frontend-configurations-list-ui',
     templateUrl: './configurations-list-ui.component.html',
     styleUrls: ['./configurations-list-ui.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ConfigurationsListUiComponent {

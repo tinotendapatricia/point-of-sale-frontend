@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
 import { CashupEntity } from '@pos-frontend/reports/data-access';
@@ -15,6 +16,7 @@ import { SumArray } from '@pos-frontend/shared/utils';
     selector: 'pos-frontend-cashup-form',
     templateUrl: './cashup-form.component.html',
     styleUrls: ['./cashup-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CashupFormComponent implements OnChanges {

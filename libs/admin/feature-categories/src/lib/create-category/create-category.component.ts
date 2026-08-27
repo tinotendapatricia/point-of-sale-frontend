@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoriesFacade } from '@pos-frontend/categories/data-access';
 
@@ -6,6 +6,7 @@ import { CategoriesFacade } from '@pos-frontend/categories/data-access';
     selector: 'pos-frontend-create-category',
     templateUrl: './create-category.component.html',
     styleUrls: ['./create-category.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CreateCategoryComponent {

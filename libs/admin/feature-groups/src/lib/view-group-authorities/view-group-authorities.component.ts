@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GroupsFacade } from '@pos-frontend/groups/data-access';
 import { RolesFacade } from '@pos-frontend/roles/data-access';
@@ -7,6 +7,7 @@ import { RolesFacade } from '@pos-frontend/roles/data-access';
     selector: 'pos-frontend-view-group-authorities',
     templateUrl: './view-group-authorities.component.html',
     styleUrls: ['./view-group-authorities.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ViewGroupAuthoritiesComponent implements OnInit {

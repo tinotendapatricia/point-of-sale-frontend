@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
 import { CategoriesEntity } from '@pos-frontend/categories/data-access';
@@ -7,6 +7,7 @@ import { CategoriesEntity } from '@pos-frontend/categories/data-access';
     selector: 'pos-frontend-category-form',
     templateUrl: './category-form.component.html',
     styleUrls: ['./category-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CategoryFormComponent {

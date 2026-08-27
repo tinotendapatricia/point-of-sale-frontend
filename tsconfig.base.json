@@ -209,7 +209,12 @@
       "@pos-frontend/users/ui": ["libs/users/ui/src/index.ts"],
       "@pos-frontend/vat/data-access": ["libs/vat/data-access/src/index.ts"],
       "@pos-frontend/vat/ui": ["libs/vat/ui/src/index.ts"]
-    }
+    },
+    "strict": false,
+    "noUncheckedSideEffectImports": false,
+    "types": ["*"],
+    "esModuleInterop": false,
+    "ignoreDeprecations": "6.0"
   },
   "exclude": ["node_modules", "tmp"]
 }

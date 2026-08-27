@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { ClrDatagridStateInterface } from '@clr/angular';
 import { DebtorsEntity } from '@pos-frontend/debtors/data-access';
 
@@ -6,6 +6,7 @@ import { DebtorsEntity } from '@pos-frontend/debtors/data-access';
     selector: 'pos-frontend-debtors-list-ui',
     templateUrl: './debtors-list-ui.component.html',
     styleUrls: ['./debtors-list-ui.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DebtorsListUiComponent {

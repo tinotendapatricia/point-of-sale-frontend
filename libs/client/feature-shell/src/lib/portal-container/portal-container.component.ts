@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AuthenticationService } from '@pos-frontend/auth/data-access';
 import { UsersFacade } from '@pos-frontend/users/data-access';
 
@@ -6,6 +6,7 @@ import { UsersFacade } from '@pos-frontend/users/data-access';
     selector: 'pos-frontend-portal-container',
     templateUrl: './portal-container.component.html',
     styleUrls: ['./portal-container.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PortalContainerComponent implements OnInit {

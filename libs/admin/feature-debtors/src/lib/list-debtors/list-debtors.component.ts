@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
 import {
@@ -10,6 +10,7 @@ import {
     selector: 'pos-frontend-list-debtors',
     templateUrl: './list-debtors.component.html',
     styleUrls: ['./list-debtors.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ListDebtorsComponent implements AfterViewChecked {

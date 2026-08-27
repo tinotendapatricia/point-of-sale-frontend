@@ -46,7 +46,7 @@
           <clr-dg-cell
             >
             @if (currency?.rate.length>0!) {
-              <span>{{currency?.rate[0]?.value|currency}}</span>
+              <span>{{$safeNavigationMigration(currency?.rate[0]?.value)|currency}}</span>
             }
             @if (currency?.rate.length<=0!) {
               <span>$0.00</span>

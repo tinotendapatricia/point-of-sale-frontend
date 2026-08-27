@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { ClrDatagridStateInterface } from '@clr/angular';
 import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
 
@@ -6,6 +6,7 @@ import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
     selector: 'pos-frontend-currencies-list-ui',
     templateUrl: './currencies-list-ui.component.html',
     styleUrls: ['./currencies-list-ui.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CurrenciesListUiComponent {

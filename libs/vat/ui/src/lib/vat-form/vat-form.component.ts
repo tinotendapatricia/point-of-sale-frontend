@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
@@ -14,6 +15,7 @@ import { VatEntity } from '@pos-frontend/vat/data-access';
     selector: 'pos-frontend-vat-form',
     templateUrl: './vat-form.component.html',
     styleUrls: ['./vat-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class VatFormComponent implements OnInit {

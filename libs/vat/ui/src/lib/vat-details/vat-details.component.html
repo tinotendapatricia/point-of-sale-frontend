@@ -1,14 +1,14 @@
 @for (field of vat | keyvalue; track field) {
-  @if (!isHide(field?.key)) {
+  @if (!isHide($safeNavigationMigration(field?.key))) {
     <div class="clr-row">
       <div class="clr-col-6">
         <span class="clr-control-label">{{
-          decamelize(field?.key) | titlecase
+          decamelize($safeNavigationMigration(field?.key)) | titlecase
         }}</span>
       </div>
       <div class="clr-col">
         <span>{{ field?.value }}</span>
-        @if (field?.value === null || field?.value === undefined) {
+        @if ($safeNavigationMigration(field?.value) === null || $safeNavigationMigration(field?.value) === undefined) {
           <span
             >--</span
             >

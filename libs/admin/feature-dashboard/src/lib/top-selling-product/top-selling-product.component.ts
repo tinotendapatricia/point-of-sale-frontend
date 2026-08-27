@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DashboardService } from '../services/dashboard.service';
 
@@ -6,6 +6,7 @@ import { DashboardService } from '../services/dashboard.service';
     selector: 'pos-frontend-top-selling-product',
     templateUrl: './top-selling-product.component.html',
     styleUrls: ['./top-selling-product.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TopSellingProductComponent implements OnInit  {

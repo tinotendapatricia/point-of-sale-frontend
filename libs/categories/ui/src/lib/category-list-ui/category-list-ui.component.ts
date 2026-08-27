@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { ClrDatagridStateInterface } from '@clr/angular';
 import { CategoriesEntity } from '@pos-frontend/categories/data-access';
 
@@ -6,6 +6,7 @@ import { CategoriesEntity } from '@pos-frontend/categories/data-access';
     selector: 'pos-frontend-category-list-ui',
     templateUrl: './category-list-ui.component.html',
     styleUrls: ['./category-list-ui.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CategoryListUiComponent {

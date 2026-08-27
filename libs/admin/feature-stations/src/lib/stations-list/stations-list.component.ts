@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
@@ -15,6 +16,7 @@ import {
     selector: 'pos-frontend-stations-list',
     templateUrl: './stations-list.component.html',
     styleUrls: ['./stations-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class StationsListComponent implements AfterViewChecked {

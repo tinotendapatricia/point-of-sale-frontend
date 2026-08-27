@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
     selector: 'pos-frontend-stock-adjustment',
     templateUrl: './stock-adjustment.component.html',
     styleUrls: ['./stock-adjustment.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class StockAdjustmentComponent implements OnDestroy {

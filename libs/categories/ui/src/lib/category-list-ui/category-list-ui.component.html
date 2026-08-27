@@ -16,7 +16,7 @@
         <clr-dg-action-overflow>
           <button
             class="action-item"
-            (click)="updateCategory.emit(category?.id)"
+            (click)="updateCategory.emit($safeNavigationMigration(category?.id))"
             >
             Update
           </button>

@@ -17,7 +17,7 @@
     <pos-frontend-configurations-list-ui
 
       [configurationsList]="(configurations$ | async)!"
-      [total]="(configurations$ | async)?.length!"
+      [total]="$safeNavigationMigration((configurations$ | async)?.length)!"
       [placeholderMessage]="'Configurations'"
       (updateSelected)="updateConfiguration($event)"
     ></pos-frontend-configurations-list-ui>

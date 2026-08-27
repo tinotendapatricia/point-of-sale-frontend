@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthFacade } from '@pos-frontend/auth/data-access';
 import { CompanyService } from '@pos-frontend/company-details/data-access';
@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
     selector: 'pos-frontend-customer-login',
     templateUrl: './customer-login.component.html',
     styleUrls: ['./customer-login.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CustomerLoginComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 
 import { ProductsEntity, ProductsFacade } from '@pos-frontend/products/data-access';
 
@@ -6,6 +6,7 @@ import { ProductsEntity, ProductsFacade } from '@pos-frontend/products/data-acce
     selector: 'pos-frontend-update-cost',
     templateUrl: './update-cost.component.html',
     styleUrls: ['./update-cost.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UpdateCostComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ClrLoadingState } from '@clr/angular';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
 import { ReportsService } from '@pos-frontend/reports/data-access';
@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
     selector: 'pos-frontend-sales-by-debtor',
     templateUrl: './sales-by-debtor.component.html',
     styleUrls: ['./sales-by-debtor.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SalesByDebtorComponent implements OnInit, OnDestroy{

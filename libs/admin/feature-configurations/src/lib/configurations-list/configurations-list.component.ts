@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ConfigurationsEntity, ConfigurationsService } from '@pos-frontend/configurations/data-access';
 import { Observable } from 'rxjs';
 
@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
     selector: 'pos-frontend-configurations-list',
     templateUrl: './configurations-list.component.html',
     styleUrls: ['./configurations-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ConfigurationsListComponent  implements AfterViewChecked, OnInit{

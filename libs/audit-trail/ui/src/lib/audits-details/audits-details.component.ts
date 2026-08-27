@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { AuditsEntity } from '@pos-frontend/audit-trail/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 
@@ -6,6 +6,7 @@ import { Utilities } from '@pos-frontend/shared/utils';
     selector: 'pos-frontend-audits-details',
     templateUrl: './audits-details.component.html',
     styleUrls: ['./audits-details.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AuditsDetailsComponent {

@@ -10,7 +10,7 @@
       (closeModal)="closeModal.emit(false)"
       (formValue)="createProduct($event)"
       [btnState]="(productsService.btnState$ | async)!"
-      [currency]="(currenciesFacade.defaultCurrency$ | async)?.code"
+      [currency]="$safeNavigationMigration((currenciesFacade.defaultCurrency$ | async)?.code)"
     ></pos-frontend-products-form>
   </mat-card-content>
 </mat-card>

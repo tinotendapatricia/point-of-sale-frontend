@@ -5,12 +5,14 @@ import {
   OnChanges,
   Output,
   SimpleChanges,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 @Component({
     selector: 'pos-frontend-stock-take-count-form',
     templateUrl: './stock-take-count-form.component.html',
     styleUrls: ['./stock-take-count-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class StockTakeCountFormComponent implements OnChanges {

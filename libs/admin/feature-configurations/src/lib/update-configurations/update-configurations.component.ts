@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClrLoadingState } from '@clr/angular';
 import { ConfigurationsEntity, ConfigurationsService } from '@pos-frontend/configurations/data-access';
@@ -8,6 +8,7 @@ import { Utilities } from '@pos-frontend/shared/utils';
     selector: 'pos-frontend-update-configurations',
     templateUrl: './update-configurations.component.html',
     styleUrls: ['./update-configurations.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UpdateConfigurationsComponent {

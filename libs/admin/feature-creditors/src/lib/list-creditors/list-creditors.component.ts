@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
@@ -16,6 +17,7 @@ import {
     selector: 'pos-frontend-list-creditors',
     templateUrl: './list-creditors.component.html',
     styleUrls: ['./list-creditors.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ListCreditorsComponent implements AfterViewChecked {
