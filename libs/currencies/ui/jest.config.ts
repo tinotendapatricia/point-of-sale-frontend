@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'currencies-ui',
   preset: '../../../jest.preset.js',

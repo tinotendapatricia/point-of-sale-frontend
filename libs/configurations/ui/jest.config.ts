@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'configurations-ui',
   preset: '../../../jest.preset.js',

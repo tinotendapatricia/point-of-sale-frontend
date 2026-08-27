@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'roles-ui',
   preset: '../../../jest.preset.js',

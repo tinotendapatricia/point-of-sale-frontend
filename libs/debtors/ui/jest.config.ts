@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'debtors-ui',
   preset: '../../../jest.preset.js',

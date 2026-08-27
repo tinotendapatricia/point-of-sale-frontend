@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'stations-ui',
   preset: '../../../jest.preset.js',

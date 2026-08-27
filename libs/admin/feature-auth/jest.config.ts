@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'admin-feature-auth',
   preset: '../../../jest.preset.js',

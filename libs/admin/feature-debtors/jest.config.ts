@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'admin-feature-debtors',
   preset: '../../../jest.preset.js',

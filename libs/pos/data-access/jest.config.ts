@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'pos-data-access',
   preset: '../../../jest.preset.js',

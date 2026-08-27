@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'licensing-data-access',
   preset: '../../../jest.preset.js',

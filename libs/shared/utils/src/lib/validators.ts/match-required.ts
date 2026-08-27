@@ -1,7 +1,10 @@
 import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
-import { ProductsEntity } from '@pos-frontend/products/data-access';
 
-function instanceOfCharacter(character: any): character is ProductsEntity {
+interface HasCode {
+  code: unknown;
+}
+
+function instanceOfCharacter(character: any): character is HasCode {
   return (
     !!character && // truthy
     typeof character !== 'string' && // Not just string input in the autocomplete

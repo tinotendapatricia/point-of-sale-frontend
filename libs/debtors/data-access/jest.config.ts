@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'debtors-data-access',
   preset: '../../../jest.preset.js',

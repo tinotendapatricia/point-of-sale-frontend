@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'purchase-orders-data-access',
   preset: '../../../jest.preset.js',

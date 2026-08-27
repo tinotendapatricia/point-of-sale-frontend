@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'groups-data-access',
   preset: '../../../jest.preset.js',

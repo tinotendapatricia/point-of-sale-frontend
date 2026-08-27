@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'groups-ui',
   preset: '../../../jest.preset.js',

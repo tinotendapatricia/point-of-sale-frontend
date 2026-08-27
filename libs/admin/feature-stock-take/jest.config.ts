@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'admin-feature-stock-take',
   preset: '../../../jest.preset.js',

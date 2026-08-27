@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'users-data-access',
   preset: '../../../jest.preset.js',

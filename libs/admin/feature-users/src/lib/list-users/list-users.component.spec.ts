@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListUsersComponent } from './list-users.component';
 import { ClarityModule } from '@clr/angular';
@@ -10,7 +10,7 @@ describe('ListUsersComponent', () => {
   let component: ListUsersComponent;
   let fixture: ComponentFixture<ListUsersComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ClarityModule, ReactiveFormsModule,StoreModule.forRoot({})],
       declarations: [ListUsersComponent, CreateUserComponent]

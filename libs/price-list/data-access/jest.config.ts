@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'price-list-data-access',
   preset: '../../../jest.preset.js',

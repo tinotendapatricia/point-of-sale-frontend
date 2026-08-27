@@ -1,13 +1,5 @@
-import { FlatCompat } from '@eslint/eslintrc';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import js from '@eslint/js';
+import globals from 'globals';
 import nx from '@nx/eslint-plugin';
-
-const compat = new FlatCompat({
-  baseDirectory: dirname(fileURLToPath(import.meta.url)),
-  recommendedConfig: js.configs.recommended,
-});
 
 export default [
   ...nx.configs['flat/base'],
@@ -34,6 +26,9 @@ export default [
     files: ['**/*.ts', '**/*.tsx'],
     rules: {
       'no-extra-semi': 'off',
+      // Newly enabled by the updated typescript-eslint recommended set; was not enforced before the upgrade.
+      '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/no-empty-function': 'off',
     },
   },
   ...nx.configs['flat/javascript'],
@@ -43,17 +38,12 @@ export default [
       'no-extra-semi': 'off',
     },
   },
-  ...compat
-    .config({
-      env: {
-        jest: true,
+  {
+    files: ['**/*.spec.ts', '**/*.spec.tsx', '**/*.spec.js', '**/*.spec.jsx'],
+    languageOptions: {
+      globals: {
+        ...globals.jest,
       },
-    })
-    .map((config) => ({
-      ...config,
-      files: ['**/*.spec.ts', '**/*.spec.tsx', '**/*.spec.js', '**/*.spec.jsx'],
-      rules: {
-        ...config.rules,
-      },
-    })),
+    },
+  },
 ];

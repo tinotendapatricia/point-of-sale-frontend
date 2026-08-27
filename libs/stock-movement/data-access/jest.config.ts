@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'stock-movement-data-access',
   preset: '../../../jest.preset.js',

@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'client-feature-pos',
   preset: '../../../jest.preset.js',

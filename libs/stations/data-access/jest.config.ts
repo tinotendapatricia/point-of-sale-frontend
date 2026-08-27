@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'stations-data-access',
   preset: '../../../jest.preset.js',

@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'creditors-ui',
   preset: '../../../jest.preset.js',

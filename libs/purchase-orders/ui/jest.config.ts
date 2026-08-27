@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'purchase-orders-ui',
   preset: '../../../jest.preset.js',

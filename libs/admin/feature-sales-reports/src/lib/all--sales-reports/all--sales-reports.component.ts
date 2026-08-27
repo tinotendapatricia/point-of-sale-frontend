@@ -4,7 +4,7 @@ import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'pos-frontend-all--sales-reports',
+    selector: 'pos-frontend-all-sales-reports',
     templateUrl: './all--sales-reports.component.html',
     styleUrls: ['./all--sales-reports.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,

@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'roles-data-access',
   preset: '../../../jest.preset.js',

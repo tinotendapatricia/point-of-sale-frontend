@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'goods-received-data-access',
   preset: '../../../jest.preset.js',

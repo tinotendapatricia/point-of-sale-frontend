@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'admin-feature-reports',
   preset: '../../../jest.preset.js',

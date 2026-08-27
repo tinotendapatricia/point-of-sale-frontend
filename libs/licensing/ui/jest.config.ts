@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'licensing-ui',
   preset: '../../../jest.preset.js',

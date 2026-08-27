@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'company-details-data-access',
   preset: '../../../jest.preset.js',

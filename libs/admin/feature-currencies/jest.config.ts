@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'admin-feature-currencies',
   preset: '../../../jest.preset.js',

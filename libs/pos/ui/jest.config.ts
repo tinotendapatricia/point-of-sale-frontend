@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'pos-ui',
   preset: '../../../jest.preset.js',

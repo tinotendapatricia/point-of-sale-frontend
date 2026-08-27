@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'categories-ui',
   preset: '../../../jest.preset.js',

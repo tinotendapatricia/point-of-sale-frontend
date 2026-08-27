@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'currencies-data-access',
   preset: '../../../jest.preset.js',

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ClrDatagridStateInterface } from '@clr/angular';
-import {price}
 
 @Component({
   selector: 'pos-frontend-list-price-list-ui',

@@ -36,9 +36,5 @@ export class ListUsersUiComponent implements OnChanges {
   @Output() viewUserAuthorities = new EventEmitter<UsersEntity>();
   selectedUser!: UsersEntity[];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['userList']?.currentValue) {
-     
-    }
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 }

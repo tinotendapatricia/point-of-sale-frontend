@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'admin-feature-shell',
   preset: '../../../jest.preset.js',

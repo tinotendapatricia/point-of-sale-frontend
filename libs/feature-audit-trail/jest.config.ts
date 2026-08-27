@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'feature-audit-trail',
   preset: '../../jest.preset.js',

@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'admin-feature-prices',
   preset: '../../../jest.preset.js',

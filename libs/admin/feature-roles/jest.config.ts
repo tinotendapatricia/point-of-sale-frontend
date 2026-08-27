@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'admin-feature-roles',
   preset: '../../../jest.preset.js',

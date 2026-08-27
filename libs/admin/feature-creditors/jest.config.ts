@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'admin-feature-creditors',
   preset: '../../../jest.preset.js',

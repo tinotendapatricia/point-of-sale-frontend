@@ -7,5 +7,5 @@ export interface AuditsEntity {
   actionedBy:string;
   resource:object
   createdAt:Date
-  updatedAt:String
+  updatedAt:string
 }

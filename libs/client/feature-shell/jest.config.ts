@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'client-feature-shell',
   preset: '../../../jest.preset.js',

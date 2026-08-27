@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'vat-ui',
   preset: '../../../jest.preset.js',

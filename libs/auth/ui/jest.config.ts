@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'auth-ui',
   preset: '../../../jest.preset.js',

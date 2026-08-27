@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   displayName: 'stock-take-ui',
   preset: '../../../jest.preset.js',

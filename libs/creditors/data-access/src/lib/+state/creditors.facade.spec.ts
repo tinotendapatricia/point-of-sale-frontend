@@ -2,7 +2,13 @@ import { NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule, Store } from '@ngrx/store';
-import { readFirst } from '@nx/angular/testing';
+import { take, Observable } from 'rxjs';
+
+function readFirst<T>(source: Observable<T>): Promise<T> {
+  return new Promise((resolve) => {
+    source.pipe(take(1)).subscribe(resolve);
+  });
+}
 
 import * as CreditorsActions from './creditors.actions';
 import { CreditorsEffects } from './creditors.effects';
