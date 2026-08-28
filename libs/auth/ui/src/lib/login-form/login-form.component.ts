@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import {
-  UntypedFormGroup,
-  UntypedFormControl,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
+import { ClrInputModule } from '@clr/angular/forms/input';
+import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { ClrLoadingButtonModule } from '@clr/angular/button';
+import { ClrLoadingModule } from '@clr/angular/utils';
 
 
 @Component({
@@ -12,7 +12,7 @@ import { ClrLoadingState } from '@clr/angular';
     templateUrl: './login-form.component.html',
     styleUrls: ['./login-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrLoadingButtonModule, ClrLoadingModule]
 })
 export class LoginFormComponent implements OnInit {
   @Input() title=''

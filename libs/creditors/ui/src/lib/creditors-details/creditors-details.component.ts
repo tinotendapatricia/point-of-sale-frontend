@@ -4,7 +4,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     selector: 'pos-frontend-creditors-details',
     templateUrl: './creditors-details.component.html',
     styleUrls: ['./creditors-details.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class CreditorsDetailsComponent {}

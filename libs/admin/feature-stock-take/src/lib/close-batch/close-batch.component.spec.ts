@@ -7,8 +7,8 @@ describe('CloseBatchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CloseBatchComponent],
-    }).compileComponents();
+    imports: [CloseBatchComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(CloseBatchComponent);
     component = fixture.componentInstance;

@@ -12,13 +12,19 @@ import {
   CreditorsEntity,
   CreditorsFacade,
 } from '@pos-frontend/creditors/data-access';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { ListCreditorsUiComponent } from '../../../../../creditors/ui/src/lib/list-creditors-ui/list-creditors-ui.component';
+import { CreateCreditorsComponent } from '../create-creditors/create-creditors.component';
+import { UpdateCreditorComponent } from '../update-creditor/update-creditor.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-list-creditors',
     templateUrl: './list-creditors.component.html',
     styleUrls: ['./list-creditors.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatCard, MatCardContent, ClrIcon, ClrIconModule, ListCreditorsUiComponent, CreateCreditorsComponent, UpdateCreditorComponent, AsyncPipe]
 })
 export class ListCreditorsComponent implements AfterViewChecked {
   public isUpdate = false;

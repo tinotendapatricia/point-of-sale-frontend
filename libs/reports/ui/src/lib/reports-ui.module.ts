@@ -8,16 +8,16 @@ import {} from '@angular/compiler';
 import { CashupFormComponent } from './cashup-form/cashup-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ClarityModule,
-    NgSelectModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    FormsModule,
-  ],
-  declarations: [ReportsFormComponent, CashupFormComponent],
-  exports: [ReportsFormComponent, CashupFormComponent],
-  schemas: [NO_ERRORS_SCHEMA],
+    imports: [
+        CommonModule,
+        ClarityModule,
+        NgSelectModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        FormsModule,
+        ReportsFormComponent, CashupFormComponent,
+    ],
+    exports: [ReportsFormComponent, CashupFormComponent],
+    schemas: [NO_ERRORS_SCHEMA],
 })
 export class ReportsUiModule {}

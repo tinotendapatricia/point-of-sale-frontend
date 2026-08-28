@@ -4,8 +4,7 @@ import { ActionConfirmationFormComponent } from './/action-confirmation-form/act
 import { ClarityModule } from '@clr/angular';
 
 @NgModule({
-  imports: [CommonModule, ClarityModule],
-  declarations: [ActionConfirmationFormComponent],
-  exports: [ActionConfirmationFormComponent],
+    imports: [CommonModule, ClarityModule, ActionConfirmationFormComponent],
+    exports: [ActionConfirmationFormComponent],
 })
 export class SharedUiModule {}

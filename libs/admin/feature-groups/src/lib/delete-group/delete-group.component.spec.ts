@@ -7,8 +7,8 @@ describe('DeleteGroupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DeleteGroupComponent],
-    }).compileComponents();
+    imports: [DeleteGroupComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(DeleteGroupComponent);
     component = fixture.componentInstance;

@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CreditorsFacade } from '@pos-frontend/creditors/data-access';
+import { CreditorsFormComponent } from '../../../../../creditors/ui/src/lib/creditors-form/creditors-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-update-creditor',
     templateUrl: './update-creditor.component.html',
     styleUrls: ['./update-creditor.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [CreditorsFormComponent, AsyncPipe]
 })
 export class UpdateCreditorComponent {
 

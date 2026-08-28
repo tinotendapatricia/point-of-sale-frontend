@@ -4,7 +4,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     selector: 'pos-frontend-delete-currency',
     templateUrl: './delete-currency.component.html',
     styleUrls: ['./delete-currency.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class DeleteCurrencyComponent {}

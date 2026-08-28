@@ -8,8 +8,8 @@ describe('UpdateVatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UpdateVatComponent ]
-    })
+    imports: [UpdateVatComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(UpdateVatComponent);

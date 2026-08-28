@@ -2,13 +2,14 @@ import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ClrLoadingState } from '@clr/angular';
 import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
+import { ReportsFormComponent } from '../../../../../reports/ui/src/lib/reports-form/reports-form.component';
 
 @Component({
     selector: 'pos-frontend-print-batch',
     templateUrl: './print-batch.component.html',
     styleUrls: ['./print-batch.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ReportsFormComponent]
 })
 export class PrintBatchComponent implements OnDestroy {
 

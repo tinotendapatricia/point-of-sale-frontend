@@ -8,8 +8,8 @@ describe('ViewVatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ViewVatComponent ]
-    })
+    imports: [ViewVatComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ViewVatComponent);

@@ -14,26 +14,23 @@ import { AdjustmentVsBatchComponent } from './adjustment-vs-batch/adjustment-vs-
 import { StockTakeForPeriodComponent } from './stock-take-for-period/stock-take-for-period.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NgSelectModule,
-    ClarityModule,
-    ReportsDataAccessModule,
-    ReportsUiModule,
-    ProductsDataAccessModule,
-
-    RouterModule.forChild([
-      { path: '', component: StockReportsContainerComponent },
-    ]),
-  ],
-  declarations: [
-    StockReportsContainerComponent,
-    CurrentStockListingReportComponent,
-    PrintBatchComponent,
-    PrintAdjustmentComponent,
-    AdjustmentVsBatchComponent,
-    StockTakeForPeriodComponent,
-  ],
-  schemas: [NO_ERRORS_SCHEMA],
+    imports: [
+        CommonModule,
+        NgSelectModule,
+        ClarityModule,
+        ReportsDataAccessModule,
+        ReportsUiModule,
+        ProductsDataAccessModule,
+        RouterModule.forChild([
+            { path: '', component: StockReportsContainerComponent },
+        ]),
+        StockReportsContainerComponent,
+        CurrentStockListingReportComponent,
+        PrintBatchComponent,
+        PrintAdjustmentComponent,
+        AdjustmentVsBatchComponent,
+        StockTakeForPeriodComponent,
+    ],
+    schemas: [NO_ERRORS_SCHEMA],
 })
 export class AdminFeatureStockReportsModule {}

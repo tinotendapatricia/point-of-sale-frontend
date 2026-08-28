@@ -6,8 +6,7 @@ import { DashboardService } from '../services/dashboard.service';
     selector: 'pos-frontend-top-selling-product',
     templateUrl: './top-selling-product.component.html',
     styleUrls: ['./top-selling-product.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class TopSellingProductComponent implements OnInit  {
 

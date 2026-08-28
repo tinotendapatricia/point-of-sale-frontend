@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 //import { GroupsEntity, GroupsFacade } from '@pos-frontend/groups/data-access';
 
 import { UsersFacade } from '@pos-frontend/users/data-access';
+import { UserFormComponent } from '../../../../../users/ui/src/lib/user-form/user-form.component';
+import { AsyncPipe } from '@angular/common';
 //import { GroupsFacade } from '@pos-frontend/groups/data-access';
 
 @Component({
@@ -11,7 +13,7 @@ import { UsersFacade } from '@pos-frontend/users/data-access';
     templateUrl: './create-user.component.html',
     styleUrls: ['./create-user.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [UserFormComponent, AsyncPipe]
 })
 export class CreateUserComponent implements OnInit {
   @Output() closeModal = new EventEmitter();

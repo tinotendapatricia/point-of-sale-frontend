@@ -11,19 +11,17 @@ import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    StationsDataAccessModule,
-    StationsUiModule,
-    ClarityModule,
-    MatCardModule,
-    ReactiveFormsModule,
-    RouterModule.forChild([{ path: '', component: StationsListComponent }]),
-  ],
-  declarations: [
-    StationsListComponent,
-    UpdateStationComponent,
-    CreateStationComponent,
-  ],
+    imports: [
+        CommonModule,
+        StationsDataAccessModule,
+        StationsUiModule,
+        ClarityModule,
+        MatCardModule,
+        ReactiveFormsModule,
+        RouterModule.forChild([{ path: '', component: StationsListComponent }]),
+        StationsListComponent,
+        UpdateStationComponent,
+        CreateStationComponent,
+    ],
 })
 export class AdminFeatureStationsModule {}

@@ -1,13 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
+import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
+import { ClrInputModule } from '@clr/angular/forms/input';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
 
 @Component({
     selector: 'pos-frontend-stock-take-form',
     templateUrl: './stock-take-form.component.html',
     styleUrls: ['./stock-take-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, ClrCommonFormsModule, NgSelectComponent, NgOptionComponent, ClrInputModule, ClrIcon, ClrIconModule]
 })
 export class StockTakeFormComponent implements OnInit {
   @Input() products: ProductsEntity[] = [];

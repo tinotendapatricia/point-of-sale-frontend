@@ -2,13 +2,16 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RolesFacade } from '@pos-frontend/roles/data-access';
 import { UsersFacade } from '@pos-frontend/users/data-access';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { UserRolesFormComponent } from '../../../../../users/ui/src/lib/user-roles-form/user-roles-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-view-user-roles',
     templateUrl: './view-user-roles.component.html',
     styleUrls: ['./view-user-roles.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatCard, MatCardContent, UserRolesFormComponent, AsyncPipe]
 })
 export class ViewUserRolesComponent implements OnInit {
   constructor(

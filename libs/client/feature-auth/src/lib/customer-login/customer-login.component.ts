@@ -5,13 +5,16 @@ import { CompanyService } from '@pos-frontend/company-details/data-access';
 import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { Subscription } from 'rxjs';
+import { LoginFormComponent } from '../../../../../auth/ui/src/lib/login-form/login-form.component';
+import { ConfigureStationComponent } from '../configure-station/configure-station.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-customer-login',
     templateUrl: './customer-login.component.html',
     styleUrls: ['./customer-login.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [LoginFormComponent, ConfigureStationComponent, AsyncPipe]
 })
 export class CustomerLoginComponent implements OnInit {
   sub2 = new Subscription();

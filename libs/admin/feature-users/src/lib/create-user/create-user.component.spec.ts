@@ -12,9 +12,8 @@ describe('CreateUserComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ClarityModule, ReactiveFormsModule,StoreModule.forRoot({}),BrowserAnimationsModule],
-      declarations: [CreateUserComponent]
-    }).compileComponents();
+    imports: [ClarityModule, ReactiveFormsModule, StoreModule.forRoot({}), BrowserAnimationsModule, CreateUserComponent]
+}).compileComponents();
   }));
 
   beforeEach(() => {

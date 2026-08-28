@@ -18,19 +18,17 @@ import {
 import { UpdateCreditorComponent } from './update-creditor/update-creditor.component';
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon, syncIcon);
 @NgModule({
-  imports: [
-    CommonModule,
-    ClarityModule,
-    MatCardModule,
-    CreditorsDataAccessModule,
-    CreditorsUiModule,
-    RouterModule.forChild([{ path: '', component: ListCreditorsComponent }]),
-  ],
-  declarations: [
-    ListCreditorsComponent,
-    CreateCreditorsComponent,
-    UpdateCreditorComponent,
-  ],
-  exports: [UpdateCreditorComponent],
+    imports: [
+        CommonModule,
+        ClarityModule,
+        MatCardModule,
+        CreditorsDataAccessModule,
+        CreditorsUiModule,
+        RouterModule.forChild([{ path: '', component: ListCreditorsComponent }]),
+        ListCreditorsComponent,
+        CreateCreditorsComponent,
+        UpdateCreditorComponent,
+    ],
+    exports: [UpdateCreditorComponent],
 })
 export class AdminFeatureCreditorsModule {}

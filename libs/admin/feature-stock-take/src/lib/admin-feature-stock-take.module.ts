@@ -14,25 +14,22 @@ import { StockAdjustmentComponent } from './stock-adjustment/stock-adjustment.co
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild([
-      { path: '', component: StockTakeContainerComponent },
-    ]),
-    StockTakeUiModule,
-    StockTakeDataAccessModule,
-    ProductsDataAccessModule,
-    SharedUiModule,
-    ClarityModule,
-  ],
-  declarations: [
-    StockTakeContainerComponent,
-    CloseBatchComponent,
-    CreateStockBatchComponent,
-    StockTakeComponent,
-    StockAdjustmentComponent
-
-  ],
-  exports: [CloseBatchComponent, CreateStockBatchComponent, StockTakeComponent],
+    imports: [
+        CommonModule,
+        RouterModule.forChild([
+            { path: '', component: StockTakeContainerComponent },
+        ]),
+        StockTakeUiModule,
+        StockTakeDataAccessModule,
+        ProductsDataAccessModule,
+        SharedUiModule,
+        ClarityModule,
+        StockTakeContainerComponent,
+        CloseBatchComponent,
+        CreateStockBatchComponent,
+        StockTakeComponent,
+        StockAdjustmentComponent,
+    ],
+    exports: [CloseBatchComponent, CreateStockBatchComponent, StockTakeComponent],
 })
 export class AdminFeatureStockTakeModule {}

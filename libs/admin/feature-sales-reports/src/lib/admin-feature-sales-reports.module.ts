@@ -17,35 +17,32 @@ import { SalesReportDetailedComponent } from './/sales-report-detailed/sales-rep
 import { SalesByStationComponent } from './sales-by-station/sales-by-station.component';
 import { TopSellingProductsForPeriodComponent } from './top-selling-products-for-period/top-selling-products-for-period.component';
 @NgModule({
-  imports: [
-    CommonModule,
-    ClarityModule,
-    ReportsDataAccessModule,
-    ReportsUiModule,
-    DebtorsDataAccessModule,
-    CurrenciesDataAccessModule,
-    ProductsDataAccessModule,
-    DebtorsDataAccessModule,
-
-    RouterModule.forChild([
-      { path: '', component: SalesReportsContainerComponent },
-    ]),
-  ],
-  declarations: [
-    SalesReportsContainerComponent,
-    AllSalesReportsComponent,
-    SalesByDebtorComponent,
-    SalesByPeriodAndProductComponent,
-    TillCashupReportComponent,
-    GenerateGpReportComponent,
-    SalesReportDetailedComponent,
-    SalesByStationComponent,
-    TopSellingProductsForPeriodComponent,
-  ],
-  exports: [
-    SalesByPeriodAndProductComponent,
-    GenerateGpReportComponent,
-    SalesByStationComponent,
-  ],
+    imports: [
+        CommonModule,
+        ClarityModule,
+        ReportsDataAccessModule,
+        ReportsUiModule,
+        DebtorsDataAccessModule,
+        CurrenciesDataAccessModule,
+        ProductsDataAccessModule,
+        DebtorsDataAccessModule,
+        RouterModule.forChild([
+            { path: '', component: SalesReportsContainerComponent },
+        ]),
+        SalesReportsContainerComponent,
+        AllSalesReportsComponent,
+        SalesByDebtorComponent,
+        SalesByPeriodAndProductComponent,
+        TillCashupReportComponent,
+        GenerateGpReportComponent,
+        SalesReportDetailedComponent,
+        SalesByStationComponent,
+        TopSellingProductsForPeriodComponent,
+    ],
+    exports: [
+        SalesByPeriodAndProductComponent,
+        GenerateGpReportComponent,
+        SalesByStationComponent,
+    ],
 })
 export class AdminFeatureSalesReportsModule {}

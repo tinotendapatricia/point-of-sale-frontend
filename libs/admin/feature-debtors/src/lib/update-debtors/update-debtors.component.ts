@@ -2,13 +2,15 @@ import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from 
 import { Router } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { DebtorsEntity, DebtorsFacade } from '@pos-frontend/debtors/data-access';
+import { DebtorsFormComponent } from '../../../../../debtors/ui/src/lib/debtors-form/debtors-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-update-debtors',
     templateUrl: './update-debtors.component.html',
     styleUrls: ['./update-debtors.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [DebtorsFormComponent, AsyncPipe]
 })
 export class UpdateDebtorsComponent {
 

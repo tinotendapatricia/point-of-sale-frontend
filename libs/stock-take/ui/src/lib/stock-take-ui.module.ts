@@ -15,9 +15,8 @@ import {
 
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, trashIcon);
 @NgModule({
-  imports: [CommonModule, NgSelectModule, ClarityModule, ReactiveFormsModule, FormsModule],
-  declarations: [StockTakeFormComponent, StockTakeCountFormComponent],
-  exports: [StockTakeFormComponent, StockTakeCountFormComponent],
-  schemas: [NO_ERRORS_SCHEMA],
+    imports: [CommonModule, NgSelectModule, ClarityModule, ReactiveFormsModule, FormsModule, StockTakeFormComponent, StockTakeCountFormComponent],
+    exports: [StockTakeFormComponent, StockTakeCountFormComponent],
+    schemas: [NO_ERRORS_SCHEMA],
 })
 export class StockTakeUiModule {}

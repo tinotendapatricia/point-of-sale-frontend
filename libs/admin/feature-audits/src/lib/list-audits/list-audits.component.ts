@@ -1,14 +1,18 @@
 import { ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLinkActive, RouterLink } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
 import { AuditsEntity, AuditsFacade } from '@pos-frontend/audit-trail/data-access';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { ListAuditsUiComponent } from '../../../../../audit-trail/ui/src/lib/list-audits-ui/list-audits-ui.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-list-audits',
     templateUrl: './list-audits.component.html',
     styleUrls: ['./list-audits.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatCard, MatCardContent, RouterLinkActive, RouterLink, ClrIcon, ClrIconModule, ListAuditsUiComponent, AsyncPipe]
 })
 export class ListAuditsComponent {
   public isUpdate = false;

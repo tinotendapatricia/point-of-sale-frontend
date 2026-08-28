@@ -23,23 +23,21 @@ import { UpdateRateComponent } from './update-rate/update-rate.component';
 
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon, syncIcon);
 @NgModule({
-  imports: [
-    CommonModule,
-    MatCardModule,
-    CurrenciesDataAccessModule,
-    CurrenciesUiModule,
-    ClarityModule,
-    SharedUiModule,
-    RouterModule.forChild([{ path: '', component: CurrenciesListComponent }]),
-  ],
-  declarations: [
-    CurrenciesListComponent,
-    CreateCurrencyComponent,
-    UpdateCurrencyComponent,
-    DeleteCurrencyComponent,
-    MakeDefaultComponent,
-    UpdateRateComponent,
-    UpdateRateComponent,
-  ],
+    imports: [
+        CommonModule,
+        MatCardModule,
+        CurrenciesDataAccessModule,
+        CurrenciesUiModule,
+        ClarityModule,
+        SharedUiModule,
+        RouterModule.forChild([{ path: '', component: CurrenciesListComponent }]),
+        CurrenciesListComponent,
+        CreateCurrencyComponent,
+        UpdateCurrencyComponent,
+        DeleteCurrencyComponent,
+        MakeDefaultComponent,
+        UpdateRateComponent,
+        UpdateRateComponent,
+    ],
 })
 export class AdminFeatureCurrenciesModule {}

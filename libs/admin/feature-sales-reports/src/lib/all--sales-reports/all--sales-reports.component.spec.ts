@@ -7,8 +7,8 @@ describe('AllSalesReportsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AllSalesReportsComponent],
-    }).compileComponents();
+    imports: [AllSalesReportsComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(AllSalesReportsComponent);
     component = fixture.componentInstance;

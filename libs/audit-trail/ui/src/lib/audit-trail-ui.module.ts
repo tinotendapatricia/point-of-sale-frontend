@@ -5,8 +5,7 @@ import { ClarityModule } from '@clr/angular';
 import { AuditsDetailsComponent } from './audits-details/audits-details.component';
 
 @NgModule({
-  imports: [CommonModule, ClarityModule],
-  declarations: [ListAuditsUiComponent, AuditsDetailsComponent],
-  exports: [ListAuditsUiComponent],
+    imports: [CommonModule, ClarityModule, ListAuditsUiComponent, AuditsDetailsComponent],
+    exports: [ListAuditsUiComponent],
 })
 export class AuditTrailUiModule {}

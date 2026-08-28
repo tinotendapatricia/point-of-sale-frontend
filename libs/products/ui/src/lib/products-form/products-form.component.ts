@@ -8,18 +8,23 @@ import {
   SimpleChanges,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { UntypedFormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ClrLoadingState } from '@clr/angular';
 import { CategoriesEntity } from '@pos-frontend/categories/data-access';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
+import { ClrInputModule } from '@clr/angular/forms/input';
+import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { ClrRadioModule } from '@clr/angular/forms/radio';
+import { ClrLoadingButtonModule } from '@clr/angular/button';
+import { ClrLoadingModule } from '@clr/angular/utils';
 
 @Component({
     selector: 'pos-frontend-products-form',
     templateUrl: './products-form.component.html',
     styleUrls: ['./products-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrRadioModule, ClrLoadingButtonModule, ClrLoadingModule]
 })
 export class ProductsFormComponent implements OnInit{
   @Input() product!: ProductsEntity;

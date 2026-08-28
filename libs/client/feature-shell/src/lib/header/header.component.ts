@@ -1,6 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AuthenticationService } from '@pos-frontend/auth/data-access';
 import { UsersFacade } from '@pos-frontend/users/data-access';
+import { ActionConfirmationFormComponent } from '../../../../../shared/ui/src/lib/action-confirmation-form/action-confirmation-form.component';
+import { AsyncPipe } from '@angular/common';
 
 
 @Component({
@@ -8,7 +10,7 @@ import { UsersFacade } from '@pos-frontend/users/data-access';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ActionConfirmationFormComponent, AsyncPipe]
 })
 export class HeaderComponent implements OnInit {
   isClose = false;

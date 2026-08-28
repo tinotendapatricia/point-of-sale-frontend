@@ -20,22 +20,20 @@ import { MatCardModule } from '@angular/material/card';
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon);
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CategoriesDataAccessModule,
-    CategoriesUiModule,
-    RolesDataAccessModule,
-    MatCardModule,
-    ClarityModule,
-    RouterModule.forChild([
-      { path: '', component: CategoriesListComponent},
-    ]),
-  ],
-  declarations: [
-    CategoriesListComponent,
-    CreateCategoryComponent,
-    UpdateCategoryComponent,
-    DeleteCategoryComponent
-  ],
+    imports: [
+        CommonModule,
+        CategoriesDataAccessModule,
+        CategoriesUiModule,
+        RolesDataAccessModule,
+        MatCardModule,
+        ClarityModule,
+        RouterModule.forChild([
+            { path: '', component: CategoriesListComponent },
+        ]),
+        CategoriesListComponent,
+        CreateCategoryComponent,
+        UpdateCategoryComponent,
+        DeleteCategoryComponent,
+    ],
 })
 export class AdminFeatureCategoriesModule {}

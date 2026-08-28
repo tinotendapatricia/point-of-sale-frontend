@@ -7,8 +7,8 @@ describe('CreateStockBatchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CreateStockBatchComponent],
-    }).compileComponents();
+    imports: [CreateStockBatchComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(CreateStockBatchComponent);
     component = fixture.componentInstance;

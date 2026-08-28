@@ -7,16 +7,13 @@ import { CompanyDetailsUiComponent } from './company-details-ui/company-details-
 import { LicenseFormComponent } from './license-form/license-form.component';
 
 @NgModule({
-  imports: [CommonModule, ClarityModule, ReactiveFormsModule],
-  declarations: [
-    CompanyDetailsFormComponent,
-    CompanyDetailsUiComponent,
-    LicenseFormComponent,
-  ],
-  exports: [
-    CompanyDetailsFormComponent,
-    CompanyDetailsUiComponent,
-    LicenseFormComponent,
-  ],
+    imports: [CommonModule, ClarityModule, ReactiveFormsModule, CompanyDetailsFormComponent,
+        CompanyDetailsUiComponent,
+        LicenseFormComponent],
+    exports: [
+        CompanyDetailsFormComponent,
+        CompanyDetailsUiComponent,
+        LicenseFormComponent,
+    ],
 })
 export class CompanyDetailsUiModule {}

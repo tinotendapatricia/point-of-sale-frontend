@@ -6,8 +6,7 @@ import { ClarityModule } from '@clr/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, ClarityModule, ReactiveFormsModule],
-  declarations: [StationsListUiComponent, StationsFormComponent],
-  exports: [StationsListUiComponent, StationsFormComponent],
+    imports: [CommonModule, ClarityModule, ReactiveFormsModule, StationsListUiComponent, StationsFormComponent],
+    exports: [StationsListUiComponent, StationsFormComponent],
 })
 export class StationsUiModule {}

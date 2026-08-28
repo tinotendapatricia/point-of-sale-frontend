@@ -18,15 +18,11 @@ import {
 } from '@cds/core/icon';
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon, syncIcon);
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild([
-    {path:'', component:ConfigurationsListComponent}
-  ]),
-ConfigurationsUiModule, ConfigurationsDataAccessModule, MatCardModule, ClarityModule
-],
-  declarations: [
-    ConfigurationsListComponent,
-    CreateConfigurationsComponent,
-    UpdateConfigurationsComponent,
-  ],
+    imports: [CommonModule, RouterModule.forChild([
+            { path: '', component: ConfigurationsListComponent }
+        ]),
+        ConfigurationsUiModule, ConfigurationsDataAccessModule, MatCardModule, ClarityModule, ConfigurationsListComponent,
+        CreateConfigurationsComponent,
+        UpdateConfigurationsComponent],
 })
 export class AdminFeatureConfigurationsModule {}

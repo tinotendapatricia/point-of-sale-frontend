@@ -8,8 +8,7 @@ import { Subscription } from 'rxjs';
     selector: 'pos-frontend-sales-by-station',
     templateUrl: './sales-by-station.component.html',
     styleUrls: ['./sales-by-station.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class SalesByStationComponent implements OnInit, OnDestroy {
   btnState = ClrLoadingState.DEFAULT;

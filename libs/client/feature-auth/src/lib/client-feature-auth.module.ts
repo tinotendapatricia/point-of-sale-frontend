@@ -9,16 +9,16 @@ import { AuthUiModule } from '@pos-frontend/auth/ui';
 import { ConfigureStationComponent } from './configure-station/configure-station.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatCardModule,
-    AuthUiModule,
-    AuthDataAccessModule,
-    MatProgressBarModule,
-    RouterModule.forChild([
-      { path: 'login', component: CustomerLoginComponent },
-    ]),
-  ],
-  declarations: [CustomerLoginComponent, ConfigureStationComponent],
+    imports: [
+        CommonModule,
+        MatCardModule,
+        AuthUiModule,
+        AuthDataAccessModule,
+        MatProgressBarModule,
+        RouterModule.forChild([
+            { path: 'login', component: CustomerLoginComponent },
+        ]),
+        CustomerLoginComponent, ConfigureStationComponent,
+    ],
 })
 export class ClientFeatureAuthModule {}

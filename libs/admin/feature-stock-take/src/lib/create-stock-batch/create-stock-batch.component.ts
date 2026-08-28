@@ -1,13 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
+import { StockTakeFormComponent } from '../../../../../stock-take/ui/src/lib/stock-take-form/stock-take-form.component';
+import { CloseBatchComponent } from '../close-batch/close-batch.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-create-stock-batch',
     templateUrl: './create-stock-batch.component.html',
     styleUrls: ['./create-stock-batch.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [StockTakeFormComponent, CloseBatchComponent, AsyncPipe]
 })
 export class CreateStockBatchComponent implements OnInit  {
 

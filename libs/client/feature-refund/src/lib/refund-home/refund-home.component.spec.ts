@@ -7,8 +7,8 @@ describe('RefundHomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RefundHomeComponent],
-    }).compileComponents();
+    imports: [RefundHomeComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(RefundHomeComponent);
     component = fixture.componentInstance;

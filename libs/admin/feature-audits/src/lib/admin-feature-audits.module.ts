@@ -16,14 +16,14 @@ import {
 import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ClarityModule,
-    AuditTrailDataAccessModule,
-    AuditTrailUiModule,
-    MatCardModule ,
-    RouterModule.forChild([{ path:'', component:ListAuditsComponent }]),
-  ],
-  declarations: [ListAuditsComponent],
+    imports: [
+        CommonModule,
+        ClarityModule,
+        AuditTrailDataAccessModule,
+        AuditTrailUiModule,
+        MatCardModule,
+        RouterModule.forChild([{ path: '', component: ListAuditsComponent }]),
+        ListAuditsComponent,
+    ],
 })
 export class AdminFeatureAuditsModule {}

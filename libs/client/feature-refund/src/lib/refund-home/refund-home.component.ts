@@ -5,13 +5,15 @@ import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
 import { PosFacade } from '@pos-frontend/pos/data-access';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { VatFacade } from '@pos-frontend/vat/data-access';
+import { PosFormComponent } from '../../../../../pos/ui/src/lib/pos-form/pos-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-refund-home',
     templateUrl: './refund-home.component.html',
     styleUrls: ['./refund-home.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PosFormComponent, AsyncPipe]
 })
 export class RefundHomeComponent  implements OnInit {
 

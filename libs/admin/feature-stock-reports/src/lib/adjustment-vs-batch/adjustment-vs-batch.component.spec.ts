@@ -7,8 +7,8 @@ describe('AdjustmentVsBatchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AdjustmentVsBatchComponent],
-    }).compileComponents();
+    imports: [AdjustmentVsBatchComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(AdjustmentVsBatchComponent);
     component = fixture.componentInstance;

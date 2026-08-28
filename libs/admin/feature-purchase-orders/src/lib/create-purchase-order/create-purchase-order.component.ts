@@ -3,13 +3,16 @@ import { CreditorsFacade } from '@pos-frontend/creditors/data-access';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { PurchaseOrderFacade } from '@pos-frontend/purchase-orders/data-access';
 import { VatFacade } from '@pos-frontend/vat/data-access';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { PurchaseOrderFormComponent } from '../../../../../purchase-orders/ui/src/lib/purchase-order-form/purchase-order-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-create-purchase-order',
     templateUrl: './create-purchase-order.component.html',
     styleUrls: ['./create-purchase-order.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatCard, MatCardContent, PurchaseOrderFormComponent, AsyncPipe]
 })
 export class CreatePurchaseOrderComponent implements OnInit {
   constructor(

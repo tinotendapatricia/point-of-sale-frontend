@@ -23,25 +23,23 @@ import { UserRolesFormComponent } from './user-roles-form/user-roles-form.compon
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon);
 
 @NgModule({
-  imports: [
-    ClarityModule,
-    CommonModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatTableModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatPaginatorModule,
-  ],
-  declarations: [
-    ListUsersUiComponent,
-    UserFormComponent,
-    UserRolesFormComponent,
-  ],
-  exports: [
-    ListUsersUiComponent,
-    UserFormComponent,
-    UserRolesFormComponent,
-  ],
+    imports: [
+        ClarityModule,
+        CommonModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatPaginatorModule,
+        ListUsersUiComponent,
+        UserFormComponent,
+        UserRolesFormComponent,
+    ],
+    exports: [
+        ListUsersUiComponent,
+        UserFormComponent,
+        UserRolesFormComponent,
+    ],
 })
 export class UsersUiModule {}

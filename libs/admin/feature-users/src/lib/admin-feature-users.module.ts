@@ -23,26 +23,24 @@ import { RolesDataAccessModule } from '@pos-frontend/roles/data-access';
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, syncIcon);
 
 @NgModule({
-  imports: [
-    CommonModule,
-    UsersDataAccessModule,
-    MatCardModule,
-    UsersUiModule,
-    RolesDataAccessModule,
-    ClarityModule,
-    RouterModule.forChild([
-      { path: '', component: ListUsersComponent },
-      {
-        path: 'view-user-authorities/:userId',
-        component: ViewUserRolesComponent,
-      },
-    ]),
-  ],
-  declarations: [
-    ListUsersComponent,
-    CreateUserComponent,
-    UpdateUserComponent,
-    ViewUserRolesComponent,
-  ],
+    imports: [
+        CommonModule,
+        UsersDataAccessModule,
+        MatCardModule,
+        UsersUiModule,
+        RolesDataAccessModule,
+        ClarityModule,
+        RouterModule.forChild([
+            { path: '', component: ListUsersComponent },
+            {
+                path: 'view-user-authorities/:userId',
+                component: ViewUserRolesComponent,
+            },
+        ]),
+        ListUsersComponent,
+        CreateUserComponent,
+        UpdateUserComponent,
+        ViewUserRolesComponent,
+    ],
 })
 export class AdminFeatureUsersModule {}

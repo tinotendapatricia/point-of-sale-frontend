@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
 import {
   CharacterSelectionRequiredValidator,
@@ -9,14 +9,18 @@ import {
 } from '@pos-frontend/shared/utils';
 import { Observable } from 'rxjs';
 import { CreditorsEntity } from '@pos-frontend/creditors/data-access';
-import { NgSelectConfig } from '@ng-select/ng-select';
+import { NgSelectConfig, NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
+import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { ClrInputModule } from '@clr/angular/forms/input';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-purchase-order-form',
     templateUrl: './purchase-order-form.component.html',
     styleUrls: ['./purchase-order-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, ClrCommonFormsModule, NgSelectComponent, NgOptionComponent, ClrInputModule, ClrIcon, ClrIconModule, AsyncPipe, CurrencyPipe]
 })
 export class PurchaseOrderFormComponent implements OnInit {
   @Input() purchaseOrderNumber!: string;

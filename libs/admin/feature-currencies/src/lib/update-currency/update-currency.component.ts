@@ -4,13 +4,15 @@ import {
   CurrenciesEntity,
   CurrenciesFacade,
 } from '@pos-frontend/currencies/data-access';
+import { CurrencyFormComponent } from '../../../../../currencies/ui/src/lib/currency-form/currency-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-update-currency',
     templateUrl: './update-currency.component.html',
     styleUrls: ['./update-currency.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [CurrencyFormComponent, AsyncPipe]
 })
 export class UpdateCurrencyComponent {
   @Input() currency!: CurrenciesEntity;

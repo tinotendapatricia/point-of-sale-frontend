@@ -2,13 +2,18 @@ import { ChangeDetectorRef, Component, OnInit, ChangeDetectionStrategy } from '@
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
 import { GroupsEntity, GroupsFacade } from '@pos-frontend/groups/data-access';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { ListGroupsUiComponent } from '../../../../../groups/ui/src/lib/list-groups-ui/list-groups-ui.component';
+import { CreateGroupComponent } from '../create-group/create-group.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-list-groups',
     templateUrl: './list-groups.component.html',
     styleUrls: ['./list-groups.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatCard, MatCardContent, ClrIcon, ClrIconModule, ListGroupsUiComponent, CreateGroupComponent, AsyncPipe]
 })
 export class ListGroupsComponent implements OnInit {
   public isUpdate = false;

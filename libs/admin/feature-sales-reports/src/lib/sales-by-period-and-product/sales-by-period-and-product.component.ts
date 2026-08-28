@@ -3,13 +3,15 @@ import { ClrLoadingState } from '@clr/angular';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
+import { ReportsFormComponent } from '../../../../../reports/ui/src/lib/reports-form/reports-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-sales-by-period-and-product',
     templateUrl: './sales-by-period-and-product.component.html',
     styleUrls: ['./sales-by-period-and-product.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ReportsFormComponent, AsyncPipe]
 })
 export class SalesByPeriodAndProductComponent implements OnInit, OnDestroy {
   btnState = ClrLoadingState.DEFAULT;

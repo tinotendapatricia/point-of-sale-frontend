@@ -7,8 +7,8 @@ describe('CurrenciesListUiComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CurrenciesListUiComponent],
-    }).compileComponents();
+    imports: [CurrenciesListUiComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(CurrenciesListUiComponent);
     component = fixture.componentInstance;

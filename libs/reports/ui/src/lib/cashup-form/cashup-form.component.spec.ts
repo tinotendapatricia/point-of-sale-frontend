@@ -7,8 +7,8 @@ describe('CashupFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CashupFormComponent],
-    }).compileComponents();
+    imports: [CashupFormComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(CashupFormComponent);
     component = fixture.componentInstance;

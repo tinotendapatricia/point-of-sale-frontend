@@ -7,8 +7,8 @@ describe('PosHomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PosHomeComponent],
-    }).compileComponents();
+    imports: [PosHomeComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(PosHomeComponent);
     component = fixture.componentInstance;

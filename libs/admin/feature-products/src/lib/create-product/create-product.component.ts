@@ -2,13 +2,16 @@ import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angul
 import { Router } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { ProductsFormComponent } from '../../../../../products/ui/src/lib/products-form/products-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-create-product',
     templateUrl: './create-product.component.html',
     styleUrls: ['./create-product.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatCard, MatCardContent, ProductsFormComponent, AsyncPipe]
 })
 export class CreateProductComponent {
   @Output() closeModal = new EventEmitter();

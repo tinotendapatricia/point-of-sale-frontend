@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { Location } from '@angular/common';
+import { Location, AsyncPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
+import { UserFormComponent } from '../../../../../users/ui/src/lib/user-form/user-form.component';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
     templateUrl: './update-user.component.html',
     styleUrls: ['./update-user.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [UserFormComponent, AsyncPipe]
 })
 export class UpdateUserComponent implements OnInit {
   @Input() user!:UsersEntity

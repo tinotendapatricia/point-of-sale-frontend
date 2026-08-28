@@ -18,19 +18,17 @@ import { ClarityModule } from '@clr/angular';
 import { CurrenciesDataAccessModule } from '@pos-frontend/currencies/data-access';
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon, syncIcon);
 @NgModule({
-  imports: [
-    CommonModule,
-    DebtorsDataAccessModule,
-    DebtorsUiModule,
-    MatCardModule,
-    ClarityModule,
-    CurrenciesDataAccessModule,
-    RouterModule.forChild([{ path: '', component: ListDebtorsComponent }]),
-  ],
-  declarations: [
-    ListDebtorsComponent,
-    CreateDebtorsComponent,
-    UpdateDebtorsComponent,
-  ],
+    imports: [
+        CommonModule,
+        DebtorsDataAccessModule,
+        DebtorsUiModule,
+        MatCardModule,
+        ClarityModule,
+        CurrenciesDataAccessModule,
+        RouterModule.forChild([{ path: '', component: ListDebtorsComponent }]),
+        ListDebtorsComponent,
+        CreateDebtorsComponent,
+        UpdateDebtorsComponent,
+    ],
 })
 export class AdminFeatureDebtorsModule {}

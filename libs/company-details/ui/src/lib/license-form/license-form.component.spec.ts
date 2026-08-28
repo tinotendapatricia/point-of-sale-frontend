@@ -7,8 +7,8 @@ describe('LicenseFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LicenseFormComponent],
-    }).compileComponents();
+    imports: [LicenseFormComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(LicenseFormComponent);
     component = fixture.componentInstance;

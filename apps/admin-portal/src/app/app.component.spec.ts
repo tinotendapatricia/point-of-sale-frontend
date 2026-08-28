@@ -5,9 +5,9 @@ import { NxWelcomeComponent } from "./nx-welcome.component";
 describe("AppComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [],
-      declarations: [AppComponent, NxWelcomeComponent],
-    }).compileComponents();
+    imports: [],
+    declarations: [AppComponent, NxWelcomeComponent],
+}).compileComponents();
   });
 
   it("should render title", () => {

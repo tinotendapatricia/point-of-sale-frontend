@@ -16,16 +16,13 @@ import {
 
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, checkIcon, plusIcon);
 @NgModule({
-  imports: [CommonModule, ClarityModule, ReactiveFormsModule],
-  declarations: [
-    ListCreditorsUiComponent,
-    CreditorsFormComponent,
-    CreditorsDetailsComponent,
-  ],
-  exports: [
-    ListCreditorsUiComponent,
-    CreditorsFormComponent,
-    CreditorsDetailsComponent,
-  ],
+    imports: [CommonModule, ClarityModule, ReactiveFormsModule, ListCreditorsUiComponent,
+        CreditorsFormComponent,
+        CreditorsDetailsComponent],
+    exports: [
+        ListCreditorsUiComponent,
+        CreditorsFormComponent,
+        CreditorsDetailsComponent,
+    ],
 })
 export class CreditorsUiModule {}

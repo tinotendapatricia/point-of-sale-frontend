@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { ProductsEntity, ProductsFacade } from '@pos-frontend/products/data-access';
+import { UpdateCostAndPriceComponent } from '../../../../../products/ui/src/lib/update-cost-and-price/update-cost-and-price.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-update-price',
     templateUrl: './update-price.component.html',
     styleUrls: ['./update-price.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [UpdateCostAndPriceComponent, AsyncPipe]
 })
 export class UpdatePriceComponent {
 

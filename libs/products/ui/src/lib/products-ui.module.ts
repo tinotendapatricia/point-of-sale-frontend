@@ -20,16 +20,13 @@ import { BreakBulkFormComponent } from './break-bulk-form/break-bulk-form.compon
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, checkIcon, plusIcon);
 
 @NgModule({
-  imports: [CommonModule, ClarityModule, ReactiveFormsModule, NgSelectModule],
-  declarations: [
-    ProductsListUiComponent,
-    ProductsFormComponent,
-    UpdateCostAndPriceComponent,
-    BreakBulkFormComponent,
-  ],
-  exports: [ProductsFormComponent, ProductsListUiComponent, BreakBulkFormComponent,UpdateCostAndPriceComponent,
-  NgSelectModule
-  ],
-  schemas: [NO_ERRORS_SCHEMA],
+    imports: [CommonModule, ClarityModule, ReactiveFormsModule, NgSelectModule, ProductsListUiComponent,
+        ProductsFormComponent,
+        UpdateCostAndPriceComponent,
+        BreakBulkFormComponent],
+    exports: [ProductsFormComponent, ProductsListUiComponent, BreakBulkFormComponent, UpdateCostAndPriceComponent,
+        NgSelectModule
+    ],
+    schemas: [NO_ERRORS_SCHEMA],
 })
 export class ProductsUiModule {}

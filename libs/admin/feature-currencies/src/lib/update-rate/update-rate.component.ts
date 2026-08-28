@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CurrenciesEntity, CurrenciesFacade } from '@pos-frontend/currencies/data-access';
+import { RateFormComponent } from '../../../../../currencies/ui/src/lib/rate-form/rate-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-update-rate',
     templateUrl: './update-rate.component.html',
     styleUrls: ['./update-rate.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [RateFormComponent, AsyncPipe]
 })
 export class UpdateRateComponent {
   @Input() currency!:CurrenciesEntity

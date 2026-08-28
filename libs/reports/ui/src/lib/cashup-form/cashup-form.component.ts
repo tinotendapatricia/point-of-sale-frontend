@@ -11,13 +11,16 @@ import {
 import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
 import { CashupEntity } from '@pos-frontend/reports/data-access';
 import { SumArray } from '@pos-frontend/shared/utils';
+import { ClrSelectModule } from '@clr/angular/forms/select';
+import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'pos-frontend-cashup-form',
     templateUrl: './cashup-form.component.html',
     styleUrls: ['./cashup-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ClrSelectModule, ClrCommonFormsModule, FormsModule]
 })
 export class CashupFormComponent implements OnChanges {
   @Output() formValue = new EventEmitter();

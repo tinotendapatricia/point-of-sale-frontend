@@ -18,14 +18,14 @@ import { ClarityModule } from '@clr/angular';
 
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon, syncIcon);
 @NgModule({
-  imports: [
-    CommonModule,
-    VatDataAccessModule,
-    VatUiModule,
-    MatCardModule,
-    ClarityModule,
-    RouterModule.forChild([{ path: '', component: ViewVatComponent }]),
-  ],
-  declarations: [ViewVatComponent, UpdateVatComponent],
+    imports: [
+        CommonModule,
+        VatDataAccessModule,
+        VatUiModule,
+        MatCardModule,
+        ClarityModule,
+        RouterModule.forChild([{ path: '', component: ViewVatComponent }]),
+        ViewVatComponent, UpdateVatComponent,
+    ],
 })
 export class AdminFeatureVatModule {}

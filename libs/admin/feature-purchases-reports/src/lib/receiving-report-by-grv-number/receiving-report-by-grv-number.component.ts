@@ -2,13 +2,14 @@ import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/
 import { ClrLoadingState } from '@clr/angular';
 import { PurchasesReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
+import { ReportsFormComponent } from '../../../../../reports/ui/src/lib/reports-form/reports-form.component';
 
 @Component({
     selector: 'pos-frontend-receiving-report-by-grv-number',
     templateUrl: './receiving-report-by-grv-number.component.html',
     styleUrls: ['./receiving-report-by-grv-number.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ReportsFormComponent]
 })
 export class ReceivingReportByGrvNumberComponent implements OnDestroy {
 

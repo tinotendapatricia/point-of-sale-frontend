@@ -2,13 +2,14 @@ import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/
 import { ClrLoadingState } from '@clr/angular';
 import { PurchasesReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
+import { ReportsFormComponent } from '../../../../../reports/ui/src/lib/reports-form/reports-form.component';
 
 @Component({
     selector: 'pos-frontend-purchases-report-by-order-number',
     templateUrl: './purchases-report-by-order-number.component.html',
     styleUrls: ['./purchases-report-by-order-number.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ReportsFormComponent]
 })
 export class PurchasesReportByOrderNumberComponent implements OnDestroy {
 

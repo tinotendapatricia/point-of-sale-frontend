@@ -1,13 +1,18 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
+import { ClrModalModule } from '@clr/angular/modal';
+import { ClrInputModule } from '@clr/angular/forms/input';
+import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { ClrLoadingButtonModule } from '@clr/angular/button';
+import { ClrLoadingModule } from '@clr/angular/utils';
 
 @Component({
     selector: 'pos-frontend-rate-form',
     templateUrl: './rate-form.component.html',
     styleUrls: ['./rate-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ClrModalModule, FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrLoadingButtonModule, ClrLoadingModule]
 })
 export class RateFormComponent {
 

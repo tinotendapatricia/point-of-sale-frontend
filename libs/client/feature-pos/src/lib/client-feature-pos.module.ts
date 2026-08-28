@@ -11,19 +11,18 @@ import { CurrenciesDataAccessModule } from '@pos-frontend/currencies/data-access
 import { PosDataAccessModule } from '@pos-frontend/pos/data-access';
 import { PrintReceiptComponent } from './print-receipt/print-receipt.component';
 @NgModule({
-  imports: [
-    CommonModule,
-    ClarityModule,
-    PosUiModule,
-    ProductsDataAccessModule,
-    DebtorsDataAccessModule,
-    VatDataAccessModule,
-    CurrenciesDataAccessModule,
-    PosDataAccessModule,
-    RouterModule.forChild(
-      [{ path: '', component: PosHomeComponent }]),
-  ],
-  declarations: [PosHomeComponent, PrintReceiptComponent],
-  schemas: [NO_ERRORS_SCHEMA],
+    imports: [
+        CommonModule,
+        ClarityModule,
+        PosUiModule,
+        ProductsDataAccessModule,
+        DebtorsDataAccessModule,
+        VatDataAccessModule,
+        CurrenciesDataAccessModule,
+        PosDataAccessModule,
+        RouterModule.forChild([{ path: '', component: PosHomeComponent }]),
+        PosHomeComponent, PrintReceiptComponent,
+    ],
+    schemas: [NO_ERRORS_SCHEMA],
 })
 export class ClientFeaturePosModule {}

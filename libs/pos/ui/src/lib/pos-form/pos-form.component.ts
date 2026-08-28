@@ -8,8 +8,8 @@ import {
   SimpleChanges,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { FormBuilder, UntypedFormGroup } from '@angular/forms';
-import { NgSelectConfig } from '@ng-select/ng-select';
+import { FormBuilder, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectConfig, NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
 import { VatEntity } from '@pos-frontend/vat/data-access';
 import { DebtorsEntity } from '@pos-frontend/debtors/data-access';
@@ -17,13 +17,23 @@ import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
 import { ClrLoadingState } from '@clr/angular';
 import { PosEntity } from '@pos-frontend/pos/data-access';
 import { SumTotalAmount } from '@pos-frontend/shared/utils';
+import { RouterLink } from '@angular/router';
+import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { ClrLoadingButtonModule } from '@clr/angular/button';
+import { ClrLoadingModule } from '@clr/angular/utils';
+import { NgClass, CurrencyPipe } from '@angular/common';
+import { ClrModalModule } from '@clr/angular/modal';
+import { ClrInputModule } from '@clr/angular/forms/input';
+import { ClrRadioModule } from '@clr/angular/forms/radio';
+import { ClrSelectModule } from '@clr/angular/forms/select';
 
 @Component({
     selector: 'pos-frontend-pos-form',
     templateUrl: './pos-form.component.html',
     styleUrls: ['./pos-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [RouterLink, FormsModule, ReactiveFormsModule, ClrCommonFormsModule, NgSelectComponent, NgOptionComponent, ClrIcon, ClrIconModule, ClrLoadingButtonModule, ClrLoadingModule, NgClass, ClrModalModule, ClrInputModule, ClrRadioModule, ClrSelectModule, CurrencyPipe]
 })
 export class PosFormComponent implements OnInit, OnChanges {
   @Input() btnState!: ClrLoadingState;

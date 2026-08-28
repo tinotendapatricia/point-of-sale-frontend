@@ -3,13 +3,14 @@ import { ClrLoadingState } from '@clr/angular';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
 import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
+import { ReportsFormComponent } from '../../../../../reports/ui/src/lib/reports-form/reports-form.component';
 
 @Component({
     selector: 'pos-frontend-top-selling-products-for-period',
     templateUrl: './top-selling-products-for-period.component.html',
     styleUrls: ['./top-selling-products-for-period.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ReportsFormComponent]
 })
 export class TopSellingProductsForPeriodComponent implements OnInit, OnDestroy{
 

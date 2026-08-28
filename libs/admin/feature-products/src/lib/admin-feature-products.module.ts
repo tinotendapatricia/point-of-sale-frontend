@@ -24,37 +24,34 @@ import { BreakBulkToSingleComponent } from './break-bulk-to-single/break-bulk-to
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon, syncIcon);
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ProductsDataAccessModule,
-    ProductsUiModule,
-    CurrenciesDataAccessModule,
-    RouterModule.forChild([
-      { path: '', component: ListProductsComponent },
-      { path: 'new', component: CreateProductComponent },
-      { path: 'update/:productId', component: UpdateProductComponent },
-      { path: 'break-bulk', component: BreakBulkToSingleComponent },
-    
-    ]),
-    ClarityModule,
-    MatCardModule,
-  ],
-  declarations: [
-    ListProductsComponent,
-    CreateProductComponent,
-    UpdateCostComponent,
-    UpdatePriceComponent,
-    UpdatePriceComponent,
-    UpdateProductComponent,
-    UpdateProductComponent,
-    BreakBulkToSingleComponent,
-  ],
-  exports: [
-    ListProductsComponent,
-    CreateProductComponent,
-    UpdatePriceComponent,
-    UpdateProductComponent,
-    UpdateProductComponent,
-  ],
+    imports: [
+        CommonModule,
+        ProductsDataAccessModule,
+        ProductsUiModule,
+        CurrenciesDataAccessModule,
+        RouterModule.forChild([
+            { path: '', component: ListProductsComponent },
+            { path: 'new', component: CreateProductComponent },
+            { path: 'update/:productId', component: UpdateProductComponent },
+            { path: 'break-bulk', component: BreakBulkToSingleComponent },
+        ]),
+        ClarityModule,
+        MatCardModule,
+        ListProductsComponent,
+        CreateProductComponent,
+        UpdateCostComponent,
+        UpdatePriceComponent,
+        UpdatePriceComponent,
+        UpdateProductComponent,
+        UpdateProductComponent,
+        BreakBulkToSingleComponent,
+    ],
+    exports: [
+        ListProductsComponent,
+        CreateProductComponent,
+        UpdatePriceComponent,
+        UpdateProductComponent,
+        UpdateProductComponent,
+    ],
 })
 export class AdminFeatureProductsModule {}

@@ -2,13 +2,15 @@ import { Component, EventEmitter, OnInit, Output, ChangeDetectionStrategy } from
 import { Router } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
+import { DebtorsFormComponent } from '../../../../../debtors/ui/src/lib/debtors-form/debtors-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-create-debtors',
     templateUrl: './create-debtors.component.html',
     styleUrls: ['./create-debtors.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [DebtorsFormComponent, AsyncPipe]
 })
 export class CreateDebtorsComponent implements OnInit {
   @Output() closeModal = new EventEmitter();

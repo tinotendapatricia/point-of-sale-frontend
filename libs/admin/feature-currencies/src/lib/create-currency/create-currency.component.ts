@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
+import { CurrencyFormComponent } from '../../../../../currencies/ui/src/lib/currency-form/currency-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-create-currency',
     templateUrl: './create-currency.component.html',
     styleUrls: ['./create-currency.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [CurrencyFormComponent, AsyncPipe]
 })
 export class CreateCurrencyComponent {
   @Output() closeModal = new EventEmitter();

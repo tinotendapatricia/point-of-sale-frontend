@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CompanyEntity, CompanyService } from '@pos-frontend/company-details/data-access';
+import { CompanyDetailsFormComponent } from '../../../../../company-details/ui/src/lib/company-details-form/company-details-form.component';
 
 @Component({
     selector: 'pos-frontend-update-company-details',
     templateUrl: './update-company-details.component.html',
     styleUrls: ['./update-company-details.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [CompanyDetailsFormComponent]
 })
 export class UpdateCompanyDetailsComponent {
   @Input() company!:CompanyEntity 

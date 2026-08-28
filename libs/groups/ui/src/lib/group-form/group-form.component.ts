@@ -1,14 +1,19 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
 import { GroupsEntity } from '@pos-frontend/groups/data-access';
+import { ClrModalModule } from '@clr/angular/modal';
+import { ClrInputModule } from '@clr/angular/forms/input';
+import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { ClrLoadingButtonModule } from '@clr/angular/button';
+import { ClrLoadingModule } from '@clr/angular/utils';
 
 @Component({
     selector: 'pos-frontend-group-form',
     templateUrl: './group-form.component.html',
     styleUrls: ['./group-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ClrModalModule, FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrLoadingButtonModule, ClrLoadingModule]
 })
 export class GroupFormComponent implements OnInit {
   @Input() group!: GroupsEntity;

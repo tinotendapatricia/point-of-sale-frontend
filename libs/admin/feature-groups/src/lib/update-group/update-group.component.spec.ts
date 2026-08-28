@@ -7,8 +7,8 @@ describe('UpdateGroupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpdateGroupComponent],
-    }).compileComponents();
+    imports: [UpdateGroupComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(UpdateGroupComponent);
     component = fixture.componentInstance;

@@ -4,8 +4,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     selector: 'pos-frontend-delete-category',
     templateUrl: './delete-category.component.html',
     styleUrls: ['./delete-category.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class DeleteCategoryComponent {
 

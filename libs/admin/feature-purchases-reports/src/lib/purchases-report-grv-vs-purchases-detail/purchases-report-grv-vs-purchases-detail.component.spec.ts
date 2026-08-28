@@ -7,8 +7,8 @@ describe('PurchasesReportGrvVsPurchasesDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PurchasesReportGrvVsPurchasesDetailComponent],
-    }).compileComponents();
+    imports: [PurchasesReportGrvVsPurchasesDetailComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(
       PurchasesReportGrvVsPurchasesDetailComponent

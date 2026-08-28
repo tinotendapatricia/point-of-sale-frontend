@@ -9,13 +9,15 @@ import {
 } from '@pos-frontend/products/data-access';
 import { VatFacade } from '@pos-frontend/vat/data-access';
 import { Observable } from 'rxjs';
+import { PosFormComponent } from '../../../../../pos/ui/src/lib/pos-form/pos-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-pos-home',
     templateUrl: './pos-home.component.html',
     styleUrls: ['./pos-home.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [PosFormComponent, AsyncPipe]
 })
 export class PosHomeComponent implements OnInit {
   constructor(

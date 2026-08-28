@@ -1,13 +1,18 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CompanyEntity, CompanyService } from '@pos-frontend/company-details/data-access';
 import { Observable } from 'rxjs';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { CompanyDetailsUiComponent } from '../../../../../company-details/ui/src/lib/company-details-ui/company-details-ui.component';
+import { CreateCompanyDetailsComponent } from '../create-company-details/create-company-details.component';
+import { UpdateCompanyDetailsComponent } from '../update-company-details/update-company-details.component';
 
 @Component({
     selector: 'pos-frontend-company-details',
     templateUrl: './company-details.component.html',
     styleUrls: ['./company-details.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatCard, MatCardContent, ClrIcon, ClrIconModule, CompanyDetailsUiComponent, CreateCompanyDetailsComponent, UpdateCompanyDetailsComponent]
 })
 export class CompanyDetailsComponent implements OnInit  {
 

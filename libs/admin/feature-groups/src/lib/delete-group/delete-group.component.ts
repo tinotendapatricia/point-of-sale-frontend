@@ -4,7 +4,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     selector: 'pos-frontend-delete-group',
     templateUrl: './delete-group.component.html',
     styleUrls: ['./delete-group.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class DeleteGroupComponent {}

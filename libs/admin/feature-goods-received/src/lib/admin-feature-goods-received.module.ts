@@ -9,15 +9,15 @@ import { RouterModule } from '@angular/router';
 import { PurchaseOrdersDataAccessModule } from '@pos-frontend/purchase-orders/data-access';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ClarityModule,
-    GoodsReceivedDataAccessModule,
-    GoodsReceivedUiModule,
-    PurchaseOrdersDataAccessModule,
-    MatCardModule,
-    RouterModule.forChild([{ path: '', component: CreateGrvComponent }]),
-  ],
-  declarations: [CreateGrvComponent],
+    imports: [
+        CommonModule,
+        ClarityModule,
+        GoodsReceivedDataAccessModule,
+        GoodsReceivedUiModule,
+        PurchaseOrdersDataAccessModule,
+        MatCardModule,
+        RouterModule.forChild([{ path: '', component: CreateGrvComponent }]),
+        CreateGrvComponent,
+    ],
 })
 export class AdminFeatureGoodsReceivedModule {}

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, Validators, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, Validators, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ClrLoadingState } from '@clr/angular';
 import { GroupsEntity } from '@pos-frontend/groups/data-access';
@@ -8,13 +8,19 @@ import { GroupsEntity } from '@pos-frontend/groups/data-access';
 //import { GroupsEntity } from '@pos-frontend/groups/data-access';
 import { UsersEntity } from '@pos-frontend/users/data-access';
 import { Observable } from 'rxjs';
+import { ClrModalModule } from '@clr/angular/modal';
+import { ClrInputModule } from '@clr/angular/forms/input';
+import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { ClrPasswordModule } from '@clr/angular/forms/password';
+import { ClrLoadingButtonModule } from '@clr/angular/button';
+import { ClrLoadingModule } from '@clr/angular/utils';
 
 @Component({
     selector: 'pos-frontend-user-form',
     templateUrl: './user-form.component.html',
     styleUrls: ['./user-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ClrModalModule, FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrPasswordModule, ClrLoadingButtonModule, ClrLoadingModule]
 })
 export class UserFormComponent implements OnInit {
   @Input() user!: UsersEntity;

@@ -7,8 +7,8 @@ describe('MakeDefaultComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MakeDefaultComponent],
-    }).compileComponents();
+    imports: [MakeDefaultComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(MakeDefaultComponent);
     component = fixture.componentInstance;

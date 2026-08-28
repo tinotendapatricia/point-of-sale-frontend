@@ -7,8 +7,8 @@ describe('GenerateGpReportComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GenerateGpReportComponent],
-    }).compileComponents();
+    imports: [GenerateGpReportComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(GenerateGpReportComponent);
     component = fixture.componentInstance;

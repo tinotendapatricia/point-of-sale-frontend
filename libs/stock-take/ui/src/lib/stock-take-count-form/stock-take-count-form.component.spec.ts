@@ -7,8 +7,8 @@ describe('StockTakeCountFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StockTakeCountFormComponent],
-    }).compileComponents();
+    imports: [StockTakeCountFormComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(StockTakeCountFormComponent);
     component = fixture.componentInstance;

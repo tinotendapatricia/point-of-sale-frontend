@@ -11,13 +11,19 @@ import {
 import { UntypedFormGroup, FormBuilder } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
 import { RolesEntity } from '@pos-frontend/roles/data-access';
+import { ClrCheckboxModule } from '@clr/angular/forms/checkbox';
+import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { RouterLink } from '@angular/router';
+import { ClrLoadingButtonModule } from '@clr/angular/button';
+import { ClrLoadingModule } from '@clr/angular/utils';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-assign-groups-ui',
     templateUrl: './assign-groups-ui.component.html',
     styleUrls: ['./assign-groups-ui.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ClrCheckboxModule, ClrCommonFormsModule, RouterLink, ClrLoadingButtonModule, ClrLoadingModule, TitleCasePipe]
 })
 export class AssignGroupsUiComponent implements OnInit, OnChanges {
   @Input() roles: RolesEntity[] = [];

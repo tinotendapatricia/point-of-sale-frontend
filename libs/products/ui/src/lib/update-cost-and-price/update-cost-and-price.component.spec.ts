@@ -7,8 +7,8 @@ describe('UpdateCostAndPriceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpdateCostAndPriceComponent],
-    }).compileComponents();
+    imports: [UpdateCostAndPriceComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(UpdateCostAndPriceComponent);
     component = fixture.componentInstance;

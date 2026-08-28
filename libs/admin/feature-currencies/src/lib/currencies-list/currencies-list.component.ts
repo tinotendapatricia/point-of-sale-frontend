@@ -12,13 +12,21 @@ import {
   CurrenciesEntity,
   CurrenciesFacade,
 } from '@pos-frontend/currencies/data-access';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { CurrenciesListUiComponent } from '../../../../../currencies/ui/src/lib/currencies-list-ui/currencies-list-ui.component';
+import { MakeDefaultComponent } from '../make-default/make-default.component';
+import { CreateCurrencyComponent } from '../create-currency/create-currency.component';
+import { UpdateRateComponent } from '../update-rate/update-rate.component';
+import { UpdateCurrencyComponent } from '../update-currency/update-currency.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-currencies-list',
     templateUrl: './currencies-list.component.html',
     styleUrls: ['./currencies-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatCard, MatCardContent, ClrIcon, ClrIconModule, CurrenciesListUiComponent, MakeDefaultComponent, CreateCurrencyComponent, UpdateRateComponent, UpdateCurrencyComponent, AsyncPipe]
 })
 export class CurrenciesListComponent implements OnInit, AfterViewChecked {
   public isUpdate = false;

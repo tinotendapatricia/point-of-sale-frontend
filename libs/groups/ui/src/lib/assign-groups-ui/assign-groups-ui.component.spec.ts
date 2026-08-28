@@ -7,8 +7,8 @@ describe('AssignGroupsUiComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssignGroupsUiComponent],
-    }).compileComponents();
+    imports: [AssignGroupsUiComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(AssignGroupsUiComponent);
     component = fixture.componentInstance;

@@ -4,13 +4,14 @@ import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
 import { Subscription } from 'rxjs';
+import { ActionConfirmationFormComponent } from '../../../../../shared/ui/src/lib/action-confirmation-form/action-confirmation-form.component';
 
 @Component({
     selector: 'pos-frontend-stock-adjustment',
     templateUrl: './stock-adjustment.component.html',
     styleUrls: ['./stock-adjustment.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ActionConfirmationFormComponent]
 })
 export class StockAdjustmentComponent implements OnDestroy {
   @Output() closeModal = new EventEmitter();

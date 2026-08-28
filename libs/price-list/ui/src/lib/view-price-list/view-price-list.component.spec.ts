@@ -7,8 +7,8 @@ describe('ViewPriceListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ViewPriceListComponent],
-    }).compileComponents();
+    imports: [ViewPriceListComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(ViewPriceListComponent);
     component = fixture.componentInstance;

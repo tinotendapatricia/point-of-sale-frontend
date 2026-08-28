@@ -7,8 +7,8 @@ describe('PriceListFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PriceListFormComponent],
-    }).compileComponents();
+    imports: [PriceListFormComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(PriceListFormComponent);
     component = fixture.componentInstance;

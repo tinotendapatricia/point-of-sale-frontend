@@ -16,8 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-@NgModule({ declarations: [AppComponent, NxWelcomeComponent],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+@NgModule({ declarations: [AppComponent], bootstrap: [AppComponent], imports: [BrowserModule,
         BrowserAnimationsModule,
         ClarityModule,
         NgSelectModule,
@@ -41,7 +40,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
             logOnly: !environment.production,
             connectInZone: true
         }),
-        EffectsModule.forRoot([])], providers: [
+        EffectsModule.forRoot([]), NxWelcomeComponent], providers: [
         { provide: 'BaseUrl', useValue: environment.baseUrl },
         Title,
         {

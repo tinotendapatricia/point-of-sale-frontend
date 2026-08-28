@@ -7,8 +7,8 @@ describe('UserRolesFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UserRolesFormComponent],
-    }).compileComponents();
+    imports: [UserRolesFormComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(UserRolesFormComponent);
     component = fixture.componentInstance;

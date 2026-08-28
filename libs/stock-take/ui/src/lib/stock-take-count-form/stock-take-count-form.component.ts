@@ -7,13 +7,16 @@ import {
   SimpleChanges,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { ClrInputModule } from '@clr/angular/forms/input';
+import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'pos-frontend-stock-take-count-form',
     templateUrl: './stock-take-count-form.component.html',
     styleUrls: ['./stock-take-count-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ClrInputModule, ClrCommonFormsModule, FormsModule]
 })
 export class StockTakeCountFormComponent implements OnChanges {
   @Output() formValue = new EventEmitter();

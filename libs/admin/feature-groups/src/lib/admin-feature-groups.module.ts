@@ -22,24 +22,22 @@ import { RolesDataAccessModule } from '@pos-frontend/roles/data-access';
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon);
 
 @NgModule({
-  imports: [
-    CommonModule,
-    GroupsDataAccessModule,
-    GroupsUiModule,
-    RolesDataAccessModule,
-    MatCardModule,
-    ClarityModule,
-    RouterModule.forChild([
-      { path: '', component: ListGroupsComponent },
-      { path: 'view-group/:groupId', component: ViewGroupAuthoritiesComponent },
-    ]),
-  ],
-  declarations: [
-    CreateGroupComponent,
-    ListGroupsComponent,
-    UpdateGroupComponent,
-    DeleteGroupComponent,
-    ViewGroupAuthoritiesComponent,
-  ],
+    imports: [
+        CommonModule,
+        GroupsDataAccessModule,
+        GroupsUiModule,
+        RolesDataAccessModule,
+        MatCardModule,
+        ClarityModule,
+        RouterModule.forChild([
+            { path: '', component: ListGroupsComponent },
+            { path: 'view-group/:groupId', component: ViewGroupAuthoritiesComponent },
+        ]),
+        CreateGroupComponent,
+        ListGroupsComponent,
+        UpdateGroupComponent,
+        DeleteGroupComponent,
+        ViewGroupAuthoritiesComponent,
+    ],
 })
 export class AdminFeatureGroupsModule {}

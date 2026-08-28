@@ -7,8 +7,8 @@ describe('CreateGrvComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CreateGrvComponent],
-    }).compileComponents();
+    imports: [CreateGrvComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(CreateGrvComponent);
     component = fixture.componentInstance;

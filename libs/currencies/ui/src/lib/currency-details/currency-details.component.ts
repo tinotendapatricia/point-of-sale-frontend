@@ -1,13 +1,14 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
+import { TitleCasePipe, KeyValuePipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-currency-details',
     templateUrl: './currency-details.component.html',
     styleUrls: ['./currency-details.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [TitleCasePipe, KeyValuePipe]
 })
 export class CurrencyDetailsComponent {
   @Input() currency!: CurrenciesEntity;

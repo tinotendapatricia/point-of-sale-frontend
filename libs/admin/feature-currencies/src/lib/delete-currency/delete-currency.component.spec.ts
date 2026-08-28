@@ -7,8 +7,8 @@ describe('DeleteCurrencyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DeleteCurrencyComponent],
-    }).compileComponents();
+    imports: [DeleteCurrencyComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(DeleteCurrencyComponent);
     component = fixture.componentInstance;

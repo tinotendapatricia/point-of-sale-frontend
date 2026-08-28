@@ -2,13 +2,18 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { UntypedFormGroup, FormBuilder } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
 import { RolesEntity } from '@pos-frontend/roles/data-access';
+import { ClrCheckboxModule } from '@clr/angular/forms/checkbox';
+import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { ClrLoadingButtonModule } from '@clr/angular/button';
+import { ClrLoadingModule } from '@clr/angular/utils';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-user-roles-form',
     templateUrl: './user-roles-form.component.html',
     styleUrls: ['./user-roles-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ClrCheckboxModule, ClrCommonFormsModule, ClrLoadingButtonModule, ClrLoadingModule, TitleCasePipe]
 })
 export class UserRolesFormComponent implements OnInit, OnChanges {
 

@@ -2,13 +2,14 @@ import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
+import { ActionConfirmationFormComponent } from '../../../../../shared/ui/src/lib/action-confirmation-form/action-confirmation-form.component';
 
 @Component({
     selector: 'pos-frontend-close-batch',
     templateUrl: './close-batch.component.html',
     styleUrls: ['./close-batch.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ActionConfirmationFormComponent]
 })
 export class CloseBatchComponent implements OnInit  {
 @Input() batch :any

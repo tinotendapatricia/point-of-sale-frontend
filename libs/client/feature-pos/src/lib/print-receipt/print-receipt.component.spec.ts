@@ -7,8 +7,8 @@ describe('PrintReceiptComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PrintReceiptComponent],
-    }).compileComponents();
+    imports: [PrintReceiptComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(PrintReceiptComponent);
     component = fixture.componentInstance;

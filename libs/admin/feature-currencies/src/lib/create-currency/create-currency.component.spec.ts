@@ -7,8 +7,8 @@ describe('CreateCurrencyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CreateCurrencyComponent],
-    }).compileComponents();
+    imports: [CreateCurrencyComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(CreateCurrencyComponent);
     component = fixture.componentInstance;

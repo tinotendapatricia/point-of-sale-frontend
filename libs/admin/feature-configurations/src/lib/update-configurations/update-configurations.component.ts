@@ -3,13 +3,14 @@ import { Router } from '@angular/router';
 import { ClrLoadingState } from '@clr/angular';
 import { ConfigurationsEntity, ConfigurationsService } from '@pos-frontend/configurations/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
+import { ConfigurationsFormComponent } from '../../../../../configurations/ui/src/lib/configurations-form/configurations-form.component';
 
 @Component({
     selector: 'pos-frontend-update-configurations',
     templateUrl: './update-configurations.component.html',
     styleUrls: ['./update-configurations.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ConfigurationsFormComponent]
 })
 export class UpdateConfigurationsComponent {
   

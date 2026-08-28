@@ -8,8 +8,8 @@ describe('ViewUserComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewUserComponent ]
-    })
+    imports: [ViewUserComponent]
+})
     .compileComponents();
   }));
 

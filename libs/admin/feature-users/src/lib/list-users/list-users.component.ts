@@ -9,13 +9,19 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
 //import { ClrDatagridStateInterface } from '@clr/angular';
 import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { ListUsersUiComponent } from '../../../../../users/ui/src/lib/list-users-ui/list-users-ui.component';
+import { CreateUserComponent } from '../create-user/create-user.component';
+import { UpdateUserComponent } from '../update-user/update-user.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-list-users',
     templateUrl: './list-users.component.html',
     styleUrls: ['./list-users.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatCard, MatCardContent, ClrIcon, ClrIconModule, ListUsersUiComponent, CreateUserComponent, UpdateUserComponent, AsyncPipe]
 })
 export class ListUsersComponent implements OnInit, AfterViewChecked {
   public isUpdate = false;

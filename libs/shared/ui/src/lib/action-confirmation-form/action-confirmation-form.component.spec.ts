@@ -7,8 +7,8 @@ describe('ActionConfirmationFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ActionConfirmationFormComponent],
-    }).compileComponents();
+    imports: [ActionConfirmationFormComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(ActionConfirmationFormComponent);
     component = fixture.componentInstance;

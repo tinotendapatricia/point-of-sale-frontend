@@ -16,8 +16,7 @@ import {
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, checkIcon, plusIcon);
 
 @NgModule({
-  imports: [CommonModule, ClarityModule, ReactiveFormsModule],
-  declarations: [DebtorsListUiComponent, DebtorsFormComponent],
-  exports: [DebtorsListUiComponent, DebtorsFormComponent],
+    imports: [CommonModule, ClarityModule, ReactiveFormsModule, DebtorsListUiComponent, DebtorsFormComponent],
+    exports: [DebtorsListUiComponent, DebtorsFormComponent],
 })
 export class DebtorsUiModule {}

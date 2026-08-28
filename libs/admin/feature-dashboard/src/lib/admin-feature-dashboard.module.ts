@@ -11,18 +11,15 @@ import { ClarityModule } from '@clr/angular';
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ClarityModule,
-    RouterModule.forChild([{ path: '', component: DashboardComponent }]),
-   //NgxChartsModule
-  ],
-  declarations: [
-    DashboardComponent,
-    LowSellingProductComponent,
-    TopSellingProductComponent,
-    LowStockProductsComponent,
-    RecentTransactionsComponent,
-  ],
+    imports: [
+        CommonModule,
+        ClarityModule,
+        RouterModule.forChild([{ path: '', component: DashboardComponent }]),
+        DashboardComponent,
+        LowSellingProductComponent,
+        TopSellingProductComponent,
+        LowStockProductsComponent,
+        RecentTransactionsComponent,
+    ],
 })
 export class AdminFeatureDashboardModule {}

@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { GroupsFacade } from '@pos-frontend/groups/data-access';
+import { GroupFormComponent } from '../../../../../groups/ui/src/lib/group-form/group-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-create-group',
     templateUrl: './create-group.component.html',
     styleUrls: ['./create-group.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [GroupFormComponent, AsyncPipe]
 })
 export class CreateGroupComponent {
   @Output() closeModal = new EventEmitter();

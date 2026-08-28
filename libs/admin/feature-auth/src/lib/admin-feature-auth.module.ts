@@ -19,19 +19,19 @@ import { ClarityModule } from '@clr/angular';
 ClarityIcons.addIcons(keyIcon);
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatCardModule,
-    AuthUiModule,
-    ClarityModule,
-    AuthDataAccessModule,
-    MatProgressBarModule,
-    CompanyDetailsDataAccessModule,
-    CompanyDetailsUiModule,
-    RouterModule.forChild([
-      { path: 'login', component: LoginFeatureComponent },
-    ]),
-  ],
-  declarations: [LoginFeatureComponent, LicenseSystemComponent],
+    imports: [
+        CommonModule,
+        MatCardModule,
+        AuthUiModule,
+        ClarityModule,
+        AuthDataAccessModule,
+        MatProgressBarModule,
+        CompanyDetailsDataAccessModule,
+        CompanyDetailsUiModule,
+        RouterModule.forChild([
+            { path: 'login', component: LoginFeatureComponent },
+        ]),
+        LoginFeatureComponent, LicenseSystemComponent,
+    ],
 })
 export class AdminFeatureAuthModule {}

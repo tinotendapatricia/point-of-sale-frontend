@@ -8,8 +8,8 @@ describe('ChangeUserStatusComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChangeUserStatusComponent ]
-    })
+    imports: [ChangeUserStatusComponent]
+})
     .compileComponents();
   }));
 

@@ -7,8 +7,8 @@ describe('BreakBulkToSingleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BreakBulkToSingleComponent],
-    }).compileComponents();
+    imports: [BreakBulkToSingleComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(BreakBulkToSingleComponent);
     component = fixture.componentInstance;

@@ -6,8 +6,7 @@ import { ClarityModule } from '@clr/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, ClarityModule, ReactiveFormsModule],
-  declarations: [VatFormComponent, VatFormComponent, VatDetailsComponent],
-  exports: [VatFormComponent, VatFormComponent, VatDetailsComponent],
+    imports: [CommonModule, ClarityModule, ReactiveFormsModule, VatFormComponent, VatFormComponent, VatDetailsComponent],
+    exports: [VatFormComponent, VatFormComponent, VatDetailsComponent],
 })
 export class VatUiModule {}

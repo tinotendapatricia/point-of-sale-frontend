@@ -15,13 +15,16 @@ import { UsersEntity } from '@pos-frontend/users/data-access';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClrDatagridStateInterface } from '@clr/angular';
+import { ClrDatagridModule } from '@clr/angular/data/datagrid';
+import { ClrStopEscapePropagationDirective, ClrPopoverHostDirective } from '@clr/angular/popover/common';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
 
 @Component({
     selector: 'pos-frontend-list-users-ui',
     templateUrl: './list-users-ui.component.html',
     styleUrls: ['./list-users-ui.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ClrDatagridModule, ClrStopEscapePropagationDirective, ClrPopoverHostDirective, ClrIcon, ClrIconModule]
 })
 export class ListUsersUiComponent implements OnChanges {
   @Input() userList: UsersEntity[] = [];

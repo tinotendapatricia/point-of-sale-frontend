@@ -1,15 +1,21 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClrLoadingState } from '@clr/angular';
 import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
 import { DebtorsEntity } from '@pos-frontend/debtors/data-access';
+import { ClrModalModule } from '@clr/angular/modal';
+import { ClrInputModule } from '@clr/angular/forms/input';
+import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { ClrSelectModule } from '@clr/angular/forms/select';
+import { ClrLoadingButtonModule } from '@clr/angular/button';
+import { ClrLoadingModule } from '@clr/angular/utils';
 
 @Component({
     selector: 'pos-frontend-debtors-form',
     templateUrl: './debtors-form.component.html',
     styleUrls: ['./debtors-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ClrModalModule, FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrSelectModule, ClrLoadingButtonModule, ClrLoadingModule]
 })
 export class DebtorsFormComponent {
   @Input() debtor!: DebtorsEntity;

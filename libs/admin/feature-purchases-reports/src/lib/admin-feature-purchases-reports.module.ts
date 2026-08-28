@@ -15,23 +15,20 @@ import { ReceivingReportByGrvNumberComponent } from './receiving-report-by-grv-n
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReportsUiModule,
-    ReportsDataAccessModule,
-    ClarityModule,
-    RouterModule.forChild([
-      {path:'', component:PurchasesReportsContainerComponent}
-    ])
-  ],
-  declarations: [
-    PurchasesReportsContainerComponent,
-    PurchasesReportsContainerComponent,
-    PurchasesReportGrvVsPurchasesSummaryComponent,
-    PurchasesReportGrvVsPurchasesDetailComponent,
-
-    PurchasesReportByOrderNumberComponent,
-    ReceivingReportByGrvNumberComponent,
-  ],
+    imports: [
+        CommonModule,
+        ReportsUiModule,
+        ReportsDataAccessModule,
+        ClarityModule,
+        RouterModule.forChild([
+            { path: '', component: PurchasesReportsContainerComponent }
+        ]),
+        PurchasesReportsContainerComponent,
+        PurchasesReportsContainerComponent,
+        PurchasesReportGrvVsPurchasesSummaryComponent,
+        PurchasesReportGrvVsPurchasesDetailComponent,
+        PurchasesReportByOrderNumberComponent,
+        ReceivingReportByGrvNumberComponent
+    ],
 })
 export class AdminFeaturePurchasesReportsModule {}

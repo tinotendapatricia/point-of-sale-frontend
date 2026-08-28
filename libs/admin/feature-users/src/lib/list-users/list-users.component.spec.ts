@@ -12,9 +12,8 @@ describe('ListUsersComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ClarityModule, ReactiveFormsModule,StoreModule.forRoot({})],
-      declarations: [ListUsersComponent, CreateUserComponent]
-    }).compileComponents();
+    imports: [ClarityModule, ReactiveFormsModule, StoreModule.forRoot({}), ListUsersComponent, CreateUserComponent]
+}).compileComponents();
   }));
 
   beforeEach(() => {

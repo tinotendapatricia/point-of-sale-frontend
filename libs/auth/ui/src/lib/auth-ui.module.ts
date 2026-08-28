@@ -11,17 +11,17 @@ import { ClarityModule } from '@clr/angular';
 import { StationFormComponent } from './station-form/station-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ClarityModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatCardModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-  ],
-  declarations: [LoginFormComponent, StationFormComponent],
-  exports: [LoginFormComponent, StationFormComponent],
+    imports: [
+        CommonModule,
+        ClarityModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatCardModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        LoginFormComponent, StationFormComponent,
+    ],
+    exports: [LoginFormComponent, StationFormComponent],
 })
 export class AuthUiModule {}

@@ -8,8 +8,8 @@ describe('BreakBulkFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BreakBulkFormComponent ]
-    })
+    imports: [BreakBulkFormComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(BreakBulkFormComponent);

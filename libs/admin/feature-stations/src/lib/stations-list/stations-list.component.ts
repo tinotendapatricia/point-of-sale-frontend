@@ -11,13 +11,18 @@ import {
   StationsEntity,
   StationsFacade,
 } from '@pos-frontend/stations/data-access';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { StationsListUiComponent } from '../../../../../stations/ui/src/lib/stations-list-ui/stations-list-ui.component';
+import { CreateStationComponent } from '../create-station/create-station.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-stations-list',
     templateUrl: './stations-list.component.html',
     styleUrls: ['./stations-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatCard, MatCardContent, ClrIcon, ClrIconModule, StationsListUiComponent, CreateStationComponent, AsyncPipe]
 })
 export class StationsListComponent implements AfterViewChecked {
   public isUpdate = false;

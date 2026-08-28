@@ -12,15 +12,14 @@ import { VatDataAccessModule } from '@pos-frontend/vat/data-access';
 
 
 @NgModule({
-  imports: [    CommonModule,
-    ClarityModule,
-    PosUiModule,
-    ProductsDataAccessModule,
-    DebtorsDataAccessModule,
-    VatDataAccessModule,
-    CurrenciesDataAccessModule,
-    PosDataAccessModule,
-    RouterModule.forChild([{ path: '', component: RefundHomeComponent }]),],
-  declarations: [RefundHomeComponent],
+    imports: [CommonModule,
+        ClarityModule,
+        PosUiModule,
+        ProductsDataAccessModule,
+        DebtorsDataAccessModule,
+        VatDataAccessModule,
+        CurrenciesDataAccessModule,
+        PosDataAccessModule,
+        RouterModule.forChild([{ path: '', component: RefundHomeComponent }]), RefundHomeComponent,],
 })
 export class ClientFeatureRefundModule {}

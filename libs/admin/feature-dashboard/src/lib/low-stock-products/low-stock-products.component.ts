@@ -6,8 +6,7 @@ import { DashboardService } from '../services/dashboard.service';
     selector: 'pos-frontend-low-stock-products',
     templateUrl: './low-stock-products.component.html',
     styleUrls: ['./low-stock-products.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class LowStockProductsComponent implements OnInit {
   sales$: Observable<any[]> | undefined;

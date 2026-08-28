@@ -7,9 +7,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ProductsDataAccessModule } from '@pos-frontend/products/data-access';
 
 @NgModule({
-  imports: [CommonModule,    NgSelectModule,ClarityModule, ReactiveFormsModule, FormsModule, ProductsDataAccessModule],
-  declarations: [GrvFormComponent],
-  exports: [GrvFormComponent],
-  schemas: [NO_ERRORS_SCHEMA],
+    imports: [CommonModule, NgSelectModule, ClarityModule, ReactiveFormsModule, FormsModule, ProductsDataAccessModule, GrvFormComponent],
+    exports: [GrvFormComponent],
+    schemas: [NO_ERRORS_SCHEMA],
 })
 export class GoodsReceivedUiModule {}

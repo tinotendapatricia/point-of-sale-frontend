@@ -16,9 +16,8 @@ import { ClarityModule } from '@clr/angular';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, NgSelectModule, ClarityModule,  FormsModule, ReactiveFormsModule, RouterModule],
-  declarations: [PosFormComponent],
-  exports: [PosFormComponent],
-  schemas: [NO_ERRORS_SCHEMA],
+    imports: [CommonModule, NgSelectModule, ClarityModule, FormsModule, ReactiveFormsModule, RouterModule, PosFormComponent],
+    exports: [PosFormComponent],
+    schemas: [NO_ERRORS_SCHEMA],
 })
 export class PosUiModule {}

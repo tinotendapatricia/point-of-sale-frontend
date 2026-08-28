@@ -2,13 +2,14 @@ import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angul
 import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { config } from 'rxjs';
+import { StationFormComponent } from '../../../../../auth/ui/src/lib/station-form/station-form.component';
 
 @Component({
     selector: 'pos-frontend-configure-station',
     templateUrl: './configure-station.component.html',
     styleUrls: ['./configure-station.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [StationFormComponent]
 })
 export class ConfigureStationComponent {
   @Output() closeModal = new EventEmitter();

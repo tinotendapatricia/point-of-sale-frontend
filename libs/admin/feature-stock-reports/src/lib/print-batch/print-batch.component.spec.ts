@@ -7,8 +7,8 @@ describe('PrintBatchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PrintBatchComponent],
-    }).compileComponents();
+    imports: [PrintBatchComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(PrintBatchComponent);
     component = fixture.componentInstance;

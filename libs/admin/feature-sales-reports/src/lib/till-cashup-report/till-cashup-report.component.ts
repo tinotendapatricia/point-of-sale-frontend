@@ -5,13 +5,15 @@ import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
 import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
+import { CashupFormComponent } from '../../../../../reports/ui/src/lib/cashup-form/cashup-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-till-cashup-report',
     templateUrl: './till-cashup-report.component.html',
     styleUrls: ['./till-cashup-report.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [CashupFormComponent, AsyncPipe]
 })
 export class TillCashupReportComponent implements OnInit, OnDestroy {
   btnState = ClrLoadingState.DEFAULT;

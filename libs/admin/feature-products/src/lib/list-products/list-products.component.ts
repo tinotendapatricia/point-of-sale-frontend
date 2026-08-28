@@ -1,17 +1,23 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLinkActive, RouterLink } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
 import {
   ProductsEntity,
   ProductsFacade,
 } from '@pos-frontend/products/data-access';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { ProductsListUiComponent } from '../../../../../products/ui/src/lib/products-list-ui/products-list-ui.component';
+import { UpdateCostComponent } from '../update-cost/update-cost.component';
+import { UpdatePriceComponent } from '../update-price/update-price.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-list-products',
     templateUrl: './list-products.component.html',
     styleUrls: ['./list-products.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatCard, MatCardContent, RouterLinkActive, RouterLink, ClrIcon, ClrIconModule, ProductsListUiComponent, UpdateCostComponent, UpdatePriceComponent, AsyncPipe]
 })
 export class ListProductsComponent implements AfterViewChecked {
   public isUpdate = false;

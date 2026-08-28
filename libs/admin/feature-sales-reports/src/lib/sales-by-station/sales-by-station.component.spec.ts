@@ -7,8 +7,8 @@ describe('SalesByStationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SalesByStationComponent],
-    }).compileComponents();
+    imports: [SalesByStationComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(SalesByStationComponent);
     component = fixture.componentInstance;

@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoriesFacade } from '@pos-frontend/categories/data-access';
+import { CategoryFormComponent } from '../../../../../categories/ui/src/lib/category-form/category-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-create-category',
     templateUrl: './create-category.component.html',
     styleUrls: ['./create-category.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [CategoryFormComponent, AsyncPipe]
 })
 export class CreateCategoryComponent {
   @Output() closeModal = new EventEmitter();

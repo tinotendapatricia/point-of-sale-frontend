@@ -18,17 +18,14 @@ import { ClarityModule } from '@clr/angular';
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon, syncIcon);
 
 @NgModule({
-  imports: [CommonModule, 
-    MatCardModule,
-    ClarityModule,
-    RouterModule.forChild([
-      {path:'', component:CompanyDetailsComponent}
-    ]),
-    CompanyDetailsDataAccessModule, CompanyDetailsUiModule],
-  declarations: [
-    CompanyDetailsComponent,
-    CreateCompanyDetailsComponent,
-    UpdateCompanyDetailsComponent,
-  ],
+    imports: [CommonModule,
+        MatCardModule,
+        ClarityModule,
+        RouterModule.forChild([
+            { path: '', component: CompanyDetailsComponent }
+        ]),
+        CompanyDetailsDataAccessModule, CompanyDetailsUiModule, CompanyDetailsComponent,
+        CreateCompanyDetailsComponent,
+        UpdateCompanyDetailsComponent],
 })
 export class AdminFeatureCompanyModule {}

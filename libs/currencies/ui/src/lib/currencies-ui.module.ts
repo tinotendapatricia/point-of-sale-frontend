@@ -15,19 +15,16 @@ import { RateFormComponent } from './rate-form/rate-form.component';
 
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon);
 @NgModule({
-  imports: [CommonModule, ClarityModule, ReactiveFormsModule, FormsModule],
-  declarations: [
-    CurrencyFormComponent,
-    CurrenciesListUiComponent,
-    CurrencyDetailsComponent,
-    RateFormComponent,
-  ],
-  exports: [
-    CurrencyFormComponent,
-    CurrenciesListUiComponent,
-    CurrencyDetailsComponent,
-    RateFormComponent,
-    RateFormComponent,
-  ],
+    imports: [CommonModule, ClarityModule, ReactiveFormsModule, FormsModule, CurrencyFormComponent,
+        CurrenciesListUiComponent,
+        CurrencyDetailsComponent,
+        RateFormComponent],
+    exports: [
+        CurrencyFormComponent,
+        CurrenciesListUiComponent,
+        CurrencyDetailsComponent,
+        RateFormComponent,
+        RateFormComponent,
+    ],
 })
 export class CurrenciesUiModule {}

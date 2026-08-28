@@ -7,8 +7,8 @@ describe('UpdateRateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpdateRateComponent],
-    }).compileComponents();
+    imports: [UpdateRateComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(UpdateRateComponent);
     component = fixture.componentInstance;

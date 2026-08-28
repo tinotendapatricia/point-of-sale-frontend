@@ -7,8 +7,8 @@ describe('ViewGroupAuthoritiesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ViewGroupAuthoritiesComponent],
-    }).compileComponents();
+    imports: [ViewGroupAuthoritiesComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(ViewGroupAuthoritiesComponent);
     component = fixture.componentInstance;

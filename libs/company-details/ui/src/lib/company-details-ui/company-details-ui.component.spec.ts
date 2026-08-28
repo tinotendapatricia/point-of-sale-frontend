@@ -7,8 +7,8 @@ describe('CompanyDetailsUiComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CompanyDetailsUiComponent],
-    }).compileComponents();
+    imports: [CompanyDetailsUiComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(CompanyDetailsUiComponent);
     component = fixture.componentInstance;

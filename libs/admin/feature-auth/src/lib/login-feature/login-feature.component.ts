@@ -5,13 +5,16 @@ import { ClrLoadingState } from '@clr/angular';
 import { AuthenticationService } from '@pos-frontend/auth/data-access';
 import { CompanyService } from '@pos-frontend/company-details/data-access';
 import { Subscription } from 'rxjs';
+import { LoginFormComponent } from '../../../../../auth/ui/src/lib/login-form/login-form.component';
+import { LicenseSystemComponent } from '../license-system/license-system.component';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
 
 @Component({
     selector: 'pos-frontend-login-feature',
     templateUrl: './login-feature.component.html',
     styleUrls: ['./login-feature.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [LoginFormComponent, LicenseSystemComponent, ClrIcon, ClrIconModule]
 })
 export class LoginFeatureComponent implements OnDestroy, OnInit {
   isLicense = false;

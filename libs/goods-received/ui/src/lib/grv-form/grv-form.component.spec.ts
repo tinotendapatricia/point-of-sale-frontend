@@ -8,8 +8,8 @@ describe('GrvFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GrvFormComponent ]
-    })
+    imports: [GrvFormComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(GrvFormComponent);

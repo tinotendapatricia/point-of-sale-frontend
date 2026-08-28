@@ -7,8 +7,8 @@ describe('UpdateCreditorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpdateCreditorComponent],
-    }).compileComponents();
+    imports: [UpdateCreditorComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(UpdateCreditorComponent);
     component = fixture.componentInstance;

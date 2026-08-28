@@ -2,13 +2,18 @@ import { ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClrDatagridStateInterface } from '@clr/angular';
 import { CategoriesEntity, CategoriesFacade } from '@pos-frontend/categories/data-access';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { CategoryListUiComponent } from '../../../../../categories/ui/src/lib/category-list-ui/category-list-ui.component';
+import { CreateCategoryComponent } from '../create-category/create-category.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-categories-list',
     templateUrl: './categories-list.component.html',
     styleUrls: ['./categories-list.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatCard, MatCardContent, ClrIcon, ClrIconModule, CategoryListUiComponent, CreateCategoryComponent, AsyncPipe]
 })
 export class CategoriesListComponent {
   public isUpdate = false;

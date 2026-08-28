@@ -8,8 +8,8 @@ describe('UserFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserFormComponent ]
-    })
+    imports: [UserFormComponent]
+})
     .compileComponents();
   }));
 

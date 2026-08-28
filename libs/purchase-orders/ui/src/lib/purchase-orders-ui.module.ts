@@ -13,18 +13,18 @@ import { ClarityIcons, minusCircleIcon, pencilIcon } from '@cds/core/icon';
 ClarityIcons.addIcons(pencilIcon, minusCircleIcon);
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ClarityModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatFormFieldModule,
-    // SharedUtilsModule,
-    NgSelectModule,
-  ],
-  declarations: [PurchaseOrderFormComponent],
-  exports: [PurchaseOrderFormComponent],
-  schemas: [NO_ERRORS_SCHEMA],
+    imports: [
+        CommonModule,
+        ClarityModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        MatFormFieldModule,
+        // SharedUtilsModule,
+        NgSelectModule,
+        PurchaseOrderFormComponent,
+    ],
+    exports: [PurchaseOrderFormComponent],
+    schemas: [NO_ERRORS_SCHEMA],
 })
 export class PurchaseOrdersUiModule {}

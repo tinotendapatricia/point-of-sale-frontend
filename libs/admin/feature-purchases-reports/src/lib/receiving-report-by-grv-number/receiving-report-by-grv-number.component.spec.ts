@@ -7,8 +7,8 @@ describe('ReceivingReportByGrvNumberComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ReceivingReportByGrvNumberComponent],
-    }).compileComponents();
+    imports: [ReceivingReportByGrvNumberComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(ReceivingReportByGrvNumberComponent);
     component = fixture.componentInstance;

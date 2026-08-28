@@ -5,13 +5,19 @@ import {
   DebtorsEntity,
   DebtorsFacade,
 } from '@pos-frontend/debtors/data-access';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { DebtorsListUiComponent } from '../../../../../debtors/ui/src/lib/debtors-list-ui/debtors-list-ui.component';
+import { CreateDebtorsComponent } from '../create-debtors/create-debtors.component';
+import { UpdateDebtorsComponent } from '../update-debtors/update-debtors.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-list-debtors',
     templateUrl: './list-debtors.component.html',
     styleUrls: ['./list-debtors.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatCard, MatCardContent, ClrIcon, ClrIconModule, DebtorsListUiComponent, CreateDebtorsComponent, UpdateDebtorsComponent, AsyncPipe]
 })
 export class ListDebtorsComponent implements AfterViewChecked {
   public isUpdate = false;

@@ -3,13 +3,15 @@ import { ClrLoadingState } from '@clr/angular';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
 import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
+import { ReportsFormComponent } from '../../../../../reports/ui/src/lib/reports-form/reports-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-generate-gp-report',
     templateUrl: './generate-gp-report.component.html',
     styleUrls: ['./generate-gp-report.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ReportsFormComponent, AsyncPipe]
 })
 export class GenerateGpReportComponent implements OnInit, OnDestroy {
   btnState = ClrLoadingState.DEFAULT;

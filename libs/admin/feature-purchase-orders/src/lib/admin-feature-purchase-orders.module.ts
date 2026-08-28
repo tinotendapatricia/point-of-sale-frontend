@@ -12,20 +12,20 @@ import { VatDataAccessModule } from '@pos-frontend/vat/data-access';
 import { CreditorsDataAccessModule } from '@pos-frontend/creditors/data-access';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ClarityModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    PurchaseOrdersDataAccessModule,
-    PurchaseOrdersUiModule,
-    ProductsDataAccessModule,
-    VatDataAccessModule,
-    CreditorsDataAccessModule,
-    RouterModule.forChild([
-      { path: '', component: CreatePurchaseOrderComponent },
-    ]),
-  ],
-  declarations: [CreatePurchaseOrderComponent],
+    imports: [
+        CommonModule,
+        ClarityModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        PurchaseOrdersDataAccessModule,
+        PurchaseOrdersUiModule,
+        ProductsDataAccessModule,
+        VatDataAccessModule,
+        CreditorsDataAccessModule,
+        RouterModule.forChild([
+            { path: '', component: CreatePurchaseOrderComponent },
+        ]),
+        CreatePurchaseOrderComponent,
+    ],
 })
 export class AdminFeaturePurchaseOrdersModule {}

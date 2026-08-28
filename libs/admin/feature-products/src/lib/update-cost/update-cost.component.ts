@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 
 import { ProductsEntity, ProductsFacade } from '@pos-frontend/products/data-access';
+import { UpdateCostAndPriceComponent } from '../../../../../products/ui/src/lib/update-cost-and-price/update-cost-and-price.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-update-cost',
     templateUrl: './update-cost.component.html',
     styleUrls: ['./update-cost.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [UpdateCostAndPriceComponent, AsyncPipe]
 })
 export class UpdateCostComponent implements OnInit {
   @Input() product:ProductsEntity | undefined

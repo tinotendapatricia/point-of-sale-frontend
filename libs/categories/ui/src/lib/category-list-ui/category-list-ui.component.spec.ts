@@ -7,8 +7,8 @@ describe('CategoryListUiComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CategoryListUiComponent],
-    }).compileComponents();
+    imports: [CategoryListUiComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(CategoryListUiComponent);
     component = fixture.componentInstance;

@@ -6,8 +6,7 @@ import { DashboardService } from '../services/dashboard.service';
     selector: 'pos-frontend-low-selling-product',
     templateUrl: './low-selling-product.component.html',
     styleUrls: ['./low-selling-product.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class LowSellingProductComponent implements OnInit {
   //data: any[] = [];

@@ -4,13 +4,15 @@ import {
   CurrenciesEntity,
   CurrenciesFacade,
 } from '@pos-frontend/currencies/data-access';
+import { ActionConfirmationFormComponent } from '../../../../../shared/ui/src/lib/action-confirmation-form/action-confirmation-form.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-make-default',
     templateUrl: './make-default.component.html',
     styleUrls: ['./make-default.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ActionConfirmationFormComponent, AsyncPipe]
 })
 export class MakeDefaultComponent implements OnInit {
   @Input() currency!: CurrenciesEntity;

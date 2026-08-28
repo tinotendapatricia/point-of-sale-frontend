@@ -8,18 +8,16 @@ import { AssignGroupsUiComponent } from './assign-groups-ui/assign-groups-ui.com
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ClarityModule,
-    ReactiveFormsModule,
-    ClarityModule,
-    RouterModule,
-  ],
-  declarations: [
-    GroupFormComponent,
-    ListGroupsUiComponent,
-    AssignGroupsUiComponent,
-  ],
-  exports: [GroupFormComponent, ListGroupsUiComponent, AssignGroupsUiComponent],
+    imports: [
+        CommonModule,
+        ClarityModule,
+        ReactiveFormsModule,
+        ClarityModule,
+        RouterModule,
+        GroupFormComponent,
+        ListGroupsUiComponent,
+        AssignGroupsUiComponent,
+    ],
+    exports: [GroupFormComponent, ListGroupsUiComponent, AssignGroupsUiComponent],
 })
 export class GroupsUiModule {}

@@ -7,8 +7,8 @@ describe('CategoryFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CategoryFormComponent],
-    }).compileComponents();
+    imports: [CategoryFormComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(CategoryFormComponent);
     component = fixture.componentInstance;

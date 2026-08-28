@@ -38,50 +38,41 @@ ClarityIcons.addIcons(
   blocksGroupIcon
 );
 @NgModule({
-  imports: [
-    CommonModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatListModule,
-    ClarityModule,
-    SharedUiModule,
-    AuthDataAccessModule,
-    UsersDataAccessModule,
-    RouterModule.forChild([
-      {
-        path: 'auth',
-        loadChildren: () =>
-          import('@pos-frontend/client/feature-auth').then(
-            (module) => module.ClientFeatureAuthModule
-          ),
-      },
-      {
-        path: '',
-        component: PortalContainerComponent,
-        canActivate: [AuthGuard],
-        //resolve: [UserProfileResolverService],
-        children: [
-          { path: '', redirectTo: 'pos', pathMatch: 'full' },
-          {
-            path: 'pos',
-            loadChildren: () =>
-              import('@pos-frontend/client/feature-pos').then(
-                (module) => module.ClientFeaturePosModule
-              ),
-          },
-          {
-            path: 'refund',
-            loadChildren: () =>
-              import('@pos-frontend/client/feature-refund').then(
-                (module) => module.ClientFeatureRefundModule
-              ),
-          },
-        ],
-      },
-    ]),
-  ],
-  declarations: [PortalContainerComponent, HeaderComponent],
-  exports: [HeaderComponent],
+    imports: [
+        CommonModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatListModule,
+        ClarityModule,
+        SharedUiModule,
+        AuthDataAccessModule,
+        UsersDataAccessModule,
+        RouterModule.forChild([
+            {
+                path: 'auth',
+                loadChildren: () => import('@pos-frontend/client/feature-auth').then((module) => module.ClientFeatureAuthModule),
+            },
+            {
+                path: '',
+                component: PortalContainerComponent,
+                canActivate: [AuthGuard],
+                //resolve: [UserProfileResolverService],
+                children: [
+                    { path: '', redirectTo: 'pos', pathMatch: 'full' },
+                    {
+                        path: 'pos',
+                        loadChildren: () => import('@pos-frontend/client/feature-pos').then((module) => module.ClientFeaturePosModule),
+                    },
+                    {
+                        path: 'refund',
+                        loadChildren: () => import('@pos-frontend/client/feature-refund').then((module) => module.ClientFeatureRefundModule),
+                    },
+                ],
+            },
+        ]),
+        PortalContainerComponent, HeaderComponent,
+    ],
+    exports: [HeaderComponent],
 })
 export class ClientFeatureShellModule {}

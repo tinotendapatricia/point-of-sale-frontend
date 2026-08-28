@@ -1,13 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ProductsEntity, ProductsFacade } from '@pos-frontend/products/data-access';
 import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
+import { StockTakeCountFormComponent } from '../../../../../stock-take/ui/src/lib/stock-take-count-form/stock-take-count-form.component';
+import { StockAdjustmentComponent } from '../stock-adjustment/stock-adjustment.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-stock-take',
     templateUrl: './stock-take.component.html',
     styleUrls: ['./stock-take.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [StockTakeCountFormComponent, StockAdjustmentComponent, AsyncPipe]
 })
 export class StockTakeComponent   {
   batchProducts:any
