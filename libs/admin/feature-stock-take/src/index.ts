@@ -1,4 +1,4 @@
-export * from './lib/admin-feature-stock-take.module';
+export * from './lib/admin-feature-stock-take.routes';
 
 export * from './lib/close-batch/close-batch.component';
 

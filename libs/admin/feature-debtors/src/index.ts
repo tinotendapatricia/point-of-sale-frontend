@@ -1,1 +1,1 @@
-export * from './lib/admin-feature-debtors.module';
+export * from './lib/admin-feature-debtors.routes';

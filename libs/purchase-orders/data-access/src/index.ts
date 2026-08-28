@@ -9,4 +9,4 @@ export * from './lib/+state/purchase-order.facade';
 export * from './lib/+state/purchase-order.models';
 
 export { PurchaseOrderActions, PurchaseOrderFeature, PurchaseOrderSelectors };
-export * from './lib/purchase-orders-data-access.module';
+export * from './lib/purchase-orders-data-access.providers';

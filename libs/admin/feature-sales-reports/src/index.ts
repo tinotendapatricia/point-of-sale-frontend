@@ -1,4 +1,4 @@
-export * from './lib/admin-feature-sales-reports.module';
+export * from './lib/admin-feature-sales-reports.routes';
 
 export * from './lib/sales-by-period-and-product/sales-by-period-and-product.component';
 

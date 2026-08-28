@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ClrStopEscapePropagationDirective, ClrPopoverHostDirective } from '@clr/angular/popover/common';
 import { ClrTabsModule } from '@clr/angular/layout/tabs';
 import { ClrIfActive } from '@clr/angular/utils';
@@ -13,6 +13,7 @@ import { StockTakeForPeriodComponent } from '../stock-take-for-period/stock-take
     templateUrl: './stock-reports-container.component.html',
     styleUrls: ['./stock-reports-container.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrStopEscapePropagationDirective, ClrPopoverHostDirective, ClrTabsModule, ClrIfActive, CurrentStockListingReportComponent, PrintBatchComponent, PrintAdjustmentComponent, AdjustmentVsBatchComponent, StockTakeForPeriodComponent]
+    imports: [ClrStopEscapePropagationDirective, ClrPopoverHostDirective, ClrTabsModule, ClrIfActive, CurrentStockListingReportComponent, PrintBatchComponent, PrintAdjustmentComponent, AdjustmentVsBatchComponent, StockTakeForPeriodComponent],
+    schemas: [NO_ERRORS_SCHEMA]
 })
 export class StockReportsContainerComponent {}

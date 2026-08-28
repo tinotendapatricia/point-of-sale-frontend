@@ -1,1 +1,1 @@
-export * from './lib/admin-feature-purchase-orders.module';
+export * from './lib/admin-feature-purchase-orders.routes';

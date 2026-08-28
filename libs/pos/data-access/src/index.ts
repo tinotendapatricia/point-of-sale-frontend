@@ -9,4 +9,4 @@ export * from './lib/+state/pos.facade';
 export * from './lib/+state/pos.models';
 
 export { PosActions, PosFeature, PosSelectors };
-export * from './lib/pos-data-access.module';
+export * from './lib/pos-data-access.providers';

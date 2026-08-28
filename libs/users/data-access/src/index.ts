@@ -9,4 +9,4 @@ export * from './lib/+state/users.facade';
 export * from './lib/+state/users.models';
 
 export { UsersActions, UsersFeature, UsersSelectors };
-export * from './lib/users-data-access.module';
+export * from './lib/users-data-access.providers';

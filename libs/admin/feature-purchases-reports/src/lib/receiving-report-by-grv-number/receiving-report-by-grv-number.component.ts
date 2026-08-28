@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/
 import { ClrLoadingState } from '@clr/angular';
 import { PurchasesReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
-import { ReportsFormComponent } from '../../../../../reports/ui/src/lib/reports-form/reports-form.component';
+import { ReportsFormComponent } from '@pos-frontend/reports/ui';
 
 @Component({
     selector: 'pos-frontend-receiving-report-by-grv-number',

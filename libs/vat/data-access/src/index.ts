@@ -10,4 +10,4 @@ export * from './lib/+state/vat.models';
 
 export { VatActions, VatFeature, VatSelectors };
 
-export * from './lib/vat-data-access.module';
+export * from './lib/vat-data-access.providers';

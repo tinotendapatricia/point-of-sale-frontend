@@ -1,1 +1,1 @@
-export * from './lib/admin-feature-goods-received.module';
+export * from './lib/admin-feature-goods-received.routes';

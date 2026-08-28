@@ -5,7 +5,7 @@ import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
 import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
-import { CashupFormComponent } from '../../../../../reports/ui/src/lib/cashup-form/cashup-form.component';
+import { CashupFormComponent } from '@pos-frontend/reports/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

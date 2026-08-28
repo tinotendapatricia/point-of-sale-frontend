@@ -9,4 +9,4 @@ export * from './lib/+state/creditors.facade';
 export * from './lib/+state/creditors.models';
 
 export { CreditorsActions, CreditorsFeature, CreditorsSelectors };
-export * from './lib/creditors-data-access.module';
+export * from './lib/creditors-data-access.providers';

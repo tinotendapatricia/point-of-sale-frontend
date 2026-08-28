@@ -9,4 +9,4 @@ export * from './lib/+state/roles.facade';
 export * from './lib/+state/roles.models';
 
 export { RolesActions, RolesFeature, RolesSelectors };
-export * from './lib/roles-data-access.module';
+export * from './lib/roles-data-access.providers';

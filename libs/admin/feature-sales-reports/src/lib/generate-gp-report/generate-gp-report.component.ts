@@ -3,7 +3,7 @@ import { ClrLoadingState } from '@clr/angular';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
 import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
-import { ReportsFormComponent } from '../../../../../reports/ui/src/lib/reports-form/reports-form.component';
+import { ReportsFormComponent } from '@pos-frontend/reports/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

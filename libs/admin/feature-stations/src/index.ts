@@ -1,1 +1,1 @@
-export * from './lib/admin-feature-stations.module';
+export * from './lib/admin-feature-stations.routes';

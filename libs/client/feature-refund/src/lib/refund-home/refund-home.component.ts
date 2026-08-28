@@ -5,7 +5,7 @@ import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
 import { PosFacade } from '@pos-frontend/pos/data-access';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { VatFacade } from '@pos-frontend/vat/data-access';
-import { PosFormComponent } from '../../../../../pos/ui/src/lib/pos-form/pos-form.component';
+import { PosFormComponent } from '@pos-frontend/pos/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { UpdateCostAndPriceComponent } from './update-cost-and-price.component';
 
 describe('UpdateCostAndPriceComponent', () => {
@@ -8,6 +9,7 @@ describe('UpdateCostAndPriceComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
     imports: [UpdateCostAndPriceComponent],
+    providers: [provideNoopAnimations()],
 }).compileComponents();
 
     fixture = TestBed.createComponent(UpdateCostAndPriceComponent);

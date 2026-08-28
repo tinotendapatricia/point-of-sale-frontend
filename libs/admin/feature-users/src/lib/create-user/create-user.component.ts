@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 //import { GroupsEntity, GroupsFacade } from '@pos-frontend/groups/data-access';
 
 import { UsersFacade } from '@pos-frontend/users/data-access';
-import { UserFormComponent } from '../../../../../users/ui/src/lib/user-form/user-form.component';
+import { UserFormComponent } from '@pos-frontend/users/ui';
 import { AsyncPipe } from '@angular/common';
 //import { GroupsFacade } from '@pos-frontend/groups/data-access';
 

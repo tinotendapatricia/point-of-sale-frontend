@@ -1,4 +1,4 @@
-export * from './lib/admin-feature-products.module';
+export * from './lib/admin-feature-products.routes';
 
 export * from './lib/list-products/list-products.component';
 

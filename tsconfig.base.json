@@ -48,15 +48,6 @@
       "@pos-frontend/admin/feature-groups": [
         "libs/admin/feature-groups/src/index.ts"
       ],
-      "@pos-frontend/admin/feature-permisions": [
-        "libs/admin/feature-permisions/src/index.ts"
-      ],
-      "@pos-frontend/admin/feature-price-list": [
-        "libs/admin/feature-price-list/src/index.ts"
-      ],
-      "@pos-frontend/admin/feature-prices": [
-        "libs/admin/feature-prices/src/index.ts"
-      ],
       "@pos-frontend/admin/feature-products": [
         "libs/admin/feature-products/src/index.ts"
       ],
@@ -65,15 +56,6 @@
       ],
       "@pos-frontend/admin/feature-purchases-reports": [
         "libs/admin/feature-purchases-reports/src/index.ts"
-      ],
-      "@pos-frontend/admin/feature-rates": [
-        "libs/admin/feature-rates/src/index.ts"
-      ],
-      "@pos-frontend/admin/feature-reports": [
-        "libs/admin/feature-reports/src/index.ts"
-      ],
-      "@pos-frontend/admin/feature-roles": [
-        "libs/admin/feature-roles/src/index.ts"
       ],
       "@pos-frontend/admin/feature-sales-reports": [
         "libs/admin/feature-sales-reports/src/index.ts"
@@ -99,11 +81,13 @@
       "@pos-frontend/audit-trail/data-access": [
         "libs/audit-trail/data-access/src/index.ts"
       ],
+      "@pos-frontend/audit-trail/ui": ["libs/audit-trail/ui/src/index.ts"],
       "@pos-frontend/auth/data-access": ["libs/auth/data-access/src/index.ts"],
       "@pos-frontend/auth/ui": ["libs/auth/ui/src/index.ts"],
       "@pos-frontend/categories/data-access": [
         "libs/categories/data-access/src/index.ts"
       ],
+      "@pos-frontend/categories/ui": ["libs/categories/ui/src/index.ts"],
       "@pos-frontend/client/feature-auth": [
         "libs/client/feature-auth/src/index.ts"
       ],
@@ -141,24 +125,13 @@
         "libs/debtors/data-access/src/index.ts"
       ],
       "@pos-frontend/debtors/ui": ["libs/debtors/ui/src/index.ts"],
-      "@pos-frontend/feature-audit-trail": [
-        "libs/feature-audit-trail/src/index.ts"
-      ],
-      "@pos-frontend/goods-received/ui": [
-        "libs/goods-received/ui/src/index.ts"
-      ],
       "@pos-frontend/groups/data-access": [
         "libs/groups/data-access/src/index.ts"
       ],
+      "@pos-frontend/goods-received/ui": ["libs/goods-received/ui/src/index.ts"],
       "@pos-frontend/groups/ui": ["libs/groups/ui/src/index.ts"],
-      "@pos-frontend/licensing/data-access": [
-        "libs/licensing/data-access/src/index.ts"
-      ],
-      "@pos-frontend/licensing/ui": ["libs/licensing/ui/src/index.ts"],
       "@pos-frontend/pos/data-access": ["libs/pos/data-access/src/index.ts"],
-      "@pos-frontend/price-list/data-access": [
-        "libs/price-list/data-access/src/index.ts"
-      ],
+      "@pos-frontend/pos/ui": ["libs/pos/ui/src/index.ts"],
       "@pos-frontend/price-list/ui": ["libs/price-list/ui/src/index.ts"],
       "@pos-frontend/products/data-access": [
         "libs/products/data-access/src/index.ts"
@@ -177,7 +150,6 @@
       "@pos-frontend/roles/data-access": [
         "libs/roles/data-access/src/index.ts"
       ],
-      "@pos-frontend/roles/ui": ["libs/roles/ui/src/index.ts"],
       "@pos-frontend/shared/data-access": [
         "libs/shared/data-access/src/index.ts"
       ],
@@ -187,12 +159,6 @@
         "libs/stations/data-access/src/index.ts"
       ],
       "@pos-frontend/stations/ui": ["libs/stations/ui/src/index.ts"],
-      "@pos-frontend/stock-movement/data-access": [
-        "libs/stock-movement/data-access/src/index.ts"
-      ],
-      "@pos-frontend/stock-movement/ui": [
-        "libs/stock-movement/ui/src/index.ts"
-      ],
       "@pos-frontend/stock-take/data-access": [
         "libs/stock-take/data-access/src/index.ts"
       ],
@@ -200,6 +166,7 @@
       "@pos-frontend/users/data-access": [
         "libs/users/data-access/src/index.ts"
       ],
+      "@pos-frontend/users/ui": ["libs/users/ui/src/index.ts"],
       "@pos-frontend/vat/data-access": ["libs/vat/data-access/src/index.ts"],
       "@pos-frontend/vat/ui": ["libs/vat/ui/src/index.ts"]
     },

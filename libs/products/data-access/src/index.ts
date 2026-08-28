@@ -9,5 +9,5 @@ export * from './lib/+state/products.facade';
 export * from './lib/+state/products.models';
 
 export { ProductsActions, ProductsFeature, ProductsSelectors };
-export * from './lib/products-data-access.module';
+export * from './lib/products-data-access.providers';
 export * from './lib/services/products.service'

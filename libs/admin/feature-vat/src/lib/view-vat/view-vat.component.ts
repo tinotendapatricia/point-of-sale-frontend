@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { VatFacade } from '@pos-frontend/vat/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
-import { VatDetailsComponent } from '../../../../../vat/ui/src/lib/vat-details/vat-details.component';
+import { VatDetailsComponent } from '@pos-frontend/vat/ui';
 import { UpdateVatComponent } from '../update-vat/update-vat.component';
 import { AsyncPipe } from '@angular/common';
 

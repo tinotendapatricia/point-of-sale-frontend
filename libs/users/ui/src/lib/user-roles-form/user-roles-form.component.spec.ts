@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { UserRolesFormComponent } from './user-roles-form.component';
 
 describe('UserRolesFormComponent', () => {
@@ -8,6 +9,7 @@ describe('UserRolesFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
     imports: [UserRolesFormComponent],
+    providers: [provideNoopAnimations()],
 }).compileComponents();
 
     fixture = TestBed.createComponent(UserRolesFormComponent);

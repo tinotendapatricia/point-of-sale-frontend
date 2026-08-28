@@ -1,1 +1,1 @@
-export * from './lib/admin-feature-currencies.module';
+export * from './lib/admin-feature-currencies.routes';

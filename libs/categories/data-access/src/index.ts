@@ -12,4 +12,4 @@ export * from './lib/+state/categories.models';
 
 export { CategoriesActions, CategoriesFeature, CategoriesSelectors };
 
-export * from './lib/categories-data-access.module';
+export * from './lib/categories-data-access.providers';

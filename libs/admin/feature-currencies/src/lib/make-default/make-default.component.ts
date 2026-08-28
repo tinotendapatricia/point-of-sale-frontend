@@ -4,7 +4,7 @@ import {
   CurrenciesEntity,
   CurrenciesFacade,
 } from '@pos-frontend/currencies/data-access';
-import { ActionConfirmationFormComponent } from '../../../../../shared/ui/src/lib/action-confirmation-form/action-confirmation-form.component';
+import { ActionConfirmationFormComponent } from '@pos-frontend/shared/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

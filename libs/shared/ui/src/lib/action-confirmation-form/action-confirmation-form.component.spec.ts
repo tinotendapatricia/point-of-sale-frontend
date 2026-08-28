@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { ActionConfirmationFormComponent } from './action-confirmation-form.component';
 
 describe('ActionConfirmationFormComponent', () => {
@@ -8,6 +9,7 @@ describe('ActionConfirmationFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
     imports: [ActionConfirmationFormComponent],
+    providers: [provideNoopAnimations()],
 }).compileComponents();
 
     fixture = TestBed.createComponent(ActionConfirmationFormComponent);

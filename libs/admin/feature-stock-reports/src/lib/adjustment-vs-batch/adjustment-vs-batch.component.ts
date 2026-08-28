@@ -2,7 +2,7 @@ import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ClrLoadingState } from '@clr/angular';
 import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
-import { ReportsFormComponent } from '../../../../../reports/ui/src/lib/reports-form/reports-form.component';
+import { ReportsFormComponent } from '@pos-frontend/reports/ui';
 
 @Component({
     selector: 'pos-frontend-adjustment-vs-batch',

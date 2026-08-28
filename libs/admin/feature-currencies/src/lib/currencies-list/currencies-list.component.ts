@@ -14,7 +14,7 @@ import {
 } from '@pos-frontend/currencies/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
-import { CurrenciesListUiComponent } from '../../../../../currencies/ui/src/lib/currencies-list-ui/currencies-list-ui.component';
+import { CurrenciesListUiComponent } from '@pos-frontend/currencies/ui';
 import { MakeDefaultComponent } from '../make-default/make-default.component';
 import { CreateCurrencyComponent } from '../create-currency/create-currency.component';
 import { UpdateRateComponent } from '../update-rate/update-rate.component';

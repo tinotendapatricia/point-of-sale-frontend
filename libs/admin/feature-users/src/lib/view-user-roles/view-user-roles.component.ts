@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RolesFacade } from '@pos-frontend/roles/data-access';
 import { UsersFacade } from '@pos-frontend/users/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { UserRolesFormComponent } from '../../../../../users/ui/src/lib/user-roles-form/user-roles-form.component';
+import { UserRolesFormComponent } from '@pos-frontend/users/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

@@ -1,1 +1,1 @@
-export * from './lib/admin-feature-vat.module';
+export * from './lib/admin-feature-vat.routes';

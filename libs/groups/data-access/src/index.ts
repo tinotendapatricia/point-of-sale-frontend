@@ -9,4 +9,4 @@ export * from './lib/+state/groups.facade';
 export * from './lib/+state/groups.models';
 
 export { GroupsActions, GroupsFeature, GroupsSelectors };
-export * from './lib/groups-data-access.module';
+export * from './lib/groups-data-access.providers';

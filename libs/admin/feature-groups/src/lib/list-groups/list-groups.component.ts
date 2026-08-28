@@ -4,7 +4,7 @@ import { ClrDatagridStateInterface } from '@clr/angular';
 import { GroupsEntity, GroupsFacade } from '@pos-frontend/groups/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
-import { ListGroupsUiComponent } from '../../../../../groups/ui/src/lib/list-groups-ui/list-groups-ui.component';
+import { ListGroupsUiComponent } from '@pos-frontend/groups/ui';
 import { CreateGroupComponent } from '../create-group/create-group.component';
 import { AsyncPipe } from '@angular/common';
 

@@ -15,7 +15,7 @@ import {
 import { Utilities } from '@pos-frontend/shared/utils';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
-import { BreakBulkFormComponent } from '../../../../../products/ui/src/lib/break-bulk-form/break-bulk-form.component';
+import { BreakBulkFormComponent } from '@pos-frontend/products/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

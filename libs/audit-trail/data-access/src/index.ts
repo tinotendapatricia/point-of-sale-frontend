@@ -9,4 +9,4 @@ export * from './lib/+state/audits.facade';
 export * from './lib/+state/audits.models';
 
 export { AuditsActions, AuditsFeature, AuditsSelectors };
-export * from './lib/audit-trail-data-access.module';
+export * from './lib/audit-trail-data-access.providers';

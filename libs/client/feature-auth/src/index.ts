@@ -1,1 +1,1 @@
-export * from './lib/client-feature-auth.module';
+export * from './lib/client-feature-auth.routes';

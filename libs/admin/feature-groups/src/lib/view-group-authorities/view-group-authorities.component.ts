@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GroupsFacade } from '@pos-frontend/groups/data-access';
 import { RolesFacade } from '@pos-frontend/roles/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { AssignGroupsUiComponent } from '../../../../../groups/ui/src/lib/assign-groups-ui/assign-groups-ui.component';
+import { AssignGroupsUiComponent } from '@pos-frontend/groups/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

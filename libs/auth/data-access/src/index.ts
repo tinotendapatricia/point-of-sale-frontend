@@ -9,6 +9,6 @@ export * from './lib/+state/auth.facade';
 export * from './lib/+state/auth.models';
 
 export { AuthActions, AuthFeature, AuthSelectors };
-export * from './lib/auth-data-access.module';
+export * from './lib/auth-data-access.providers';
 export * from './lib/guards/auth.guard';
 export * from './lib/services/authentication.service';

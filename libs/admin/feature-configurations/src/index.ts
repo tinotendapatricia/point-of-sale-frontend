@@ -1,1 +1,1 @@
-export * from './lib/admin-feature-configurations.module';
+export * from './lib/admin-feature-configurations.routes';

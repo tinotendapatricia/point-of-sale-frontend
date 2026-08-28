@@ -3,7 +3,7 @@ import { Location, AsyncPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
-import { UserFormComponent } from '../../../../../users/ui/src/lib/user-form/user-form.component';
+import { UserFormComponent } from '@pos-frontend/users/ui';
 
 
 @Component({

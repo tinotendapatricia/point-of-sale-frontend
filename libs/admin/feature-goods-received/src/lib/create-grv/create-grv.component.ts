@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { PurchaseOrderFacade } from '@pos-frontend/purchase-orders/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { GrvFormComponent } from '../../../../../goods-received/ui/src/lib/grv-form/grv-form.component';
+import { GrvFormComponent } from '@pos-frontend/goods-received/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

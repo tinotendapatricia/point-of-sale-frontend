@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CompanyService } from '@pos-frontend/company-details/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
-import { LicenseFormComponent } from '../../../../../company-details/ui/src/lib/license-form/license-form.component';
+import { LicenseFormComponent } from '@pos-frontend/company-details/ui';
 
 @Component({
     selector: 'pos-frontend-license-system',

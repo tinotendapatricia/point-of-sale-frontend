@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { GroupsFacade } from '@pos-frontend/groups/data-access';
-import { GroupFormComponent } from '../../../../../groups/ui/src/lib/group-form/group-form.component';
+import { GroupFormComponent } from '@pos-frontend/groups/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

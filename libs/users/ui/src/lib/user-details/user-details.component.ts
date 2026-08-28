@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { KeyValuePipe, TitleCasePipe } from '@angular/common';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { UsersEntity } from '@pos-frontend/users/data-access';
 
@@ -7,6 +8,7 @@ import { UsersEntity } from '@pos-frontend/users/data-access';
   templateUrl: './user-details.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./user-details.component.scss'],
+  imports: [KeyValuePipe, TitleCasePipe],
 })
 export class UserDetailsComponent {
   @Input() user!: UsersEntity;

@@ -7,7 +7,7 @@ import {
 } from '@pos-frontend/products/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
-import { ProductsListUiComponent } from '../../../../../products/ui/src/lib/products-list-ui/products-list-ui.component';
+import { ProductsListUiComponent } from '@pos-frontend/products/ui';
 import { UpdateCostComponent } from '../update-cost/update-cost.component';
 import { UpdatePriceComponent } from '../update-price/update-price.component';
 import { AsyncPipe } from '@angular/common';

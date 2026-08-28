@@ -4,7 +4,7 @@ import {
   CurrenciesEntity,
   CurrenciesFacade,
 } from '@pos-frontend/currencies/data-access';
-import { CurrencyFormComponent } from '../../../../../currencies/ui/src/lib/currency-form/currency-form.component';
+import { CurrencyFormComponent } from '@pos-frontend/currencies/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CreditorsFacade } from '@pos-frontend/creditors/data-access';
-import { CreditorsFormComponent } from '../../../../../creditors/ui/src/lib/creditors-form/creditors-form.component';
+import { CreditorsFormComponent } from '@pos-frontend/creditors/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

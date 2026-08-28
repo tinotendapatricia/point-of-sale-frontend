@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
-import { StockTakeFormComponent } from '../../../../../stock-take/ui/src/lib/stock-take-form/stock-take-form.component';
+import { StockTakeFormComponent } from '@pos-frontend/stock-take/ui';
 import { CloseBatchComponent } from '../close-batch/close-batch.component';
 import { AsyncPipe } from '@angular/common';
 

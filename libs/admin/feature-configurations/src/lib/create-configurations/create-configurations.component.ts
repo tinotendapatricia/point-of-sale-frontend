@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ClrLoadingState } from '@clr/angular';
 import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
-import { ConfigurationsFormComponent } from '../../../../../configurations/ui/src/lib/configurations-form/configurations-form.component';
+import { ConfigurationsFormComponent } from '@pos-frontend/configurations/ui';
 
 @Component({
     selector: 'pos-frontend-create-configurations',

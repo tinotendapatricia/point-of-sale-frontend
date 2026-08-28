@@ -1,1 +1,1 @@
-export * from './lib/client-feature-refund.module';
+export * from './lib/client-feature-refund.routes';

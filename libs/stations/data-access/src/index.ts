@@ -9,4 +9,4 @@ export * from './lib/+state/stations.facade';
 export * from './lib/+state/stations.models';
 
 export { StationsActions, StationsFeature, StationsSelectors };
-export * from './lib/stations-data-access.module';
+export * from './lib/stations-data-access.providers';

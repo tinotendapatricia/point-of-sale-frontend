@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output, ChangeDetectionStrategy } from
 import { Router } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
-import { DebtorsFormComponent } from '../../../../../debtors/ui/src/lib/debtors-form/debtors-form.component';
+import { DebtorsFormComponent } from '@pos-frontend/debtors/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

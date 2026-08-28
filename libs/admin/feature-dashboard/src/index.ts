@@ -1,1 +1,1 @@
-export * from './lib/admin-feature-dashboard.module';
+export * from './lib/admin-feature-dashboard.routes';

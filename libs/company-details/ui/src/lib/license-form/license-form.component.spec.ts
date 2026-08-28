@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { LicenseFormComponent } from './license-form.component';
 
 describe('LicenseFormComponent', () => {
@@ -8,6 +9,7 @@ describe('LicenseFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
     imports: [LicenseFormComponent],
+    providers: [provideNoopAnimations()],
 }).compileComponents();
 
     fixture = TestBed.createComponent(LicenseFormComponent);

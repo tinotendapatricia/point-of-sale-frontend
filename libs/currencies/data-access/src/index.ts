@@ -10,4 +10,4 @@ export * from './lib/+state/currencies.models';
 
 export { CurrenciesActions, CurrenciesFeature, CurrenciesSelectors };
 
-export * from './lib/currencies-data-access.module';
+export * from './lib/currencies-data-access.providers';

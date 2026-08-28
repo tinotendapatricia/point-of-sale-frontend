@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
@@ -9,7 +9,7 @@ import {
 } from '@pos-frontend/products/data-access';
 import { VatFacade } from '@pos-frontend/vat/data-access';
 import { Observable } from 'rxjs';
-import { PosFormComponent } from '../../../../../pos/ui/src/lib/pos-form/pos-form.component';
+import { PosFormComponent } from '@pos-frontend/pos/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -17,7 +17,8 @@ import { AsyncPipe } from '@angular/common';
     templateUrl: './pos-home.component.html',
     styleUrls: ['./pos-home.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [PosFormComponent, AsyncPipe]
+    imports: [PosFormComponent, AsyncPipe],
+    schemas: [NO_ERRORS_SCHEMA]
 })
 export class PosHomeComponent implements OnInit {
   constructor(

@@ -14,7 +14,7 @@ import {
 } from '@pos-frontend/creditors/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
-import { ListCreditorsUiComponent } from '../../../../../creditors/ui/src/lib/list-creditors-ui/list-creditors-ui.component';
+import { ListCreditorsUiComponent } from '@pos-frontend/creditors/ui';
 import { CreateCreditorsComponent } from '../create-creditors/create-creditors.component';
 import { UpdateCreditorComponent } from '../update-creditor/update-creditor.component';
 import { AsyncPipe } from '@angular/common';

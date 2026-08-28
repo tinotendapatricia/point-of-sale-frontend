@@ -1,1 +1,1 @@
-export * from './lib/admin-feature-purchases-reports.module';
+export * from './lib/admin-feature-purchases-reports.routes';

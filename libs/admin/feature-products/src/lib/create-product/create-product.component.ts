@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { ProductsFormComponent } from '../../../../../products/ui/src/lib/products-form/products-form.component';
+import { ProductsFormComponent } from '@pos-frontend/products/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

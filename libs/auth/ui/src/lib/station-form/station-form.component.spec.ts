@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { StationFormComponent } from './station-form.component';
 
 describe('StationFormComponent', () => {
@@ -8,6 +9,7 @@ describe('StationFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
     imports: [StationFormComponent],
+    providers: [provideNoopAnimations()],
 }).compileComponents();
 
     fixture = TestBed.createComponent(StationFormComponent);

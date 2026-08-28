@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CurrenciesEntity, CurrenciesFacade } from '@pos-frontend/currencies/data-access';
-import { RateFormComponent } from '../../../../../currencies/ui/src/lib/rate-form/rate-form.component';
+import { RateFormComponent } from '@pos-frontend/currencies/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

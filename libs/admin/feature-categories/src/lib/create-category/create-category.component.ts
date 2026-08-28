@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoriesFacade } from '@pos-frontend/categories/data-access';
-import { CategoryFormComponent } from '../../../../../categories/ui/src/lib/category-form/category-form.component';
+import { CategoryFormComponent } from '@pos-frontend/categories/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

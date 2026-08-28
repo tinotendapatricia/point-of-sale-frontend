@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { VatFormComponent } from './vat-form.component';
 
 describe('VatFormComponent', () => {
@@ -8,6 +9,7 @@ describe('VatFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
     imports: [VatFormComponent],
+    providers: [provideNoopAnimations()],
 }).compileComponents();
 
     fixture = TestBed.createComponent(VatFormComponent);

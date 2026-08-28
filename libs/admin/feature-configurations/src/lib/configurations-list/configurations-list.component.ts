@@ -3,7 +3,7 @@ import { ConfigurationsEntity, ConfigurationsService } from '@pos-frontend/confi
 import { Observable } from 'rxjs';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
-import { ConfigurationsListUiComponent } from '../../../../../configurations/ui/src/lib/configurations-list-ui/configurations-list-ui.component';
+import { ConfigurationsListUiComponent } from '@pos-frontend/configurations/ui';
 import { CreateConfigurationsComponent } from '../create-configurations/create-configurations.component';
 import { UpdateConfigurationsComponent } from '../update-configurations/update-configurations.component';
 import { AsyncPipe } from '@angular/common';

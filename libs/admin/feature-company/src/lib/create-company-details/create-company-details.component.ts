@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CompanyService } from '@pos-frontend/company-details/data-access';
-import { CompanyDetailsFormComponent } from '../../../../../company-details/ui/src/lib/company-details-form/company-details-form.component';
+import { CompanyDetailsFormComponent } from '@pos-frontend/company-details/ui';
 
 @Component({
     selector: 'pos-frontend-create-company-details',

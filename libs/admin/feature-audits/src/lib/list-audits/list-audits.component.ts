@@ -4,7 +4,7 @@ import { ClrDatagridStateInterface } from '@clr/angular';
 import { AuditsEntity, AuditsFacade } from '@pos-frontend/audit-trail/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
-import { ListAuditsUiComponent } from '../../../../../audit-trail/ui/src/lib/list-audits-ui/list-audits-ui.component';
+import { ListAuditsUiComponent } from '@pos-frontend/audit-trail/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

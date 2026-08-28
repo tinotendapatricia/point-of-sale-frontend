@@ -3,7 +3,7 @@ import { CompanyEntity, CompanyService } from '@pos-frontend/company-details/dat
 import { Observable } from 'rxjs';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
-import { CompanyDetailsUiComponent } from '../../../../../company-details/ui/src/lib/company-details-ui/company-details-ui.component';
+import { CompanyDetailsUiComponent } from '@pos-frontend/company-details/ui';
 import { CreateCompanyDetailsComponent } from '../create-company-details/create-company-details.component';
 import { UpdateCompanyDetailsComponent } from '../update-company-details/update-company-details.component';
 

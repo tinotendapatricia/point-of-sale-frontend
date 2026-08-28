@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angul
 import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { config } from 'rxjs';
-import { StationFormComponent } from '../../../../../auth/ui/src/lib/station-form/station-form.component';
+import { StationFormComponent } from '@pos-frontend/auth/ui';
 
 @Component({
     selector: 'pos-frontend-configure-station',

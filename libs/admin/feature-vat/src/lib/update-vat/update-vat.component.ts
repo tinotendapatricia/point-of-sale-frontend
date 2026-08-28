@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { VatEntity, VatFacade } from '@pos-frontend/vat/data-access';
-import { VatFormComponent } from '../../../../../vat/ui/src/lib/vat-form/vat-form.component';
+import { VatFormComponent } from '@pos-frontend/vat/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

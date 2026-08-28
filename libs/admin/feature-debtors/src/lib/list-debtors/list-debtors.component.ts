@@ -7,7 +7,7 @@ import {
 } from '@pos-frontend/debtors/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
-import { DebtorsListUiComponent } from '../../../../../debtors/ui/src/lib/debtors-list-ui/debtors-list-ui.component';
+import { DebtorsListUiComponent } from '@pos-frontend/debtors/ui';
 import { CreateDebtorsComponent } from '../create-debtors/create-debtors.component';
 import { UpdateDebtorsComponent } from '../update-debtors/update-debtors.component';
 import { AsyncPipe } from '@angular/common';

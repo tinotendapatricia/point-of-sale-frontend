@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import { PosFormComponent } from './pos-form.component';
 
@@ -8,7 +9,8 @@ describe('PosFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [PosFormComponent]
+    imports: [PosFormComponent],
+    providers: [provideNoopAnimations()],
 })
     .compileComponents();
 

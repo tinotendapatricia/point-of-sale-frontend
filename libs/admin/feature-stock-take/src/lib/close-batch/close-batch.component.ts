@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
-import { ActionConfirmationFormComponent } from '../../../../../shared/ui/src/lib/action-confirmation-form/action-confirmation-form.component';
+import { ActionConfirmationFormComponent } from '@pos-frontend/shared/ui';
 
 @Component({
     selector: 'pos-frontend-close-batch',

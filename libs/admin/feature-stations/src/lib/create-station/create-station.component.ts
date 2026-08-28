@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { StationsFacade } from '@pos-frontend/stations/data-access';
-import { StationsFormComponent } from '../../../../../stations/ui/src/lib/stations-form/stations-form.component';
+import { StationsFormComponent } from '@pos-frontend/stations/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

@@ -4,7 +4,7 @@ import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { PurchaseOrderFacade } from '@pos-frontend/purchase-orders/data-access';
 import { VatFacade } from '@pos-frontend/vat/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { PurchaseOrderFormComponent } from '../../../../../purchase-orders/ui/src/lib/purchase-order-form/purchase-order-form.component';
+import { PurchaseOrderFormComponent } from '@pos-frontend/purchase-orders/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
