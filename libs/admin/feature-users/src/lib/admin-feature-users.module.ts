@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsersDataAccessModule } from '@pos-frontend/users/data-access';
-import { UsersUiModule } from '@pos-frontend/users/ui';
+
 import { ListUsersComponent } from './list-users/list-users.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { RouterModule } from '@angular/router';
@@ -24,23 +24,22 @@ ClarityIcons.addIcons(plusCircleIcon, pencilIcon, syncIcon);
 
 @NgModule({
     imports: [
-        CommonModule,
-        UsersDataAccessModule,
-        MatCardModule,
-        UsersUiModule,
-        RolesDataAccessModule,
-        ClarityModule,
-        RouterModule.forChild([
-            { path: '', component: ListUsersComponent },
-            {
-                path: 'view-user-authorities/:userId',
-                component: ViewUserRolesComponent,
-            },
-        ]),
-        ListUsersComponent,
-        CreateUserComponent,
-        UpdateUserComponent,
-        ViewUserRolesComponent,
-    ],
+    CommonModule,
+    UsersDataAccessModule,
+    MatCardModule,
+    RolesDataAccessModule,
+    ClarityModule,
+    RouterModule.forChild([
+        { path: '', component: ListUsersComponent },
+        {
+            path: 'view-user-authorities/:userId',
+            component: ViewUserRolesComponent,
+        },
+    ]),
+    ListUsersComponent,
+    CreateUserComponent,
+    UpdateUserComponent,
+    ViewUserRolesComponent,
+],
 })
 export class AdminFeatureUsersModule {}

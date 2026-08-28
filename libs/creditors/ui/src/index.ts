@@ -1,4 +1,4 @@
-export * from './lib/creditors-ui.module';
+
 
 export * from './lib/list-creditors-ui/list-creditors-ui.component';
 

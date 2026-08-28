@@ -1,4 +1,4 @@
-export * from './lib/stations-ui.module';
+
 
 export * from './lib/stations-list-ui/stations-list-ui.component';
 

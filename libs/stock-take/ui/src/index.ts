@@ -1,4 +1,4 @@
-export * from './lib/stock-take-ui.module';
+
 
 export * from './lib/stock-take-form/stock-take-form.component';
 

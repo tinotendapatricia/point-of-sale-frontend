@@ -4,7 +4,7 @@ import { ListDebtorsComponent } from './list-debtors/list-debtors.component';
 import { CreateDebtorsComponent } from './create-debtors/create-debtors.component';
 import { UpdateDebtorsComponent } from './/update-debtors/update-debtors.component';
 import { DebtorsDataAccessModule } from '@pos-frontend/debtors/data-access';
-import { DebtorsUiModule } from '@pos-frontend/debtors/ui';
+
 import {
   ClarityIcons,
   plusCircleIcon,
@@ -19,16 +19,15 @@ import { CurrenciesDataAccessModule } from '@pos-frontend/currencies/data-access
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon, syncIcon);
 @NgModule({
     imports: [
-        CommonModule,
-        DebtorsDataAccessModule,
-        DebtorsUiModule,
-        MatCardModule,
-        ClarityModule,
-        CurrenciesDataAccessModule,
-        RouterModule.forChild([{ path: '', component: ListDebtorsComponent }]),
-        ListDebtorsComponent,
-        CreateDebtorsComponent,
-        UpdateDebtorsComponent,
-    ],
+    CommonModule,
+    DebtorsDataAccessModule,
+    MatCardModule,
+    ClarityModule,
+    CurrenciesDataAccessModule,
+    RouterModule.forChild([{ path: '', component: ListDebtorsComponent }]),
+    ListDebtorsComponent,
+    CreateDebtorsComponent,
+    UpdateDebtorsComponent,
+],
 })
 export class AdminFeatureDebtorsModule {}

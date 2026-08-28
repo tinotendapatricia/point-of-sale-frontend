@@ -1,4 +1,4 @@
-export * from './lib/auth-ui.module';
+
 
 export * from './lib/login-form/login-form.component';
 

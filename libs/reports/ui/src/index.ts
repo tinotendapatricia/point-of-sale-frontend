@@ -1,4 +1,4 @@
-export * from './lib/reports-ui.module';
+
 
 export * from './lib/reports-form/reports-form.component';
 

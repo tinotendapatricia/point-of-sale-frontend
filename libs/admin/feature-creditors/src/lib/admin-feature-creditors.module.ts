@@ -5,7 +5,7 @@ import { CreateCreditorsComponent } from './create-creditors/create-creditors.co
 import { ClarityModule } from '@clr/angular';
 import { MatCardModule } from '@angular/material/card';
 import { CreditorsDataAccessModule } from '@pos-frontend/creditors/data-access';
-import { CreditorsUiModule } from '@pos-frontend/creditors/ui';
+
 import { RouterModule } from '@angular/router';
 import '@cds/core/icon/register.js';
 import {
@@ -19,16 +19,15 @@ import { UpdateCreditorComponent } from './update-creditor/update-creditor.compo
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon, syncIcon);
 @NgModule({
     imports: [
-        CommonModule,
-        ClarityModule,
-        MatCardModule,
-        CreditorsDataAccessModule,
-        CreditorsUiModule,
-        RouterModule.forChild([{ path: '', component: ListCreditorsComponent }]),
-        ListCreditorsComponent,
-        CreateCreditorsComponent,
-        UpdateCreditorComponent,
-    ],
+    CommonModule,
+    ClarityModule,
+    MatCardModule,
+    CreditorsDataAccessModule,
+    RouterModule.forChild([{ path: '', component: ListCreditorsComponent }]),
+    ListCreditorsComponent,
+    CreateCreditorsComponent,
+    UpdateCreditorComponent,
+],
     exports: [UpdateCreditorComponent],
 })
 export class AdminFeatureCreditorsModule {}

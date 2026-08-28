@@ -99,13 +99,11 @@
       "@pos-frontend/audit-trail/data-access": [
         "libs/audit-trail/data-access/src/index.ts"
       ],
-      "@pos-frontend/audit-trail/ui": ["libs/audit-trail/ui/src/index.ts"],
       "@pos-frontend/auth/data-access": ["libs/auth/data-access/src/index.ts"],
       "@pos-frontend/auth/ui": ["libs/auth/ui/src/index.ts"],
       "@pos-frontend/categories/data-access": [
         "libs/categories/data-access/src/index.ts"
       ],
-      "@pos-frontend/categories/ui": ["libs/categories/ui/src/index.ts"],
       "@pos-frontend/client/feature-auth": [
         "libs/client/feature-auth/src/index.ts"
       ],
@@ -146,9 +144,6 @@
       "@pos-frontend/feature-audit-trail": [
         "libs/feature-audit-trail/src/index.ts"
       ],
-      "@pos-frontend/goods-received/data-access": [
-        "libs/goods-received/data-access/src/index.ts"
-      ],
       "@pos-frontend/goods-received/ui": [
         "libs/goods-received/ui/src/index.ts"
       ],
@@ -161,7 +156,6 @@
       ],
       "@pos-frontend/licensing/ui": ["libs/licensing/ui/src/index.ts"],
       "@pos-frontend/pos/data-access": ["libs/pos/data-access/src/index.ts"],
-      "@pos-frontend/pos/ui": ["libs/pos/ui/src/index.ts"],
       "@pos-frontend/price-list/data-access": [
         "libs/price-list/data-access/src/index.ts"
       ],
@@ -206,7 +200,6 @@
       "@pos-frontend/users/data-access": [
         "libs/users/data-access/src/index.ts"
       ],
-      "@pos-frontend/users/ui": ["libs/users/ui/src/index.ts"],
       "@pos-frontend/vat/data-access": ["libs/vat/data-access/src/index.ts"],
       "@pos-frontend/vat/ui": ["libs/vat/ui/src/index.ts"]
     },

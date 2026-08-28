@@ -5,7 +5,7 @@ import { ListGroupsComponent } from './list-groups/list-groups.component';
 import { UpdateGroupComponent } from './update-group/update-group.component';
 import { DeleteGroupComponent } from './delete-group/delete-group.component';
 import { GroupsDataAccessModule } from '@pos-frontend/groups/data-access';
-import { GroupsUiModule } from '@pos-frontend/groups/ui';
+
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import '@cds/core/icon/register.js';
@@ -23,21 +23,20 @@ ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon);
 
 @NgModule({
     imports: [
-        CommonModule,
-        GroupsDataAccessModule,
-        GroupsUiModule,
-        RolesDataAccessModule,
-        MatCardModule,
-        ClarityModule,
-        RouterModule.forChild([
-            { path: '', component: ListGroupsComponent },
-            { path: 'view-group/:groupId', component: ViewGroupAuthoritiesComponent },
-        ]),
-        CreateGroupComponent,
-        ListGroupsComponent,
-        UpdateGroupComponent,
-        DeleteGroupComponent,
-        ViewGroupAuthoritiesComponent,
-    ],
+    CommonModule,
+    GroupsDataAccessModule,
+    RolesDataAccessModule,
+    MatCardModule,
+    ClarityModule,
+    RouterModule.forChild([
+        { path: '', component: ListGroupsComponent },
+        { path: 'view-group/:groupId', component: ViewGroupAuthoritiesComponent },
+    ]),
+    CreateGroupComponent,
+    ListGroupsComponent,
+    UpdateGroupComponent,
+    DeleteGroupComponent,
+    ViewGroupAuthoritiesComponent,
+],
 })
 export class AdminFeatureGroupsModule {}

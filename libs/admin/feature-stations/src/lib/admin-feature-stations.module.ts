@@ -6,22 +6,21 @@ import { CreateStationComponent } from './create-station/create-station.componen
 import { ClarityModule } from '@clr/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StationsDataAccessModule } from '@pos-frontend/stations/data-access';
-import { StationsUiModule } from '@pos-frontend/stations/ui';
+
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
     imports: [
-        CommonModule,
-        StationsDataAccessModule,
-        StationsUiModule,
-        ClarityModule,
-        MatCardModule,
-        ReactiveFormsModule,
-        RouterModule.forChild([{ path: '', component: StationsListComponent }]),
-        StationsListComponent,
-        UpdateStationComponent,
-        CreateStationComponent,
-    ],
+    CommonModule,
+    StationsDataAccessModule,
+    ClarityModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    RouterModule.forChild([{ path: '', component: StationsListComponent }]),
+    StationsListComponent,
+    UpdateStationComponent,
+    CreateStationComponent,
+],
 })
 export class AdminFeatureStationsModule {}

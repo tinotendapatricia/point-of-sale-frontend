@@ -5,8 +5,8 @@ import { CurrentStockListingReportComponent } from './current-stock-listing-repo
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ClarityModule } from '@clr/angular';
-import { ReportsDataAccessModule } from '@pos-frontend/reports/data-access';
-import { ReportsUiModule } from '@pos-frontend/reports/ui';
+
+
 import { ProductsDataAccessModule } from '@pos-frontend/products/data-access';
 import { PrintBatchComponent } from './print-batch/print-batch.component';
 import { PrintAdjustmentComponent } from './print-adjustment/print-adjustment.component';
@@ -15,22 +15,20 @@ import { StockTakeForPeriodComponent } from './stock-take-for-period/stock-take-
 
 @NgModule({
     imports: [
-        CommonModule,
-        NgSelectModule,
-        ClarityModule,
-        ReportsDataAccessModule,
-        ReportsUiModule,
-        ProductsDataAccessModule,
-        RouterModule.forChild([
-            { path: '', component: StockReportsContainerComponent },
-        ]),
-        StockReportsContainerComponent,
-        CurrentStockListingReportComponent,
-        PrintBatchComponent,
-        PrintAdjustmentComponent,
-        AdjustmentVsBatchComponent,
-        StockTakeForPeriodComponent,
-    ],
+    CommonModule,
+    NgSelectModule,
+    ClarityModule,
+    ProductsDataAccessModule,
+    RouterModule.forChild([
+        { path: '', component: StockReportsContainerComponent },
+    ]),
+    StockReportsContainerComponent,
+    CurrentStockListingReportComponent,
+    PrintBatchComponent,
+    PrintAdjustmentComponent,
+    AdjustmentVsBatchComponent,
+    StockTakeForPeriodComponent,
+],
     schemas: [NO_ERRORS_SCHEMA],
 })
 export class AdminFeatureStockReportsModule {}

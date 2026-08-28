@@ -4,8 +4,8 @@ import { SalesReportsContainerComponent } from './sales-reports-container/sales-
 import { ClarityModule } from '@clr/angular';
 import { RouterModule } from '@angular/router';
 import { AllSalesReportsComponent } from './all--sales-reports/all--sales-reports.component';
-import { ReportsDataAccessModule } from '@pos-frontend/reports/data-access';
-import { ReportsUiModule } from '@pos-frontend/reports/ui';
+
+
 import { SalesByDebtorComponent } from './sales-by-debtor/sales-by-debtor.component';
 import { DebtorsDataAccessModule } from '@pos-frontend/debtors/data-access';
 import { CurrenciesDataAccessModule } from '@pos-frontend/currencies/data-access';
@@ -18,27 +18,25 @@ import { SalesByStationComponent } from './sales-by-station/sales-by-station.com
 import { TopSellingProductsForPeriodComponent } from './top-selling-products-for-period/top-selling-products-for-period.component';
 @NgModule({
     imports: [
-        CommonModule,
-        ClarityModule,
-        ReportsDataAccessModule,
-        ReportsUiModule,
-        DebtorsDataAccessModule,
-        CurrenciesDataAccessModule,
-        ProductsDataAccessModule,
-        DebtorsDataAccessModule,
-        RouterModule.forChild([
-            { path: '', component: SalesReportsContainerComponent },
-        ]),
-        SalesReportsContainerComponent,
-        AllSalesReportsComponent,
-        SalesByDebtorComponent,
-        SalesByPeriodAndProductComponent,
-        TillCashupReportComponent,
-        GenerateGpReportComponent,
-        SalesReportDetailedComponent,
-        SalesByStationComponent,
-        TopSellingProductsForPeriodComponent,
-    ],
+    CommonModule,
+    ClarityModule,
+    DebtorsDataAccessModule,
+    CurrenciesDataAccessModule,
+    ProductsDataAccessModule,
+    DebtorsDataAccessModule,
+    RouterModule.forChild([
+        { path: '', component: SalesReportsContainerComponent },
+    ]),
+    SalesReportsContainerComponent,
+    AllSalesReportsComponent,
+    SalesByDebtorComponent,
+    SalesByPeriodAndProductComponent,
+    TillCashupReportComponent,
+    GenerateGpReportComponent,
+    SalesReportDetailedComponent,
+    SalesByStationComponent,
+    TopSellingProductsForPeriodComponent,
+],
     exports: [
         SalesByPeriodAndProductComponent,
         GenerateGpReportComponent,

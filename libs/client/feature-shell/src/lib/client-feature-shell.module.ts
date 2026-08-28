@@ -23,7 +23,6 @@ import {
   usersIcon,
 } from '@cds/core/icon';
 import { HeaderComponent } from './header/header.component';
-import { SharedUiModule } from '@pos-frontend/shared/ui';
 import { UsersDataAccessModule } from '@pos-frontend/users/data-access';
 ClarityIcons.addIcons(
   userIcon,
@@ -45,7 +44,6 @@ ClarityIcons.addIcons(
         MatIconModule,
         MatListModule,
         ClarityModule,
-        SharedUiModule,
         AuthDataAccessModule,
         UsersDataAccessModule,
         RouterModule.forChild([

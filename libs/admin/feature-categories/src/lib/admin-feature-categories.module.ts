@@ -15,25 +15,24 @@ import { ClarityModule } from '@clr/angular';
 import { RolesDataAccessModule } from '@pos-frontend/roles/data-access';
 import { RouterModule } from '@angular/router';
 import { CategoriesDataAccessModule } from '@pos-frontend/categories/data-access';
-import { CategoriesUiModule } from '@pos-frontend/categories/ui';
+
 import { MatCardModule } from '@angular/material/card';
 ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon);
 
 @NgModule({
     imports: [
-        CommonModule,
-        CategoriesDataAccessModule,
-        CategoriesUiModule,
-        RolesDataAccessModule,
-        MatCardModule,
-        ClarityModule,
-        RouterModule.forChild([
-            { path: '', component: CategoriesListComponent },
-        ]),
-        CategoriesListComponent,
-        CreateCategoryComponent,
-        UpdateCategoryComponent,
-        DeleteCategoryComponent,
-    ],
+    CommonModule,
+    CategoriesDataAccessModule,
+    RolesDataAccessModule,
+    MatCardModule,
+    ClarityModule,
+    RouterModule.forChild([
+        { path: '', component: CategoriesListComponent },
+    ]),
+    CategoriesListComponent,
+    CreateCategoryComponent,
+    UpdateCategoryComponent,
+    DeleteCategoryComponent,
+],
 })
 export class AdminFeatureCategoriesModule {}

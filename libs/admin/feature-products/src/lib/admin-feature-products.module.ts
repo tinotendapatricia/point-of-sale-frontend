@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ListProductsComponent } from './list-products/list-products.component';
 import { CreateProductComponent } from './create-product/create-product.component';
 import { ProductsDataAccessModule } from '@pos-frontend/products/data-access';
-import { ProductsUiModule } from '@pos-frontend/products/ui';
+
 import { ClarityModule } from '@clr/angular';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
@@ -25,27 +25,26 @@ ClarityIcons.addIcons(plusCircleIcon, pencilIcon, minusCircleIcon, syncIcon);
 
 @NgModule({
     imports: [
-        CommonModule,
-        ProductsDataAccessModule,
-        ProductsUiModule,
-        CurrenciesDataAccessModule,
-        RouterModule.forChild([
-            { path: '', component: ListProductsComponent },
-            { path: 'new', component: CreateProductComponent },
-            { path: 'update/:productId', component: UpdateProductComponent },
-            { path: 'break-bulk', component: BreakBulkToSingleComponent },
-        ]),
-        ClarityModule,
-        MatCardModule,
-        ListProductsComponent,
-        CreateProductComponent,
-        UpdateCostComponent,
-        UpdatePriceComponent,
-        UpdatePriceComponent,
-        UpdateProductComponent,
-        UpdateProductComponent,
-        BreakBulkToSingleComponent,
-    ],
+    CommonModule,
+    ProductsDataAccessModule,
+    CurrenciesDataAccessModule,
+    RouterModule.forChild([
+        { path: '', component: ListProductsComponent },
+        { path: 'new', component: CreateProductComponent },
+        { path: 'update/:productId', component: UpdateProductComponent },
+        { path: 'break-bulk', component: BreakBulkToSingleComponent },
+    ]),
+    ClarityModule,
+    MatCardModule,
+    ListProductsComponent,
+    CreateProductComponent,
+    UpdateCostComponent,
+    UpdatePriceComponent,
+    UpdatePriceComponent,
+    UpdateProductComponent,
+    UpdateProductComponent,
+    BreakBulkToSingleComponent,
+],
     exports: [
         ListProductsComponent,
         CreateProductComponent,

@@ -6,26 +6,25 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { PurchaseOrdersDataAccessModule } from '@pos-frontend/purchase-orders/data-access';
-import { PurchaseOrdersUiModule } from '@pos-frontend/purchase-orders/ui';
+
 import { ProductsDataAccessModule } from '@pos-frontend/products/data-access';
 import { VatDataAccessModule } from '@pos-frontend/vat/data-access';
 import { CreditorsDataAccessModule } from '@pos-frontend/creditors/data-access';
 
 @NgModule({
     imports: [
-        CommonModule,
-        ClarityModule,
-        ReactiveFormsModule,
-        MatCardModule,
-        PurchaseOrdersDataAccessModule,
-        PurchaseOrdersUiModule,
-        ProductsDataAccessModule,
-        VatDataAccessModule,
-        CreditorsDataAccessModule,
-        RouterModule.forChild([
-            { path: '', component: CreatePurchaseOrderComponent },
-        ]),
-        CreatePurchaseOrderComponent,
-    ],
+    CommonModule,
+    ClarityModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    PurchaseOrdersDataAccessModule,
+    ProductsDataAccessModule,
+    VatDataAccessModule,
+    CreditorsDataAccessModule,
+    RouterModule.forChild([
+        { path: '', component: CreatePurchaseOrderComponent },
+    ]),
+    CreatePurchaseOrderComponent,
+],
 })
 export class AdminFeaturePurchaseOrdersModule {}

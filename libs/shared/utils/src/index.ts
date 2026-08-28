@@ -1,4 +1,4 @@
-export * from './lib/shared-utils.module';
+
 export * from './lib/utilities';
 export * from './lib/validators.ts/match-required';
 export * from './lib/sumArray'

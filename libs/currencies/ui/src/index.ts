@@ -1,4 +1,4 @@
-export * from './lib/currencies-ui.module';
+
 
 export * from './lib/currency-form/currency-form.component';
 
