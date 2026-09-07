@@ -3,7 +3,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 
 import * as PurchaseOrderActions from './purchase-order.actions';
 import { PurchaseOrderEntity } from './purchase-order.models';
-import { ClrLoadingState } from '@clr/angular';
+import { LoadingState } from '@pos-frontend/shared/utils';
 
 export const PURCHASE_ORDER_FEATURE_KEY = 'purchaseOrder';
 
@@ -14,7 +14,7 @@ export interface PurchaseOrderState extends EntityState<PurchaseOrderEntity> {
   error?: Error;
   selectedPurchaseOrder: PurchaseOrderEntity | undefined;
   total: number;
-  btnState: ClrLoadingState;
+  btnState: LoadingState;
   currentPage: number;
 }
 
@@ -32,7 +32,7 @@ export const initialPurchaseOrderState: PurchaseOrderState =
     error: undefined,
     selectedPurchaseOrder: undefined,
     total: 0,
-    btnState: ClrLoadingState.DEFAULT,
+    btnState: LoadingState.DEFAULT,
     currentPage: 0,
   });
 
@@ -99,7 +99,7 @@ const reducer = createReducer(
     PurchaseOrderActions.assignPurchaseOrderRoles,
     (state) => ({
       ...state,
-      btnState: ClrLoadingState.LOADING,
+      btnState: LoadingState.LOADING,
       loaded: false,
       error: undefined,
     })
@@ -113,7 +113,7 @@ const reducer = createReducer(
     (state, { purchaseOrderDetails }) => ({
       ...state,
       loaded: true,
-      btnState: ClrLoadingState.SUCCESS,
+      btnState: LoadingState.SUCCESS,
       selectedPurchaseOrder: purchaseOrderDetails,
     })
   ),
@@ -126,7 +126,7 @@ const reducer = createReducer(
     (state, { error }) => ({
       ...state,
       error: error,
-      btnState: ClrLoadingState.ERROR,
+      btnState: LoadingState.ERROR,
     })
   )
 );

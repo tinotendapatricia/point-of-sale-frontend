@@ -1,7 +1,7 @@
 <pos-frontend-vat-form
-  [title]="'Create New Vat'"
-  (closeModal)="closeModal.emit(false)"
+  [title]="'Update VAT'"
+  [btnTitle]="'Save'"
+  [loading]="submitting()"
   (formValue)="createVat($event)"
   [vat]="(vatFacade.selectedVat$ | async)!"
-  [btnState]="(vatFacade.btnState$ | async)!"
 ></pos-frontend-vat-form>

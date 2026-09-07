@@ -52,47 +52,61 @@
     }
     @if (isOrderNumber) {
       <div class="clr-col-md-6">
-        <clr-input-container >
-          <label>Purchase Order Number</label>
-          <input clrInput type="number" formControlName="orderNumber" />
-        </clr-input-container>
+        <div class="field">
+          <label class="field-label">Purchase Order Number</label>
+          <mat-form-field class="full-width" subscriptSizing="dynamic">
+            <input matInput type="number" formControlName="orderNumber" />
+          </mat-form-field>
+        </div>
       </div>
     }
     @if (isGrvNumber) {
       <div class="clr-col-md-6">
-        <clr-input-container >
-          <label>GRV Number</label>
-          <input clrInput type="number" formControlName="grvNumber" />
-        </clr-input-container>
+        <div class="field">
+          <label class="field-label">GRV Number</label>
+          <mat-form-field class="full-width" subscriptSizing="dynamic">
+            <input matInput type="number" formControlName="grvNumber" />
+          </mat-form-field>
+        </div>
       </div>
     }
     @if (isBatch) {
       <div class="clr-col-md-6">
-        <clr-input-container >
-          <label>Batch Number</label>
-          <input clrInput type="number" formControlName="batchNumber" />
-        </clr-input-container>
+        <div class="field">
+          <label class="field-label">Batch Number</label>
+          <mat-form-field class="full-width" subscriptSizing="dynamic">
+            <input matInput type="number" formControlName="batchNumber" />
+          </mat-form-field>
+        </div>
       </div>
     }
     @if (isAdjustmentNumber) {
       <div class="clr-col-md-6">
-        <clr-input-container >
-          <label>Adjustment Number</label>
-          <input clrInput type="number" formControlName="adjustmentNumber" />
-        </clr-input-container>
+        <div class="field">
+          <label class="field-label">Adjustment Number</label>
+          <mat-form-field class="full-width" subscriptSizing="dynamic">
+            <input matInput type="number" formControlName="adjustmentNumber" />
+          </mat-form-field>
+        </div>
       </div>
     }
   </div>
   <br />
   <button
-    class="btn btn-primary btn-sm"
+    mat-flat-button
+    color="primary"
+    type="button"
+    [disabled]="loading"
     (click)="getPdf.emit(reportForm.value)"
     >
     Get PDF
   </button>
   @if (isExcel) {
     <button
-      class="btn btn-primary btn-sm"
+      mat-flat-button
+      color="primary"
+      type="button"
+      [disabled]="loading"
       (click)="getExcel.emit(reportForm.value)"
       >
       Get Excel

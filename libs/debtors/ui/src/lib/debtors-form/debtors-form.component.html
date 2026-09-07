@@ -1,56 +1,49 @@
-<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-  <div class="modal-title">{{ title }}</div>>
-  <div class="modal-body">
-    <form [formGroup]="debtorForm">
-      <clr-input-container>
-        <label>Name</label>
-        <input clrInput type="text" formControlName="name" required />
-        <clr-control-error>Name is required!</clr-control-error>
-      </clr-input-container>
-      <clr-input-container>
-        <label>Account</label>
-        <input clrInput type="text" formControlName="account" required />
-        <clr-control-error>Account is required!</clr-control-error>
-      </clr-input-container>
-      <div class="clr-row">
-        <div class="clr-col-md-6">
-          <clr-select-container>
-            <label>Currency</label>
-            <select clrSelect formControlName="currency">
-              <option>Select Currency</option>
-              @for (currency of currencies; track currency) {
-                <option [value]="currency.id">
-                  {{ currency.name }}
-                </option>
-              }
-            </select>
-            <clr-control-error>Group is required!</clr-control-error>
-          </clr-select-container>
-        </div>
-        <div class="clr-col-md-6">
-          <clr-input-container>
-            <label>Discount(%)</label>
-            <input clrInput type="text" formControlName="discount" />
-          </clr-input-container>
-        </div>
+<h2 mat-dialog-title>{{ title() }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="debtorForm" class="debtor-form">
+    <div class="field">
+      <label class="field-label" for="debtor-name">Name<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="debtor-name" type="text" formControlName="name" required />
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="debtor-account">Account<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="debtor-account" type="text" formControlName="account" required />
+      </mat-form-field>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Currency</label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <mat-select formControlName="currency">
+            @for (currency of currencies(); track currency) {
+              <mat-option [value]="currency.id">{{ currency.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
       </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline"
-      (click)="closeModal.emit(false)"
-      >
-      Cancel
-    </button>
-    <button
-      type="button"
-      class="btn btn-success"
-      [clrLoading]="btnState"
-      (click)="formValue.emit(debtorForm.value)"
-      >
-      Submit
-    </button>
-  </div>
-</clr-modal>
+      <div class="field">
+        <label class="field-label" for="debtor-discount">Discount(%)</label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input matInput id="debtor-discount" type="text" formControlName="discount" />
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
+    Cancel
+  </button>
+  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
+    @if (loading()) {
+      <mat-spinner diameter="18"></mat-spinner>
+    } @else {
+      {{ btnTitle() }}
+    }
+  </button>
+</mat-dialog-actions>

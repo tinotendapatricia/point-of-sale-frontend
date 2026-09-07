@@ -1,43 +1,61 @@
 import {
   Component,
+  ChangeDetectionStrategy,
   OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-  AfterViewInit,
-  OnChanges,
-  SimpleChanges,
-  ChangeDetectionStrategy
+  input,
+  output,
+  effect,
 } from '@angular/core';
-//import { ClrDatagridStateInterface } from '@clr/angular';
 import { UsersEntity } from '@pos-frontend/users/data-access';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { ClrDatagridStateInterface } from '@clr/angular';
-import { ClrDatagridModule } from '@clr/angular/data/datagrid';
-import { ClrStopEscapePropagationDirective, ClrPopoverHostDirective } from '@clr/angular/popover/common';
-import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatButtonModule } from '@angular/material/button';
+
+export interface UsersPageState {
+  page?: { from: number; size: number };
+}
 
 @Component({
     selector: 'pos-frontend-list-users-ui',
     templateUrl: './list-users-ui.component.html',
     styleUrls: ['./list-users-ui.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrDatagridModule, ClrStopEscapePropagationDirective, ClrPopoverHostDirective, ClrIcon, ClrIconModule]
+    imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatMenuModule, MatChipsModule, MatButtonModule]
 })
-export class ListUsersUiComponent implements OnChanges {
-  @Input() userList: UsersEntity[] = [];
-  @Input() total = 0;
-  @Input() loading!: boolean;
-  @Input() placeholderMessage = '';
-  @Output() updatedState = new EventEmitter<ClrDatagridStateInterface>();
-  @Output() updateSelected = new EventEmitter<UsersEntity>();
-  @Output() viewSelected = new EventEmitter<UsersEntity>();
-  @Output() changeSelectedUserStatus = new EventEmitter<UsersEntity>();
-  @Output() changeSelectedUserPassword = new EventEmitter<UsersEntity>();
-  @Output() viewUserAuthorities = new EventEmitter<UsersEntity>();
-  selectedUser!: UsersEntity[];
+export class ListUsersUiComponent implements OnInit {
+  readonly userList = input<UsersEntity[]>([]);
+  readonly total = input(0);
+  readonly loading = input(false);
+  readonly placeholderMessage = input('');
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  readonly updatedState = output<UsersPageState>();
+  readonly updateSelected = output<UsersEntity>();
+  readonly viewSelected = output<UsersEntity>();
+  readonly changeSelectedUserStatus = output<UsersEntity>();
+  readonly changeSelectedUserPassword = output<UsersEntity>();
+  readonly viewUserAuthorities = output<UsersEntity>();
+
+  readonly displayedColumns = ['username', 'name', 'status', 'actions'];
+  readonly dataSource = new MatTableDataSource<UsersEntity>([]);
+  readonly pageSizeOptions = [10, 25, 50];
+  readonly pageSize = 10;
+
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.userList();
+    });
+  }
+
+  ngOnInit(): void {
+    this.updatedState.emit({ page: { from: 0, size: this.pageSize } });
+  }
+
+  onPage(event: PageEvent) {
+    this.updatedState.emit({
+      page: { from: event.pageIndex * event.pageSize, size: event.pageSize },
+    });
+  }
 }

@@ -1,8 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CompanyEntity, CompanyService } from '@pos-frontend/company-details/data-access';
-import { Observable } from 'rxjs';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
 import { CompanyDetailsUiComponent } from '@pos-frontend/company-details/ui';
 import { CreateCompanyDetailsComponent } from '../create-company-details/create-company-details.component';
 import { UpdateCompanyDetailsComponent } from '../update-company-details/update-company-details.component';
@@ -12,32 +12,37 @@ import { UpdateCompanyDetailsComponent } from '../update-company-details/update-
     templateUrl: './company-details.component.html',
     styleUrls: ['./company-details.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, ClrIcon, ClrIconModule, CompanyDetailsUiComponent, CreateCompanyDetailsComponent, UpdateCompanyDetailsComponent]
+    imports: [MatCard, MatCardContent, MatIconModule, CompanyDetailsUiComponent]
 })
-export class CompanyDetailsComponent implements OnInit  {
+export class CompanyDetailsComponent implements OnInit {
+  private readonly dialog = inject(MatDialog);
 
-  isCreate = false;
-  isUpdate = false;
-  company! :CompanyEntity
-  constructor(private companyService: CompanyService){}
-
+  company!: CompanyEntity;
+  constructor(private companyService: CompanyService) {}
 
   ngOnInit(): void {
-   this.getCompany()
+    this.getCompany();
   }
 
-  getCompany(){
-   this.companyService.getCompany().subscribe({
-      next:(res)=>{
-        this.company = res
-      }
-    })
+  getCompany() {
+    this.companyService.getCompany().subscribe({
+      next: (res) => {
+        this.company = res;
+      },
+    });
   }
 
-  refresh(){
-   
-    this.getCompany()
-    this.isCreate = false
-    this.isUpdate = false
+  create() {
+    this.dialog
+      .open(CreateCompanyDetailsComponent, { width: '480px' })
+      .afterClosed()
+      .subscribe((created) => created && this.getCompany());
+  }
+
+  update() {
+    this.dialog
+      .open(UpdateCompanyDetailsComponent, { width: '480px', data: { company: this.company } })
+      .afterClosed()
+      .subscribe((updated) => updated && this.getCompany());
   }
 }

@@ -3,45 +3,20 @@
 <hr />
 <br />
 
-
-<clr-tabs clrLayout="vertical">
-  <clr-tab>
-    <button clrTabLink>Current Stock Listing Reports</button>
-    <clr-tab-content *clrIfActive
-      ><pos-frontend-current-stock-listing-report></pos-frontend-current-stock-listing-report>
-    </clr-tab-content>
-  </clr-tab>
-  <clr-tab>
-    <button clrTabLink>Print Batch</button>
-    <clr-tab-content *clrIfActive
-      >
-      <pos-frontend-print-batch></pos-frontend-print-batch>
-     
-    </clr-tab-content>
-  </clr-tab>
-  <clr-tab>
-    <button clrTabLink>Print Stock Adjustment</button>
-    <clr-tab-content *clrIfActive
-      >
-      <pos-frontend-print-adjustment></pos-frontend-print-adjustment>
-    </clr-tab-content>
-  </clr-tab>
-
-  <clr-tab>
-    <button clrTabLink>Batch vs Adjustment</button>
-    <clr-tab-content *clrIfActive
-      >
-      <pos-frontend-adjustment-vs-batch></pos-frontend-adjustment-vs-batch>
-    </clr-tab-content>
-  </clr-tab>
-
-  <clr-tab>
-    <button clrTabLink>Stock Takes for Period</button>
-    <clr-tab-content *clrIfActive
-      >
-      <pos-frontend-stock-take-for-period></pos-frontend-stock-take-for-period>
-    </clr-tab-content>
-  </clr-tab>
-
-  
-</clr-tabs>
+<mat-tab-group>
+  <mat-tab label="Current Stock Listing Reports">
+    <pos-frontend-current-stock-listing-report></pos-frontend-current-stock-listing-report>
+  </mat-tab>
+  <mat-tab label="Print Batch">
+    <pos-frontend-print-batch></pos-frontend-print-batch>
+  </mat-tab>
+  <mat-tab label="Print Stock Adjustment">
+    <pos-frontend-print-adjustment></pos-frontend-print-adjustment>
+  </mat-tab>
+  <mat-tab label="Batch vs Adjustment">
+    <pos-frontend-adjustment-vs-batch></pos-frontend-adjustment-vs-batch>
+  </mat-tab>
+  <mat-tab label="Stock Takes for Period">
+    <pos-frontend-stock-take-for-period></pos-frontend-stock-take-for-period>
+  </mat-tab>
+</mat-tab-group>

@@ -1,12 +1,5 @@
-<div class="head">Create New Currency</div>
-<hr />
-<br />
-
-<div class="padding-left-right-1">
-  <pos-frontend-rate-form
-    [title]="'Update Rate'"
-    (closeModal)="closeModal.emit(false)"
-    (formValue)="updateRate($event)"
-    [btnState]="(currenciesService.btnState$ | async)!"
-  ></pos-frontend-rate-form>
-</div>
+<pos-frontend-rate-form
+  [title]="'Update Rate'"
+  [loading]="submitting()"
+  (formValue)="updateRate($event)"
+></pos-frontend-rate-form>

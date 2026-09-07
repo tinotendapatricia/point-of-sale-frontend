@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductsEntity } from '../+state/products.models';
+import { ProductsEntity } from './product.model';
 import { ApiService, Page } from '@pos-frontend/shared/data-access';
 import { HttpParams } from '@angular/common/http';
 @Injectable({

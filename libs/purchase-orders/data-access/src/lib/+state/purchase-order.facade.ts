@@ -4,7 +4,7 @@ import { select, Store, Action } from '@ngrx/store';
 import * as PurchaseOrderActions from './purchase-order.actions';
 import * as PurchaseOrderFeature from './purchase-order.reducer';
 import * as PurchaseOrderSelectors from './purchase-order.selectors';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 import { PurchaseOrderEntity } from './purchase-order.models';
 
 @Injectable()
@@ -30,7 +30,7 @@ export class PurchaseOrderFacade {
     private store: Store<PurchaseOrderFeature.PurchaseOrderPartialState>
   ) {}
 
-  getPaginatedPurchaseOrder(state: ClrDatagridStateInterface) {
+  getPaginatedPurchaseOrder(state: DatagridState) {
     this.store.dispatch(
       PurchaseOrderActions.getPaginatedPurchaseOrder({ state })
     );

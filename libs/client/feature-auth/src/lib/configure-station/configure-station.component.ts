@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
-import { config } from 'rxjs';
 import { StationFormComponent } from '@pos-frontend/auth/ui';
 
 @Component({
@@ -12,27 +12,31 @@ import { StationFormComponent } from '@pos-frontend/auth/ui';
     imports: [StationFormComponent]
 })
 export class ConfigureStationComponent {
-  @Output() closeModal = new EventEmitter();
-  constructor(public configService: ConfigurationsService) {}
+  private readonly dialogRef = inject(MatDialogRef<ConfigureStationComponent, boolean>);
+  private readonly configService = inject(ConfigurationsService);
+
+  readonly submitting = signal(false);
 
   setStation(stationDetails: any) {
+    this.submitting.set(true);
     this.configService.getAllConfigurations().subscribe({
       next: (res) => {
+        this.submitting.set(false);
         const station = res.findIndex(
-          (station) => (station.stationNumber == stationDetails.stationNumber)
+          (station) => station.stationNumber == stationDetails.stationNumber
         );
-  
+
         if (station >= 0) {
-         
           localStorage.setItem('station', res[station].stationNumber.toString());
           Utilities.displayToast('success', 'Station Set Successfully');
-          this.closeModal.emit(true);
+          this.dialogRef.close(true);
         } else {
-          //localStorage.clear()
           Utilities.displayToast('error', 'Station Number Invalid');
         }
       },
-      error: () => {},
+      error: () => {
+        this.submitting.set(false);
+      },
     });
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 import { select, Store, Action } from '@ngrx/store';
 
 import * as GroupsActions from './groups.actions';
@@ -18,7 +18,7 @@ export class GroupsFacade {
 
   constructor(private store: Store<GroupsFeature.GroupsPartialState>) {}
 
-  getPaginatedGroups(state: ClrDatagridStateInterface) {
+  getPaginatedGroups(state: DatagridState) {
     this.store.dispatch(GroupsActions.getPaginatedGroups({ state }));
   }
 

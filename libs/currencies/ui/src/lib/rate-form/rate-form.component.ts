@@ -1,45 +1,38 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClrLoadingState } from '@clr/angular';
-import { ClrModalModule } from '@clr/angular/modal';
-import { ClrInputModule } from '@clr/angular/forms/input';
-import { ClrCommonFormsModule } from '@clr/angular/forms/common';
-import { ClrLoadingButtonModule } from '@clr/angular/button';
-import { ClrLoadingModule } from '@clr/angular/utils';
+import { Component, ChangeDetectionStrategy, inject, input, output } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'pos-frontend-rate-form',
     templateUrl: './rate-form.component.html',
     styleUrls: ['./rate-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrModalModule, FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrLoadingButtonModule, ClrLoadingModule]
+    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
 })
 export class RateFormComponent {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
 
-  @Input() btnState = ClrLoadingState.DEFAULT;
-  @Input() title = '';
-  @Output() formValue = new EventEmitter();
-  @Output() closeModal = new EventEmitter();
-  @Input() label=''
-  //@Input() allGroups$!: Observable<GroupsEntity[]>;
-  @Input() btnTitle!: string;
-  public form!: UntypedFormGroup;
-  public opened = true;
+  readonly loading = input(false);
+  readonly title = input('');
+  readonly btnTitle = input('Submit');
+  readonly formValue = output<any>();
 
+  readonly form = this.formBuilder.group({
+    id: [''],
+    rate: [''],
+    effectiveDate: [''],
+  });
 
-  constructor(private formBuilder: FormBuilder) {}
- 
-
-  ngOnInit(): void {
-    this.createForm();
-
+  cancel() {
+    this.dialogRef?.close(false);
   }
 
-  public createForm() {
-    this.form = this.formBuilder.group({
-      id: '',
-      rate: '',
-      effectiveDate:''
-    });
+  submit() {
+    this.formValue.emit(this.form.value);
   }
 }

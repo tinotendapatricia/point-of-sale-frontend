@@ -1,10 +1,7 @@
-
-  <pos-frontend-user-form
-  [title]="'Update  User'"
-  (closeModal)="closeModal.emit(false)"
+<pos-frontend-user-form
+  [title]="'Update User'"
+  [user]="user"
+  [loading]="submitting()"
+  [btnTitle]="'Update'"
   (formValue)="updateUser($event)"
-  [btnState]="(usersFacade.btnState$ | async)!"
-
-    [user]="user"
-  ></pos-frontend-user-form>
-
+></pos-frontend-user-form>

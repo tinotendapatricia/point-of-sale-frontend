@@ -112,5 +112,6 @@
       "typeSeparator": "."
     }
   },
-  "useInferencePlugins": false
+  "useInferencePlugins": false,
+  "analytics": true
 }

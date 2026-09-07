@@ -1,42 +1,39 @@
-import { Subscription } from 'rxjs';
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  OnDestroy,
-  ChangeDetectionStrategy
-} from '@angular/core';
-import { ClrLoadingState } from '@clr/angular';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { take } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
+import { ActionConfirmationFormComponent } from '@pos-frontend/shared/ui';
+
+export interface ChangeUserStatusData {
+  user: UsersEntity;
+}
 
 @Component({
   selector: 'pos-frontend-change-user-status',
   templateUrl: './change-user-status.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./change-user-status.component.scss'],
+  imports: [ActionConfirmationFormComponent],
 })
-export class ChangeUserStatusComponent implements OnInit, OnDestroy {
-  @Input() user!: UsersEntity;
-  @Output() closeModal = new EventEmitter<boolean>();
-  sub = new Subscription();
-  public btnState = ClrLoadingState.DEFAULT;
+export class ChangeUserStatusComponent {
+  private readonly dialogRef = inject(MatDialogRef<ChangeUserStatusComponent, boolean>);
+  private readonly usersFacade = inject(UsersFacade);
+  private readonly data = inject<ChangeUserStatusData>(MAT_DIALOG_DATA);
 
-  constructor(private usersFacade: UsersFacade) {}
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
-  ngOnInit(): void {}
+  readonly user = this.data.user;
+  readonly submitting = signal(false);
 
   onSubmit() {
+    this.submitting.set(true);
     this.usersFacade.changeUserStatus({
       userId: this.user.id,
-      status: !this.user.enabled,
+      status: !this.user.active,
     });
-    this.sub = this.usersFacade.loaded$.subscribe((res) =>
-      res ? this.closeModal.emit(true) : null
-    );
+    this.usersFacade.loaded$.pipe(take(1)).subscribe((loaded) => {
+      this.submitting.set(false);
+      if (loaded) {
+        this.dialogRef.close(true);
+      }
+    });
   }
 }

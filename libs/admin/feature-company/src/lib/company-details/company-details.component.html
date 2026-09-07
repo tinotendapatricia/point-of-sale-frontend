@@ -3,24 +3,22 @@
 <div class="h">Company Details</div>
 <hr />
 <br />
-<!-- <button class="btn btn-sm" (click)="createDebtor()">Add</button>
-<button class="btn btn-sm" (click)="getDebtorList({})">Refresh</button> -->
-<mat-card class="login" >
+<mat-card class="login">
   <mat-card-content>
     &nbsp;@if (!company) {
-    <button class="act" (click)="isCreate = true"
+    <button class="act" (click)="create()"
       >
-      <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+      <mat-icon style="color: green">add_circle</mat-icon>Add
       New</button
       >
       }&nbsp;&nbsp;|&nbsp;&nbsp;@if (company) {
-      <button class="act" (click)="isUpdate = true"
+      <button class="act" (click)="update()"
         >
-        <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Update
+        <mat-icon style="color: green">edit</mat-icon>Update
         </button
         >
         }&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getCompany()">
-        <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+        <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
           >Refresh
         </button>
         <br><br>
@@ -29,19 +27,3 @@
         ></pos-frontend-company-details-ui>
       </mat-card-content>
     </mat-card>
-
-    @if (isCreate) {
-      <pos-frontend-create-company-details
-        (closeModal)="refresh()"
-        >
-      </pos-frontend-create-company-details>
-    }
-
-    @if (isUpdate) {
-      <pos-frontend-update-company-details
-        [company]="company"
-        (closeModal)="refresh()"
-        >
-      </pos-frontend-update-company-details>
-    }
-

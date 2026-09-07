@@ -1,11 +1,7 @@
 <pos-frontend-update-cost-and-price
-[product]="product!"
-(formValue)="onSubmit($event)"
-[title]="'Update Cost of'"
-[label]="'Cost Price'"
-[btnState]="(productsFacade.btnState$|async)!"
-(closeModal)="closeModal.emit(false)"
-[isCost]="true"
->
-
-</pos-frontend-update-cost-and-price>
+  [product]="product"
+  (formValue)="onSubmit($event)"
+  [title]="'Update Cost of'"
+  [loading]="submitting()"
+  [isCost]="true"
+></pos-frontend-update-cost-and-price>

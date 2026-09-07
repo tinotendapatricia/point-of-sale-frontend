@@ -1,47 +1,51 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClrLoadingState } from '@clr/angular';
+import { Component, ChangeDetectionStrategy, inject, input, output, effect } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { StationsEntity } from '@pos-frontend/stations/data-access';
-import { ClrModalModule } from '@clr/angular/modal';
-import { ClrInputModule } from '@clr/angular/forms/input';
-import { ClrCommonFormsModule } from '@clr/angular/forms/common';
-import { ClrTextareaModule } from '@clr/angular/forms/textarea';
-import { ClrLoadingButtonModule } from '@clr/angular/button';
-import { ClrLoadingModule } from '@clr/angular/utils';
 
 @Component({
     selector: 'pos-frontend-stations-form',
     templateUrl: './stations-form.component.html',
     styleUrls: ['./stations-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrModalModule, FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrTextareaModule, ClrLoadingButtonModule, ClrLoadingModule]
+    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
 })
-export class StationsFormComponent  implements OnInit{
-  @Input() station!: StationsEntity;
-  @Input() btnState = ClrLoadingState.DEFAULT;
-  @Input() title = '';
-  @Output() formValue = new EventEmitter();
-  @Output() closeModal = new EventEmitter();
-  @Input() btnTitle!: string;
-  public stationForm!: UntypedFormGroup;
-  public opened = true;
+export class StationsFormComponent {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
 
-  constructor(private formBuilder: FormBuilder) {}
+  readonly station = input<StationsEntity>();
+  readonly loading = input(false);
+  readonly title = input('');
+  readonly btnTitle = input('Submit');
+  readonly formValue = output<any>();
 
-  ngOnInit(): void {
-    this.createForm();
-    if (this.station) {
-      this.stationForm.patchValue(this.station);
-    }
+  readonly stationForm = this.formBuilder.group({
+    name: [''],
+    account: [''],
+    address: [''],
+    contact: [''],
+    id: [''],
+  });
+
+  constructor() {
+    effect(() => {
+      const station = this.station();
+      if (station) {
+        this.stationForm.patchValue({ ...station, id: String(station.id) });
+      }
+    });
   }
 
-  public createForm() {
-    this.stationForm = this.formBuilder.group({
-      name: '',
-      account: '',
-      address: '',
-      contact: '',
-      id: '',
-    });
+  cancel() {
+    this.dialogRef?.close(false);
+  }
+
+  submit() {
+    this.formValue.emit(this.stationForm.value);
   }
 }

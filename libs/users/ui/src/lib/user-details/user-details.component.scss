@@ -1,0 +1,20 @@
+.details-list {
+  margin: 0;
+}
+
+.details-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--color-divider, #e0e0e0);
+
+  dt {
+    font-weight: 500;
+    color: color-mix(in srgb, currentColor 60%, transparent);
+  }
+
+  dd {
+    margin: 0;
+  }
+}

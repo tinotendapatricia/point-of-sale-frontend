@@ -3,7 +3,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 
 import * as AuditsActions from './audits.actions';
 import { AuditsEntity } from './audits.models';
-import { ClrLoadingState } from '@clr/angular';
+import { LoadingState } from '@pos-frontend/shared/utils';
 
 export const AUDITS_FEATURE_KEY = 'audits';
 
@@ -14,7 +14,7 @@ export interface AuditsState extends EntityState<AuditsEntity> {
   error?: Error;
   selectedAudit: AuditsEntity | undefined;
   total: number;
-  btnState: ClrLoadingState;
+  btnState: LoadingState;
   currentPage: number;
 }
 
@@ -31,7 +31,7 @@ export const initialAuditsState: AuditsState = auditsAdapter.getInitialState({
   error: undefined,
   selectedAudit: undefined,
   total: 0,
-  btnState: ClrLoadingState.DEFAULT,
+  btnState: LoadingState.DEFAULT,
   currentPage: 0,
 });
 

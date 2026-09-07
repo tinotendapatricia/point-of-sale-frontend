@@ -21,10 +21,8 @@
           "apps/admin-portal/src/assets"
         ],
         "styles": [
-          "apps/admin-portal/src/styles.scss",
-          "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-          "node_modules/@clr/ui/clr-ui.min.css",
-          "node_modules/izitoast/dist/css/iziToast.min.css"
+          "node_modules/izitoast/dist/css/iziToast.min.css",
+                  "apps/admin-portal/src/styles.scss"
         ],
         "scripts": ["node_modules/izitoast/dist/js/iziToast.min.js"]
       },

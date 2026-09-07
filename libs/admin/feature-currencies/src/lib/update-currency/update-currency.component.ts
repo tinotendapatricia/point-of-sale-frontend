@@ -1,35 +1,36 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
-import {
-  CurrenciesEntity,
-  CurrenciesFacade,
-} from '@pos-frontend/currencies/data-access';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { take } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { CurrenciesEntity, CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { CurrencyFormComponent } from '@pos-frontend/currencies/ui';
-import { AsyncPipe } from '@angular/common';
+
+export interface UpdateCurrencyData {
+  currency: CurrenciesEntity;
+}
 
 @Component({
     selector: 'pos-frontend-update-currency',
     templateUrl: './update-currency.component.html',
     styleUrls: ['./update-currency.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [CurrencyFormComponent, AsyncPipe]
+    imports: [CurrencyFormComponent]
 })
 export class UpdateCurrencyComponent {
-  @Input() currency!: CurrenciesEntity;
-  @Output() closeModal = new EventEmitter();
-  constructor(
-    public currenciesService: CurrenciesFacade,
-    private router: Router // public currenciesFacade: CurrenciesFacade
-  ) {}
+  private readonly dialogRef = inject(MatDialogRef<UpdateCurrencyComponent, boolean>);
+  private readonly data = inject<UpdateCurrencyData>(MAT_DIALOG_DATA);
+  readonly currenciesService = inject(CurrenciesFacade);
 
-  ngOnInit(): void {
-    // this.currenciesFacade.getAllCurrencies();
-  }
+  readonly currency = this.data.currency;
+  readonly submitting = signal(false);
 
   public createCurrency(currency: any) {
+    this.submitting.set(true);
     this.currenciesService.updateCurrency(currency);
-    this.currenciesService.loaded$.subscribe((res) => {
-      res ? this.closeModal.emit(true) : null;
+    this.currenciesService.loaded$.pipe(take(1)).subscribe((loaded) => {
+      this.submitting.set(false);
+      if (loaded) {
+        this.dialogRef.close(true);
+      }
     });
   }
 }

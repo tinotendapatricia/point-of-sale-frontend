@@ -3,8 +3,6 @@
 <div class="h">Products</div>
 <hr />
 <br />
-<!-- <button class="btn btn-sm" (click)="createProduct()">Add</button>
-<button class="btn btn-sm" (click)="getProductList({})">Refresh</button> -->
 <mat-card class="login">
   <mat-card-content>
     &nbsp;<button
@@ -12,26 +10,17 @@
       [routerLink]="['/products/new']"
       routerLinkActive="router-link-active"
     >
-      <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+      <mat-icon style="color: green">add_circle</mat-icon>Add
       New</button
     >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getProductList()">
-      <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+      <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
       >Refresh
     </button>
 <br><br>
     <pos-frontend-break-bulk-form
-      [products]="(productsFacade.allProducts$ | async)!"
+      [products]="productsStore.products()"
+      [loading]="submitting()"
       (formValue)="onSubmit($event)"
-     
     ></pos-frontend-break-bulk-form>
   </mat-card-content>
 </mat-card>
-
-
-
-<!-- <pos-frontend-update-product
-  *ngIf="isUpdate"
-  [product]="selectedProduct"
-  (closeModal)="refresh()"
->
-</pos-frontend-update-product> -->

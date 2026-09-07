@@ -1,38 +1,31 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-
-import { Router } from '@angular/router';
-//import { GroupsEntity, GroupsFacade } from '@pos-frontend/groups/data-access';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { take } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { UsersFacade } from '@pos-frontend/users/data-access';
 import { UserFormComponent } from '@pos-frontend/users/ui';
-import { AsyncPipe } from '@angular/common';
-//import { GroupsFacade } from '@pos-frontend/groups/data-access';
 
 @Component({
     selector: 'pos-frontend-create-user',
     templateUrl: './create-user.component.html',
     styleUrls: ['./create-user.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [UserFormComponent, AsyncPipe]
+    imports: [UserFormComponent]
 })
-export class CreateUserComponent implements OnInit {
-  @Output() closeModal = new EventEmitter();
- 
-  constructor(
-    public usersService: UsersFacade,
-    private router: Router,
-   
-  ) {}
+export class CreateUserComponent {
+  private readonly dialogRef = inject(MatDialogRef<CreateUserComponent, boolean>);
+  readonly usersService = inject(UsersFacade);
 
-  ngOnInit(): void {
-
-    this.usersService.getAllUsers()
-  }
+  readonly submitting = signal(false);
 
   public createUser(user: any) {
+    this.submitting.set(true);
     this.usersService.createNewUser(user);
-    this.usersService.loaded$.subscribe((res) => {
-      res ? this.closeModal.emit(true): null;
+    this.usersService.loaded$.pipe(take(1)).subscribe((loaded) => {
+      this.submitting.set(false);
+      if (loaded) {
+        this.dialogRef.close(true);
+      }
     });
   }
 }

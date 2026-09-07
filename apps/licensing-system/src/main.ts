@@ -1,8 +1,7 @@
-import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { AppComponent } from './app/app.component';
-import { importProvidersFrom } from '@angular/core';
 
 bootstrapApplication(AppComponent, {
-    providers: [importProvidersFrom(BrowserModule)]
-})
-  .catch((err) => console.error(err));
+  providers: [provideAnimations()],
+}).catch((err) => console.error(err));

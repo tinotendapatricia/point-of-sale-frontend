@@ -1,19 +1,16 @@
-@for (field of user | keyvalue; track field) {
-  @if (!isHide($safeNavigationMigration(field?.key))) {
-    <div class="clr-row">
-      <div class="clr-col-6">
-        <span class="clr-control-label">{{
-          decamelize($safeNavigationMigration(field?.key)) | titlecase
-        }}</span>
-      </div>
-      <div class="clr-col">
-        <span>{{ field?.value }}</span>
-        @if ($safeNavigationMigration(field?.value) === null || $safeNavigationMigration(field?.value) === undefined) {
-          <span
-            >--</span
-            >
+<dl class="details-list">
+  @for (field of user() | keyvalue; track field.key) {
+    @if (!isHide(field.key)) {
+      <div class="details-row">
+        <dt>{{ decamelize(field.key) | titlecase }}</dt>
+        <dd>
+          @if (field.value === null || field.value === undefined) {
+            --
+          } @else {
+            {{ field.value }}
           }
-        </div>
+        </dd>
       </div>
     }
   }
+</dl>

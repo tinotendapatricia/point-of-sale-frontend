@@ -1,13 +1,22 @@
-.c {
-  text-align: center;
-  font-weight: 900;
+:host {
+  display: block;
+  height: 100vh;
 }
 
-@media screen and (max-width: 992px) {
-  ::ng-deep .main-container .header-hamburger-trigger, .main-container .header-overflow-trigger {
-    background-color: #800080 !important;
-    ;
-  }
+.pos-shell {
+  display: flex;
+  height: 100%;
 }
 
+.pos-shell-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
 
+.pos-main {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}

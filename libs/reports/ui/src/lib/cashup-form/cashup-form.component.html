@@ -1,20 +1,21 @@
 <div class="card">
   <div class="card-header">Daily Cashup</div>
   <div class="card-block">
-    <button (click)="togglePrintAngGenerate()">Print Previous Cashup</button>
+    <button mat-stroked-button type="button" (click)="togglePrintAngGenerate()">Print Previous Cashup</button>
     @if (!printCashup) {
       <div>
-        <clr-select-container>
-          <label>Select Till Station</label>
-          <select clrSelect [(ngModel)]="station">
-            <option>Select Station</option>
-            @for (till of tills; track till) {
-              <option [value]="till.station+'/'+till.tDate">
-                Station {{ till.station }} for {{ till.tDate }}
-              </option>
-            }
-          </select>
-        </clr-select-container>
+        <div class="field">
+          <label class="field-label">Select Till Station</label>
+          <mat-form-field class="full-width" subscriptSizing="dynamic">
+            <mat-select [(ngModel)]="station">
+              @for (till of tills; track till) {
+                <mat-option [value]="till.station+'/'+till.tDate">
+                  Station {{ till.station }} for {{ till.tDate }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
         <br />
         <div class="clr-row">
           @for (currency of n; track currency; let x = $index) {

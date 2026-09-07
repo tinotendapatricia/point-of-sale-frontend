@@ -1,59 +1,58 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, Validators, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { ClrLoadingState } from '@clr/angular';
+import { Component, ChangeDetectionStrategy, inject, input, output, effect, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { GroupsEntity } from '@pos-frontend/groups/data-access';
-//import { GroupsEntity } from '@pos-frontend/groups/data-access';
-//import { ClrLoadingState } from '@clr/angular';
-//import { GroupsEntity } from '@pos-frontend/groups/data-access';
 import { UsersEntity } from '@pos-frontend/users/data-access';
-import { Observable } from 'rxjs';
-import { ClrModalModule } from '@clr/angular/modal';
-import { ClrInputModule } from '@clr/angular/forms/input';
-import { ClrCommonFormsModule } from '@clr/angular/forms/common';
-import { ClrPasswordModule } from '@clr/angular/forms/password';
-import { ClrLoadingButtonModule } from '@clr/angular/button';
-import { ClrLoadingModule } from '@clr/angular/utils';
 
 @Component({
     selector: 'pos-frontend-user-form',
     templateUrl: './user-form.component.html',
     styleUrls: ['./user-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrModalModule, FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrPasswordModule, ClrLoadingButtonModule, ClrLoadingModule]
+    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule]
 })
-export class UserFormComponent implements OnInit {
-  @Input() user!: UsersEntity;
-  @Input() btnState = ClrLoadingState.DEFAULT;
-  @Input() groups: GroupsEntity[] = [];
-  @Input() title = '';
-  @Output() formValue = new EventEmitter();
-  @Output() closeModal = new EventEmitter();
-  //@Input() allGroups$!: Observable<GroupsEntity[]>;
-  @Input() btnTitle!: string;
-  public userForm!: UntypedFormGroup;
-  public opened = true;
+export class UserFormComponent {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
 
-  constructor(private formBuilder: FormBuilder, public dialog: MatDialog) {}
+  readonly user = input<UsersEntity>();
+  readonly loading = input(false);
+  readonly groups = input<GroupsEntity[]>([]);
+  readonly title = input('');
+  readonly btnTitle = input('Submit');
+  readonly formValue = output<any>();
+  readonly hidePassword = signal(true);
 
-  openDialog() {
-    this.dialog.open(UserFormComponent);
-  }
+  readonly userForm = this.formBuilder.group({
+    username: [''],
+    name: [''],
+    password: [''],
+    id: [''],
+  });
 
-  ngOnInit(): void {
-    this.createForm();
-    if (this.user) {
-      this.userForm.patchValue(this.user);
-      
-    }
-  }
-
-  public createForm() {
-    this.userForm = this.formBuilder.group({
-      username: [''],
-      name: '',
-      password: [''],
-      id: '',
+  constructor() {
+    effect(() => {
+      const user = this.user();
+      if (user) {
+        this.userForm.patchValue({
+          username: user.username,
+          name: user.name,
+          id: String(user.id),
+        });
+      }
     });
+  }
+
+  cancel() {
+    this.dialogRef?.close(false);
+  }
+
+  submit() {
+    this.formValue.emit(this.userForm.value);
   }
 }

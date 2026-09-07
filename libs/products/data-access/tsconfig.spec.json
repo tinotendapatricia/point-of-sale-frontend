@@ -14,7 +14,7 @@
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
-  ],
+, "src/lib/product.store.ts"  ],
   "angularCompilerOptions": {
     "extendedDiagnostics": {
       "checks": {

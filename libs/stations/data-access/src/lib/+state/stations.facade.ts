@@ -4,7 +4,7 @@ import { select, Store, Action } from '@ngrx/store';
 import * as StationsActions from './stations.actions';
 import * as StationsFeature from './stations.reducer';
 import * as StationsSelectors from './stations.selectors';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 import { StationsEntity } from './stations.models';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class StationsFacade {
 
   constructor(private store: Store<StationsFeature.StationsPartialState>) {}
 
-  getPaginatedStations(state: ClrDatagridStateInterface) {
+  getPaginatedStations(state: DatagridState) {
     this.store.dispatch(StationsActions.getPaginatedStations({ state }));
   }
 

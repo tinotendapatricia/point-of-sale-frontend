@@ -2,37 +2,20 @@
 <div class="h">Configurations</div>
 <hr />
 <br />
-<!-- <button class="btn btn-sm" (click)="createConfiguration()">Add</button>
-<button class="btn btn-sm" (click)="getConfigurationList({})">Refresh</button> -->
 <mat-card class="login">
   <mat-card-content>
-    &nbsp;<button class="act" (click)="isCreate = true">
-    <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+    &nbsp;<button class="act" (click)="createConfiguration()">
+    <mat-icon style="color: green">add_circle</mat-icon>Add
     New</button
     >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getConfigurationList()">
-    <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+    <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
       >Refresh
     </button>
 
     <pos-frontend-configurations-list-ui
-
       [configurationsList]="(configurations$ | async)!"
-      [total]="$safeNavigationMigration((configurations$ | async)?.length)!"
       [placeholderMessage]="'Configurations'"
       (updateSelected)="updateConfiguration($event)"
     ></pos-frontend-configurations-list-ui>
   </mat-card-content>
 </mat-card>
-
-@if (isCreate) {
-  <pos-frontend-create-configurations
-    (closeModal)="refresh()"
-  ></pos-frontend-create-configurations>
-}
-
-@if (isUpdate) {
-  <pos-frontend-update-configurations
-    [configuration]="selectedConfiguration"
-    (closeModal)="refresh()"
-  ></pos-frontend-update-configurations>
-}

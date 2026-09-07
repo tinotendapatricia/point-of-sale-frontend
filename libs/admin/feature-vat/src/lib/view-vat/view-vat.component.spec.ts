@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
+import { VatFacade } from '@pos-frontend/vat/data-access';
 
 import { ViewVatComponent } from './view-vat.component';
 
@@ -8,7 +11,11 @@ describe('ViewVatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [ViewVatComponent]
+    imports: [ViewVatComponent],
+    providers: [
+      provideNoopAnimations(),
+      { provide: VatFacade, useValue: { getVat: () => undefined, selectedVat$: of(undefined) } },
+    ],
 })
     .compileComponents();
 

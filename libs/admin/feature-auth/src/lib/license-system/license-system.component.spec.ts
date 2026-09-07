@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { CompanyService } from '@pos-frontend/company-details/data-access';
 import { LicenseSystemComponent } from './license-system.component';
 
 describe('LicenseSystemComponent', () => {
@@ -8,6 +11,11 @@ describe('LicenseSystemComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
     imports: [LicenseSystemComponent],
+    providers: [
+      provideNoopAnimations(),
+      { provide: CompanyService, useValue: {} },
+      { provide: MatDialogRef, useValue: { close: () => undefined } },
+    ],
 }).compileComponents();
 
     fixture = TestBed.createComponent(LicenseSystemComponent);

@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 import { CategoriesEntity, CategoriesFacade } from '@pos-frontend/categories/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
 import { CategoryListUiComponent } from '@pos-frontend/categories/ui';
 import { CreateCategoryComponent } from '../create-category/create-category.component';
 import { AsyncPipe } from '@angular/common';
@@ -13,36 +14,30 @@ import { AsyncPipe } from '@angular/common';
     templateUrl: './categories-list.component.html',
     styleUrls: ['./categories-list.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, ClrIcon, ClrIconModule, CategoryListUiComponent, CreateCategoryComponent, AsyncPipe]
+    imports: [MatCard, MatCardContent, MatIconModule, CategoryListUiComponent, AsyncPipe]
 })
 export class CategoriesListComponent {
-  public isUpdate = false;
-  public isCreate = false;
-  public isChangeStatus = false;
-  public selectedCategorie!: CategoriesEntity;
+  private readonly dialog = inject(MatDialog);
 
   constructor(
     public categoriesFacade: CategoriesFacade,
-    private cdr: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
-  ngAfterViewChecked(): void {
-    this.cdr.detectChanges();
-  }
-
-  ngOnInit(): void {}
-
-  public getCategorieList(state: ClrDatagridStateInterface) {
+  public getCategorieList(state: DatagridState) {
     this.categoriesFacade.getPaginatedCategories(state);
   }
 
-  refresh(isRefresh?: boolean) {
-    this.isUpdate = false;
-    this.isCreate = false;
-    this.isChangeStatus = false;
-    this.getCategorieList({}) 
+  refresh() {
+    this.getCategorieList({});
+  }
+
+  createCategorie() {
+    this.dialog
+      .open(CreateCategoryComponent, { width: '480px' })
+      .afterClosed()
+      .subscribe((created) => created && this.refresh());
   }
 
   updateCategorie(categorie: CategoriesEntity) {
@@ -52,15 +47,10 @@ export class CategoriesListComponent {
   }
 
   viewCategorie(categorie: CategoriesEntity) {
-    this.categoriesFacade.getCategorie(categorie.id)
+    this.categoriesFacade.getCategorie(categorie.id);
     this.router.navigate(['./categorie-details', categorie.id], {
       relativeTo: this.route,
     });
-  }
-
-  changeCategorieStatus(categorie: CategoriesEntity) {
-    this.selectedCategorie = categorie;
-    this.isChangeStatus = true;
   }
 
   viewCategorieAuthorities(categorieId: any) {

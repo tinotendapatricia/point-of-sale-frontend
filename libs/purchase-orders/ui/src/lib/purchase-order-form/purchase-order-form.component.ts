@@ -10,9 +10,10 @@ import {
 import { Observable } from 'rxjs';
 import { CreditorsEntity } from '@pos-frontend/creditors/data-access';
 import { NgSelectConfig, NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
-import { ClrCommonFormsModule } from '@clr/angular/forms/common';
-import { ClrInputModule } from '@clr/angular/forms/input';
-import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 
 @Component({
@@ -20,7 +21,7 @@ import { AsyncPipe, CurrencyPipe } from '@angular/common';
     templateUrl: './purchase-order-form.component.html',
     styleUrls: ['./purchase-order-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [FormsModule, ReactiveFormsModule, ClrCommonFormsModule, NgSelectComponent, NgOptionComponent, ClrInputModule, ClrIcon, ClrIconModule, AsyncPipe, CurrencyPipe]
+    imports: [FormsModule, ReactiveFormsModule, NgSelectComponent, NgOptionComponent, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, AsyncPipe, CurrencyPipe]
 })
 export class PurchaseOrderFormComponent implements OnInit {
   @Input() purchaseOrderNumber!: string;

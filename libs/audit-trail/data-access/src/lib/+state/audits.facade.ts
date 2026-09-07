@@ -4,7 +4,7 @@ import { select, Store, Action } from '@ngrx/store';
 import * as AuditsActions from './audits.actions';
 import * as AuditsFeature from './audits.reducer';
 import * as AuditsSelectors from './audits.selectors';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 
 @Injectable()
 export class AuditsFacade {
@@ -21,7 +21,7 @@ export class AuditsFacade {
    */
   constructor(private store: Store<AuditsFeature.AuditsPartialState>) {}
 
-  getPaginatedAudits(state: ClrDatagridStateInterface) {
+  getPaginatedAudits(state: DatagridState) {
     this.store.dispatch(AuditsActions.getPaginatedAudits({ state }));
   }
 

@@ -1,41 +1,14 @@
-<br />
-<div class="h">
-  Permissions for {{ (userFacade.selectedUser$ | async)?.name }}
+<div class="pos-page-header">
+  <h1>Permissions for {{ selectedUser()?.name }}</h1>
 </div>
-<hr />
-<br />
-<!-- <button class="btn btn-sm" (click)="createUser()">Add</button>
-<button class="btn btn-sm" (click)="getUserList({})">Refresh</button> -->
+
 <mat-card class="login">
   <mat-card-content>
-    <!-- &nbsp;<button class="act" (click)="isCreate = true">
-      <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
-      New</button
-    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getUserList({})">
-      <cds-icon
-        shape="minus-circle"
-        solid
-        style="color: rgb(190, 14, 38)"
-      ></cds-icon
-      >Refresh
-    </button> -->
     <pos-frontend-user-roles-form
-      [roles]="(rolesFacade.allRoles$ | async)!"
-      [userRoles]="$safeNavigationMigration((userFacade.selectedUser$ | async)?.roles)!"
-      [userId]="$safeNavigationMigration((userFacade.selectedUser$ | async)?.id)!"
+      [roles]="allRoles()"
+      [userRoles]="selectedUser()?.roles"
+      [userId]="selectedUser()?.id"
       (save)="onSubmit($event)"
     ></pos-frontend-user-roles-form>
   </mat-card-content>
 </mat-card>
-
-<!-- <pos-frontend-change-user-status
-  *ngIf="isChangeStatus"
-  [user]="selectedUser"
-  (closeModal)="refresh($event)"
-></pos-frontend-change-user-status>
-
-<pos-frontend-create-user
-  *ngIf="isCreate"
-  (closeModal)="refresh()"
-></pos-frontend-create-user>
--->

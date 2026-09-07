@@ -1,46 +1,41 @@
-<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-  <h3 class="modal-title">{{ title }}&nbsp;&nbsp;{{product.name}}</h3>
-  <div class="modal-body">
-    <form [formGroup]="form">
-      @if (isPrice) {
-        <clr-input-container>
-          <label>Price</label>
-          <input clrInput type="text" formControlName="price" required />
-          <clr-control-error>Selling price is required!</clr-control-error>
-        </clr-input-container>
-      }
-
-      @if (isCost) {
-        <clr-input-container>
-          <label>Cost</label>
-          <input clrInput type="text" formControlName="cost" required />
-          <clr-control-error>Cost of product is required!</clr-control-error>
-        </clr-input-container>
-      }
-
-      <div class="date">
-        <label>Effective Date</label>
-        <input type="date" formControlName="effectiveDate">
+<h2 mat-dialog-title>{{ title() }}&nbsp;&nbsp;{{ product()?.name }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="cost-price-form">
+    @if (isPrice()) {
+      <div class="field">
+        <label class="field-label" for="cost-price-price">Price<span class="required-marker">*</span></label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input matInput id="cost-price-price" type="text" formControlName="price" required />
+        </mat-form-field>
       </div>
+    }
 
+    @if (isCost()) {
+      <div class="field">
+        <label class="field-label" for="cost-price-cost">Cost<span class="required-marker">*</span></label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input matInput id="cost-price-cost" type="text" formControlName="cost" required />
+        </mat-form-field>
+      </div>
+    }
 
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline"
-      (click)="closeModal.emit(false)"
-      >
-      Cancel
-    </button>
-    <button
-      type="button"
-      class="btn btn-success"
-      [clrLoading]="btnState"
-      (click)="formValue.emit(form.value)"
-      >
-      Submit
-    </button>
-  </div>
-</clr-modal>
+    <div class="field">
+      <label class="field-label" for="cost-price-date">Effective Date</label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="cost-price-date" type="date" formControlName="effectiveDate" />
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
+    Cancel
+  </button>
+  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
+    @if (loading()) {
+      <mat-spinner diameter="18"></mat-spinner>
+    } @else {
+      {{ btnTitle() }}
+    }
+  </button>
+</mat-dialog-actions>

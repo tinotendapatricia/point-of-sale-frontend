@@ -1,5 +1,5 @@
-//import { ClrDatagridStateInterface } from '@clr/angular';
 declare const iziToast: any;
+
 
 export class Utilities {
   static displayToast(type: string, message?: string) {
@@ -57,28 +57,6 @@ export class Utilities {
     }
   }
 
-  static formatDatagridState(state: any, page: number) {
-    const filters: { [prop: string]: any } = {};
-
-    if (state?.filters) {
-      const searchQueries = Object.values(state?.filters)
-        .map((val: any) => {
-          return val['property'] + ':' + val['value'];
-        })
-        .join(',');
-      filters['search'] = searchQueries;
-    }
-
-    if (state?.sort) {
-      filters['sort'] = state?.sort.by;
-      filters['order'] = state?.sort.reverse ? 'DESC' : 'ASC';
-    }
-
-    filters['page'] = page;
-    filters['size'] = 10;
-
-    return filters;
-  }
 
   static decamelize(str: any) {
     return str

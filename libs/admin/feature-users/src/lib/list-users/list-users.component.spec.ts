@@ -1,10 +1,10 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
+import { UsersFacade } from '@pos-frontend/users/data-access';
 
 import { ListUsersComponent } from './list-users.component';
-import { ClarityModule } from '@clr/angular';
-import { CreateUserComponent } from '../create-user/create-user.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { StoreModule } from '@ngrx/store';
 
 describe('ListUsersComponent', () => {
   let component: ListUsersComponent;
@@ -12,7 +12,20 @@ describe('ListUsersComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ClarityModule, ReactiveFormsModule, StoreModule.forRoot({}), ListUsersComponent, CreateUserComponent]
+    imports: [ListUsersComponent],
+    providers: [
+      provideRouter([]),
+      provideNoopAnimations(),
+      {
+        provide: UsersFacade,
+        useValue: {
+          allUsers$: of([]),
+          totalUsers$: of(0),
+          loading$: of(false),
+          getPaginatesUsers: () => undefined,
+        },
+      },
+    ],
 }).compileComponents();
   }));
 

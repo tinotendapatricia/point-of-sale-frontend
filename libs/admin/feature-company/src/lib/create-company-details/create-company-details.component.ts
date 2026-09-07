@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { CompanyService } from '@pos-frontend/company-details/data-access';
 import { CompanyDetailsFormComponent } from '@pos-frontend/company-details/ui';
 
@@ -9,22 +10,20 @@ import { CompanyDetailsFormComponent } from '@pos-frontend/company-details/ui';
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [CompanyDetailsFormComponent]
 })
-export class CreateCompanyDetailsComponent  {
+export class CreateCompanyDetailsComponent {
+  private readonly dialogRef = inject(MatDialogRef<CreateCompanyDetailsComponent, boolean>);
+  private readonly companyService = inject(CompanyService);
 
-  @Output() closeModal = new EventEmitter();
-  constructor(
-    public companyService: CompanyService,
-
-  ) {}
-
- 
+  readonly submitting = signal(false);
 
   public createCompany(company: any) {
-
+    this.submitting.set(true);
     this.companyService.createCompany(company).subscribe({
-      next:(res)=>{
-        this.closeModal.emit(true)
-        }
+      next: () => {
+        this.submitting.set(false);
+        this.dialogRef.close(true);
+      },
+      error: () => this.submitting.set(false),
     });
   }
 }

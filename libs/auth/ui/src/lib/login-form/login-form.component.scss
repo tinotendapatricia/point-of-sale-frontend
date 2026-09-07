@@ -1,40 +1,69 @@
+// Uses the POS Admin ("Industry") design tokens where the host app defines them
+// (apps/admin-portal/src/styles/_pos-admin-theme.scss) via var(--token, fallback).
+// Apps that don't define these tokens (e.g. customer-portal) get the fallback
+// values, which match this component's pre-existing, un-themed look.
+
 .login {
-  border: 1px solid rgb(104, 109, 110);
-  padding: 10px 22px;
-  padding-left: 40px;
-  width: 25%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 5%;
+  max-width: 360px;
+  margin: 5% auto 0;
+  padding: var(--space-8, 20px) var(--space-6, 22px);
+  background: var(--color-bg, transparent);
+  border: 1px solid var(--color-divider, rgb(104, 109, 110));
+  color: var(--color-text, inherit);
+  font-family: var(--font-body, inherit);
 }
 
 img {
   width: 100%;
-}
-
-.social-media {
-  display: flex;
-  place-content: flex-start;
-  font-weight: 900;
-  font-size: 10px;
+  display: block;
+  margin: 0 auto var(--space-4, 12px);
 }
 
 .login-head {
   text-align: center;
-  font-size: 15px;
-  font-weight: 900;
+  font-family: var(--font-heading, inherit);
+  font-weight: var(--font-heading-weight, 900);
+  font-size: 17px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding-bottom: var(--space-3, 10px);
+  border-bottom: 1px solid var(--color-divider, transparent);
+  margin-bottom: var(--space-4, 12px);
 }
 
-.clr-control-label {
-  color: #000;
+.full-width {
+  width: 100%;
+  display: block;
+}
+
+// Label sits above the field as plain text (not the Material floating
+// label inside the border) — mat-form-field only draws a continuous,
+// un-notched box when it has no <mat-label>, so the label lives here.
+.field {
+  margin-bottom: var(--space-3, 10px);
+}
+
+.field-label {
+  display: block;
+  font-size: 11px;
+  font-family: var(--font-heading, inherit);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text, inherit);
+  margin-bottom: var(--space-1, 4px);
+
+  .required-marker {
+    color: var(--alert, red);
+    margin-left: 2px;
+  }
 }
 
 @media screen and (max-width: 768px) {
   .login {
     margin: auto;
-    border: 1px solid rgb(104, 109, 110);
-    padding: 3px 48px;
-    width: 100%;
+    padding: var(--space-3, 3px) var(--space-6, 48px);
+    max-width: 100%;
   }
 
   img {
@@ -42,20 +71,29 @@ img {
   }
 }
 
-a {
-  font-weight: 900;
-  color: green;
-  cursor: pointer;
+.helper {
   font-size: 10px;
+  color: var(--color-text, black);
+  opacity: 0.8;
+  margin-top: var(--space-3, 8px);
+  text-align: center;
 }
 
-a:hover {
-  text-decoration: none;
-  cursor: pointer;
-}
+.links {
+  margin-top: var(--space-2, 8px);
+  text-align: center;
 
-.m {
-  color: black;
-  font-size: 10px;
-}
+  a {
+    font-family: var(--font-heading, inherit);
+    font-weight: 900;
+    color: var(--color-accent, green);
+    cursor: pointer;
+    font-size: 10px;
+    letter-spacing: 0.03em;
 
+    &:hover {
+      text-decoration: none;
+      color: var(--color-accent-700, green);
+    }
+  }
+}

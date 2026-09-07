@@ -3,7 +3,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 
 import * as CategoriesActions from './categories.actions';
 import { CategoriesEntity } from './categories.models';
-import { ClrLoadingState } from '@clr/angular';
+import { LoadingState } from '@pos-frontend/shared/utils';
 
 export const CATEGORIES_FEATURE_KEY = 'categories';
 
@@ -14,7 +14,7 @@ export interface CategoriesState extends EntityState<CategoriesEntity> {
   error?: Error;
   selectedCategorie: CategoriesEntity | undefined;
   total: number;
-  btnState: ClrLoadingState;
+  btnState: LoadingState;
   currentPage: number;
 }
 
@@ -32,7 +32,7 @@ export const initialCategoriesState: CategoriesState =
     error: undefined,
     selectedCategorie: undefined,
     total: 0,
-    btnState: ClrLoadingState.DEFAULT,
+    btnState: LoadingState.DEFAULT,
     currentPage: 0,
   });
 
@@ -94,7 +94,7 @@ const reducer = createReducer(
     CategoriesActions.assignCategorieRoles,
     (state) => ({
       ...state,
-      btnState: ClrLoadingState.LOADING,
+      btnState: LoadingState.LOADING,
       loaded: false,
       error: undefined,
     })
@@ -108,7 +108,7 @@ const reducer = createReducer(
     (state) => ({
       ...state,
       loaded: true,
-      btnState: ClrLoadingState.SUCCESS,
+      btnState: LoadingState.SUCCESS,
     })
   ),
 
@@ -120,7 +120,7 @@ const reducer = createReducer(
     (state, { error }) => ({
       ...state,
       error: error,
-      btnState: ClrLoadingState.ERROR,
+      btnState: LoadingState.ERROR,
     })
   )
 );

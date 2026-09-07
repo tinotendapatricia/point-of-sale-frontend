@@ -1,40 +1,36 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClrLoadingState } from '@clr/angular';
-import { StationsEntity } from '@pos-frontend/stations/data-access';
-import { ClrModalModule } from '@clr/angular/modal';
-import { ClrInputModule } from '@clr/angular/forms/input';
-import { ClrCommonFormsModule } from '@clr/angular/forms/common';
-import { ClrLoadingButtonModule } from '@clr/angular/button';
-import { ClrLoadingModule } from '@clr/angular/utils';
+import { Component, ChangeDetectionStrategy, inject, input, output } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'pos-frontend-station-form',
     templateUrl: './station-form.component.html',
     styleUrls: ['./station-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrModalModule, FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrLoadingButtonModule, ClrLoadingModule]
+    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
 })
-export class StationFormComponent implements OnInit  {
+export class StationFormComponent {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
 
-  @Input() station!: StationsEntity;
-  @Input() btnState = ClrLoadingState.DEFAULT;
-  @Input() title = '';
-  @Output() formValue = new EventEmitter();
-  @Output() closeModal = new EventEmitter();
-  @Input() btnTitle!: string;
-  public stationForm!: UntypedFormGroup;
-  public opened = true;
+  readonly title = input('');
+  readonly loading = input(false);
+  readonly btnTitle = input('Set Station');
+  readonly formValue = output<unknown>();
 
-  constructor(private formBuilder: FormBuilder) {}
+  readonly stationForm = this.formBuilder.group({
+    stationNumber: [''],
+  });
 
-  ngOnInit(): void {
-   this.createForm()
+  cancel() {
+    this.dialogRef?.close(false);
   }
 
-  public createForm() {
-    this.stationForm = this.formBuilder.group({
-      stationNumber: '', 
-    });
+  submit() {
+    this.formValue.emit(this.stationForm.value);
   }
 }

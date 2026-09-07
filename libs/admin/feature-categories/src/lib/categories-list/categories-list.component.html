@@ -2,19 +2,13 @@
 <div class="h">Categories</div>
 <hr />
 <br />
-<!-- <button class="btn btn-sm" (click)="createCategorie()">Add</button>
-<button class="btn btn-sm" (click)="getCategorieList({})">Refresh</button> -->
 <mat-card class="login">
   <mat-card-content>
-    &nbsp;<button class="act" (click)="isCreate = true">
-    <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+    &nbsp;<button class="act" (click)="createCategorie()">
+    <mat-icon style="color: green">add_circle</mat-icon>Add
     New</button
     >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getCategorieList({})">
-    <cds-icon
-      shape="minus-circle"
-      solid
-      style="color: rgb(190, 14, 38)"
-      ></cds-icon
+    <mat-icon style="color: rgb(190, 14, 38)">remove_circle</mat-icon
       >Refresh
     </button>
 
@@ -24,19 +18,6 @@
       [loading]="(categoriesFacade.loading$ | async)!"
       [placeholderMessage]="'Categories'"
       (updatedState)="getCategorieList($event)"
-
     ></pos-frontend-category-list-ui>
   </mat-card-content>
 </mat-card>
-
-<!-- <pos-frontend-change-categorie-status
-*ngIf="isChangeStatus"
-[categorie]="selectedCategorie"
-(closeModal)="refresh($event)"
-></pos-frontend-change-categorie-status> -->
-
-@if (isCreate) {
-  <pos-frontend-create-category
-    (closeModal)="refresh()"
-  ></pos-frontend-create-category>
-}

@@ -1,40 +1,23 @@
-<clr-modal
-  [(clrModalOpen)]="opened"
-  [clrModalClosable]="false"
-  [clrModalSize]="'sm'"
->
-  <div class="modal-body">
-    <div class="title">{{ title }}</div>
-    <form [formGroup]="stationForm">
-      <clr-input-container>
-        <label>Station Number</label>
-        <input clrInput type="number" formControlName="stationNumber" required />
-        
-      </clr-input-container>
-    </form>
-  </div>
-
-  <div class="modal-footer">
-    <button
-      type="submit"
-      class="btn  btn-sm"
-      [clrLoading]="btnState"
-      (click)="closeModal.emit()"
-    >
-      Close
-    </button>
-    <button
-      type="submit"
-      class="btn btn-success btn-sm"
-      [clrLoading]="btnState"
-      (click)="formValue.emit(this.stationForm.value)"
-    >
-      Set Station
-    </button>
-  </div>
-</clr-modal>
-
-
-
-
-  
+<h2 mat-dialog-title>{{ title() }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="stationForm" class="station-form">
+    <div class="field">
+      <label class="field-label" for="station-number">Station Number<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="station-number" type="number" formControlName="stationNumber" required />
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
+    Close
+  </button>
+  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
+    @if (loading()) {
+      <mat-spinner diameter="18"></mat-spinner>
+    } @else {
+      {{ btnTitle() }}
+    }
+  </button>
+</mat-dialog-actions>

@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
-import { ProductsFacade } from '@pos-frontend/products/data-access';
+import { ProductsEntity, ProductStore } from '@pos-frontend/products/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { ProductsFormComponent } from '@pos-frontend/products/ui';
 import { AsyncPipe } from '@angular/common';
@@ -14,22 +14,16 @@ import { AsyncPipe } from '@angular/common';
     imports: [MatCard, MatCardContent, ProductsFormComponent, AsyncPipe]
 })
 export class UpdateProductComponent {
+  private readonly router = inject(Router);
+  protected readonly productsStore = inject(ProductStore);
+  protected readonly currenciesFacade = inject(CurrenciesFacade);
 
-  @Output() closeModal = new EventEmitter();
-  constructor(
-    public productsService: ProductsFacade,
-    private router: Router,
-    public currenciesFacade: CurrenciesFacade
-  ) {}
+  protected readonly submitting = this.productsStore.updateLoading;
 
-  ngOnInit(): void {
-    // this.productsFacade.getAllProducts();
-  }
-
-  public createProduct(product: any) {
-    this.productsService.updateProduct(product);
-    this.productsService.loaded$.subscribe((res) => {
-      res ? this.router.navigate(['/products']) : null;
+  public createProduct(product: ProductsEntity) {
+    this.productsStore.updateProduct({
+      data: product,
+      callback: () => this.router.navigate(['/products']),
     });
   }
 }

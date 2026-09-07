@@ -1,41 +1,37 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { Location, AsyncPipe } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { take } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
 import { UserFormComponent } from '@pos-frontend/users/ui';
 
+export interface UpdateUserData {
+  user: UsersEntity;
+}
 
 @Component({
     selector: 'pos-frontend-update-user',
     templateUrl: './update-user.component.html',
     styleUrls: ['./update-user.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [UserFormComponent, AsyncPipe]
+    imports: [UserFormComponent]
 })
-export class UpdateUserComponent implements OnInit {
-  @Input() user!:UsersEntity
-  @Output() closeModal = new EventEmitter()
-  constructor(
+export class UpdateUserComponent {
+  private readonly dialogRef = inject(MatDialogRef<UpdateUserComponent, boolean>);
+  private readonly data = inject<UpdateUserData>(MAT_DIALOG_DATA);
+  readonly usersFacade = inject(UsersFacade);
 
-    public usersFacade: UsersFacade,
-    private location: Location,
-
-  ) {}
-
-  ngOnInit(): void {
-  //this.usersFacade.getUserById(this.route.snapshot.paramMap.get('userId')!);
-   
-  }
+  readonly user = this.data.user;
+  readonly submitting = signal(false);
 
   public updateUser(user: any) {
+    this.submitting.set(true);
     this.usersFacade.updateUser(user);
-    this.usersFacade.loaded$.subscribe((res) => {
-      res ? this.closeModal.emit(true): null;
+    this.usersFacade.loaded$.pipe(take(1)).subscribe((loaded) => {
+      this.submitting.set(false);
+      if (loaded) {
+        this.dialogRef.close(true);
+      }
     });
-  }
-
-  public goBack() {
-    this.location.back();
   }
 }

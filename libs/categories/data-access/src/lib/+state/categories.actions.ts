@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { CategoriesEntity } from './categories.models';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 
 export const getPaginatedCategories = createAction(
   '[User Manager/Categories] Get Paginated Categories',
-  props<{ state: ClrDatagridStateInterface }>()
+  props<{ state: DatagridState }>()
 );
 
 export const getPaginatedCategoriesSuccess = createAction(

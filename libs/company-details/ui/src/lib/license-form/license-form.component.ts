@@ -1,42 +1,37 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClrLoadingState } from '@clr/angular';
-import { CompanyEntity } from '@pos-frontend/company-details/data-access';
-import { ClrModalModule } from '@clr/angular/modal';
-import { ClrInputModule } from '@clr/angular/forms/input';
-import { ClrCommonFormsModule } from '@clr/angular/forms/common';
-import { ClrLoadingButtonModule } from '@clr/angular/button';
-import { ClrLoadingModule } from '@clr/angular/utils';
+import { Component, ChangeDetectionStrategy, inject, input, output } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'pos-frontend-license-form',
     templateUrl: './license-form.component.html',
     styleUrls: ['./license-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrModalModule, FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrLoadingButtonModule, ClrLoadingModule]
+    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
 })
-export class LicenseFormComponent implements OnInit {
+export class LicenseFormComponent {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
 
-  
-  @Input() company!:CompanyEntity;
-  @Input() btnState = ClrLoadingState.DEFAULT;
-  @Input() title = '';
-  @Output() formValue = new EventEmitter();
-  @Output() closeModal = new EventEmitter();
-  @Input() btnTitle!: string;
-  public licenseForm!: UntypedFormGroup;
-  public opened = true;
+  readonly loading = input(false);
+  readonly title = input('');
+  readonly btnTitle = input('OK');
+  readonly formValue = output<any>();
 
-  constructor(private formBuilder: FormBuilder) {}
+  readonly licenseForm = this.formBuilder.group({
+    license: [''],
+    id: [''],
+  });
 
-  ngOnInit(): void {
-    this.createForm();
+  cancel() {
+    this.dialogRef?.close(false);
   }
 
-  public createForm() {
-    this.licenseForm = this.formBuilder.group({
-      license: '',
-      id: '',
-    });
+  submit() {
+    this.formValue.emit(this.licenseForm.value);
   }
 }

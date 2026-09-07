@@ -1,5 +1,19 @@
 label{
 font-size: smaller;
     font-weight: 900;
-   
+
+}
+
+.grv-fields {
+  display: flex;
+  gap: var(--space-3, 10px);
+}
+
+.field {
+  flex: 1;
+  max-width: 220px;
+}
+
+.full-width {
+  width: 100%;
 }

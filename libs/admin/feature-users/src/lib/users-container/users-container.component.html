@@ -1,23 +1,16 @@
-<div class="head">Users</div>
-<hr />
-<br />
-
-<div class="card">
-  <div class="card-block">
-    <clr-tabs>
-      <clr-tab>
-        <button clrTabLink style="border: none">All</button>
-        <clr-tab-content *clrIfActive>
-          <br />
-          <pos-frontend-list-users></pos-frontend-list-users>
-        </clr-tab-content>
-      </clr-tab>
-      <clr-tab>
-        <button clrTabLink style="border: none">By Group</button>
-        <clr-tab-content *clrIfActive>
-          <pos-frontend-list-users-by-group></pos-frontend-list-users-by-group>
-        </clr-tab-content>
-      </clr-tab>
-    </clr-tabs>
-  </div>
+<div class="pos-page-header">
+  <h1>Users</h1>
 </div>
+
+<mat-card>
+  <mat-card-content>
+    <mat-tab-group>
+      <mat-tab label="All">
+        <pos-frontend-list-users></pos-frontend-list-users>
+      </mat-tab>
+      <mat-tab label="By Group">
+        <pos-frontend-list-users-by-group></pos-frontend-list-users-by-group>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

@@ -1,11 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 import { CurrenciesEntity } from './currencies.models';
 
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 
 export const getPaginatedCurrencies = createAction(
   '[Currencies] Get Paginated Currencies',
-  props<{ state: ClrDatagridStateInterface }>()
+  props<{ state: DatagridState }>()
 );
 
 export const getPaginatedCurrenciesSuccess = createAction(

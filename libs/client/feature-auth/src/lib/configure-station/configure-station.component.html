@@ -1,7 +1,5 @@
 <pos-frontend-station-form
-(closeModal)="closeModal.emit(false)"
-(formValue)="setStation($event)"
-[title]="'Set New Station'"
->
-
-</pos-frontend-station-form>
+  [title]="'Set New Station'"
+  [loading]="submitting()"
+  (formValue)="setStation($event)"
+></pos-frontend-station-form>

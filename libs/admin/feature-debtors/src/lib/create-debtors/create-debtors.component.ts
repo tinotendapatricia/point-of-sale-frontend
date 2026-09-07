@@ -1,9 +1,10 @@
-import { Component, EventEmitter, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { take } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
+import { AsyncPipe } from '@angular/common';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
 import { DebtorsFormComponent } from '@pos-frontend/debtors/ui';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-create-debtors',
@@ -13,21 +14,24 @@ import { AsyncPipe } from '@angular/common';
     imports: [DebtorsFormComponent, AsyncPipe]
 })
 export class CreateDebtorsComponent implements OnInit {
-  @Output() closeModal = new EventEmitter();
-  constructor(
-    public debtorsService: DebtorsFacade,
-    private router: Router,
-    public currenciesFacade: CurrenciesFacade
-  ) {}
+  private readonly dialogRef = inject(MatDialogRef<CreateDebtorsComponent, boolean>);
+  readonly debtorsService = inject(DebtorsFacade);
+  readonly currenciesFacade = inject(CurrenciesFacade);
+
+  readonly submitting = signal(false);
 
   ngOnInit(): void {
     this.currenciesFacade.getAllCurrencies();
   }
 
   public createDebtor(debtor: any) {
+    this.submitting.set(true);
     this.debtorsService.createNewDebtor(debtor);
-    this.debtorsService.loaded$.subscribe((res) => {
-      res ? this.closeModal.emit(true) : null;
+    this.debtorsService.loaded$.pipe(take(1)).subscribe((loaded) => {
+      this.submitting.set(false);
+      if (loaded) {
+        this.dialogRef.close(true);
+      }
     });
   }
 }

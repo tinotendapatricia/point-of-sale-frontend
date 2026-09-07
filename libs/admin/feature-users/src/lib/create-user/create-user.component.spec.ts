@@ -1,10 +1,10 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
+import { UsersFacade } from '@pos-frontend/users/data-access';
 
 import { CreateUserComponent } from './create-user.component';
-import { ClarityModule } from '@clr/angular';
-import { ReactiveFormsModule } from '@angular/forms';
-import { StoreModule } from '@ngrx/store';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CreateUserComponent', () => {
   let component: CreateUserComponent;
@@ -12,7 +12,12 @@ describe('CreateUserComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ClarityModule, ReactiveFormsModule, StoreModule.forRoot({}), BrowserAnimationsModule, CreateUserComponent]
+    imports: [CreateUserComponent],
+    providers: [
+      provideNoopAnimations(),
+      { provide: UsersFacade, useValue: { createNewUser: () => undefined, loaded$: of(false) } },
+      { provide: MatDialogRef, useValue: { close: () => undefined } },
+    ],
 }).compileComponents();
   }));
 

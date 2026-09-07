@@ -1,53 +1,44 @@
-<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-  <h3 class="modal-title">{{ title }}</h3>
-  <div class="modal-body">
-    <form [formGroup]="stationForm">
-      <clr-input-container>
-        <label>Account</label>
-        <input clrInput type="text" formControlName="account" required />
-        <clr-control-error>Firstname is required!</clr-control-error>
-      </clr-input-container>
-      <clr-input-container>
-        <label>Name</label>
-        <input clrInput type="text" formControlName="name" required />
-        <clr-control-error>Firstname is required!</clr-control-error>
-      </clr-input-container>
+<h2 mat-dialog-title>{{ title() }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="stationForm" class="station-form">
+    <div class="field">
+      <label class="field-label" for="station-account">Account<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="station-account" type="text" formControlName="account" required />
+      </mat-form-field>
+    </div>
 
-      <clr-textarea-container>
-        <label>Address</label>
-        <textarea
-          clrTextarea
-          formControlName="address"
-          rows="4"
-          cols="70"
-        ></textarea>
-      </clr-textarea-container>
-      <clr-textarea-container>
-        <label>Contact Details</label>
-        <textarea
-          clrTextarea
-          formControlName="contact"
-          rows="4"
-          cols="70"
-        ></textarea>
-      </clr-textarea-container>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline"
-      (click)="closeModal.emit(false)"
-    >
-      Cancel
-    </button>
-    <button
-      type="button"
-      class="btn btn-success"
-      [clrLoading]="btnState"
-      (click)="formValue.emit(stationForm.value)"
-    >
-      Submit
-    </button>
-  </div>
-</clr-modal>
+    <div class="field">
+      <label class="field-label" for="station-name">Name<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="station-name" type="text" formControlName="name" required />
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="station-address">Address</label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <textarea matInput id="station-address" formControlName="address" rows="4"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="station-contact">Contact Details</label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <textarea matInput id="station-contact" formControlName="contact" rows="4"></textarea>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
+    Cancel
+  </button>
+  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
+    @if (loading()) {
+      <mat-spinner diameter="18"></mat-spinner>
+    } @else {
+      {{ btnTitle() }}
+    }
+  </button>
+</mat-dialog-actions>

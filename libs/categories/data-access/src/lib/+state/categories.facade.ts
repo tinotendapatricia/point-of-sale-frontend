@@ -5,7 +5,7 @@ import * as CategoriesActions from './categories.actions';
 import * as CategoriesFeature from './categories.reducer';
 import * as CategoriesSelectors from './categories.selectors';
 import { CategoriesEntity } from './categories.models';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 
 @Injectable()
 export class CategoriesFacade {
@@ -18,7 +18,7 @@ export class CategoriesFacade {
 
   constructor(private store: Store<CategoriesFeature.CategoriesPartialState>) {}
 
-  getPaginatedCategories(state: ClrDatagridStateInterface) {
+  getPaginatedCategories(state: DatagridState) {
     this.store.dispatch(CategoriesActions.getPaginatedCategories({ state }));
   }
 

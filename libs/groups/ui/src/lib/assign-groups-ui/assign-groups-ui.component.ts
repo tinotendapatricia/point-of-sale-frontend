@@ -9,13 +9,11 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { UntypedFormGroup, FormBuilder } from '@angular/forms';
-import { ClrLoadingState } from '@clr/angular';
 import { RolesEntity } from '@pos-frontend/roles/data-access';
-import { ClrCheckboxModule } from '@clr/angular/forms/checkbox';
-import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
-import { ClrLoadingButtonModule } from '@clr/angular/button';
-import { ClrLoadingModule } from '@clr/angular/utils';
 import { TitleCasePipe } from '@angular/common';
 
 @Component({
@@ -23,13 +21,13 @@ import { TitleCasePipe } from '@angular/common';
     templateUrl: './assign-groups-ui.component.html',
     styleUrls: ['./assign-groups-ui.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrCheckboxModule, ClrCommonFormsModule, RouterLink, ClrLoadingButtonModule, ClrLoadingModule, TitleCasePipe]
+    imports: [MatCheckboxModule, MatButtonModule, MatProgressSpinnerModule, RouterLink, TitleCasePipe]
 })
 export class AssignGroupsUiComponent implements OnInit, OnChanges {
   @Input() roles: RolesEntity[] = [];
   @Input() groupRoles: RolesEntity[] = [];
   @Input() groupId!: string;
-  @Input() btnState!: ClrLoadingState;
+  @Input() loading = false;
   @Output() save = new EventEmitter();
   rolesForm!: UntypedFormGroup;
 

@@ -1,12 +1,5 @@
-<div class="head">Create New User</div>
-<hr />
-<br />
-
-<div class="padding-left-right-1">
-  <pos-frontend-user-form
-    [title]="'Create New User'"
-    (closeModal)="closeModal.emit(false)"
-    (formValue)="createUser($event)"
-    [btnState]="(usersService.btnState$ | async)!"
-  ></pos-frontend-user-form>
-</div>
+<pos-frontend-user-form
+  [title]="'Create New User'"
+  [loading]="submitting()"
+  (formValue)="createUser($event)"
+></pos-frontend-user-form>

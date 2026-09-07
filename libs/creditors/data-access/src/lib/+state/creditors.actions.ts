@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { CreditorsEntity } from './creditors.models';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 
 export const getPaginatedCreditors = createAction(
   '[Creditors] Get Paginated Creditors',
-  props<{ state: ClrDatagridStateInterface }>()
+  props<{ state: DatagridState }>()
 );
 
 export const getPaginatedCreditorsSuccess = createAction(

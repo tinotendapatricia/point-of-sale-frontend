@@ -1,43 +1,43 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ChangeDetectionStrategy, Injector, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ClrLoadingState } from '@clr/angular';
+
 import { AuthFacade } from '@pos-frontend/auth/data-access';
 import { CompanyService } from '@pos-frontend/company-details/data-access';
 import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
-import { Subscription } from 'rxjs';
 import { LoginFormComponent } from '@pos-frontend/auth/ui';
 import { ConfigureStationComponent } from '../configure-station/configure-station.component';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-customer-login',
     templateUrl: './customer-login.component.html',
     styleUrls: ['./customer-login.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [LoginFormComponent, ConfigureStationComponent, AsyncPipe]
+    imports: [LoginFormComponent]
 })
-export class CustomerLoginComponent implements OnInit {
-  sub2 = new Subscription();
-  sub = new Subscription();
+export class CustomerLoginComponent {
+  private readonly injector = inject(Injector);
+  private readonly dialog = inject(MatDialog);
+  private readonly configService = inject(ConfigurationsService);
+  private readonly companyService = inject(CompanyService);
+  readonly authFacade = inject(AuthFacade);
 
-  isSetStation = false;
-  expiryDate: any;
-  daysRemaining!: number;
-  errMessage = false;
+  readonly loading = toSignal(
+    this.authFacade.authBtnState$.pipe(map((state) => state === ClrLoadingState.LOADING)),
+    { initialValue: false }
+  );
+  readonly expiryDate = signal<string | undefined>(undefined);
+  readonly errMessage = signal(false);
 
-  constructor(
-    public authFacade: AuthFacade,
-    private router: Router,
-    public configService: ConfigurationsService,
-    private companyService: CompanyService
-  ) {}
-
-  ngOnInit(): void {
+  constructor() {
     this.getLicense();
   }
 
   onSubmit(authDetails: any) {
-    this.sub = this.configService.getAllConfigurations().subscribe({
+    this.configService.getAllConfigurations().subscribe({
       next: (res) => {
         const station = res.findIndex(
           (station) =>
@@ -54,11 +54,12 @@ export class CustomerLoginComponent implements OnInit {
       error: () => {},
     });
   }
+
   getLicense() {
-    this.sub2 = this.companyService.getCompany().subscribe({
+    this.companyService.getCompany().subscribe({
       next: (res) => {
         sessionStorage.setItem('license', res?.license);
-        this.expiryDate = res?.licenseExpDate;
+        this.expiryDate.set(res?.licenseExpDate);
         this.calDateDifference(res?.licenseExpDate);
       },
     });
@@ -66,16 +67,11 @@ export class CustomerLoginComponent implements OnInit {
 
   calDateDifference(date: string) {
     const today = new Date();
-
-    // Get the given date
     const givenDate = new Date(date);
-    console.log(today);
-    console.log(givenDate);
+    this.errMessage.set(givenDate < today);
+  }
 
-    if (givenDate < today) {
-      this.errMessage = true;
-    } else {
-      this.errMessage = false;
-    }
+  configureStation() {
+    this.dialog.open(ConfigureStationComponent, { width: '360px', injector: this.injector });
   }
 }

@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ClrLoadingState } from '@clr/angular';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
@@ -14,7 +13,7 @@ import { AsyncPipe } from '@angular/common';
     imports: [ReportsFormComponent, AsyncPipe]
 })
 export class SalesByPeriodAndProductComponent implements OnInit, OnDestroy {
-  btnState = ClrLoadingState.DEFAULT;
+  loading = false;
   sub1 = new Subscription();
   sub2 = new Subscription();
 
@@ -27,7 +26,7 @@ export class SalesByPeriodAndProductComponent implements OnInit, OnDestroy {
   }
 
   getPdf(details: any) {
-    this.btnState = ClrLoadingState.LOADING;
+    this.loading = true;
     this.sub1 = this.reportsService
       .getAllSalesForPeriodByProductPDF(details.fromDate, details.toDate, details.product).subscribe();
   }

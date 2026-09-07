@@ -1,32 +1,31 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-
-import { ProductsEntity, ProductsFacade } from '@pos-frontend/products/data-access';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ProductsEntity, ProductStore } from '@pos-frontend/products/data-access';
 import { UpdateCostAndPriceComponent } from '@pos-frontend/products/ui';
-import { AsyncPipe } from '@angular/common';
+
+export interface UpdateCostData {
+  product: ProductsEntity;
+}
 
 @Component({
     selector: 'pos-frontend-update-cost',
     templateUrl: './update-cost.component.html',
     styleUrls: ['./update-cost.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [UpdateCostAndPriceComponent, AsyncPipe]
+    imports: [UpdateCostAndPriceComponent]
 })
-export class UpdateCostComponent implements OnInit {
-  @Input() product:ProductsEntity | undefined
-  @Output() closeModal = new EventEmitter();
-  constructor(
-    public productsFacade: ProductsFacade,
- 
-  ) {}
+export class UpdateCostComponent {
+  private readonly dialogRef = inject(MatDialogRef<UpdateCostComponent, boolean>);
+  private readonly data = inject<UpdateCostData>(MAT_DIALOG_DATA);
+  protected readonly productsStore = inject(ProductStore);
 
-  ngOnInit(): void {
-    // this.creditorsFacade.getAllCreditors();
-  }
+  readonly product = this.data.product;
+  protected readonly submitting = this.productsStore.updateLoading;
 
-  public onSubmit(cost: any) {
-    this.productsFacade.updateCost(cost);
-    this.productsFacade.loaded$.subscribe((res) => {
-      res ? this.closeModal.emit(true) : null;
+  public onSubmit(cost: ProductsEntity) {
+    this.productsStore.updateCost({
+      data: cost,
+      callback: () => this.dialogRef.close(true),
     });
   }
 }

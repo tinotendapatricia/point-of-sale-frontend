@@ -1,43 +1,48 @@
 <div class="login">
-  <div class="card-block">
-    <div class="card-header text-center">
-      <img src="assets/logo.png" alt="" />
-    </div>
-    <br />
-    <div class="login-head">{{ title }}</div>
-    <div class="card-header"></div>
-    <br>
-      <form [formGroup]="form">
-        <clr-input-container>
-          <label class="required">Username:</label>
-          <input type="email" clrInput formControlName="username" required />
-          <clr-control-error>Filed is required</clr-control-error>
-        </clr-input-container>
-        <clr-input-container>
-          <label class="required">Password:</label>
-          <input type="password" clrInput formControlName="password" />
-          <clr-control-error>Filed is required</clr-control-error>
-        </clr-input-container>
-        <br />
-        <button
-          class="btn btn-primary btn-block"
-          (click)="formValue.emit(form.value)"
-          [clrLoading]="btnState$"
-          [disabled]="!form.valid"
-          >
-          Login
-        </button>
-        <br>
-          <hr>
-            <div class="text-center">
-              <span class="m"> Forgot Password? Please contact admin</span><br />
-            </div>
+  <div class="card-header text-center">
+    <img src="assets/logo.png" alt="" />
+  </div>
+  <div class="login-head">{{ title() }}</div>
 
-            @if (isClient) {
-              <div class="text-center">
-                <a (click)="license.emit()">Licensed until:</a> |  <a (click)="setStation.emit()">Station = {{station}}</a>
-              </div>
-            }
-          </form>
-        </div>
+  <form [formGroup]="form">
+    <div class="field">
+      <label class="field-label" for="login-username">Username<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="login-username" type="email" formControlName="username" required />
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="login-password">Password<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="login-password" type="password" formControlName="password" required />
+      </mat-form-field>
+    </div>
+
+    <button
+      mat-flat-button
+      color="primary"
+      class="full-width"
+      type="button"
+      [disabled]="!form.valid || loading()"
+      (click)="submit()"
+    >
+      @if (loading()) {
+        <mat-spinner diameter="18"></mat-spinner>
+      } @else {
+        Login
+      }
+    </button>
+
+    <div class="text-center helper">
+      <span>Forgot Password? Please contact admin</span>
+    </div>
+
+    @if (isClient()) {
+      <div class="text-center links">
+        <a (click)="license.emit()">Licensed until:</a> |
+        <a (click)="setStation.emit()">Station = {{ station() }}</a>
       </div>
+    }
+  </form>
+</div>

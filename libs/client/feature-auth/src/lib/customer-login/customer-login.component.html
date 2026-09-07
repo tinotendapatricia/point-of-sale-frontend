@@ -1,26 +1,18 @@
-
 <pos-frontend-login-form
   [title]="'Octopus Login'"
-  [btnState$]="(authFacade.authBtnState$ | async)!"
-  (formValue)="onSubmit($event)"
-  (setStation)="isSetStation = true"
+  [loading]="loading()"
   [isClient]="true"
+  (formValue)="onSubmit($event)"
+  (setStation)="configureStation()"
 ></pos-frontend-login-form>
-@if (!errMessage) {
+
+@if (!errMessage()) {
   <p class="text-center" style="color: red; font-weight: 900">
-    Your license will expire on {{expiryDate}} Please
-    renew.
+    Your license will expire on {{ expiryDate() }} Please renew.
   </p>
 }
-@if (errMessage) {
+@if (errMessage()) {
   <p class="text-center" style="color: red; font-weight: 900; font-size:20px">
     LICENSE EXPIRED.PLEASE RENEW
   </p>
 }
-
-@if (isSetStation) {
-  <pos-frontend-configure-station
-    (closeModal)="isSetStation = false"
-  ></pos-frontend-configure-station>
-}
-

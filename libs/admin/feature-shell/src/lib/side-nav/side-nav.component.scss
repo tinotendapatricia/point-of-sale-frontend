@@ -1,46 +1,40 @@
-clr-vertical-nav {
+// .pos-sidenav / .pos-navlink base look comes from the global theme
+// (apps/admin-portal/src/styles/_pos-admin-theme.scss, section 6: Shell).
+// This file only adds what's specific to the collapsible groups.
+
+:host {
+  display: block;
+  flex-shrink: 0;
   height: 100%;
-  background-color: #670668;
+  overflow-y: auto;
 }
 
-.clr-vertical-nav .nav-text {
-  font-size: 10px !important;
+.pos-navlink mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
 }
 
-.clr-vertical-nav.has-nav-groups .nav-link {
-  font-size: 10px;
-}
+.pos-navgroup-trigger {
+  width: 100%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
 
-.clr-vertical-nav {
-  width: 9rem !important;
-}
+  .chevron {
+    transition: transform 120ms ease;
 
-.clr-vertical-nav .nav-link {
-  color: white !important;
-}
-.clr-vertical-nav .nav-link.active {
-  color: #670668 !important;
-  background-color: rgb(235, 240, 235);
-  border-left: 6px solid red;
-}
-
-.clr-vertical-nav .nav-link.active::before {
-  display: none !important;
-}
-
-.clr-vertical-nav .nav-link.active .nav-icon {
-  fill: #8233a3 !important;
-}
-
-::ng-deep {
-  .clr-vertical-nav.has-nav-groups .nav-group .nav-group-trigger {
-    font-weight: 600;
-    color: white;
-    font-size: 10px;
+    &.open {
+      transform: rotate(180deg);
+    }
   }
+}
 
-  .nav-group .nav-group-trigger:active {
-    font-weight: 600;
-    color: red !important;
-  }
+.pos-navlink-child {
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding-left: calc(20px + var(--space-2) + var(--space-2));
+  font-size: 12px;
 }

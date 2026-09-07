@@ -4,7 +4,7 @@ import { select, Store, Action } from '@ngrx/store';
 import * as DebtorsActions from './debtors.actions';
 import * as DebtorsFeature from './debtors.reducer';
 import * as DebtorsSelectors from './debtors.selectors';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 import { DebtorsEntity } from './debtors.models';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class DebtorsFacade {
 
   constructor(private store: Store<DebtorsFeature.DebtorsPartialState>) {}
 
-  getPaginatedDebtors(state: ClrDatagridStateInterface) {
+  getPaginatedDebtors(state: DatagridState) {
     this.store.dispatch(DebtorsActions.getPaginatedDebtors({ state }));
   }
 

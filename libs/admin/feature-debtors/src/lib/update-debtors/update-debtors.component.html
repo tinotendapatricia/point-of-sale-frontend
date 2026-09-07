@@ -1,9 +1,8 @@
 <pos-frontend-debtors-form
-  (closeModal)="closeModal.emit(false)"
-  (formValue)="createDebtor($event)"
-  [btnState]="(debtorsService.btnState$ | async)!"
-  (closeModal)="closeModal.emit(false)"
-  [title]="'Create New Debtor'"
+  [title]="'Update Debtor'"
+  [btnTitle]="'Save'"
+  [loading]="submitting()"
   [currencies]="(currenciesFacade.allCurrencies$ | async)!"
   [debtor]="debtor"
+  (formValue)="createDebtor($event)"
 ></pos-frontend-debtors-form>

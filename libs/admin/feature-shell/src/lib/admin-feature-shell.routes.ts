@@ -1,41 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '@pos-frontend/auth/data-access';
 import { PortalContainerComponent } from './portal-container/portal-container.component';
-import '@cds/core/icon/register.js';
-import {
-  bankIcon,
-  blocksGroupIcon,
-  calendarIcon,
-  ClarityIcons,
-  cogIcon,
-  dollarBillIcon,
-  fileIcon,
-  formIcon,
-  gridViewIcon,
-  homeIcon,
-  libraryIcon,
-  sliderIcon,
-  userIcon,
-  usersIcon,
-} from '@cds/core/icon';
 import { provideCurrenciesDataAccess } from '@pos-frontend/currencies/data-access';
-
-ClarityIcons.addIcons(
-  userIcon,
-  homeIcon,
-  fileIcon,
-  formIcon,
-  gridViewIcon,
-  usersIcon,
-  calendarIcon,
-  libraryIcon,
-  sliderIcon,
-  blocksGroupIcon,
-  cogIcon,
-  bankIcon,
-  formIcon,
-  dollarBillIcon
-);
 
 const shellProviders = [provideCurrenciesDataAccess()];
 
@@ -53,7 +19,8 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
     component: PortalContainerComponent,
     canActivate: [AuthGuard],
     providers: shellProviders,
-    children: [
+    
+     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
         path: 'dashboard',
@@ -62,7 +29,7 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
             (module) => module.ADMIN_FEATURE_DASHBOARD_ROUTES
           ),
       },
-      {
+      /*{
         path: 'users',
         loadChildren: () =>
           import('@pos-frontend/admin/feature-users').then(
@@ -145,7 +112,7 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
           import('@pos-frontend/admin/feature-stock-reports').then(
             (module) => module.ADMIN_FEATURE_STOCK_REPORTS_ROUTES
           ),
-      },
+      },*/
       {
         path: 'products',
         loadChildren: () =>
@@ -153,7 +120,7 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
             (module) => module.ADMIN_FEATURE_PRODUCTS_ROUTES
           ),
       },
-      {
+      /*{
         path: 'receive-products',
         loadChildren: () =>
           import('@pos-frontend/admin/feature-goods-received').then(
@@ -187,7 +154,7 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
           import('@pos-frontend/admin/feature-vat').then(
             (module) => module.ADMIN_FEATURE_VAT_ROUTES
           ),
-      },
-    ],
+      },*/
+    ], 
   },
 ];

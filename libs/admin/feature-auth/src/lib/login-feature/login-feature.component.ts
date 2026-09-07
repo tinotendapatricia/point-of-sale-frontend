@@ -1,75 +1,66 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { ClrLoadingState } from '@clr/angular';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
 
 import { AuthenticationService } from '@pos-frontend/auth/data-access';
 import { CompanyService } from '@pos-frontend/company-details/data-access';
-import { Subscription } from 'rxjs';
 import { LoginFormComponent } from '@pos-frontend/auth/ui';
 import { LicenseSystemComponent } from '../license-system/license-system.component';
-import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
 
 @Component({
     selector: 'pos-frontend-login-feature',
     templateUrl: './login-feature.component.html',
     styleUrls: ['./login-feature.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [LoginFormComponent, LicenseSystemComponent, ClrIcon, ClrIconModule]
+    imports: [LoginFormComponent, MatIconModule]
 })
-export class LoginFeatureComponent implements OnDestroy, OnInit {
-  isLicense = false;
-  btnState$ = ClrLoadingState.DEFAULT;
-  sub1 = new Subscription();
-  sub2 = new Subscription();
-  expiryDate: any;
+export class LoginFeatureComponent {
+  private readonly router = inject(Router);
+  private readonly companyService = inject(CompanyService);
+  private readonly dialog = inject(MatDialog);
+  readonly authFacade = inject(AuthenticationService);
 
-  constructor(
-    public authFacade: AuthenticationService,
-    private router: Router,
-    private companyService: CompanyService
-  ) {}
+  readonly submitting = signal(false);
+  readonly expiryDate = signal<string | undefined>(undefined);
 
-  ngOnInit(): void {
+  constructor() {
     this.getLicense();
   }
 
-  ngOnDestroy(): void {
-    this.sub1.unsubscribe();
-    this.sub2.unsubscribe();
-  }
-
   onSubmit(authDetails: any) {
-    this.sub1 = this.authFacade.adminLogin(authDetails).subscribe({
+    this.submitting.set(true);
+    this.authFacade.adminLogin(authDetails).subscribe({
       next: (res) => {
+        this.submitting.set(false);
         sessionStorage.setItem('accessToken', res.token);
         sessionStorage.setItem('userId', res.userId);
         this.router.navigate(['']);
       },
+      error: () => this.submitting.set(false),
     });
   }
 
   license(): void {
-    this.isLicense = true;
+    this.dialog.open(LicenseSystemComponent, { width: '420px' });
   }
 
   getLicense() {
-    this.sub2 = this.companyService.getCompany().subscribe({
+    this.companyService.getCompany().subscribe({
       next: (res) => {
         sessionStorage.setItem('license', res?.license);
-        this.expiryDate = res?.licenseExpDate
+        this.expiryDate.set(res?.licenseExpDate);
       },
     });
   }
 
-  calDateDifference(date: string): number {
+  calDateDifference(date: string | undefined): number {
+    if (!date) {
+      return NaN;
+    }
     const today = new Date();
-
-    // Get the given date
     const givenDate = new Date(date);
-
-    // Calculate the difference in days
     const timeDiff = Math.abs(givenDate.getTime() - today.getTime());
-    const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    return diffDays;
+    return Math.ceil(timeDiff / (1000 * 3600 * 24));
   }
 }

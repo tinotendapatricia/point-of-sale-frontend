@@ -1,40 +1,40 @@
-<div class="limit-height">
-  <clr-datagrid
-    [clrDgLoading]="loading"
-    (clrDgRefresh)="updatedState.emit($event)"
-    class="datagrid-compact"
-    >
-    <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
-    <clr-dg-column [clrDgField]="'createdBy'">Created By</clr-dg-column>
+<div class="table-wrap">
+  <table mat-table [dataSource]="categoriesList">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let category">{{ category?.name }}</td>
+    </ng-container>
 
-    <clr-dg-column></clr-dg-column>
+    <ng-container matColumnDef="createdBy">
+      <th mat-header-cell *matHeaderCellDef>Created By</th>
+      <td mat-cell *matCellDef="let category">{{ category?.createdBy }}</td>
+    </ng-container>
 
-    <clr-dg-placeholder>{{ placeholderMessage }}</clr-dg-placeholder>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let category">
+        <button mat-icon-button (click)="updateCategory.emit(category?.id)" aria-label="Update category">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
 
-    @for (category of categoriesList; track category) {
-      <clr-dg-row>
-        <clr-dg-action-overflow>
-          <button
-            class="action-item"
-            (click)="updateCategory.emit($safeNavigationMigration(category?.id))"
-            >
-            Update
-          </button>
-        </clr-dg-action-overflow>
-        <clr-dg-cell>{{ category?.name }}</clr-dg-cell>
-        <clr-dg-cell>{{ category?.createdBy }}</clr-dg-cell>
-      </clr-dg-row>
-    }
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    @if (total > 0) {
-      <clr-dg-footer>
-        {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
-        {{ pagination.totalItems }} Categorys
-        <clr-dg-pagination
-          #pagination
-          [clrDgTotalItems]="total"
-        ></clr-dg-pagination>
-      </clr-dg-footer>
-    }
-  </clr-datagrid>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+        {{ loading ? 'Loading…' : placeholderMessage || 'No records found' }}
+      </td>
+    </tr>
+  </table>
 </div>
+
+@if (total > 0) {
+  <mat-paginator
+    [length]="total"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPage($event)"
+  ></mat-paginator>
+}

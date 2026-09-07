@@ -1,34 +1,36 @@
-import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
-import { ProductsFacade } from '@pos-frontend/products/data-access';
-import { MatCard, MatCardContent } from '@angular/material/card';
+import { ProductsEntity, ProductStore } from '@pos-frontend/products/data-access';
+import { injectDrawerRef } from '@pos-frontend/core';
 import { ProductsFormComponent } from '@pos-frontend/products/ui';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-create-product',
     templateUrl: './create-product.component.html',
-    styleUrls: ['./create-product.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, ProductsFormComponent, AsyncPipe]
+    imports: [ProductsFormComponent, AsyncPipe]
 })
 export class CreateProductComponent {
-  @Output() closeModal = new EventEmitter();
-  constructor(
-    public productsService: ProductsFacade,
-    private router: Router,
-    public currenciesFacade: CurrenciesFacade
-  ) {}
+  private readonly router = inject(Router);
+  // Only present when opened via DrawerService — absent for the routed `/products/new` page.
+  private readonly drawerRef = injectDrawerRef<boolean>({ optional: true });
+  protected readonly productsStore = inject(ProductStore);
+  protected readonly currenciesFacade = inject(CurrenciesFacade);
 
-  ngOnInit(): void {
-    // this.productsFacade.getAllProducts();
-  }
+  protected readonly submitting = this.productsStore.createLoading;
 
-  public createProduct(product: any) {
-    this.productsService.createNewProduct(product);
-    this.productsService.loaded$.subscribe((res) => {
-      res ? this.router.navigate(['/products']) : null;
+  public createProduct(product: ProductsEntity) {
+    this.productsStore.createProduct({
+      data: product,
+      callback: () => {
+        if (this.drawerRef) {
+          this.drawerRef.close(true);
+        } else {
+          this.router.navigate(['/products']);
+        }
+      },
     });
   }
 }

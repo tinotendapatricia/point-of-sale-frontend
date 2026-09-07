@@ -1,9 +1,12 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
-import { ClrLoadingState } from '@clr/angular';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ConfigurationsEntity, ConfigurationsService } from '@pos-frontend/configurations/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { ConfigurationsFormComponent } from '@pos-frontend/configurations/ui';
+
+export interface UpdateConfigurationsData {
+  configuration: ConfigurationsEntity;
+}
 
 @Component({
     selector: 'pos-frontend-update-configurations',
@@ -13,29 +16,24 @@ import { ConfigurationsFormComponent } from '@pos-frontend/configurations/ui';
     imports: [ConfigurationsFormComponent]
 })
 export class UpdateConfigurationsComponent {
-  
-  @Input() configuration!:ConfigurationsEntity
-  @Output() closeModal = new EventEmitter();
-  btnState$ = ClrLoadingState.DEFAULT;
-  constructor(
-    public configurationsService: ConfigurationsService,
-    private router: Router,
+  private readonly dialogRef = inject(MatDialogRef<UpdateConfigurationsComponent, boolean>);
+  private readonly data = inject<UpdateConfigurationsData>(MAT_DIALOG_DATA);
+  private readonly configurationsService = inject(ConfigurationsService);
 
-  ) {}
-
+  readonly configuration = this.data.configuration;
+  readonly submitting = signal(false);
 
   public createConfiguration(configuration: any) {
-    this.btnState$ = ClrLoadingState.LOADING
+    this.submitting.set(true);
     this.configurationsService.updateConfiguration(configuration).subscribe({
-      next:(res)=>{
-        this.btnState$ = ClrLoadingState.SUCCESS
-        Utilities.displayToast('success')
-        res ? this.closeModal.emit(true) : null;
+      next: (res) => {
+        this.submitting.set(false);
+        Utilities.displayToast('success');
+        if (res) {
+          this.dialogRef.close(true);
+        }
       },
-      error:(err)=> {
-        this.btnState$ = ClrLoadingState.ERROR 
-      },
-    })
-    
+      error: () => this.submitting.set(false),
+    });
   }
 }

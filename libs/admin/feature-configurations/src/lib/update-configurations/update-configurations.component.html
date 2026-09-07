@@ -1,9 +1,7 @@
 <pos-frontend-configurations-form
-  (closeModal)="closeModal.emit(false)"
-  (formValue)="createConfiguration($event)"
-  [btnState]="(btnState$)!"
-  (closeModal)="closeModal.emit(false)"
   [title]="'Update Configuration'"
+  [btnTitle]="'Save'"
+  [loading]="submitting()"
+  (formValue)="createConfiguration($event)"
   [configuration]="configuration"
-
 ></pos-frontend-configurations-form>

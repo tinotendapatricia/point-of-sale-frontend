@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { StationsEntity } from './stations.models';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 
 export const getPaginatedStations = createAction(
   '[Stations] Get Paginated Stations',
-  props<{ state: ClrDatagridStateInterface }>()
+  props<{ state: DatagridState }>()
 );
 
 export const getPaginatedStationsSuccess = createAction(

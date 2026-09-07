@@ -1,44 +1,49 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClrLoadingState } from '@clr/angular';
+import { Component, ChangeDetectionStrategy, inject, input, output, effect } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CategoriesEntity } from '@pos-frontend/categories/data-access';
-import { ClrModalModule } from '@clr/angular/modal';
-import { ClrInputModule } from '@clr/angular/forms/input';
-import { ClrCommonFormsModule } from '@clr/angular/forms/common';
-import { ClrLoadingButtonModule } from '@clr/angular/button';
-import { ClrLoadingModule } from '@clr/angular/utils';
 
 @Component({
     selector: 'pos-frontend-category-form',
     templateUrl: './category-form.component.html',
     styleUrls: ['./category-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrModalModule, FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrLoadingButtonModule, ClrLoadingModule]
+    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
 })
 export class CategoryFormComponent {
-  @Input() categorie!: CategoriesEntity;
-  @Input() btnState = ClrLoadingState.DEFAULT;
-  @Input() title = '';
-  @Output() formValue = new EventEmitter();
-  @Output() closeModal = new EventEmitter();
-  @Input() btnTitle!: string;
-  public categorieForm!: UntypedFormGroup;
-  public opened = true;
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
 
-  constructor(private formBuilder: FormBuilder) {}
+  readonly categorie = input<CategoriesEntity>();
+  readonly loading = input(false);
+  readonly title = input('');
+  readonly btnTitle = input('Submit');
+  readonly formValue = output<any>();
 
-  ngOnInit(): void {
-    this.createForm();
-    if (this.categorie) {
-      this.categorieForm.patchValue(this.categorie);
-    }
+  readonly categorieForm = this.formBuilder.group({
+    name: [''],
+    code: [''],
+    id: [''],
+  });
+
+  constructor() {
+    effect(() => {
+      const categorie = this.categorie();
+      if (categorie) {
+        this.categorieForm.patchValue(categorie);
+      }
+    });
   }
 
-  public createForm() {
-    this.categorieForm = this.formBuilder.group({
-      name: '',
-      code:'',
-      id: '',
-    });
+  cancel() {
+    this.dialogRef?.close(false);
+  }
+
+  submit() {
+    this.formValue.emit(this.categorieForm.value);
   }
 }

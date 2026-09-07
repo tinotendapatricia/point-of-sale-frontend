@@ -1,23 +1,22 @@
-<br />
-<div class="h">Users</div>
-<hr />
-<br />
-<!-- <button class="btn btn-sm" (click)="createUser()">Add</button>
-<button class="btn btn-sm" (click)="getUserList({})">Refresh</button> -->
+<div class="pos-page-header">
+  <h1>Users</h1>
+</div>
+
 <mat-card class="login">
   <mat-card-content>
-    &nbsp;<button class="act" (click)="isCreate = true">
-    <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
-    New</button
-    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getUserList({})">
-    <cds-icon shape="sync" solid style="color: rgb(56, 12, 177)"></cds-icon
-      >Refresh
+    <button mat-stroked-button color="primary" (click)="createUser()">
+      <mat-icon>add_circle</mat-icon>
+      Add New
+    </button>
+    <button mat-stroked-button (click)="getUserList({})">
+      <mat-icon>sync</mat-icon>
+      Refresh
     </button>
 
     <pos-frontend-list-users-ui
-      [userList]="(usersFacade.allUsers$ | async)!"
-      [total]="(usersFacade.totalUsers$ | async)!"
-      [loading]="(usersFacade.loading$ | async)!"
+      [userList]="allUsers()"
+      [total]="totalUsers()"
+      [loading]="loading()"
       [placeholderMessage]="'Users'"
       (updatedState)="getUserList($event)"
       (updateSelected)="updateUser($event)"
@@ -26,22 +25,3 @@
     ></pos-frontend-list-users-ui>
   </mat-card-content>
 </mat-card>
-
-<!-- <pos-frontend-change-user-status
-*ngIf="isChangeStatus"
-[user]="selectedUser"
-(closeModal)="refresh($event)"
-></pos-frontend-change-user-status> -->
-
-@if (isCreate) {
-  <pos-frontend-create-user
-    (closeModal)="refresh()"
-  ></pos-frontend-create-user>
-}
-
-@if (isUpdate) {
-  <pos-frontend-update-user
-    [user]="selectedUser"
-    (closeModal)="refresh()"
-  ></pos-frontend-update-user>
-}

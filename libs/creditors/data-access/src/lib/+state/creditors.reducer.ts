@@ -1,4 +1,4 @@
-import { ClrLoadingState } from '@clr/angular';
+import { LoadingState } from '@pos-frontend/shared/utils';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on, Action } from '@ngrx/store';
 
@@ -14,7 +14,7 @@ export interface CreditorsState extends EntityState<CreditorsEntity> {
   error?: Error;
   selectedCreditor: CreditorsEntity | undefined;
   total: number;
-  btnState: ClrLoadingState;
+  btnState: LoadingState;
   currentPage: number;
 }
 
@@ -32,7 +32,7 @@ export const initialCreditorsState: CreditorsState =
     error: undefined,
     selectedCreditor: undefined,
     total: 0,
-    btnState: ClrLoadingState.DEFAULT,
+    btnState: LoadingState.DEFAULT,
     currentPage: 0,
   });
 
@@ -94,7 +94,7 @@ const reducer = createReducer(
     CreditorsActions.assignCreditorRoles,
     (state) => ({
       ...state,
-      btnState: ClrLoadingState.LOADING,
+      btnState: LoadingState.LOADING,
       loaded: false,
       error: undefined,
     })
@@ -108,7 +108,7 @@ const reducer = createReducer(
     (state) => ({
       ...state,
       loaded: true,
-      btnState: ClrLoadingState.SUCCESS,
+      btnState: LoadingState.SUCCESS,
     })
   ),
 
@@ -120,7 +120,7 @@ const reducer = createReducer(
     (state, { error }) => ({
       ...state,
       error: error,
-      btnState: ClrLoadingState.ERROR,
+      btnState: LoadingState.ERROR,
     })
   )
 );

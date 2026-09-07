@@ -1,32 +1,16 @@
-<clr-modal
-  [(clrModalOpen)]="opened"
-  [clrModalClosable]="false"
-  [clrModalSize]="'sm'"
->
-  <div class="modal-body">
-    <div class="title">{{ title }}</div>
-    <hr />
-    <p>
-      {{ message }}
-    </p>
-    <br />
-  </div>
-
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-danger btn-sm"
-      (click)="closeModal.emit()"
-    >
-      No
-    </button>
-    <button
-      type="submit"
-      class="btn btn-success btn-sm"
-      [clrLoading]="btnState"
-      (click)="proceed.emit()"
-    >
+<h2 mat-dialog-title class="title">{{ title() }}</h2>
+<mat-dialog-content>
+  <p>{{ message() }}</p>
+</mat-dialog-content>
+<mat-dialog-actions class="modal-footer">
+  <button mat-stroked-button color="warn" type="button" [disabled]="loading()" (click)="cancel()">
+    No
+  </button>
+  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="proceed.emit()">
+    @if (loading()) {
+      <mat-spinner diameter="18"></mat-spinner>
+    } @else {
       Yes
-    </button>
-  </div>
-</clr-modal>
+    }
+  </button>
+</mat-dialog-actions>

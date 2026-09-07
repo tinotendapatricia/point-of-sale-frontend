@@ -1,31 +1,30 @@
-import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { take } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
 import { GroupsFacade } from '@pos-frontend/groups/data-access';
 import { GroupFormComponent } from '@pos-frontend/groups/ui';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-create-group',
     templateUrl: './create-group.component.html',
     styleUrls: ['./create-group.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [GroupFormComponent, AsyncPipe]
+    imports: [GroupFormComponent]
 })
 export class CreateGroupComponent {
-  @Output() closeModal = new EventEmitter();
-  constructor(
-    public groupsService: GroupsFacade,
-    private router: Router // public groupsFacade: GroupsFacade
-  ) {}
+  private readonly dialogRef = inject(MatDialogRef<CreateGroupComponent, boolean>);
+  readonly groupsService = inject(GroupsFacade);
 
-  ngOnInit(): void {
-    // this.groupsFacade.getAllGroups();
-  }
+  readonly submitting = signal(false);
 
   public createGroup(group: any) {
+    this.submitting.set(true);
     this.groupsService.createNewGroup(group);
-    this.groupsService.loaded$.subscribe((res) => {
-      res ? this.closeModal.emit(): null;
+    this.groupsService.loaded$.pipe(take(1)).subscribe((loaded) => {
+      this.submitting.set(false);
+      if (loaded) {
+        this.dialogRef.close(true);
+      }
     });
   }
 }

@@ -1,3 +1,9 @@
-.clr-checkbox-wrapper input[type=checkbox]:checked+.clr-control-label::before {
-    background: #771d8f !important
+.roles-row {
+  margin-bottom: 12px;
+}
+
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px 16px;
 }

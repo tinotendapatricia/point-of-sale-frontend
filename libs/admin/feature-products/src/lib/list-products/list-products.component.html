@@ -1,55 +1,50 @@
-<br />
-<div class="h">Products</div>
-<hr />
-<br />
-<!-- <button class="btn btn-sm" (click)="createProduct()">Add</button>
-<button class="btn btn-sm" (click)="getProductList({})">Refresh</button> -->
-<mat-card class="login">
-  <mat-card-content>
-    &nbsp;<button
-    class="act"
-    [routerLink]="['/products/new']"
-    routerLinkActive="router-link-active"
-    >
-    <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
-    New</button
-    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getProductList({})">
-    <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
-      >Refresh
-    </button>
+<ng-template #costTpl let-row>
+  {{ row.cost?.[0]?.value | currency }}
+</ng-template>
 
-    <pos-frontend-products-list-ui
-      [productList]="(productsFacade.allProducts$ | async)!"
-      [total]="(productsFacade.totalProducts$ | async)!"
-      [loading]="(productsFacade.loading$ | async)!"
-      [placeholderMessage]="'Products'"
-      (updatedState)="getProductList($event)"
-      (updateSelected)="updateProduct($event)"
-      (updateCost)="updateCost($event)"
-      (updatePrice)="updatePrice($event)"
-    ></pos-frontend-products-list-ui>
-  </mat-card-content>
-</mat-card>
+<ng-template #priceTpl let-row>
+  {{ row.price?.[0]?.value | currency }}
+</ng-template>
 
-@if (isUpdateCost) {
-  <pos-frontend-update-cost
-    [product]="selectedProduct"
-    (closeModal)="refresh()"
-    >
-  </pos-frontend-update-cost>
-}
+<ng-template #activeTpl let-row>
+  @if (row.active) {
+    <mat-icon style="color: green">check</mat-icon>
+  } @else {
+    <mat-icon style="color: firebrick">close</mat-icon>
+  }
+</ng-template>
 
-@if (isUpdatePrice) {
-  <pos-frontend-update-price
-    [product]="selectedProduct"
-    (closeModal)="refresh()"
-    >
-  </pos-frontend-update-price>
-}
+<ng-template #actionsTpl let-row>
+  <button mat-icon-button (click)="updateProduct(row.id)" aria-label="Edit product">
+    <mat-icon style="color: green">edit</mat-icon>
+  </button>
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More actions">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="updateCost(row)">Update Cost</button>
+    <button mat-menu-item (click)="updatePrice(row)">Update Price</button>
+  </mat-menu>
+</ng-template>
 
-<!-- <pos-frontend-update-product
-*ngIf="isUpdate"
-[product]="selectedProduct"
-(closeModal)="refresh()"
+<pos-frontend-table
+  [data]="dataSource()"
+  [columns]="columns()"
+  [loading]="loading()"
+  [total]="total()"
+  [paginated]="true"
+  [caption]="'Products'"
+  [action]="true"
+  (page)="getProductList($event)"
+  (actioned)="addProduct()"
 >
-</pos-frontend-update-product> -->
+  <header class="flex flex-wrap items-center justify-between gap-4 px-4 py-2">
+    <div>
+      <h1 class="text-2xl font-bold">Products</h1>
+      <p class="text-gray-600 text-sm">Manage your product inventory</p>
+    </div>
+    <button mat-flat-button type="button" (click)="addProduct()">
+      <mat-icon style="color: green">add_circle</mat-icon> Add New
+    </button>
+  </header>
+</pos-frontend-table>

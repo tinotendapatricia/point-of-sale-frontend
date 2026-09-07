@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
-import { ClrLoadingState } from '@clr/angular';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { ConfigurationsFormComponent } from '@pos-frontend/configurations/ui';
@@ -13,27 +12,22 @@ import { ConfigurationsFormComponent } from '@pos-frontend/configurations/ui';
     imports: [ConfigurationsFormComponent]
 })
 export class CreateConfigurationsComponent {
-  @Output() closeModal = new EventEmitter();
-  btnState$ = ClrLoadingState.DEFAULT;
-  constructor(
-    public configurationsService: ConfigurationsService,
-    private router: Router,
+  private readonly dialogRef = inject(MatDialogRef<CreateConfigurationsComponent, boolean>);
+  private readonly configurationsService = inject(ConfigurationsService);
 
-  ) {}
-
+  readonly submitting = signal(false);
 
   public createConfiguration(configuration: any) {
-    this.btnState$ = ClrLoadingState.LOADING
+    this.submitting.set(true);
     this.configurationsService.createConfiguration(configuration).subscribe({
-      next:(res)=>{
-        this.btnState$ = ClrLoadingState.SUCCESS
-        Utilities.displayToast('success')
-        res ? this.closeModal.emit(true) : null;
+      next: (res) => {
+        this.submitting.set(false);
+        Utilities.displayToast('success');
+        if (res) {
+          this.dialogRef.close(true);
+        }
       },
-      error:(err)=> {
-        this.btnState$ = ClrLoadingState.ERROR 
-      },
-    })
-    
+      error: () => this.submitting.set(false),
+    });
   }
 }

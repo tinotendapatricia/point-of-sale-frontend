@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { ClrDatagridStateInterface } from '@clr/angular';
+//import { DatagridState } from '@pos-frontend/shared/utils';
 import { select, Store, Action } from '@ngrx/store';
 
 import * as CurrenciesActions from './currencies.actions';
@@ -30,7 +30,7 @@ export class CurrenciesFacade {
 
   constructor(private store: Store<CurrenciesFeature.CurrenciesPartialState>) {}
 
-  getPaginatedCurrencies(state: ClrDatagridStateInterface) {
+  getPaginatedCurrencies(state: any) {
     this.store.dispatch(CurrenciesActions.getPaginatedCurrencies({ state }));
   }
 

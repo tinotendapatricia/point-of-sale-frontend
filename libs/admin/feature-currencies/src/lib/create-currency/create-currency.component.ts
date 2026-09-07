@@ -1,31 +1,30 @@
-import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { take } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { CurrencyFormComponent } from '@pos-frontend/currencies/ui';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-create-currency',
     templateUrl: './create-currency.component.html',
     styleUrls: ['./create-currency.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [CurrencyFormComponent, AsyncPipe]
+    imports: [CurrencyFormComponent]
 })
 export class CreateCurrencyComponent {
-  @Output() closeModal = new EventEmitter();
-  constructor(
-    public currenciesService: CurrenciesFacade,
-    private router: Router // public currenciesFacade: CurrenciesFacade
-  ) {}
+  private readonly dialogRef = inject(MatDialogRef<CreateCurrencyComponent, boolean>);
+  readonly currenciesService = inject(CurrenciesFacade);
 
-  ngOnInit(): void {
-    // this.currenciesFacade.getAllCurrencies();
-  }
+  readonly submitting = signal(false);
 
   public createCurrency(currency: any) {
+    this.submitting.set(true);
     this.currenciesService.createNewCurrency(currency);
-    this.currenciesService.loaded$.subscribe((res) => {
-      res ? this.closeModal.emit(true) : null;
+    this.currenciesService.loaded$.pipe(take(1)).subscribe((loaded) => {
+      this.submitting.set(false);
+      if (loaded) {
+        this.dialogRef.close(true);
+      }
     });
   }
 }

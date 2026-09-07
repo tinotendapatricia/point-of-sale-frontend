@@ -2,15 +2,13 @@
 <div class="h">Currencies</div>
 <hr />
 <br />
-<!-- <button class="btn btn-sm" (click)="createCurrency()">Add</button>
-<button class="btn btn-sm" (click)="getCurrencyList({})">Refresh</button> -->
 <mat-card class="login">
   <mat-card-content>
-    &nbsp;<button class="act" (click)="isCreate = true">
-    <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+    &nbsp;<button class="act" (click)="createCurrency()">
+    <mat-icon style="color: green">add_circle</mat-icon>Add
     New</button
     >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getCurrencyList({})">
-    <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+    <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
       >Refresh
     </button>
 
@@ -27,30 +25,3 @@
     ></pos-frontend-currencies-list-ui>
   </mat-card-content>
 </mat-card>
-
-@if (isMakeDefault) {
-  <pos-frontend-make-default
-    [currency]="selectedCurrency"
-    (closeModal)="refresh()"
-  ></pos-frontend-make-default>
-}
-
-@if (isCreate) {
-  <pos-frontend-create-currency
-    (closeModal)="refresh()"
-  ></pos-frontend-create-currency>
-}
-
-@if (isUpdateRate) {
-  <pos-frontend-update-rate
-    [currency]="selectedCurrency"
-    (closeModal)="refresh()"
-  ></pos-frontend-update-rate>
-}
-
-@if (isUpdate) {
-  <pos-frontend-update-currency
-    [currency]="selectedCurrency"
-    (closeModal)="refresh()"
-  ></pos-frontend-update-currency>
-}

@@ -1,11 +1,9 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormGroup, FormBuilder } from '@angular/forms';
-import { ClrLoadingState } from '@clr/angular';
+import { Component, ChangeDetectionStrategy, inject, input, output, effect, signal } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RolesEntity } from '@pos-frontend/roles/data-access';
-import { ClrCheckboxModule } from '@clr/angular/forms/checkbox';
-import { ClrCommonFormsModule } from '@clr/angular/forms/common';
-import { ClrLoadingButtonModule } from '@clr/angular/button';
-import { ClrLoadingModule } from '@clr/angular/utils';
 import { TitleCasePipe } from '@angular/common';
 
 @Component({
@@ -13,64 +11,59 @@ import { TitleCasePipe } from '@angular/common';
     templateUrl: './user-roles-form.component.html',
     styleUrls: ['./user-roles-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrCheckboxModule, ClrCommonFormsModule, ClrLoadingButtonModule, ClrLoadingModule, TitleCasePipe]
+    imports: [MatCheckboxModule, MatButtonModule, MatProgressSpinnerModule, TitleCasePipe]
 })
-export class UserRolesFormComponent implements OnInit, OnChanges {
+export class UserRolesFormComponent {
+  private readonly formBuilder = inject(FormBuilder);
 
-  @Input() roles: RolesEntity[] = [];
-  @Input() userRoles: any;
-  @Input() userId!: string|number;
-  @Input() btnState!: ClrLoadingState;
-  @Output() save = new EventEmitter();
-  rolesForm!: UntypedFormGroup;
+  readonly roles = input<RolesEntity[]>([]);
+  readonly userRoles = input<{ id: string }[] | undefined>();
+  readonly userId = input<string | number>();
+  readonly loading = input(false);
+  readonly save = output<unknown>();
 
-  checkedRoles: string[] = [];
+  readonly checkedRoles = signal<string[]>([]);
 
-  constructor(private fb: FormBuilder) {}
+  readonly rolesForm = this.formBuilder.group({
+    roles: this.formBuilder.control<string[]>([]),
+    userId: [''],
+  });
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['userRoles']?.currentValue) {
-      this.userRoles?.forEach((element: { id: string; }) => {
-        this.checkedRoles.push(element.id);
-      });
-    }
-    if (changes['userId']?.currentValue) {
-      this.rolesForm.get('userId')?.patchValue(this.userId);
-    }
-  }
-
-  ngOnInit(): void {
-    this.rolesForm = this.fb.group({
-      roles: '',
-      userId: '',
+  constructor() {
+    effect(() => {
+      const userRoles = this.userRoles();
+      if (userRoles) {
+        this.checkedRoles.set(userRoles.map((role) => role.id));
+      }
+    });
+    effect(() => {
+      const userId = this.userId();
+      if (userId) {
+        this.rolesForm.get('userId')?.patchValue(String(userId));
+      }
     });
   }
 
   isChecked(id: string) {
-    return this.checkedRoles.some((r) => r === id);
+    return this.checkedRoles().includes(id);
   }
 
-  pushToCheckedRoles(id: string) {
-    const index = this.checkedRoles.indexOf(id);
-    index === -1
-      ? this.checkedRoles.push(id)
-      : this.checkedRoles.splice(index, 1);
+  toggleRole(id: string) {
+    this.checkedRoles.update((roles) =>
+      roles.includes(id) ? roles.filter((r) => r !== id) : [...roles, id]
+    );
   }
 
   isAllSelected() {
-    return this.checkedRoles?.length === this.roles?.length ? true : false;
+    return this.checkedRoles().length === this.roles().length && this.roles().length > 0;
   }
 
-  pushAllRoles() {
-    this.roles.forEach((ele) => {
-      this.checkedRoles.some((r) => r === ele.id)
-        ? null
-        : this.checkedRoles.push(ele.id);
-    });
+  toggleAllRoles() {
+    this.checkedRoles.set(this.isAllSelected() ? [] : this.roles().map((role) => role.id));
   }
 
   onSave() {
-    this.rolesForm.get('roles')?.patchValue(this.checkedRoles);
+    this.rolesForm.get('roles')?.patchValue(this.checkedRoles());
     this.save.emit(this.rolesForm.value);
   }
 }

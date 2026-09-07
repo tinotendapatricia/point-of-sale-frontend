@@ -1,5 +1,11 @@
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+}
+
 a {
-  font-weight: 600;
-  color: purple;
   cursor: pointer;
 }

@@ -1,44 +1,23 @@
 <div class="card-header">
-  <span style="font-weight: 900">Assign or Remove Authorities</span>
+  <span class="header-title">Assign or Remove Authorities</span>
 </div>
-<div class="clr-row">
-  <div class="clr-col-md-12">
-    <clr-checkbox-container>
-      <clr-checkbox-wrapper>
-        <input
-          type="checkbox"
-          clrCheckbox
-          required
-          [checked]="isAllSelected()"
-          (click)="pushAllRoles()"
-          />
-          <label><strong>Assign All</strong></label>
-        </clr-checkbox-wrapper>
-      </clr-checkbox-container>
-    </div>
-  </div>
-  <div class="clr-row">
-    @for (role of roles; track role) {
-      <div class="clr-col-md-2">
-        <clr-checkbox-container>
-          <clr-checkbox-wrapper>
-            <input
-              type="checkbox"
-              clrCheckbox
-              required
-              [value]="role.id"
-              [checked]="isChecked(role.id)"
-              (click)="pushToCheckedRoles(role.id)"
-              />
-              <label>{{ role.name.split('_').join(' ') | titlecase }}</label>
-            </clr-checkbox-wrapper>
-          </clr-checkbox-container>
-        </div>
-      }
-    </div>
-    <div class="card-header"></div>
-    <br />
 
-    <button class="btn btn-primary" [clrLoading]="btnState" (click)="onSave()">
-      Save
-    </button>
+<mat-checkbox [checked]="isAllSelected()" (change)="toggleAllRoles()">
+  <strong>Assign All</strong>
+</mat-checkbox>
+
+<div class="roles-grid">
+  @for (role of roles(); track role.id) {
+    <mat-checkbox [checked]="isChecked(role.id)" (change)="toggleRole(role.id)">
+      {{ role.name.split('_').join(' ') | titlecase }}
+    </mat-checkbox>
+  }
+</div>
+
+<button mat-flat-button color="primary" [disabled]="loading()" (click)="onSave()">
+  @if (loading()) {
+    <mat-spinner diameter="18"></mat-spinner>
+  } @else {
+    Save
+  }
+</button>

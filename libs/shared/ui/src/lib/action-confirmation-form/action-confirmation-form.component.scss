@@ -2,12 +2,13 @@
   font-size: 16px;
   text-align: center;
   font-weight: 900;
-  color: purple;
+  font-family: var(--font-heading, inherit);
+  color: var(--color-accent, purple);
 }
 
 .modal-footer {
   display: flex;
   justify-content: center;
-  padding: 1.2rem 0 0 0;
-  border-top: 1px solid #69666663;
+  padding: var(--space-4, 1.2rem) 0 0 0;
+  border-top: 1px solid var(--color-divider, #69666663);
 }

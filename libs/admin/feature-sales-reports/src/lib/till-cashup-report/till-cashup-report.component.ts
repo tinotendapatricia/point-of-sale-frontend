@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ClrLoadingState } from '@clr/angular';
 import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
@@ -16,7 +15,7 @@ import { AsyncPipe } from '@angular/common';
     imports: [CashupFormComponent, AsyncPipe]
 })
 export class TillCashupReportComponent implements OnInit, OnDestroy {
-  btnState = ClrLoadingState.DEFAULT;
+  loading = false;
   sub1 = new Subscription();
   sub2 = new Subscription();
   tills:any[] = []
@@ -40,7 +39,7 @@ export class TillCashupReportComponent implements OnInit, OnDestroy {
   }
 
   getPdf(details: any) {
-    this.btnState = ClrLoadingState.LOADING;
+    this.loading = true;
     this.sub1 = this.reportsService
       .getCashup(
         details

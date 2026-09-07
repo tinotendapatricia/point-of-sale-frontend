@@ -15,8 +15,8 @@ import {
   SumQuantity,
   SumReceivedValue,
 } from '@pos-frontend/shared/utils';
-import { ClrInputModule } from '@clr/angular/forms/input';
-import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
@@ -24,7 +24,7 @@ import { CurrencyPipe } from '@angular/common';
     templateUrl: './grv-form.component.html',
     styleUrls: ['./grv-form.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrInputModule, ClrCommonFormsModule, FormsModule, CurrencyPipe]
+    imports: [MatFormFieldModule, MatInputModule, FormsModule, CurrencyPipe]
 })
 export class GrvFormComponent implements OnChanges {
   form!: FormGroup;

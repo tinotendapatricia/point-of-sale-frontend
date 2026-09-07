@@ -1,9 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
-import { ProductsFacade, ProductsService } from '@pos-frontend/products/data-access'
-import { ClrStopEscapePropagationDirective, ClrPopoverHostDirective } from '@clr/angular/popover/common';
-import { ClrTabsModule } from '@clr/angular/layout/tabs';
-import { ClrIfActive } from '@clr/angular/utils';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { MatTabsModule } from '@angular/material/tabs';
 import { CreateStockBatchComponent } from '../create-stock-batch/create-stock-batch.component';
 import { StockTakeComponent } from '../stock-take/stock-take.component';
 
@@ -12,7 +8,7 @@ import { StockTakeComponent } from '../stock-take/stock-take.component';
     templateUrl: './stock-take-container.component.html',
     styleUrls: ['./stock-take-container.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrStopEscapePropagationDirective, ClrPopoverHostDirective, ClrTabsModule, ClrIfActive, CreateStockBatchComponent, StockTakeComponent]
+    imports: [MatTabsModule, CreateStockBatchComponent, StockTakeComponent]
 })
 export class StockTakeContainerComponent {
  

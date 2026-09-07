@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ClrLoadingState } from '@clr/angular';
 import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
 import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
@@ -16,7 +15,7 @@ import { AsyncPipe } from '@angular/common';
 export class SalesByDebtorComponent implements OnInit, OnDestroy{
 
   
-  btnState=ClrLoadingState.DEFAULT;
+  loading=false;
   sub1 = new Subscription();
   sub2 = new Subscription();
 
@@ -29,13 +28,13 @@ export class SalesByDebtorComponent implements OnInit, OnDestroy{
  
 
   getPdf(details:any) {
-    this.btnState=ClrLoadingState.LOADING
+    this.loading=true
     this.sub1 = this.reportsService.getAllSalesByDebtorPDF(details.fromDate,details.toDate, details.debtor).subscribe({
       next:()=>{
-        this.btnState = ClrLoadingState.SUCCESS
+        this.loading = false
       },
       error:()=>{
-        this.btnState = ClrLoadingState.ERROR
+        this.loading = false
       }
     });
   }

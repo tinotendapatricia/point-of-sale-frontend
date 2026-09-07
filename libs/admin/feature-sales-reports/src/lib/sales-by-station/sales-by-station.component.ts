@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ClrLoadingState } from '@clr/angular';
 import { ProductsFacade } from '@pos-frontend/products/data-access';
 import { ReportsService } from '@pos-frontend/reports/data-access';
 import { Subscription } from 'rxjs';
@@ -11,7 +10,7 @@ import { Subscription } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.Eager
 })
 export class SalesByStationComponent implements OnInit, OnDestroy {
-  btnState = ClrLoadingState.DEFAULT;
+  loading = false;
   sub1 = new Subscription();
   sub2 = new Subscription();
 

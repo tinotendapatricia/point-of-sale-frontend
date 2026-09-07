@@ -31,15 +31,13 @@
           </div>
         </div>
         <div class="clr-col-md-5">
-          <clr-input-container>
-            <label class="required">Reference</label>
-            <input
-              clrInput
-              type="text"
-              formControlName="reference"
-              >
-            </clr-input-container>
+          <div class="field">
+            <label class="field-label">Reference</label>
+            <mat-form-field class="full-width" subscriptSizing="dynamic">
+              <input matInput type="text" formControlName="reference" />
+            </mat-form-field>
           </div>
+        </div>
         </div>
         <br />
       </fieldset>
@@ -64,28 +62,30 @@
                 </div>
               </div>
               <div class="clr-col-md-6">
-                <clr-input-container>
-                  <label class="required">Product Name</label>
-                  <input clrInput type="text" formControlName="name" />
-                </clr-input-container>
+                <div class="field">
+                  <label class="field-label">Product Name</label>
+                  <mat-form-field class="full-width" subscriptSizing="dynamic">
+                    <input matInput type="text" formControlName="name" />
+                  </mat-form-field>
+                </div>
               </div>
             </div>
             <div class="clr-row">
               <div class="clr-col-md-6">
-                <clr-input-container>
-                  <label class="required">Quantity</label>
-                  <input
-                    clrInput
-                    type="number"
-                    formControlName="quantityPurchased"
-                    />
-                  </clr-input-container>
+                <div class="field">
+                  <label class="field-label">Quantity</label>
+                  <mat-form-field class="full-width" subscriptSizing="dynamic">
+                    <input matInput type="number" formControlName="quantityPurchased" />
+                  </mat-form-field>
+                </div>
                 </div>
                 <div class="clr-col-md-6">
-                  <clr-input-container>
-                    <label class="required">Unit Cost</label>
-                    <input clrInput type="number" formControlName="cost" />
-                  </clr-input-container>
+                  <div class="field">
+                    <label class="field-label">Unit Cost</label>
+                    <mat-form-field class="full-width" subscriptSizing="dynamic">
+                      <input matInput type="number" formControlName="cost" />
+                    </mat-form-field>
+                  </div>
                 </div>
               </div>
               <br />
@@ -124,8 +124,14 @@
                       <td>{{ m.description }}</td>
                       <td>{{ m.quantityPurchased }}</td>
                       <td>{{m.cost|currency}}</td>
-                      <td><cds-icon shape="pencil" solid (click)="updateProduct(m, i)"></cds-icon>&nbsp;&nbsp;&nbsp;
-                      <cds-icon shape="minus-circle" solid style="color: red" (click)="removeProduct(i)"></cds-icon></td>
+                      <td>
+                        <button mat-icon-button (click)="updateProduct(m, i)" aria-label="Edit product">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="removeProduct(i)" aria-label="Remove product">
+                          <mat-icon style="color: red">remove_circle</mat-icon>
+                        </button>
+                      </td>
                     </tr>
                   }
                 </tbody>

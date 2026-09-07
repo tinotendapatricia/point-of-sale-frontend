@@ -1,5 +1,5 @@
 <br />
-<div class="h">Products<span>/New Product</span></div>
+<div class="h">Products<span>/Update Product</span></div>
 
 <hr />
 <br />
@@ -7,11 +7,10 @@
 <mat-card class="login">
   <mat-card-content>
     <pos-frontend-products-form
-      (closeModal)="closeModal.emit(false)"
       (formValue)="createProduct($event)"
-      [btnState]="(productsService.btnState$ | async)!"
-      [currency]="$safeNavigationMigration((currenciesFacade.defaultCurrency$ | async)?.code)"
-      [product]="(productsService.selectedProduct$ | async)!"
+      [loading]="submitting()"
+      [currency]="(currenciesFacade.defaultCurrency$ | async)?.code"
+      [product]="productsStore.product()!"
     ></pos-frontend-products-form>
   </mat-card-content>
 </mat-card>

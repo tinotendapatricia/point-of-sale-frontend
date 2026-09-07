@@ -2,15 +2,12 @@
 <div class="h">Value Added Tax (VAT)</div>
 <hr />
 <br />
-<!-- <button class="btn btn-sm" (click)="createCurrency()">Add</button>
-<button class="btn btn-sm" (click)="getCurrencyList({})">Refresh</button> -->
 <mat-card class="login">
   <mat-card-content>
-    &nbsp;<button class="act" (click)="isUpdate = true">
-    <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
-    New</button
+    &nbsp;<button class="act" (click)="update()">
+    <mat-icon style="color: green">edit</mat-icon>Update</button
     >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getVat()">
-    <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+    <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
       >Refresh
     </button>
     <div class="card-header"></div>
@@ -20,9 +17,3 @@
     ></pos-frontend-vat-details>
   </mat-card-content>
 </mat-card>
-
-@if (isUpdate) {
-  <pos-frontend-update-vat
-    (closeModal)="getVat()"
-  ></pos-frontend-update-vat>
-}

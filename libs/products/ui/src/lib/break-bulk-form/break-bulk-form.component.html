@@ -1,5 +1,4 @@
-
-<form [formGroup]="form">
+<form [formGroup]="form" class="break-bulk-form">
   <label>Parent Product</label>
   <ng-select formControlName="parentId">
     @for (product of products; track product) {
@@ -12,7 +11,7 @@
     }
   </ng-select>
   <br>
-    <label >Child Product</label>
+    <label>Child Product</label>
     <ng-select formControlName="childId">
       @for (product of products; track product) {
         <ng-option [value]="product.id"
@@ -20,25 +19,33 @@
         </ng-option>
       }
     </ng-select>
-    <clr-input-container>
-      <label >Quantity</label>
-      <input clrInput type="number" formControlName="quantity" required />
-      <clr-control-error>Quantity is required!</clr-control-error>
-    </clr-input-container>
 
-    <clr-input-container>
-      <label>Parent Size</label>
-      <input clrInput type="number" formControlName="parentSize" required />
-      <clr-control-error>Parent Size is required!</clr-control-error>
-    </clr-input-container>
+    <div class="field">
+      <label class="field-label" for="break-bulk-quantity">Quantity<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="break-bulk-quantity" type="number" formControlName="quantity" required />
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="break-bulk-parent-size">Parent Size<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="break-bulk-parent-size" type="number" formControlName="parentSize" required />
+      </mat-form-field>
+    </div>
   </form>
   <br />
-  <button type="button" class="btn btn-outline">Cancel</button>
+  <button mat-stroked-button type="button">Cancel</button>
   <button
+    mat-flat-button
+    color="primary"
     type="button"
-    class="btn btn-success"
-    [clrLoading]="btnState"
+    [disabled]="loading"
     (click)="formValue.emit(form.value)"
-    >
-    Submit
+  >
+    @if (loading) {
+      <mat-spinner diameter="18"></mat-spinner>
+    } @else {
+      Submit
+    }
   </button>

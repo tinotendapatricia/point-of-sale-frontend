@@ -1,8 +1,10 @@
-<clr-input-container>
-  <label>Batch Number</label>
-  <input type="number" clrInput [(ngModel)]="batchNumber" />
-</clr-input-container>
-<button (click)="startComparison()" class="btn btn-primary btn-sm">Start Stock Take Comparison</button>
+<div class="field">
+  <label class="field-label">Batch Number</label>
+  <mat-form-field class="full-width" subscriptSizing="dynamic">
+    <input matInput type="number" [(ngModel)]="batchNumber" />
+  </mat-form-field>
+</div>
+<button mat-flat-button color="primary" type="button" (click)="startComparison()">Start Stock Take Comparison</button>
 
 @if (newArray.length>0) {
   <table class="table">

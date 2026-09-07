@@ -1,6 +1,11 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CompanyEntity, CompanyService } from '@pos-frontend/company-details/data-access';
 import { CompanyDetailsFormComponent } from '@pos-frontend/company-details/ui';
+
+export interface UpdateCompanyDetailsData {
+  company: CompanyEntity;
+}
 
 @Component({
     selector: 'pos-frontend-update-company-details',
@@ -10,18 +15,21 @@ import { CompanyDetailsFormComponent } from '@pos-frontend/company-details/ui';
     imports: [CompanyDetailsFormComponent]
 })
 export class UpdateCompanyDetailsComponent {
-  @Input() company!:CompanyEntity 
-  @Output() closeModal = new EventEmitter();
+  private readonly dialogRef = inject(MatDialogRef<UpdateCompanyDetailsComponent, boolean>);
+  private readonly companyService = inject(CompanyService);
+  private readonly data = inject<UpdateCompanyDetailsData>(MAT_DIALOG_DATA);
 
-  constructor(
-    public companyService: CompanyService,
-
-  ) {}
+  readonly company = this.data.company;
+  readonly submitting = signal(false);
 
   public createCompany(company: any) {
- 
+    this.submitting.set(true);
     this.companyService.updateCompany(company).subscribe({
-      next:(res)=>{this.closeModal.emit(res)}
+      next: () => {
+        this.submitting.set(false);
+        this.dialogRef.close(true);
+      },
+      error: () => this.submitting.set(false),
     });
   }
 }

@@ -1,9 +1,7 @@
-
 <pos-frontend-creditors-form
-  (closeModal)="closeModal.emit(false)"
-  (formValue)="createCreditor($event)"
-  [btnState]="(creditorsService.btnState$ | async)!"
-  (closeModal)="closeModal.emit(false)"
-  [creditor]="creditor"
   [title]="'Update Creditor'"
+  [btnTitle]="'Save'"
+  [loading]="submitting()"
+  (formValue)="createCreditor($event)"
+  [creditor]="creditor"
 ></pos-frontend-creditors-form>

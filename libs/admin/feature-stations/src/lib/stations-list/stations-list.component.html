@@ -2,15 +2,13 @@
 <div class="h">Stations</div>
 <hr />
 <br />
-<!-- <button class="btn btn-sm" (click)="createStation()">Add</button>
-<button class="btn btn-sm" (click)="getStationList({})">Refresh</button> -->
 <mat-card class="login">
   <mat-card-content>
-    &nbsp;<button class="act" (click)="isCreate = true">
-    <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+    &nbsp;<button class="act" (click)="createStation()">
+    <mat-icon style="color: green">add_circle</mat-icon>Add
     New</button
     >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getStationList({})">
-    <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+    <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
       >Refresh
     </button>
 
@@ -24,9 +22,3 @@
     ></pos-frontend-stations-list-ui>
   </mat-card-content>
 </mat-card>
-
-@if (isCreate) {
-  <pos-frontend-create-station
-    (closeModal)="refresh()"
-  ></pos-frontend-create-station>
-}

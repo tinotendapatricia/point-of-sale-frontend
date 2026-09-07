@@ -1,4 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { of } from 'rxjs';
+import { UsersFacade } from '@pos-frontend/users/data-access';
 
 import { ViewUserComponent } from './view-user.component';
 
@@ -8,7 +11,11 @@ describe('ViewUserComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ViewUserComponent]
+    imports: [ViewUserComponent],
+    providers: [
+      provideRouter([]),
+      { provide: UsersFacade, useValue: { getUserById: () => undefined, selectedUser$: of(undefined) } },
+    ],
 })
     .compileComponents();
   }));

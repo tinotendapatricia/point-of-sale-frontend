@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { AuditsEntity } from './audits.models';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 
 export const getPaginatedAudits = createAction(
   '[Audits] Get Paginated Audits',
-  props<{ state: ClrDatagridStateInterface }>()
+  props<{ state: DatagridState }>()
 );
 
 export const getPaginatedAuditsSuccess = createAction(

@@ -1,63 +1,48 @@
-<form [formGroup]="productForm">
-  <clr-input-container>
-    <label class="required">Name</label>
-    <input clrInput type="text" formControlName="name" required />
-    <clr-control-error>Name is required!</clr-control-error>
-  </clr-input-container>
-  <clr-input-container>
-    <label class="required">Code</label>
-    <input clrInput type="text" formControlName="code" required />
-    <clr-control-error>Code is required!</clr-control-error>
-  </clr-input-container>
+<form [formGroup]="productForm" class="product-form">
+  <div class="field">
+    <label class="field-label" for="product-name">Name<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input matInput id="product-name" type="text" formControlName="name" required />
+    </mat-form-field>
+  </div>
 
-  <clr-input-container>
-    <label class="required">Barcode Code</label>
-    <input clrInput type="text" formControlName="barcode" required />
-    <clr-control-error>Barcode is required!</clr-control-error>
-  </clr-input-container>
+  <div class="field">
+    <label class="field-label" for="product-code">Code<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input matInput id="product-code" type="text" formControlName="code" required />
+    </mat-form-field>
+  </div>
 
-  <div class="clr-row">
-    
-    <div class="clr-col-md-6">
-      <clr-radio-container clrInline>
-        <label class="required">Active</label>
-        <clr-radio-wrapper>
-          <input
-            type="radio"
-            clrRadio
-            name="active"
-            required
-            [value]="true"
-            formControlName="active"
-          />
-          <label>Yes</label>
-        </clr-radio-wrapper>
-        <clr-radio-wrapper>
-          <input
-            type="radio"
-            clrRadio
-            name="active"
-            required
-            [value]="false"
-            formControlName="active"
-          />
-          <label>No</label>
-        </clr-radio-wrapper>
-      </clr-radio-container>
-    </div>
+  <div class="field">
+    <label class="field-label" for="product-barcode">Barcode Code<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input matInput id="product-barcode" type="text" formControlName="barcode" required />
+    </mat-form-field>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Active<span class="required-marker">*</span></label>
+    <mat-radio-group formControlName="active">
+      <mat-radio-button [value]="true">Yes</mat-radio-button>
+      <mat-radio-button [value]="false">No</mat-radio-button>
+    </mat-radio-group>
   </div>
 </form>
 <div class="card-header"></div>
 <br />
-<button type="button" class="btn btn-outline" (click)="closeModal.emit(false)">
+<button mat-stroked-button type="button" (click)="closeModal.emit(false)">
   Cancel
 </button>
 <button
+  mat-flat-button
+  color="primary"
   type="button"
-  class="btn btn-success"
-  [clrLoading]="btnState"
-  [disabled]="!productForm.valid"
+  [disabled]="!productForm.valid || loading"
   (click)="formValue.emit(productForm.value)"
 >
-  Submit
+  @if (loading) {
+    <mat-spinner diameter="18"></mat-spinner>
+  } @else {
+    Submit
+  }
 </button>

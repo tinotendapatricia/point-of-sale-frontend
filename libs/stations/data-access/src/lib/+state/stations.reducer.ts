@@ -3,7 +3,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 
 import * as StationsActions from './stations.actions';
 import { StationsEntity } from './stations.models';
-import { ClrLoadingState } from '@clr/angular';
+import { LoadingState } from '@pos-frontend/shared/utils';
 
 export const STATIONS_FEATURE_KEY = 'stations';
 
@@ -14,7 +14,7 @@ export interface StationsState extends EntityState<StationsEntity> {
   error?: Error;
   selectedStation: StationsEntity | undefined;
   total: number;
-  btnState: ClrLoadingState;
+  btnState: LoadingState;
   currentPage: number;
 }
 
@@ -32,7 +32,7 @@ export const initialStationsState: StationsState =
     error: undefined,
     selectedStation: undefined,
     total: 0,
-    btnState: ClrLoadingState.DEFAULT,
+    btnState: LoadingState.DEFAULT,
     currentPage: 0,
   });
 
@@ -94,7 +94,7 @@ const reducer = createReducer(
     StationsActions.assignStationRoles,
     (state) => ({
       ...state,
-      btnState: ClrLoadingState.LOADING,
+      btnState: LoadingState.LOADING,
       loaded: false,
       error: undefined,
     })
@@ -108,7 +108,7 @@ const reducer = createReducer(
     (state) => ({
       ...state,
       loaded: true,
-      btnState: ClrLoadingState.SUCCESS,
+      btnState: LoadingState.SUCCESS,
     })
   ),
 
@@ -120,7 +120,7 @@ const reducer = createReducer(
     (state, { error }) => ({
       ...state,
       error: error,
-      btnState: ClrLoadingState.ERROR,
+      btnState: LoadingState.ERROR,
     })
   )
 );

@@ -1,35 +1,24 @@
-<clr-modal
-  [(clrModalOpen)]="opened"
-  [clrModalClosable]="false"
-  [clrModalSize]="'sm'"
->
-  <div class="modal-title">{{ title }}</div>
-
-  <div class="modal-body">
-    <span> <i>Active Until:</i> </span>
-    <form [formGroup]="licenseForm">
-      <clr-input-container>
-        <label>License</label>
-        <input clrInput type="text" formControlName="license" />
-      </clr-input-container>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline btn-sm"
-      (click)="closeModal.emit(false)"
-    >
-      Cancel
-    </button>
-    <button
-      type="button"
-      class="btn btn-success btn-sm"
-      [clrLoading]="btnState"
-      (click)="formValue.emit(licenseForm.value)"
-    >
-      OK
-    </button>
-    <br />
-  </div>
-</clr-modal>
+<h2 mat-dialog-title>{{ title() }}</h2>
+<mat-dialog-content>
+  <span> <i>Active Until:</i> </span>
+  <form [formGroup]="licenseForm" class="license-form">
+    <div class="field">
+      <label class="field-label">License</label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput type="text" formControlName="license" />
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
+    Cancel
+  </button>
+  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
+    @if (loading()) {
+      <mat-spinner diameter="18"></mat-spinner>
+    } @else {
+      {{ btnTitle() }}
+    }
+  </button>
+</mat-dialog-actions>

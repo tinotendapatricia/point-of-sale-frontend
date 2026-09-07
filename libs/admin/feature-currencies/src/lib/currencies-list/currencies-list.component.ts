@@ -1,19 +1,13 @@
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 import {
   CurrenciesEntity,
   CurrenciesFacade,
 } from '@pos-frontend/currencies/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
 import { CurrenciesListUiComponent } from '@pos-frontend/currencies/ui';
 import { MakeDefaultComponent } from '../make-default/make-default.component';
 import { CreateCurrencyComponent } from '../create-currency/create-currency.component';
@@ -26,45 +20,37 @@ import { AsyncPipe } from '@angular/common';
     templateUrl: './currencies-list.component.html',
     styleUrls: ['./currencies-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, ClrIcon, ClrIconModule, CurrenciesListUiComponent, MakeDefaultComponent, CreateCurrencyComponent, UpdateRateComponent, UpdateCurrencyComponent, AsyncPipe]
+    imports: [MatCard, MatCardContent, MatIconModule, CurrenciesListUiComponent, AsyncPipe]
 })
-export class CurrenciesListComponent implements OnInit, AfterViewChecked {
-  public isUpdate = false;
-  public isUpdateRate = false;
-  public isCreate = false;
-  public isChangeStatus = false;
-  public selectedCurrency!: CurrenciesEntity;
-  isMakeDefault = false;
+export class CurrenciesListComponent {
+  private readonly dialog = inject(MatDialog);
 
   constructor(
     public currenciesFacade: CurrenciesFacade,
-    private cdr: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
-  ngAfterViewChecked(): void {
-    this.cdr.detectChanges();
-  }
-
-  ngOnInit(): void {}
-
-  public getCurrencyList(state: ClrDatagridStateInterface) {
+  public getCurrencyList(state: DatagridState) {
     this.currenciesFacade.getPaginatedCurrencies(state);
   }
 
   refresh() {
-    this.isUpdate = false;
-    this.isCreate = false;
-    this.isChangeStatus = false;
-    this.isMakeDefault = false;
-    this.isUpdateRate = false;
     this.getCurrencyList({});
   }
 
   updateCurrency(currency: CurrenciesEntity) {
-    this.selectedCurrency = currency;
-    this.isUpdate = true;
+    this.dialog
+      .open(UpdateCurrencyComponent, { width: '480px', data: { currency } })
+      .afterClosed()
+      .subscribe((updated) => updated && this.refresh());
+  }
+
+  createCurrency() {
+    this.dialog
+      .open(CreateCurrencyComponent, { width: '480px' })
+      .afterClosed()
+      .subscribe((created) => created && this.refresh());
   }
 
   viewCurrency(currency: CurrenciesEntity) {
@@ -73,19 +59,18 @@ export class CurrenciesListComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  changeCurrenciestatus(currency: CurrenciesEntity) {
-    this.selectedCurrency = currency;
-    this.isChangeStatus = true;
-  }
-
   makeDefaultCurrency(currency: CurrenciesEntity) {
-    this.selectedCurrency = currency;
-    this.isMakeDefault = true;
+    this.dialog
+      .open(MakeDefaultComponent, { width: '420px', data: { currency } })
+      .afterClosed()
+      .subscribe((changed) => changed && this.refresh());
   }
 
   updateRate(currency: CurrenciesEntity) {
-    this.selectedCurrency = currency;
-    this.isUpdateRate = true;
+    this.dialog
+      .open(UpdateRateComponent, { width: '420px', data: { currency } })
+      .afterClosed()
+      .subscribe((updated) => updated && this.refresh());
   }
 
   viewCurrencyAuthorities(currencyId: any) {

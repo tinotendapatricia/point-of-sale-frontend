@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { CompanyService } from '@pos-frontend/company-details/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { LicenseFormComponent } from '@pos-frontend/company-details/ui';
@@ -11,18 +12,20 @@ import { LicenseFormComponent } from '@pos-frontend/company-details/ui';
     imports: [LicenseFormComponent]
 })
 export class LicenseSystemComponent {
+  private readonly dialogRef = inject(MatDialogRef<LicenseSystemComponent, boolean>);
+  private readonly companyService = inject(CompanyService);
 
-  @Output() closeModal = new EventEmitter();
+  readonly submitting = signal(false);
 
-  constructor( private companyService: CompanyService){}
-
-  
-  license(licenseDetails:any): void {
+  license(licenseDetails: any): void {
+    this.submitting.set(true);
     this.companyService.licenseSystem(licenseDetails).subscribe({
-      next:(res)=>{
-        Utilities.displayToast('info', 'License applied thank you for licensing the system')
-        this.closeModal.emit(true);
-      }
-    })
+      next: () => {
+        this.submitting.set(false);
+        Utilities.displayToast('info', 'License applied thank you for licensing the system');
+        this.dialogRef.close(true);
+      },
+      error: () => this.submitting.set(false),
+    });
   }
 }

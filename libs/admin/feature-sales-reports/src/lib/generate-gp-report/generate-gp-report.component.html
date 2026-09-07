@@ -3,7 +3,7 @@
     <div class="card-block">
       <pos-frontend-reports-form
         (getPdf)="getPdf($event)"
-        [btnState]="btnState"
+        [loading]="loading"
         [isDate]="true"
         [isDebtor]="true"
         [debtors]="(debtorsFacade.allDebtors$ | async)!"

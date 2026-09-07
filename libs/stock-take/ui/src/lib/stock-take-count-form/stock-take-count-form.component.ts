@@ -7,8 +7,9 @@ import {
   SimpleChanges,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { ClrInputModule } from '@clr/angular/forms/input';
-import { ClrCommonFormsModule } from '@clr/angular/forms/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -16,7 +17,7 @@ import { FormsModule } from '@angular/forms';
     templateUrl: './stock-take-count-form.component.html',
     styleUrls: ['./stock-take-count-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrInputModule, ClrCommonFormsModule, FormsModule]
+    imports: [MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule]
 })
 export class StockTakeCountFormComponent implements OnChanges {
   @Output() formValue = new EventEmitter();

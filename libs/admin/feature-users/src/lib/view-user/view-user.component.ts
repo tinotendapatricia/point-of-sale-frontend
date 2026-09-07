@@ -1,13 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { UsersFacade } from '@pos-frontend/users/data-access';
+import { UserDetailsComponent } from '@pos-frontend/users/ui';
 
 @Component({
   selector: 'pos-frontend-view-user',
   templateUrl: './view-user.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./view-user.component.scss'],
+  imports: [RouterLink, MatIconModule, UserDetailsComponent, AsyncPipe],
 })
 export class ViewUserComponent implements OnInit {
   constructor(

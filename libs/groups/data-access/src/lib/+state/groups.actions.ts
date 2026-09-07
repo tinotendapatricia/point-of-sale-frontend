@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { GroupsEntity } from './groups.models';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 
 export const getPaginatedGroups = createAction(
   '[User Manager/Groups] Get Paginated Groups',
-  props<{ state: ClrDatagridStateInterface }>()
+  props<{ state: DatagridState }>()
 );
 
 export const getPaginatedGroupsSuccess = createAction(

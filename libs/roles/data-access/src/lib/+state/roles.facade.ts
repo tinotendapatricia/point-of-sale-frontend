@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 import { select, Store, Action } from '@ngrx/store';
 
 import * as RolesActions from './roles.actions';
@@ -18,7 +18,7 @@ export class RolesFacade {
 
   constructor(private store: Store<RolesFeature.RolesPartialState>) {}
 
-  getPaginatedRoles(state: ClrDatagridStateInterface) {
+  getPaginatedRoles(state: DatagridState) {
     this.store.dispatch(RolesActions.getPaginatedRoles({ state }));
   }
 

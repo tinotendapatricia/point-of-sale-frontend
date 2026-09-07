@@ -1,77 +1,60 @@
-<clr-datagrid
-  [clrDgLoading]="loading"
-  (clrDgRefresh)="updatedState.emit($event)"
-  class="datagrid-compact"
-  >
-  <clr-dg-column [clrDgField]="'name'">Username</clr-dg-column>
-  <clr-dg-column>Name</clr-dg-column>
-  <clr-dg-column>Status</clr-dg-column>
+<div class="table-wrap">
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef>Username</th>
+      <td mat-cell *matCellDef="let user">{{ user.username }}</td>
+    </ng-container>
 
-  <clr-dg-column></clr-dg-column>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let user"><a>{{ user.name }}</a></td>
+    </ng-container>
 
-  @for (user of userList; track user) {
-    <clr-dg-row [clrDgItem]="user">
-      <clr-dg-action-overflow>
-        <button class="action-item" (click)="viewUserAuthorities.emit(user)">
-          Add user permissions
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let user">
+        <mat-chip [class.st-ok]="user.active" [class.st-alert]="!user.active">
+          {{ user.active ? 'Active' : 'Inactive' }}
+        </mat-chip>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let user">
+        <button mat-icon-button (click)="updateSelected.emit(user)" aria-label="Edit user">
+          <mat-icon>edit</mat-icon>
         </button>
-        @if (!user.active) {
-          <button
-            class="action-item"
-            (click)="changeSelectedUserStatus.emit(user)"
-            >
-            Activate
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More actions">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="viewUserAuthorities.emit(user)">
+            Add user permissions
           </button>
-        }
-        @if (user.active) {
-          <button
-            class="action-item"
-            (click)="changeSelectedUserStatus.emit(user)"
-            >
-            Deactivate
+          <button mat-menu-item (click)="changeSelectedUserStatus.emit(user)">
+            {{ user.active ? 'Deactivate' : 'Activate' }}
           </button>
-        }
-      </clr-dg-action-overflow>
-      <clr-dg-cell>
-        <div class="m"></div>
-        {{ user?.username }}</clr-dg-cell
-        >
-        <clr-dg-cell
-          ><a>{{ user.name }}</a></clr-dg-cell
-          >
-          <clr-dg-cell>
-            @if (user.active) {
-              <span class="lab-success">Active</span>
-            }
-            @if (!user.active) {
-              <span class="lab-danger">Inactive</span>
-            }
-          </clr-dg-cell>
-          <clr-dg-cell>
-            <cds-icon shape="pencil" solid style="color: green;cursor: pointer;"(click)="updateSelected.emit(user)"></cds-icon>
-            <!-- &nbsp;&nbsp;
-            <clr-icon
-              shape="trash"
-              class="is-solid"
-              (click)="deleteUser.emit(user)"
-            ></clr-icon> -->
-          </clr-dg-cell>
-        </clr-dg-row>
-      }
-      <!-- <clr-dg-detail *clrIfDetail="let detail">
-      <clr-dg-detail-header>{{ detail.name }}</clr-dg-detail-header>
-      <clr-dg-detail-body>
-        <leave-management-system-user-details [user]="detail"></leave-management-system-user-details>
-      </clr-dg-detail-body>
-    </clr-dg-detail> -->
-    @if (total > 0) {
-      <clr-dg-footer>
-        {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
-        {{ pagination.totalItems }} Users
-        <clr-dg-pagination
-          #pagination
-          [clrDgTotalItems]="total"
-        ></clr-dg-pagination>
-      </clr-dg-footer>
-    }
-  </clr-datagrid>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+        {{ loading() ? 'Loading…' : placeholderMessage() || 'No records found' }}
+      </td>
+    </tr>
+  </table>
+</div>
+
+@if (total() > 0) {
+  <mat-paginator
+    [length]="total()"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPage($event)"
+  ></mat-paginator>
+}

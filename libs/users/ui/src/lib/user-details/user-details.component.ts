@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { KeyValuePipe, TitleCasePipe } from '@angular/common';
 import { Utilities } from '@pos-frontend/shared/utils';
 import { UsersEntity } from '@pos-frontend/users/data-access';
@@ -11,7 +11,7 @@ import { UsersEntity } from '@pos-frontend/users/data-access';
   imports: [KeyValuePipe, TitleCasePipe],
 })
 export class UserDetailsComponent {
-  @Input() user!: UsersEntity;
+  readonly user = input<UsersEntity>();
 
   public decamelize = Utilities.decamelize;
   public nonDisplayableFields = [

@@ -1,56 +1,53 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClrLoadingState } from '@clr/angular';
+import { Component, ChangeDetectionStrategy, inject, input, output, effect } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProductsEntity } from '@pos-frontend/products/data-access';
-import { ClrModalModule } from '@clr/angular/modal';
-import { ClrInputModule } from '@clr/angular/forms/input';
-import { ClrCommonFormsModule } from '@clr/angular/forms/common';
-import { ClrLoadingButtonModule } from '@clr/angular/button';
-import { ClrLoadingModule } from '@clr/angular/utils';
 
 @Component({
     selector: 'pos-frontend-update-cost-and-price',
     templateUrl: './update-cost-and-price.component.html',
     styleUrls: ['./update-cost-and-price.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrModalModule, FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrLoadingButtonModule, ClrLoadingModule]
+    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
 })
-export class UpdateCostAndPriceComponent implements OnInit { 
-  @Input() product!: ProductsEntity;
-  @Input() btnState = ClrLoadingState.DEFAULT;
-  @Input() title = '';
-  @Output() formValue = new EventEmitter();
-  @Output() closeModal = new EventEmitter();
-  @Input() label=''
-  //@Input() allGroups$!: Observable<GroupsEntity[]>;
-  @Input() btnTitle!: string;
-  public form!: UntypedFormGroup;
-  public opened = true;
-  @Input() isCost = false
-  @Input() isPrice = false
-  measures = ['Litres', 'Kilograms', 'Millilitres'];
+export class UpdateCostAndPriceComponent {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
 
-  constructor(private formBuilder: FormBuilder) {}
-  ngOnChanges(changes: SimpleChanges): void {
-    /*if (changes['currency']?.currentValue) {
-      this.form.get('currency')?.patchValue(this.currency);
-    }*/
-  }
+  readonly product = input<ProductsEntity>();
+  readonly loading = input(false);
+  readonly title = input('');
+  readonly btnTitle = input('Submit');
+  readonly isCost = input(false);
+  readonly isPrice = input(false);
+  readonly formValue = output<any>();
 
-  ngOnInit(): void {
-    this.createForm();
-    if (this.product) {
-      this.form.get('id')?.patchValue(this.product.id);
-    }
-  }
+  readonly form = this.formBuilder.group({
+    id: [''],
+    price: [''],
+    cost: [''],
+    currency: [{ disabled: true, value: '' }],
+    effectiveDate: [''],
+  });
 
-  public createForm() {
-    this.form = this.formBuilder.group({
-      id: '',
-      price: '',
-      cost:'',
-      currency: [{ disabled: true, value: '' }],
-      effectiveDate:''
+  constructor() {
+    effect(() => {
+      const product = this.product();
+      if (product) {
+        this.form.get('id')?.patchValue(String(product.id));
+      }
     });
+  }
+
+  cancel() {
+    this.dialogRef?.close(false);
+  }
+
+  submit() {
+    this.formValue.emit(this.form.value);
   }
 }

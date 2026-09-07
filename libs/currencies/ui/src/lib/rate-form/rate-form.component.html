@@ -1,38 +1,30 @@
-<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-    <h3 class="modal-title">{{ title }}&nbsp;&nbsp;</h3>
-    <div class="modal-body">
-      <form [formGroup]="form">
-        <clr-input-container >
-          <label>Rate</label>
-          <input clrInput type="text" formControlName="rate" required />
-          <clr-control-error>Rate is required!</clr-control-error>
-        </clr-input-container>
-       
-
-        <div class="date">
-          <label>Effective Date</label>
-          <input type="date" formControlName="effectiveDate">
-        </div>
-        
-
-      </form>
+<h2 mat-dialog-title>{{ title() }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="rate-form">
+    <div class="field">
+      <label class="field-label" for="rate-value">Rate<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="rate-value" type="text" formControlName="rate" required />
+      </mat-form-field>
     </div>
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-outline"
-        (click)="closeModal.emit(false)"
-      >
-        Cancel
-      </button>
-      <button
-        type="button"
-        class="btn btn-success"
-        [clrLoading]="btnState"
-        (click)="formValue.emit(form.value)"
-      >
-        Submit
-      </button>
+
+    <div class="field">
+      <label class="field-label" for="rate-effective-date">Effective Date</label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="rate-effective-date" type="date" formControlName="effectiveDate" />
+      </mat-form-field>
     </div>
-  </clr-modal>
-  
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
+    Cancel
+  </button>
+  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
+    @if (loading()) {
+      <mat-spinner diameter="18"></mat-spinner>
+    } @else {
+      {{ btnTitle() }}
+    }
+  </button>
+</mat-dialog-actions>

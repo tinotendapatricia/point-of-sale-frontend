@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { PurchaseOrderEntity } from './purchase-order.models';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 
 export const getPaginatedPurchaseOrder = createAction(
   '[PurchaseOrder] Get Paginated PurchaseOrder',
-  props<{ state: ClrDatagridStateInterface }>()
+  props<{ state: DatagridState }>()
 );
 
 export const getPaginatedPurchaseOrderSuccess = createAction(

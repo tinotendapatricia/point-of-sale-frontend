@@ -1,58 +1,58 @@
-<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-  <div class="modal-title">{{ title }}</div>
-  >
-  <div class="modal-body">
-    <form [formGroup]="companyForm">
-      <clr-input-container>
-        <label>Name</label>
-        <input clrInput type="text" formControlName="name" required />
-        <clr-control-error>Name is required!</clr-control-error>
-      </clr-input-container>
-      <clr-textarea-container>
-        <label>Address</label>
-        <textarea
-          clrTextarea
-          cols="60"
-          rows="5"
-          formControlName="address"
-        ></textarea>
-      </clr-textarea-container>
-      <clr-input-container>
-        <label>BP Number</label>
-        <input clrInput type="text" formControlName="bpNumber" required />
-      </clr-input-container>
-      <clr-input-container>
-        <label>Tin Number</label>
-        <input clrInput type="text" formControlName="tinNumber" required />
-      </clr-input-container>
-      <clr-input-container>
-        <label>Email</label>
-        <input clrInput type="text" formControlName="email" required />
-      </clr-input-container>
+<h2 mat-dialog-title>{{ title() }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="companyForm" class="company-form">
+    <div class="field">
+      <label class="field-label" for="company-name">Name<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="company-name" type="text" formControlName="name" required />
+      </mat-form-field>
+    </div>
 
-      <clr-input-container>
-        <label>Phone Number(s)</label>
-        <input clrInput type="text" formControlName="phone" required />
-      </clr-input-container>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline"
-      (click)="closeModal.emit(false)"
-    >
-      Cancel
-    </button>
-    <button
-      type="button"
-      class="btn btn-success"
-      [clrLoading]="btnState"
-      (click)="formValue.emit(companyForm.value)"
-    >
-      Submit
-    </button>
-  </div>
-</clr-modal>
+    <div class="field">
+      <label class="field-label" for="company-address">Address</label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <textarea matInput id="company-address" formControlName="address" rows="5"></textarea>
+      </mat-form-field>
+    </div>
 
+    <div class="field">
+      <label class="field-label" for="company-bp-number">BP Number<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="company-bp-number" type="text" formControlName="bpNumber" required />
+      </mat-form-field>
+    </div>
 
+    <div class="field">
+      <label class="field-label" for="company-tin-number">Tin Number<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="company-tin-number" type="text" formControlName="tinNumber" required />
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="company-email">Email<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="company-email" type="text" formControlName="email" required />
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="company-phone">Phone Number(s)<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="company-phone" type="text" formControlName="phone" required />
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
+    Cancel
+  </button>
+  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
+    @if (loading()) {
+      <mat-spinner diameter="18"></mat-spinner>
+    } @else {
+      {{ btnTitle() }}
+    }
+  </button>
+</mat-dialog-actions>

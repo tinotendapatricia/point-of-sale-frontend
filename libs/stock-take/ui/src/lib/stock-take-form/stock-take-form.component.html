@@ -16,10 +16,12 @@
             </ng-select>
           </div>
           <div class="clr-col-md-3">
-            <clr-input-container>
-              <label>Quantity</label>
-              <input clrInput type="number" formControlName="quantity" />
-            </clr-input-container>
+            <div class="field">
+              <label class="field-label">Quantity</label>
+              <mat-form-field class="full-width" subscriptSizing="dynamic">
+                <input matInput type="number" formControlName="quantity" />
+              </mat-form-field>
+            </div>
           </div>
         </div>
         <div class="text-center">
@@ -48,8 +50,12 @@
                 <td>{{ p.productName }}</td>
                 <td>{{ p.quantity }}</td>
                 <td>
-                  <cds-icon shape="trash" style="color: red;" (click)="deleteProduct(p.code)"></cds-icon>&nbsp;&nbsp;&nbsp;
-                  <cds-icon shape="pencil" style="color: green;" (click)="updateProduct(i,p)"></cds-icon>
+                  <button mat-icon-button (click)="deleteProduct(p.code)" aria-label="Delete product">
+                    <mat-icon style="color: red">delete</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="updateProduct(i,p)" aria-label="Edit product">
+                    <mat-icon style="color: green">edit</mat-icon>
+                  </button>
                 </td>
               </tr>
             }

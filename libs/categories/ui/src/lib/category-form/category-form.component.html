@@ -1,36 +1,30 @@
-<p>category-form works!</p>
-<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-    <h3 class="modal-title">{{ title }}</h3>
-    <div class="modal-body">
-      <form [formGroup]="categorieForm">
-        <clr-input-container>
-          <label>Name</label>
-          <input clrInput type="text" formControlName="name" required />
-          <clr-control-error>Firstname is required!</clr-control-error>
-        </clr-input-container>
-        <clr-input-container>
-          <label>Code</label>
-          <input clrInput type="text" formControlName="code" required />
-          <clr-control-error>Code is required!</clr-control-error>
-        </clr-input-container>
-      </form>
+<h2 mat-dialog-title>{{ title() }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="categorieForm" class="category-form">
+    <div class="field">
+      <label class="field-label" for="category-name">Name<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="category-name" type="text" formControlName="name" required />
+      </mat-form-field>
     </div>
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-outline"
-        (click)="closeModal.emit(false)"
-      >
-        Cancel
-      </button>
-      <button
-        type="button"
-        class="btn btn-success"
-        [clrLoading]="btnState"
-        (click)="formValue.emit(categorieForm.value)"
-      >
-        Submit
-      </button>
+
+    <div class="field">
+      <label class="field-label" for="category-code">Code<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input matInput id="category-code" type="text" formControlName="code" required />
+      </mat-form-field>
     </div>
-  </clr-modal>
-  
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
+    Cancel
+  </button>
+  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
+    @if (loading()) {
+      <mat-spinner diameter="18"></mat-spinner>
+    } @else {
+      {{ btnTitle() }}
+    }
+  </button>
+</mat-dialog-actions>

@@ -1,115 +1,170 @@
-<clr-vertical-nav id="show_bg_2" [clr-nav-level]="1">
-  <br />
-  <a clrVerticalNavLink [routerLink]="['/dashboard']" routerLinkActive="active">
-    <cds-icon clrVerticalNavIcon shape="home" solid></cds-icon>
-    DashBoard
+<nav class="pos-sidenav h-full">
+  <a
+    class="pos-navlink"
+    [routerLink]="['/dashboard']"
+    routerLinkActive="active"
+  >
+    <mat-icon>home</mat-icon>
+    <span>Dashboard</span>
   </a>
 
-  <clr-vertical-nav-group routerLinkActive="active" style="font-size: 12px">
-    <cds-icon clrVerticalNavIcon shape="blocks-group" solid></cds-icon>
-    Products Management
-    <clr-vertical-nav-group-children> 
-    <a clrVerticalNavLink [routerLink]="['/products']" routerLinkActive="active">
+  <div class="pos-navgroup" routerLinkActive="active">
+    <button
+      type="button"
+      class="pos-navlink pos-navgroup-trigger"
+      (click)="toggle('products')"
+    >
+      <mat-icon>category</mat-icon>
+      <span>Products Management</span>
+      <mat-icon class="chevron" [class.open]="isOpen('products')"
+        >expand_more</mat-icon
+      >
+    </button>
+    @if (isOpen('products')) {
+    <a
+      class="pos-navlink pos-navlink-child"
+      [routerLink]="['/products']"
+      routerLinkActive="active"
+    >
       Products
     </a>
-    <a clrVerticalNavLink [routerLink]="['/products/break-bulk']" routerLinkActive="active">
+    <a
+      class="pos-navlink pos-navlink-child"
+      [routerLink]="['/products/break-bulk']"
+      routerLinkActive="active"
+    >
       Break
     </a>
-    
-  </clr-vertical-nav-group-children>
-  </clr-vertical-nav-group>
+    }
+  </div>
 
   <a
-    clrVerticalNavLink
+    class="pos-navlink"
     [routerLink]="['/currencies']"
     routerLinkActive="active"
   >
-    <cds-icon clrVerticalNavIcon shape="dollar-bill" solid></cds-icon>
-    Currencies
+    <mat-icon>attach_money</mat-icon>
+    <span>Currencies</span>
   </a>
 
-
-  <clr-vertical-nav-group routerLinkActive="active" style="font-size: 12px">
-    <cds-icon clrVerticalNavIcon shape="users" solid></cds-icon>
-    Purchases
-    <clr-vertical-nav-group-children> 
-    <a clrVerticalNavLink [routerLink]="['/creditors']" routerLinkActive="active">
+  <div class="pos-navgroup" routerLinkActive="active">
+    <button
+      type="button"
+      class="pos-navlink pos-navgroup-trigger"
+      (click)="toggle('purchases')"
+    >
+      <mat-icon>shopping_cart</mat-icon>
+      <span>Purchases</span>
+      <mat-icon class="chevron" [class.open]="isOpen('purchases')"
+        >expand_more</mat-icon
+      >
+    </button>
+    @if (isOpen('purchases')) {
+    <a
+      class="pos-navlink pos-navlink-child"
+      [routerLink]="['/creditors']"
+      routerLinkActive="active"
+    >
       Creditors
     </a>
-    <a clrVerticalNavLink [routerLink]="['/purchase-orders']" routerLinkActive="active">
+    <a
+      class="pos-navlink pos-navlink-child"
+      [routerLink]="['/purchase-orders']"
+      routerLinkActive="active"
+    >
       Purchase Orders
     </a>
-    <a clrVerticalNavLink [routerLink]="['/receive-products']" routerLinkActive="active">
+    <a
+      class="pos-navlink pos-navlink-child"
+      [routerLink]="['/receive-products']"
+      routerLinkActive="active"
+    >
       Receive Products
     </a>
-    <a clrVerticalNavLink [routerLink]="['/purchases-reports']" routerLinkActive="active">
+    <a
+      class="pos-navlink pos-navlink-child"
+      [routerLink]="['/purchases-reports']"
+      routerLinkActive="active"
+    >
       Reports
     </a>
-  </clr-vertical-nav-group-children>
-  </clr-vertical-nav-group>
+    }
+  </div>
 
-  <clr-vertical-nav-group routerLinkActive="active" style="font-size: 12px">
-    <cds-icon clrVerticalNavIcon shape="users" solid></cds-icon>
-    Sales
-    <clr-vertical-nav-group-children>
-      <a
-        clrVerticalNavLink
-        [routerLink]="['/debtors']"
-        routerLinkActive="active"
+  <div class="pos-navgroup" routerLinkActive="active">
+    <button
+      type="button"
+      class="pos-navlink pos-navgroup-trigger"
+      (click)="toggle('sales')"
+    >
+      <mat-icon>point_of_sale</mat-icon>
+      <span>Sales</span>
+      <mat-icon class="chevron" [class.open]="isOpen('sales')"
+        >expand_more</mat-icon
       >
-        Debtors
-      </a>
-      <!-- <a
-        [routerLink]="['/stations']"
-        clrVerticalNavLink
-        routerLinkActive="active"
+    </button>
+    @if (isOpen('sales')) {
+    <a
+      class="pos-navlink pos-navlink-child"
+      [routerLink]="['/debtors']"
+      routerLinkActive="active"
+    >
+      Debtors
+    </a>
+    <a
+      class="pos-navlink pos-navlink-child"
+      [routerLink]="['/sales-reports']"
+      routerLinkActive="active"
+    >
+      Reports
+    </a>
+    }
+  </div>
+
+  <div class="pos-navgroup" routerLinkActive="active">
+    <button
+      type="button"
+      class="pos-navlink pos-navgroup-trigger"
+      (click)="toggle('stock')"
+    >
+      <mat-icon>inventory_2</mat-icon>
+      <span>Stock Management</span>
+      <mat-icon class="chevron" [class.open]="isOpen('stock')"
+        >expand_more</mat-icon
       >
-        Stations
-      </a> -->
-      <a
-        [routerLink]="['/sales-reports']"
-        clrVerticalNavLink
-        routerLinkActive="active"
-      >
-        Reports
-      </a>
-    </clr-vertical-nav-group-children></clr-vertical-nav-group
-  >
-  <clr-vertical-nav-group routerLinkActive="active" style="font-size: 12px">
-    <cds-icon clrVerticalNavIcon shape="slider" solid></cds-icon>
-    Stock Management
-    <clr-vertical-nav-group-children>
-      <a
-        clrVerticalNavLink
-        [routerLink]="['/stock-take']"
-        routerLinkActive="active"
-      >
-        Stock Take
-      </a>
-      <a
-        clrVerticalNavLink
-        [routerLink]="['/stocks']"
-        routerLinkActive="active"
-      >
-        Reports
-      </a>
-    </clr-vertical-nav-group-children></clr-vertical-nav-group
-  >
+    </button>
+    @if (isOpen('stock')) {
+    <a
+      class="pos-navlink pos-navlink-child"
+      [routerLink]="['/stock-take']"
+      routerLinkActive="active"
+    >
+      Stock Take
+    </a>
+    <a
+      class="pos-navlink pos-navlink-child"
+      [routerLink]="['/stocks']"
+      routerLinkActive="active"
+    >
+      Reports
+    </a>
+    }
+  </div>
 
   <a
-    clrVerticalNavLink
+    class="pos-navlink"
     [routerLink]="['/configurations']"
     routerLinkActive="active"
   >
-    <cds-icon clrVerticalNavIcon shape="cog"></cds-icon>
-    Configurations
+    <mat-icon>settings</mat-icon>
+    <span>Configurations</span>
   </a>
-  <a clrVerticalNavLink [routerLink]="['/company']" routerLinkActive="active">
-    <cds-icon clrVerticalNavIcon shape="bank"></cds-icon>
-    Company
+  <a class="pos-navlink" [routerLink]="['/company']" routerLinkActive="active">
+    <mat-icon>apartment</mat-icon>
+    <span>Company</span>
   </a>
-  <a clrVerticalNavLink [routerLink]="['/audits']" routerLinkActive="active">
-    <cds-icon clrVerticalNavIcon shape="form"></cds-icon>
-    Audit Trail
+  <a class="pos-navlink" [routerLink]="['/audits']" routerLinkActive="active">
+    <mat-icon>fact_check</mat-icon>
+    <span>Audit Trail</span>
   </a>
-</clr-vertical-nav>
+</nav>

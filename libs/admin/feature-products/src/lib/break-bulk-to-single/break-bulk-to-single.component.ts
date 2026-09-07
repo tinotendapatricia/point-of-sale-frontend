@@ -1,20 +1,16 @@
 import {
-  AfterViewChecked,
-  ChangeDetectorRef,
   Component,
   OnInit,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
-import { Router, ActivatedRoute, RouterLinkActive, RouterLink } from '@angular/router';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { RouterLinkActive, RouterLink } from '@angular/router';
 import {
   ProductsEntity,
-  ProductsFacade,
-  ProductsService,
+  ProductStore,
 } from '@pos-frontend/products/data-access';
-import { Utilities } from '@pos-frontend/shared/utils';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { BreakBulkFormComponent } from '@pos-frontend/products/ui';
 import { AsyncPipe } from '@angular/common';
 
@@ -23,41 +19,25 @@ import { AsyncPipe } from '@angular/common';
     templateUrl: './break-bulk-to-single.component.html',
     styleUrls: ['./break-bulk-to-single.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, RouterLinkActive, RouterLink, ClrIcon, ClrIconModule, BreakBulkFormComponent, AsyncPipe]
+    imports: [MatCard, MatCardContent, RouterLinkActive, RouterLink, MatIconModule, BreakBulkFormComponent, AsyncPipe]
 })
-export class BreakBulkToSingleComponent implements AfterViewChecked, OnInit {
-  public isUpdate = false;
-  public isUpdateCost = false;
-  public isUpdatePrice = false;
-  public isCreate = false;
-  public isChangeStatus = false;
-  public selectedProduct!: ProductsEntity;
+export class BreakBulkToSingleComponent implements OnInit {
+  protected readonly productsStore = inject(ProductStore);
 
-  constructor(
-    public productsFacade: ProductsFacade,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-    private route: ActivatedRoute,
-    public productsService: ProductsService
-  ) {}
+  protected readonly submitting = this.productsStore.breakLoading;
+
   ngOnInit(): void {
     this.getProductList();
   }
 
-  ngAfterViewChecked(): void {
-    this.cdr.detectChanges();
-  }
-
   public getProductList() {
-    this.productsFacade.getAllProducts();
+    this.productsStore.getAllProducts();
   }
 
-  onSubmit(details: any) {
-    this.productsService.breakProduct(details).subscribe({
-      next: (res) => {
-        Utilities.displayToast('success');
-      },
-
+  onSubmit(details: ProductsEntity) {
+    this.productsStore.breakProduct({
+      data: details,
+      callback: () => undefined,
     });
   }
 }

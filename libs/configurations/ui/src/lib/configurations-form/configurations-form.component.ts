@@ -1,49 +1,57 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClrLoadingState } from '@clr/angular';
+import { Component, ChangeDetectionStrategy, inject, input, output, effect } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ConfigurationsEntity } from '@pos-frontend/configurations/data-access';
-import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
-import { ClrModalModule } from '@clr/angular/modal';
-import { ClrInputModule } from '@clr/angular/forms/input';
-import { ClrCommonFormsModule } from '@clr/angular/forms/common';
-import { ClrLoadingButtonModule } from '@clr/angular/button';
-import { ClrLoadingModule } from '@clr/angular/utils';
 
 @Component({
     selector: 'pos-frontend-configurations-form',
     templateUrl: './configurations-form.component.html',
     styleUrls: ['./configurations-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrModalModule, FormsModule, ReactiveFormsModule, ClrInputModule, ClrCommonFormsModule, ClrLoadingButtonModule, ClrLoadingModule]
+    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
 })
-export class ConfigurationsFormComponent implements OnInit {
-  @Input() configuration!: ConfigurationsEntity;
-  @Input() btnState = ClrLoadingState.DEFAULT;
-  @Input() title = '';
-  @Output() formValue = new EventEmitter();
-  @Output() closeModal = new EventEmitter();
-  @Input() btnTitle!: string;
-  @Input() currencies!: CurrenciesEntity[];
-  public configurationForm!: UntypedFormGroup;
-  public opened = true;
+export class ConfigurationsFormComponent {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
 
-  constructor(private formBuilder: FormBuilder) {}
+  readonly configuration = input<ConfigurationsEntity>();
+  readonly loading = input(false);
+  readonly title = input('');
+  readonly btnTitle = input('Submit');
+  readonly formValue = output<any>();
 
-  ngOnInit(): void {
-    this.createForm();
-    if (this.configuration) {
-      this.configurationForm.patchValue(this.configuration);
+  readonly configurationForm = this.formBuilder.group({
+    copies: [''],
+    printerName: [''],
+    stationName: [''],
+    stationNumber: [''],
+    id: [''],
+  });
 
-    }
+  constructor() {
+    effect(() => {
+      const configuration = this.configuration();
+      if (configuration) {
+        this.configurationForm.patchValue({
+          copies: String(configuration.copies),
+          printerName: configuration.printerName,
+          stationName: configuration.stationName,
+          stationNumber: String(configuration.stationNumber),
+          id: String(configuration.id),
+        });
+      }
+    });
   }
 
-  public createForm() {
-    this.configurationForm = this.formBuilder.group({
-      copies: '',
-      printerName: '',
-      stationName:'',
-      stationNumber:'',    
-      id: '',
-    });
+  cancel() {
+    this.dialogRef?.close(false);
+  }
+
+  submit() {
+    this.formValue.emit(this.configurationForm.value);
   }
 }

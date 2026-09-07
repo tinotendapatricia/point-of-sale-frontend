@@ -1,8 +1,5 @@
-
 <pos-frontend-license-form
-[title]="'License Login'"
-  (closeModal)="closeModal.emit(true)"
+  [title]="'License Login'"
+  [loading]="submitting()"
   (formValue)="license($event)"
-  (license)="license($event)"
 ></pos-frontend-license-form>
-

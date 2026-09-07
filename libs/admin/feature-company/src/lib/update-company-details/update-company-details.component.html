@@ -1,9 +1,7 @@
 <pos-frontend-company-details-form
-(closeModal)="closeModal.emit(false)"
-(formValue)="createCompany($event)"
-(closeModal)="closeModal.emit(false)"
-[title]="'Update Company'"
-[company]="company"
->
-
-</pos-frontend-company-details-form>
+  [title]="'Update Company'"
+  [btnTitle]="'Save'"
+  [loading]="submitting()"
+  (formValue)="createCompany($event)"
+  [company]="company"
+></pos-frontend-company-details-form>

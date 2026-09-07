@@ -1,70 +1,58 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 import {
   DebtorsEntity,
   DebtorsFacade,
 } from '@pos-frontend/debtors/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
 import { DebtorsListUiComponent } from '@pos-frontend/debtors/ui';
+import { AsyncPipe } from '@angular/common';
 import { CreateDebtorsComponent } from '../create-debtors/create-debtors.component';
 import { UpdateDebtorsComponent } from '../update-debtors/update-debtors.component';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-list-debtors',
     templateUrl: './list-debtors.component.html',
     styleUrls: ['./list-debtors.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, ClrIcon, ClrIconModule, DebtorsListUiComponent, CreateDebtorsComponent, UpdateDebtorsComponent, AsyncPipe]
+    imports: [MatCard, MatCardContent, MatIconModule, DebtorsListUiComponent, AsyncPipe]
 })
-export class ListDebtorsComponent implements AfterViewChecked {
-  public isUpdate = false;
-  public isCreate = false;
-  public isChangeStatus = false;
-  public selectedDebtor!: DebtorsEntity;
+export class ListDebtorsComponent {
+  private readonly dialog = inject(MatDialog);
 
   constructor(
     public debtorsFacade: DebtorsFacade,
-    private cdr: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
-  ngAfterViewChecked(): void {
-    this.cdr.detectChanges();
-  }
-
-  public getDebtorList(state: ClrDatagridStateInterface) {
+  public getDebtorList(state: DatagridState) {
     this.debtorsFacade.getPaginatedDebtors(state);
   }
 
   refresh() {
-    this.isUpdate = false;
-    this.isCreate = false;
-    this.isChangeStatus = false;
     this.getDebtorList({});
   }
 
+  createDebtor() {
+    this.dialog
+      .open(CreateDebtorsComponent, { width: '480px' })
+      .afterClosed()
+      .subscribe((created) => created && this.refresh());
+  }
+
   updateDebtor(debtor: DebtorsEntity) {
-    this.selectedDebtor = debtor;
-    this.isUpdate = true;
+    this.dialog
+      .open(UpdateDebtorsComponent, { width: '480px', data: { debtor } })
+      .afterClosed()
+      .subscribe((updated) => updated && this.refresh());
   }
 
   viewDebtor(debtor: DebtorsEntity) {
     this.router.navigate(['./debtor-details', debtor.id], {
-      relativeTo: this.route,
-    });
-  }
-
-  changeDebtorstatus(debtor: DebtorsEntity) {
-    this.selectedDebtor = debtor;
-    this.isChangeStatus = true;
-  }
-
-  viewDebtorAuthorities(debtorId: any) {
-    this.router.navigate(['./view-debtor', debtorId], {
       relativeTo: this.route,
     });
   }

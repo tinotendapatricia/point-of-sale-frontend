@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 import { select, Store, Action } from '@ngrx/store';
 
 import * as CreditorsActions from './creditors.actions';
@@ -18,7 +18,7 @@ export class CreditorsFacade {
 
   constructor(private store: Store<CreditorsFeature.CreditorsPartialState>) {}
 
-  getPaginatedCreditors(state: ClrDatagridStateInterface) {
+  getPaginatedCreditors(state: DatagridState) {
     this.store.dispatch(CreditorsActions.getPaginatedCreditors({ state }));
   }
 

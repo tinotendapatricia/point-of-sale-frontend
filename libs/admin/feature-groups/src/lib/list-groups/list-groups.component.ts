@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ClrDatagridStateInterface } from '@clr/angular';
+import { DatagridState } from '@pos-frontend/shared/utils';
 import { GroupsEntity, GroupsFacade } from '@pos-frontend/groups/data-access';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
 import { ListGroupsUiComponent } from '@pos-frontend/groups/ui';
 import { CreateGroupComponent } from '../create-group/create-group.component';
 import { AsyncPipe } from '@angular/common';
@@ -13,36 +14,30 @@ import { AsyncPipe } from '@angular/common';
     templateUrl: './list-groups.component.html',
     styleUrls: ['./list-groups.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, ClrIcon, ClrIconModule, ListGroupsUiComponent, CreateGroupComponent, AsyncPipe]
+    imports: [MatCard, MatCardContent, MatIconModule, ListGroupsUiComponent, AsyncPipe]
 })
-export class ListGroupsComponent implements OnInit {
-  public isUpdate = false;
-  public isCreate = false;
-  public isChangeStatus = false;
-  public selectedGroup!: GroupsEntity;
+export class ListGroupsComponent {
+  private readonly dialog = inject(MatDialog);
 
   constructor(
     public groupsFacade: GroupsFacade,
-    private cdr: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
-  ngAfterViewChecked(): void {
-    this.cdr.detectChanges();
-  }
-
-  ngOnInit(): void {}
-
-  public getGroupList(state: ClrDatagridStateInterface) {
+  public getGroupList(state: DatagridState) {
     this.groupsFacade.getPaginatedGroups(state);
   }
 
-  refresh(isRefresh?: boolean) {
-    this.isUpdate = false;
-    this.isCreate = false;
-    this.isChangeStatus = false;
-    this.getGroupList({}) 
+  refresh() {
+    this.getGroupList({});
+  }
+
+  createGroup() {
+    this.dialog
+      .open(CreateGroupComponent, { width: '480px' })
+      .afterClosed()
+      .subscribe((created) => created && this.refresh());
   }
 
   updateGroup(group: GroupsEntity) {
@@ -52,15 +47,10 @@ export class ListGroupsComponent implements OnInit {
   }
 
   viewGroup(group: GroupsEntity) {
-    this.groupsFacade.getGroup(group.id)
+    this.groupsFacade.getGroup(group.id);
     this.router.navigate(['./group-details', group.id], {
       relativeTo: this.route,
     });
-  }
-
-  changeGroupStatus(group: GroupsEntity) {
-    this.selectedGroup = group;
-    this.isChangeStatus = true;
   }
 
   viewGroupAuthorities(groupId: any) {

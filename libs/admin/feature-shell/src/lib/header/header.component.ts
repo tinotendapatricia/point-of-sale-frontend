@@ -1,27 +1,26 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { AuthFacade } from '@pos-frontend/auth/data-access';
 import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
-import { ClrNavigationModule } from '@clr/angular/layout/nav';
-import { ClrStopEscapePropagationDirective, ClrPopoverHostDirective, ClrIfOpen, ClrPopoverContent } from '@clr/angular/popover/common';
-import { ClrDropdownModule } from '@clr/angular/popover/dropdown';
-import { ClrIcon, ClrIconModule } from '@clr/angular/icon';
-import { RouterLinkActive, RouterLink } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pos-frontend-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ClrNavigationModule, ClrStopEscapePropagationDirective, ClrPopoverHostDirective, ClrDropdownModule, ClrIcon, ClrIconModule, ClrIfOpen, ClrPopoverContent, RouterLinkActive, RouterLink, AsyncPipe]
+    imports: [RouterLink, MatMenuModule, MatIconModule, MatButtonModule]
 })
-export class HeaderComponent implements OnInit {
-  constructor(
-    public authFacade: AuthFacade,
-    public currenciesService: CurrenciesFacade
-  ) {}
+export class HeaderComponent {
+  readonly authFacade = inject(AuthFacade);
+  readonly currenciesService = inject(CurrenciesFacade);
 
-  ngOnInit(): void {
+  readonly defaultCurrency = toSignal(this.currenciesService.defaultCurrency$, { initialValue: undefined });
+
+  constructor() {
     this.currenciesService.getDefaultCurrency();
   }
 }

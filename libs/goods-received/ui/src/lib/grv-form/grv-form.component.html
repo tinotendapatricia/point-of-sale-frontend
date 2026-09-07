@@ -1,22 +1,17 @@
-<div class="clr-row">
-  <div class="clr-col-md-3">
-    <clr-input-container>
-      <label>Purchase Order</label>
-      <input
-        type="number"
-        name="purchaseOrder"
-        clrInput
-        [(ngModel)]="purchaseOrder"
-        />
-      </clr-input-container>
-    </div>
-    <div class="clr-col-md-3">
-      <clr-input-container>
-        <label>Reference</label>
-        <input type="text" clrInput  [(ngModel)]="reference" />
-      </clr-input-container>
-    </div>
+<div class="grv-fields">
+  <div class="field">
+    <label class="field-label">Purchase Order</label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input matInput type="number" name="purchaseOrder" [(ngModel)]="purchaseOrder" />
+    </mat-form-field>
   </div>
+  <div class="field">
+    <label class="field-label">Reference</label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input matInput type="text" [(ngModel)]="reference" />
+    </mat-form-field>
+  </div>
+</div>
   <br />
   <button
     class="btn btn-sm btn-primary"

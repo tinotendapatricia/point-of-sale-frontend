@@ -2,15 +2,13 @@
 <div class="h">Creditors</div>
 <hr />
 <br />
-<!-- <button class="btn btn-sm" (click)="createCreditor()">Add</button>
-<button class="btn btn-sm" (click)="getCreditorList({})">Refresh</button> -->
 <mat-card class="login">
   <mat-card-content>
-    &nbsp;<button class="act" (click)="isCreate = true">
-    <cds-icon shape="plus-circle" solid style="color: green"></cds-icon>Add
+    &nbsp;<button class="act" (click)="createCreditor()">
+    <mat-icon style="color: green">add_circle</mat-icon>Add
     New</button
     >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getCreditorList({})">
-    <cds-icon shape="sync" solid style="color: rgb(73, 7, 226)"></cds-icon
+    <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
       >Refresh
     </button>
 
@@ -20,22 +18,7 @@
       [loading]="(creditorsFacade.loading$ | async)!"
       [placeholderMessage]="'Creditors'"
       (updatedState)="getCreditorList($event)"
-
       (updateSelected)="updateCreditor($event)"
     ></pos-frontend-list-creditors-ui>
   </mat-card-content>
 </mat-card>
-
-@if (isCreate) {
-  <pos-frontend-create-creditors
-    (closeModal)="refresh()"
-  ></pos-frontend-create-creditors>
-}
-
-@if (isUpdate) {
-  <pos-frontend-update-creditor
-    [creditor]="selectedCreditor"
-    (closeModal)="refresh()"
-  ></pos-frontend-update-creditor>
-}
-

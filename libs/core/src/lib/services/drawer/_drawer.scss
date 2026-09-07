@@ -1,0 +1,37 @@
+/* ---------------------------------------------------------------------------
+ * The drawer renders inside .cdk-overlay-container, outside every component's
+ * view, so these three classes have to be global. They are the only global
+ * CSS the drawer library asks for. Everything inside the panel is Tailwind.
+ * ------------------------------------------------------------------------- */
+
+.es-drawer-panel {
+    max-width: 100vw;
+}
+
+.es-drawer {
+    display: block;
+    height: 100%;
+    box-shadow: var(--shadow-drawer);
+    transform: translateX(100%);
+    transition: transform var(--duration-medium) var(--ease-out);
+    outline: none; /* the focus trap moves focus inside, not onto the panel */
+}
+
+.es-drawer--start {
+    transform: translateX(-100%);
+    box-shadow: 12px 0 32px rgb(30 34 41 / 12%);
+}
+
+.es-drawer--open {
+    transform: translateX(0);
+}
+
+.es-drawer-backdrop {
+    background: rgb(30 34 41 / 32%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .es-drawer {
+        transition: none;
+    }
+}

@@ -1,7 +1,5 @@
 <pos-frontend-stations-form
-  (closeModal)="closeModal.emit(false)"
-  (formValue)="createStation($event)"
-  [btnState]="(stationsService.btnState$ | async)!"
-  (closeModal)="closeModal.emit(false)"
   [title]="'Create New Station'"
+  [loading]="submitting()"
+  (formValue)="createStation($event)"
 ></pos-frontend-stations-form>

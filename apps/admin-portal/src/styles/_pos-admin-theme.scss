@@ -1,0 +1,507 @@
+// Angular Material theme for the POS Admin console — Industry design system.
+// Design handoff: design_handoff_pos_admin/_theme.scss (copied verbatim).
+// Import from styles.scss AFTER @use '@angular/material' as mat;
+//
+//   @use './styles/pos-admin-theme' as pos-theme;
+//
+// Everything below is derived from the design's tokens (see ./design-tokens.json,
+// copied from the handoff's tokens.json). Values marked EXACT are taken verbatim
+// from the prototype; do not round them.
+
+@use 'sass:color';
+@use 'sass:map';
+@use 'sass:math';
+@use '@angular/material' as mat;
+
+/* ---------------------------------------------------------------------------
+   1. Palettes
+   The system is mono: one steel accent, plus a neutral ramp. The 100-900 steps
+   were generated in OKLCH on a shared perceptual lightness scale.
+
+   mat.define-theme() validates a "palette" as the full M3 bundle a real
+   generated palette carries (secondary/neutral/neutral-variant/error, plus a
+   few extra fine-grained neutral tones used by surface-container roles) — the
+   handoff's bare 16-tone ramps aren't accepted on their own by this Material
+   version. This app is mono and flattens surfaces anyway (section 4), so:
+     - secondary reuses the steel ramp verbatim (there's no second hue)
+     - neutral-variant reuses the neutral ramp verbatim
+     - the handful of extra neutral tones Material wants (4/6/12/17/22/24/
+       87/92/94/96) are linearly interpolated between the neutral ramp's own
+       neighboring stops — they only ever surface through container colors
+       this app overrides to transparent/--color-bg, so exactness doesn't
+       matter, only that they exist
+     - error is Material's own fixed M3 error ramp (the same hex values across
+       every Material-shipped palette — the M3 spec fixes this hue) rather
+       than something the design system defines, since nothing here uses it
+   --------------------------------------------------------------------------*/
+
+$pos-steel-16: (
+  0:   #000000,
+  10:  #1d2d3d,   // --color-accent-900
+  20:  #2c455d,   // --color-accent-800
+  25:  #36536f,
+  30:  #416180,   // --color-accent-700
+  35:  #4d7093,
+  40:  #597ea3,   // --color-accent-600
+  50:  #5980a6,   // --color-accent  (base)
+  60:  #749dc4,   // --color-accent-500
+  70:  #94bce3,   // --color-accent-400
+  80:  #b5d9fd,   // --color-accent-300
+  90:  #d6ebff,   // --color-accent-200
+  95:  #eef6ff,   // --color-accent-100
+  98:  #f7fbff,
+  99:  #fcfeff,
+  100: #ffffff,
+);
+
+$pos-neutral-16: (
+  0:   #000000,
+  10:  #1d1f20,   // --color-text
+  20:  #2b2b2d,   // --color-neutral-900
+  25:  #37373a,
+  30:  #424244,   // --color-neutral-800
+  35:  #4f4f52,
+  40:  #5d5d60,   // --color-neutral-700
+  50:  #7a7a7d,   // --color-neutral-600
+  60:  #98989b,   // --color-neutral-500
+  70:  #b7b7ba,   // --color-neutral-400
+  80:  #d4d4d7,   // --color-neutral-300
+  90:  #e7e7ea,   // --color-neutral-200
+  95:  #f2f2f3,   // --color-bg
+  98:  #f5f5f8,   // --color-neutral-100
+  99:  #fafafb,
+  100: #ffffff,
+);
+
+// Fixed M3 error ramp — identical across every palette Angular Material ships.
+$pos-error: (
+  0:   #000000,
+  10:  #410002,
+  20:  #690005,
+  25:  #7e0007,
+  30:  #93000a,
+  35:  #a80710,
+  40:  #ba1a1a,
+  50:  #de3730,
+  60:  #ff5449,
+  70:  #ff897d,
+  80:  #ffb4ab,
+  90:  #ffdad6,
+  95:  #ffedea,
+  98:  #fff8f7,
+  99:  #fffbff,
+  100: #ffffff,
+);
+
+@function _between($map, $lo, $hi, $tone) {
+  $weight: math.div($tone - $lo, $hi - $lo) * 100%;
+  @return color.mix(map.get($map, $hi), map.get($map, $lo), $weight);
+}
+
+$pos-neutral: map.merge($pos-neutral-16, (
+  4:  _between($pos-neutral-16, 0, 10, 4),
+  6:  _between($pos-neutral-16, 0, 10, 6),
+  12: _between($pos-neutral-16, 10, 20, 12),
+  17: _between($pos-neutral-16, 10, 20, 17),
+  22: _between($pos-neutral-16, 20, 25, 22),
+  24: _between($pos-neutral-16, 20, 25, 24),
+  87: _between($pos-neutral-16, 80, 90, 87),
+  92: _between($pos-neutral-16, 90, 95, 92),
+  94: _between($pos-neutral-16, 90, 95, 94),
+  96: _between($pos-neutral-16, 95, 98, 96),
+));
+
+$pos-steel: map.merge($pos-steel-16, (
+  secondary: $pos-steel-16,
+  neutral: $pos-neutral,
+  'neutral-variant': $pos-neutral-16,
+  error: $pos-error,
+));
+
+/* ---------------------------------------------------------------------------
+   2. Theme
+   --------------------------------------------------------------------------*/
+
+$pos-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: $pos-steel,
+    tertiary: $pos-steel,      // mono scheme — tertiary reads as primary
+    use-system-variables: false,
+  ),
+  typography: (
+    brand-family: 'Barlow Condensed, system-ui, sans-serif',
+    plain-family: 'Barlow, system-ui, sans-serif',
+    bold-weight: 700,
+    medium-weight: 500,
+    regular-weight: 400,
+  ),
+  density: (
+    scale: -2,                 // matches the design's dense default (13px base)
+  ),
+));
+
+/* ---------------------------------------------------------------------------
+   3. Raw tokens
+   Consumed directly by hand-built pieces (status chips, blueprint frames,
+   progress bars) that Material has no equivalent for.
+   --------------------------------------------------------------------------*/
+
+:root {
+  /* Ground and ink — EXACT */
+  --color-bg:      #f2f2f3;
+  --color-surface: #e9e9ea;
+  --color-text:    #1d1f20;
+  --color-accent:  #5980a6;
+  --color-divider: color-mix(in srgb, #1d1f20 16%, transparent);
+  --color-title-background: #EEF6FF;
+
+  /* Steel ramp — EXACT */
+  --color-accent-100: #eef6ff;
+  --color-accent-200: #d6ebff;
+  --color-accent-300: #b5d9fd;
+  --color-accent-400: #94bce3;
+  --color-accent-500: #749dc4;
+  --color-accent-600: #597ea3;
+  --color-accent-700: #416180;
+  --color-accent-800: #2c455d;
+  --color-accent-900: #1d2d3d;
+
+  /* Neutral ramp — EXACT */
+  --color-neutral-100: #f5f5f8;
+  --color-neutral-200: #e7e7ea;
+  --color-neutral-300: #d4d4d7;
+  --color-neutral-400: #b7b7ba;
+  --color-neutral-500: #98989b;
+  --color-neutral-600: #7a7a7d;
+  --color-neutral-700: #5d5d60;
+  --color-neutral-800: #424244;
+  --color-neutral-900: #2b2b2d;
+
+  /* Semantic status set — added for this app, same muted chroma as the steel */
+  --ok:        #2f7d5b;  --ok-100:    #e2f2ea;   // healthy, posted, received, active
+  --warn:      #a8762a;  --warn-100:  #f7eeda;   // on hold, pending QC, partial, low stock
+  --alert:     #a5453d;  --alert-100: #f7e5e3;   // blocked, variance, cancelled, over limit
+  --info:      var(--color-accent-700);
+  --info-100:  var(--color-accent-100);
+
+  /* Spacing — 0.85x density baked in. EXACT; do not round to 4/8. */
+  --space-1: 3.4px;
+  --space-2: 6.8px;
+  --space-3: 10.2px;
+  --space-4: 13.6px;
+  --space-6: 20.4px;
+  --space-8: 27.2px;
+
+  /* Radius — the app overrides all of these to 0 (see section 4) */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 7px;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2b2b2d 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2b2b2d 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2b2b2d 22%, transparent);
+
+  /* Bridges for libs/core's DrawerService — see design-tokens.json's "shadow"
+     and "duration" sections, which name these values without materializing
+     them as CSS custom properties. */
+  --drawer-width-sm: min(360px, 100%);
+  --drawer-width-md: min(580px, 100%);
+  --drawer-width-xl: min(860px, 100%);
+  --duration-medium: 180ms;
+  --ease-out: ease-out;
+  --shadow-drawer: var(--shadow-lg);
+
+  /* Type */
+  --font-heading: 'Barlow Condensed', system-ui, sans-serif;
+  --font-body:    'Barlow', system-ui, sans-serif;
+  --font-heading-weight: 600;
+
+  /* Layout constants used by the shell */
+  --sidebar-width: 206px;
+  --base-font-size: 13px;
+}
+
+/* ---------------------------------------------------------------------------
+   4. Flatten Material
+   Industry is a wireframe: square corners, hairline borders, transparent card
+   fills, no tonal surface tint. Do this ONCE, globally — do not fight it
+   per-component.
+   --------------------------------------------------------------------------*/
+
+html {
+  @include mat.all-component-themes($pos-theme);
+
+  /* !important: @cds/core (Clarity, still loaded app-wide until the rest of
+     the app migrates off it) sets html { font-size: calc(var(--cds-global-base)/16*100%) },
+     which resolves to the browser's own default font size (not 16px) —
+     e.g. 20px if that's the user's Chrome default — and otherwise wins this
+     property in the cascade since both rules are plain `html{}` selectors.
+     Every Material typography token here is rem-based, so losing this one
+     line inflates all of them (buttons are the exception — sized in px). */
+  font-size: var(--base-font-size) !important;
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+
+  /* Square everything.
+     NOTE: these are the current Angular Material 22 custom-property names
+     (--mat-*). Material dropped the legacy MDC-era --mdc-* aliases this
+     theme originally targeted — those are silently unread, so verify any
+     new token here against the actual compiled dist output rather than
+     older Material docs/examples. */
+  --mat-card-elevated-container-shape: 0;
+  --mat-card-outlined-container-shape: 0;
+  --mat-card-filled-container-shape: 0;
+  --mat-form-field-filled-container-shape: 0;
+  --mat-form-field-outlined-container-shape: 0;
+  --mat-button-filled-container-shape: 0;
+  --mat-button-outlined-container-shape: 0;
+  --mat-button-text-container-shape: 0;
+  --mat-button-protected-container-shape: 0;
+  --mat-button-tonal-container-shape: 0;
+  --mat-chip-container-shape-radius: 3px;   /* calc(--radius-md * 0.75) */
+  --mat-dialog-container-shape: 0;
+  --mat-menu-container-shape: 0;
+  --mat-progress-bar-track-shape: 0;
+
+  /* Kill elevation and tonal tint — cards and dialogs are line drawings */
+  --mat-card-elevated-container-color: transparent;
+  --mat-card-elevated-container-elevation: none;
+  --mat-card-outlined-container-color: transparent;
+  --mat-card-outlined-container-elevation: none;
+  --mat-card-outlined-outline-color: var(--color-divider);
+  --mat-card-outlined-outline-width: 1px;
+  --mat-dialog-container-color: var(--color-bg);
+  --mat-dialog-container-elevation-shadow: 0 12px 32px rgba(43, 43, 45, 0.22);
+
+  /* Inputs — denser vertical rhythm. There's no --mat-form-field-* token for
+     horizontal padding (Material leaves that to internal, non-themeable
+     layout); see the .mat-mdc-form-field-infix rule below for that half. */
+  --mat-form-field-container-height: 28px;   /* matches --mat-button-*-container-height */
+  --mat-form-field-container-vertical-padding: 4px;
+
+  /* Buttons — dense (28px, tighter padding) and labeled like the rest of the
+     system's interactive/structural text (condensed, uppercase, tracked).
+     text-transform has no --mat-button-* token; see the .mdc-button rule
+     below for that half of it. */
+  --mat-button-filled-container-height: 28px;
+  --mat-button-outlined-container-height: 28px;
+  --mat-button-protected-container-height: 28px;
+  --mat-button-tonal-container-height: 28px;
+  --mat-button-text-container-height: 28px;
+  --mat-button-filled-horizontal-padding: 16px;
+  --mat-button-outlined-horizontal-padding: 16px;
+  --mat-button-protected-horizontal-padding: 16px;
+  --mat-button-tonal-horizontal-padding: 16px;
+  --mat-button-text-horizontal-padding: 12px;
+  --mat-button-filled-label-text-font: var(--font-heading);
+  --mat-button-outlined-label-text-font: var(--font-heading);
+  --mat-button-protected-label-text-font: var(--font-heading);
+  --mat-button-tonal-label-text-font: var(--font-heading);
+  --mat-button-text-label-text-font: var(--font-heading);
+  --mat-button-filled-label-text-size: 13px;
+  --mat-button-outlined-label-text-size: 13px;
+  --mat-button-protected-label-text-size: 13px;
+  --mat-button-tonal-label-text-size: 13px;
+  --mat-button-text-label-text-size: 13px;
+  --mat-button-filled-label-text-tracking: 0.03em;
+  --mat-button-outlined-label-text-tracking: 0.03em;
+  --mat-button-protected-label-text-tracking: 0.03em;
+  --mat-button-tonal-label-text-tracking: 0.03em;
+  --mat-button-text-label-text-tracking: 0.03em;
+  --mat-button-filled-label-text-weight: 600;
+  --mat-button-outlined-label-text-weight: 600;
+  --mat-button-protected-label-text-weight: 600;
+  --mat-button-tonal-label-text-weight: 600;
+  --mat-button-text-label-text-weight: 600;
+
+  /* Table — dense rows, uppercase hairline header */
+  --mat-table-background-color: transparent;
+  --mat-table-row-item-container-height: 26px;      /* dense; 34px comfortable */
+  --mat-table-header-container-height: 28px;
+  --mat-table-row-item-outline-color: color-mix(in srgb, #1d1f20 8%, transparent);
+  --mat-table-header-headline-font: var(--font-body);
+  --mat-table-header-headline-size: 11px;
+  --mat-table-header-headline-weight: 400;
+  --mat-table-row-item-label-text-size: 13px;
+}
+
+/* Button labels — uppercase (no --mat-button-* token for this half of the
+   treatment; the font/size/tracking/weight half is set above via tokens). */
+.mdc-button {
+  text-transform: uppercase;
+}
+
+/* Input horizontal inset — the infix is the element that actually wraps
+   the <input>/<mat-select>; give it room on both sides so text doesn't
+   sit flush against the border. No --mat-form-field-* token exists for
+   this (Material only exposes vertical padding). */
+.mat-mdc-form-field-infix {
+  padding-left: var(--space-3, 10px);
+  padding-right: var(--space-3, 10px);
+}
+
+/* Elevated <mat-card> (the default appearance, used throughout this app)
+   has no --mat-card-elevated-outline-* token — Material only exposes an
+   outline color/width for the "outlined" appearance — so give it the same
+   hairline border by hand. */
+.mat-mdc-card {
+  border: 1px solid var(--color-divider);
+}
+
+/* Header cells: uppercase, tracked, muted, hairline rule */
+.mat-mdc-header-cell {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  border-bottom-color: var(--color-divider);
+}
+
+/* Numeric columns are tabular everywhere in this app */
+.mat-mdc-cell.num,
+.mat-mdc-header-cell.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Row hover — themed, never the browser default */
+.mat-mdc-row:hover { background: color-mix(in srgb, var(--color-text) 4%, transparent); }
+
+/* Headings are condensed and uppercase throughout */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+/* Keyboard focus — 2px accent ring, never the default blue */
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+/* ---------------------------------------------------------------------------
+   5. Status chips
+   Apply alongside mat-chip. Colour is semantic, not decorative — see the
+   status -> class table in the README.
+   --------------------------------------------------------------------------*/
+
+.mat-mdc-standard-chip {
+  --mdc-chip-container-height: 20px;
+  --mdc-chip-label-text-size: 11px;
+  --mdc-chip-label-text-tracking: 0.02em;
+  white-space: nowrap;
+
+  &.st-ok    { --mdc-chip-elevated-container-color: var(--ok-100);    --mdc-chip-label-text-color: var(--ok); }
+  &.st-warn  { --mdc-chip-elevated-container-color: var(--warn-100);  --mdc-chip-label-text-color: var(--warn); }
+  &.st-alert { --mdc-chip-elevated-container-color: var(--alert-100); --mdc-chip-label-text-color: var(--alert); }
+  &.st-info  { --mdc-chip-elevated-container-color: var(--info-100);  --mdc-chip-label-text-color: var(--info); }
+  &.st-idle  { --mdc-chip-elevated-container-color: var(--color-neutral-200); --mdc-chip-label-text-color: var(--color-neutral-700); }
+}
+
+/* ---------------------------------------------------------------------------
+   6. Shell
+   --------------------------------------------------------------------------*/
+
+.pos-sidenav {
+  width: var(--sidebar-width);
+  background: var(--color-accent-900);
+  color: #eef2f6;
+  border-right: none;
+}
+
+.pos-navlink {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px var(--space-2);
+  color: inherit;
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+
+  &:hover { background: color-mix(in srgb, #ffffff 12%, transparent); }
+  &.active { background: var(--color-accent); color: #fff; }
+
+  .idx   { font-size: 9px; letter-spacing: 0.08em; color: var(--color-accent-400); font-variant-numeric: tabular-nums; }
+  .count { font-size: 10px; color: var(--color-accent-300); font-variant-numeric: tabular-nums; }
+}
+
+/* Page header — light accent band, 24px condensed title */
+.pos-page-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-accent-100);
+  border-bottom: 1px solid var(--color-divider);
+
+  .route  { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent-700); }
+  h1      { font-size: 24px; line-height: 1; }
+  .sub    { font-size: 11px; color: color-mix(in srgb, var(--color-text) 60%, transparent); }
+  .spacer { margin-left: auto; }
+}
+
+.pos-content { padding: var(--space-6); }
+
+/* KPI card — transparent, hairline, 3px semantic rule on top */
+.pos-kpi {
+  border-top-width: 3px;
+  border-top-style: solid;
+  padding: var(--space-3);
+
+  .kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .value  { font-family: var(--font-heading); font-size: 29px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .note   { font-size: 10px; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+}
+
+/* Hairline progress bar (debtor aging, PO fill) — not mat-progress-bar */
+.pos-bar {
+  display: block;
+  height: 11px;
+  border: 1px solid var(--color-divider);
+  position: relative;
+
+  > span { position: absolute; top: 0; bottom: 0; left: 0; display: block; }
+}
+
+/* Right slide-over CRUD drawer */
+.pos-form-drawer {
+  width: min(580px, 100%);
+  padding: var(--space-8);
+  background: var(--color-bg);
+  border-left: 1px solid var(--color-divider);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ---------------------------------------------------------------------------
+   7. Blueprint frame (OPTIONAL)
+   The Industry system frames cards and figures with "+" registration marks at
+   the corners. The user turned them OFF in this app — the hairline border
+   stays, the marks do not. Kept here in case they are wanted back: add the
+   .blueprint class and four <i class="corner tl|tr|bl|br"></i> children, then
+   delete the `display: none` line.
+   --------------------------------------------------------------------------*/
+
+.blueprint {
+  position: relative;
+  border: 1px solid var(--color-divider);
+
+  > .corner {
+    display: none;                    // <- registration marks disabled by design decision
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    color: color-mix(in srgb, var(--color-text) 55%, transparent);
+
+    &::before { content: ''; position: absolute; left: 5px; top: 0; width: 1px; height: 100%; background: currentColor; }
+    &::after  { content: ''; position: absolute; top: 5px; left: 0; width: 100%; height: 1px; background: currentColor; }
+
+    &.tl { top: -6px; left: -6px; }
+    &.tr { top: -6px; right: -6px; }
+    &.bl { bottom: -6px; left: -6px; }
+    &.br { bottom: -6px; right: -6px; }
+  }
+}
