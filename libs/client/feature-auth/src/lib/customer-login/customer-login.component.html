@@ -1,18 +1,14 @@
 <pos-frontend-login-form
-  [title]="'Octopus Login'"
+  title="Octopus Login"
   [loading]="loading()"
   [isClient]="true"
-  (formValue)="onSubmit($event)"
+  [station]="station()"
+  (formValue)="login($event)"
   (setStation)="configureStation()"
-></pos-frontend-login-form>
+/>
 
-@if (!errMessage()) {
-  <p class="text-center" style="color: red; font-weight: 900">
-    Your license will expire on {{ expiryDate() }} Please renew.
-  </p>
-}
-@if (errMessage()) {
-  <p class="text-center" style="color: red; font-weight: 900; font-size:20px">
-    LICENSE EXPIRED.PLEASE RENEW
-  </p>
+@if (expired()) {
+  <p class="license-warning license-expired text-center">LICENSE EXPIRED.PLEASE RENEW</p>
+} @else {
+  <p class="license-warning text-center">Your license will expire on {{ expiryDate() }} Please renew.</p>
 }

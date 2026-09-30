@@ -1,56 +1,31 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
-import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
-import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
-import { ReportsService } from '@pos-frontend/reports/data-access';
-import { Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { ConfigurationStore } from '@pos-frontend/configurations/data-access';
+import { CurrencyStore } from '@pos-frontend/currencies/data-access';
+import { type CashupRequest, ReportStore } from '@pos-frontend/reports/data-access';
 import { CashupFormComponent } from '@pos-frontend/reports/ui';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'pos-frontend-till-cashup-report',
-    templateUrl: './till-cashup-report.component.html',
-    styleUrls: ['./till-cashup-report.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [CashupFormComponent, AsyncPipe]
+  selector: 'pos-frontend-till-cashup-report',
+  templateUrl: './till-cashup-report.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCardModule, CashupFormComponent],
 })
-export class TillCashupReportComponent implements OnInit, OnDestroy {
-  loading = false;
-  sub1 = new Subscription();
-  sub2 = new Subscription();
-  tills:any[] = []
+export class TillCashupReportComponent {
+  private readonly reportStore = inject(ReportStore);
+  private readonly currencyStore = inject(CurrencyStore);
+  private readonly configurationStore = inject(ConfigurationStore);
 
+  protected readonly loading = this.reportStore.cashupLoading;
+  protected readonly currencies = this.currencyStore.currencies;
+  protected readonly tills = this.configurationStore.pendingCashups;
 
-  constructor(
-    private reportsService: ReportsService,
-    public debtorsFacade: DebtorsFacade,
-    public currenciesFacade: CurrenciesFacade,
-    public configService:ConfigurationsService
-  ) {}
-
-  ngOnInit(): void {
-    this.debtorsFacade.getAllDebtors();
-    this.currenciesFacade.getAllCurrencies();
-    this.configService.getPendingCashup().subscribe({
-      next:(res)=>{
-        this.tills = res
-      }
-    })
+  constructor() {
+    this.currencyStore.getAllCurrencies();
+    this.configurationStore.getPendingCashups();
   }
 
-  getPdf(details: any) {
-    this.loading = true;
-    this.sub1 = this.reportsService
-      .getCashup(
-        details
-      )
-      .subscribe();
+  protected generate(cashup: CashupRequest): void {
+    this.reportStore.generateCashup(cashup);
   }
-
-  ngOnDestroy(): void {
-    this.sub1.unsubscribe();
-    this.sub2.unsubscribe();
-  }
-
-
 }

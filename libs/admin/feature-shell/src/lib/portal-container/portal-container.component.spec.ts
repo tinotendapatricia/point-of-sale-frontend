@@ -1,9 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { of } from 'rxjs';
-import { AuthFacade } from '@pos-frontend/auth/data-access';
-import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
+import { AuthStore } from '@pos-frontend/auth/data-access';
+import { CurrencyStore } from '@pos-frontend/currencies/data-access';
 import { PortalContainerComponent } from './portal-container.component';
 
 describe('PortalContainerComponent', () => {
@@ -16,10 +15,10 @@ describe('PortalContainerComponent', () => {
     providers: [
       provideRouter([]),
       provideNoopAnimations(),
-      { provide: AuthFacade, useValue: { logout: () => undefined } },
+      { provide: AuthStore, useValue: { logout: () => undefined } },
       {
-        provide: CurrenciesFacade,
-        useValue: { defaultCurrency$: of(undefined), getDefaultCurrency: () => undefined },
+        provide: CurrencyStore,
+        useValue: { defaultCurrency: () => undefined, getDefaultCurrency: () => undefined },
       },
     ],
 }).compileComponents();

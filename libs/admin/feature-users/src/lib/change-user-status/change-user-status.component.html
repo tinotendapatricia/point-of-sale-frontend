@@ -1,6 +1,6 @@
 <pos-frontend-action-confirmation-form
-  [title]="'Change User Status'"
-  [message]="'Are you sure you want to proceed?'"
+  message="Are you sure you want to proceed?"
+  title="Change User Status"
   [loading]="submitting()"
-  (proceed)="onSubmit()"
-></pos-frontend-action-confirmation-form>
+  (proceed)="submit()"
+/>

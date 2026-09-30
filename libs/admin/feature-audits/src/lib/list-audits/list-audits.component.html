@@ -1,31 +1,8 @@
-
-<br />
-<div class="h">Audit Trail</div>
-<hr />
-<br />
-<!-- <button class="btn btn-sm" (click)="createAudit()">Add</button>
-<button class="btn btn-sm" (click)="getAuditList({})">Refresh</button> -->
-<mat-card class="login">
-  <mat-card-content>
-    &nbsp;<button
-      class="act"
-      [routerLink]="['/audits/new']"
-      routerLinkActive="router-link-active"
-    >
-      <mat-icon style="color: green">add_circle</mat-icon>Add
-      New</button
-    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getAuditList({})">
-      <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
-      >Refresh
-    </button>
-
-    <pos-frontend-list-audits-ui
-      [auditsList]="(auditsFacade.allAudits$ | async)!"
-      [total]="(auditsFacade.totalAudits$ | async)!"
-      [loading]="(auditsFacade.loading$ | async)!"
-      [placeholderMessage]="'Audits'"
-      (updatedState)="getAuditList($event)"
-
-    ></pos-frontend-list-audits-ui>
-  </mat-card-content>
-</mat-card>
+<pos-frontend-list-audits-ui
+  [audits]="audits()"
+  [loading]="loading()"
+  [total]="total()"
+  (page)="onPage($event)"
+  (refreshed)="refresh()"
+  (viewed)="view($event)"
+/>

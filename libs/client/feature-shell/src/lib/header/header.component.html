@@ -1,19 +1,9 @@
 <div class="head">
   <span class="cen">
-    Station: {{station}} <br>
-    {{ (usersService.selectedUser$ | async)?.name }}
+    Station: {{ station }} <br />
+    {{ userName() }}
   </span>
-  <img src="/assets/logo.png" style="margin: auto; width: 13%" />
-  <button class="btn btn-primary" (click)="closeApp()">Logout</button>
+  <img class="logo" ngSrc="/assets/logo.png" alt="Logo" width="457" height="130" />
+  <button type="button" class="btn btn-primary" (click)="logout()">Logout</button>
 </div>
-<hr>
-
-  @if (isClose) {
-    <pos-frontend-action-confirmation-form
-      [title]="'Close Application'"
-      [message]="'Are you sure you want to quit the application'"
-      (proceed)="closeApp()"
-      (closeModal)="isClose = false"
-      >
-    </pos-frontend-action-confirmation-form>
-  }
+<hr />

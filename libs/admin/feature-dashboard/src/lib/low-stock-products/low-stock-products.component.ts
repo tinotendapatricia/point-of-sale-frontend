@@ -1,23 +1,20 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
-import { DashboardService } from '../services/dashboard.service';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+
+import { DashboardStore } from '../services/dashboard.store';
 
 @Component({
-    selector: 'pos-frontend-low-stock-products',
-    templateUrl: './low-stock-products.component.html',
-    styleUrls: ['./low-stock-products.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager
+  selector: 'pos-frontend-low-stock-products',
+  templateUrl: './low-stock-products.component.html',
+  styleUrl: './low-stock-products.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LowStockProductsComponent implements OnInit {
-  sales$: Observable<any[]> | undefined;
+export class LowStockProductsComponent {
+  private readonly dashboardStore = inject(DashboardStore);
 
-  constructor(public dashboardService: DashboardService) {}
+  protected readonly lowStock = this.dashboardStore.lowStock;
+  protected readonly loading = this.dashboardStore.lowStockLoading;
 
-  ngOnInit(): void {
-  this.getLowStockProducts()
-  }
-
- getLowStockProducts() {
-    this.sales$ = this.dashboardService.getLowStock();
+  constructor() {
+    this.dashboardStore.getLowStock();
   }
 }

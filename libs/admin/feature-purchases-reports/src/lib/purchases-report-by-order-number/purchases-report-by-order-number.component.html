@@ -1,5 +1,14 @@
-<pos-frontend-reports-form
-[isOrderNumber]="true"
-(getPdf)="getPdf($event)"
-(getExcel)="getExcel($event)"
-></pos-frontend-reports-form>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Purchase Report by Order Number</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <pos-frontend-reports-form
+      [isExcel]="true"
+      [isOrderNumber]="true"
+      [loading]="loading()"
+      (excelRequested)="getExcel($event)"
+      (pdfRequested)="getPdf($event)"
+    />
+  </mat-card-content>
+</mat-card>

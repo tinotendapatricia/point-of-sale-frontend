@@ -1,39 +1,34 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ConfigurationsEntity, ConfigurationsService } from '@pos-frontend/configurations/data-access';
-import { Utilities } from '@pos-frontend/shared/utils';
-import { ConfigurationsFormComponent } from '@pos-frontend/configurations/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { type ConfigurationsEntity, ConfigurationStore } from '@pos-frontend/configurations/data-access';
+import { type ConfigurationFormValue, ConfigurationsFormComponent } from '@pos-frontend/configurations/ui';
+import { injectDrawerData, injectDrawerRef } from '@pos-frontend/core';
 
 export interface UpdateConfigurationsData {
   configuration: ConfigurationsEntity;
 }
 
+/** Drawer content: opened from the configurations list with the row to edit. */
 @Component({
-    selector: 'pos-frontend-update-configurations',
-    templateUrl: './update-configurations.component.html',
-    styleUrls: ['./update-configurations.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ConfigurationsFormComponent]
+  selector: 'pos-frontend-update-configurations',
+  templateUrl: './update-configurations.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ConfigurationsFormComponent],
 })
 export class UpdateConfigurationsComponent {
-  private readonly dialogRef = inject(MatDialogRef<UpdateConfigurationsComponent, boolean>);
-  private readonly data = inject<UpdateConfigurationsData>(MAT_DIALOG_DATA);
-  private readonly configurationsService = inject(ConfigurationsService);
+  private readonly drawerRef = injectDrawerRef<boolean>();
+  private readonly configurationStore = inject(ConfigurationStore);
 
-  readonly configuration = this.data.configuration;
-  readonly submitting = signal(false);
+  protected readonly configuration = injectDrawerData<UpdateConfigurationsData>().configuration;
+  protected readonly submitting = this.configurationStore.updateLoading;
 
-  public createConfiguration(configuration: any) {
-    this.submitting.set(true);
-    this.configurationsService.updateConfiguration(configuration).subscribe({
-      next: (res) => {
-        this.submitting.set(false);
-        Utilities.displayToast('success');
-        if (res) {
-          this.dialogRef.close(true);
-        }
-      },
-      error: () => this.submitting.set(false),
+  protected update(value: ConfigurationFormValue): void {
+    this.configurationStore.updateConfiguration({
+      data: { ...value, id: this.configuration.id },
+      callback: () => this.close(true),
     });
+  }
+
+  protected close(updated: boolean): void {
+    this.drawerRef.close(updated);
   }
 }

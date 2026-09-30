@@ -4,7 +4,7 @@
   "sourceRoot": "libs/admin/feature-groups/src",
   "prefix": "pos-frontend",
   "projectType": "library",
-  "tags": [],
+  "tags": ["scope:pos", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

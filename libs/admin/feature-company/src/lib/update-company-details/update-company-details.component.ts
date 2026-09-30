@@ -1,35 +1,34 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CompanyEntity, CompanyService } from '@pos-frontend/company-details/data-access';
-import { CompanyDetailsFormComponent } from '@pos-frontend/company-details/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { type CompanyEntity, CompanyStore } from '@pos-frontend/company-details/data-access';
+import { CompanyDetailsFormComponent, type CompanyFormValue } from '@pos-frontend/company-details/ui';
+import { injectDrawerData, injectDrawerRef } from '@pos-frontend/core';
 
 export interface UpdateCompanyDetailsData {
   company: CompanyEntity;
 }
 
+/** Drawer content: opened from the company details page with the current record. */
 @Component({
-    selector: 'pos-frontend-update-company-details',
-    templateUrl: './update-company-details.component.html',
-    styleUrls: ['./update-company-details.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [CompanyDetailsFormComponent]
+  selector: 'pos-frontend-update-company-details',
+  templateUrl: './update-company-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CompanyDetailsFormComponent],
 })
 export class UpdateCompanyDetailsComponent {
-  private readonly dialogRef = inject(MatDialogRef<UpdateCompanyDetailsComponent, boolean>);
-  private readonly companyService = inject(CompanyService);
-  private readonly data = inject<UpdateCompanyDetailsData>(MAT_DIALOG_DATA);
+  private readonly drawerRef = injectDrawerRef<boolean>();
+  private readonly companyStore = inject(CompanyStore);
 
-  readonly company = this.data.company;
-  readonly submitting = signal(false);
+  protected readonly company = injectDrawerData<UpdateCompanyDetailsData>().company;
+  protected readonly submitting = this.companyStore.updateLoading;
 
-  public createCompany(company: any) {
-    this.submitting.set(true);
-    this.companyService.updateCompany(company).subscribe({
-      next: () => {
-        this.submitting.set(false);
-        this.dialogRef.close(true);
-      },
-      error: () => this.submitting.set(false),
+  protected update(value: CompanyFormValue): void {
+    this.companyStore.updateCompany({
+      data: { ...value, id: this.company.id },
+      callback: () => this.close(true),
     });
+  }
+
+  protected close(updated: boolean): void {
+    this.drawerRef.close(updated);
   }
 }

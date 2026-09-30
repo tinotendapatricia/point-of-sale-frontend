@@ -1,27 +1,25 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogRef } from '@angular/material/dialog';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { of } from 'rxjs';
-import { UsersFacade } from '@pos-frontend/users/data-access';
+import { provideRouter } from '@angular/router';
+import { UserStore } from '@pos-frontend/users/data-access';
 
 import { CreateUserComponent } from './create-user.component';
 
 describe('CreateUserComponent', () => {
   let component: CreateUserComponent;
   let fixture: ComponentFixture<CreateUserComponent>;
+  const store = { createLoading: () => false, createUser: jest.fn() };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-    imports: [CreateUserComponent],
-    providers: [
-      provideNoopAnimations(),
-      { provide: UsersFacade, useValue: { createNewUser: () => undefined, loaded$: of(false) } },
-      { provide: MatDialogRef, useValue: { close: () => undefined } },
-    ],
-}).compileComponents();
-  }));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [CreateUserComponent],
+      providers: [
+        provideRouter([]),
+        provideNoopAnimations(),
+        { provide: UserStore, useValue: store },
+      ],
+    }).compileComponents();
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CreateUserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -29,5 +27,23 @@ describe('CreateUserComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('creates the user through the store', () => {
+    const el: HTMLElement = fixture.nativeElement;
+    const setValue = (id: string, value: string) => {
+      const input = el.querySelector<HTMLInputElement>('#' + id)!;
+      input.value = value;
+      input.dispatchEvent(new Event('input'));
+    };
+    setValue('user-username', 'jdoe');
+    setValue('user-name', 'John Doe');
+    setValue('user-password', 'secret');
+    el.querySelector<HTMLButtonElement>('button[type=submit]')!.click();
+
+    expect(store.createUser).toHaveBeenCalledWith({
+      data: { username: 'jdoe', name: 'John Doe', password: 'secret' },
+      callback: expect.any(Function),
+    });
   });
 });

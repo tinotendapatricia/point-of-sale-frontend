@@ -1,1 +1,11 @@
-<p>low-stock-products works!</p>
+<h2 class="mb-2 text-base font-semibold">Low Stock Products</h2>
+<ul class="text-sm">
+  @for (product of lowStock(); track product.name) {
+    <li class="flex justify-between">
+      <span>{{ product.name }}</span>
+      <span>{{ product.quantity }}</span>
+    </li>
+  } @empty {
+    <li>{{ loading() ? 'Loading…' : 'No products' }}</li>
+  }
+</ul>

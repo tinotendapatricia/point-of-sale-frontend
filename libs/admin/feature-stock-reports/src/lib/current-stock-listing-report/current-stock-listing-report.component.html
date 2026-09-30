@@ -1,15 +1,8 @@
-
-
-<div class="card">
-    <div class="card-header">
-        Current Stock Listings
-    </div>
-    <div class="card-block">
-        <pos-frontend-reports-form
-        (getPdf)="getPdf($event)"
-        [loading]="loading"
-        ></pos-frontend-reports-form>
-    </div>
-</div>
-
-
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Current Stock Listing</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <pos-frontend-reports-form [loading]="loading()" (pdfRequested)="getPdf()" />
+  </mat-card-content>
+</mat-card>

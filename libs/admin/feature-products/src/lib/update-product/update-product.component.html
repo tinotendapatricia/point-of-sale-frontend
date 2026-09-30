@@ -1,16 +1,16 @@
-<br />
-<div class="h">Products<span>/Update Product</span></div>
-
-<hr />
-<br />
-
-<mat-card class="login">
+<mat-card class="update-product-card">
   <mat-card-content>
-    <pos-frontend-products-form
-      (formValue)="createProduct($event)"
-      [loading]="submitting()"
-      [currency]="(currenciesFacade.defaultCurrency$ | async)?.code"
-      [product]="productsStore.product()!"
-    ></pos-frontend-products-form>
+    <h1 class="mb-4 text-2xl font-bold">Update Product</h1>
+    @if (productStore.getOneLoading()) {
+      <p class="text-gray-600">Loading...</p>
+    } @else {
+      <pos-frontend-products-form
+        submitLabel="Save"
+        [loading]="submitting()"
+        [product]="productStore.product()"
+        (cancelled)="cancel()"
+        (submitted)="update($event)"
+      />
+    }
   </mat-card-content>
 </mat-card>

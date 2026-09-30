@@ -1,8 +1,8 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { createReducer, on, Action } from '@ngrx/store';
+import { type EntityState, type EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { createReducer, on, type Action } from '@ngrx/store';
 
 import * as PosActions from './pos.actions';
-import { PosEntity } from './pos.models';
+import { type PosEntity } from './pos.models';
 import { ClrLoadingState } from '@clr/angular';
 
 export const POS_FEATURE_KEY = 'pos';

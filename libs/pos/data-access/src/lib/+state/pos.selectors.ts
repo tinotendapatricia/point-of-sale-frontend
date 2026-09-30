@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { POS_FEATURE_KEY, PosState, posAdapter } from './pos.reducer';
+import { POS_FEATURE_KEY, type PosState, posAdapter } from './pos.reducer';
 
 // Lookup the 'Pos' feature state managed by NgRx
 export const selectPosState = createFeatureSelector<PosState>(POS_FEATURE_KEY);

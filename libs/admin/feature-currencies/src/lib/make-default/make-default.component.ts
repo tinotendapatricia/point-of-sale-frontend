@@ -1,44 +1,35 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { take } from 'rxjs';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
-  CurrenciesEntity,
-  CurrenciesFacade,
+  type CurrencyEntity,
+  CurrencyStore,
 } from '@pos-frontend/currencies/data-access';
 import { ActionConfirmationFormComponent } from '@pos-frontend/shared/ui';
 
 export interface MakeDefaultData {
-  currency: CurrenciesEntity;
+  currency: CurrencyEntity;
 }
 
+/** Confirmation dialog: opened through MatDialog from the currencies list. */
 @Component({
-    selector: 'pos-frontend-make-default',
-    templateUrl: './make-default.component.html',
-    styleUrls: ['./make-default.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ActionConfirmationFormComponent]
+  selector: 'pos-frontend-make-default',
+  templateUrl: './make-default.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ActionConfirmationFormComponent],
 })
-export class MakeDefaultComponent implements OnInit {
-  private readonly dialogRef = inject(MatDialogRef<MakeDefaultComponent, boolean>);
+export class MakeDefaultComponent {
+  private readonly dialogRef =
+    inject<MatDialogRef<MakeDefaultComponent, boolean>>(MatDialogRef);
   private readonly data = inject<MakeDefaultData>(MAT_DIALOG_DATA);
-  readonly currenciesService = inject(CurrenciesFacade);
+  private readonly currencyStore = inject(CurrencyStore);
 
-  private readonly currency = this.data.currency;
-  message = '';
-  readonly submitting = signal(false);
+  protected readonly submitting = this.currencyStore.makeDefaultLoading;
+  protected readonly message = `Are you sure you want to make ${this.data.currency.code} the default system currency?`;
 
-  ngOnInit(): void {
-    this.message = ` Are you sure you want to make ${this.currency.code} the default system currency?`;
-  }
-
-  public onSubmit() {
-    this.submitting.set(true);
-    this.currenciesService.makeDefault(this.currency);
-    this.currenciesService.loaded$.pipe(take(1)).subscribe((loaded) => {
-      this.submitting.set(false);
-      if (loaded) {
-        this.dialogRef.close(true);
-      }
+  protected confirm(): void {
+    this.currencyStore.makeDefault({
+      data: { id: this.data.currency.id },
+      callback: () => this.dialogRef.close(true),
     });
   }
 }

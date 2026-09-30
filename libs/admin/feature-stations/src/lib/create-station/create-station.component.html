@@ -1,5 +1,1 @@
-<pos-frontend-stations-form
-  [title]="'Create New Station'"
-  [loading]="submitting()"
-  (formValue)="createStation($event)"
-></pos-frontend-stations-form>
+<pos-frontend-stations-form [loading]="submitting()" (cancelled)="close(false)" (submitted)="create($event)" />

@@ -1,40 +1,20 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { ReportsService } from '@pos-frontend/reports/data-access';
-import { Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { ReportStore } from '@pos-frontend/reports/data-access';
 import { ReportsFormComponent } from '@pos-frontend/reports/ui';
 
 @Component({
-    selector: 'pos-frontend-current-stock-listing-report',
-    templateUrl: './current-stock-listing-report.component.html',
-    styleUrls: ['./current-stock-listing-report.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReportsFormComponent]
+  selector: 'pos-frontend-current-stock-listing-report',
+  templateUrl: './current-stock-listing-report.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCardModule, ReportsFormComponent],
 })
-export class CurrentStockListingReportComponent implements OnDestroy {
+export class CurrentStockListingReportComponent {
+  private readonly reportStore = inject(ReportStore);
 
+  protected readonly loading = this.reportStore.stockLoading;
 
-  loading=false;
-  sub1 = new Subscription();
-  sub2 = new Subscription();
-
-  constructor(private reportsService: ReportsService) {}
- 
-
-  getPdf(details:any) {
-    this.loading=true
-    this.sub1 = this.reportsService.getCurrentStockListings().subscribe({
-      next:()=>{
-        this.loading = false
-      },
-      error:()=>{
-        this.loading = false
-      }
-    });
+  protected getPdf(): void {
+    this.reportStore.getCurrentStockListing();
   }
-
-  ngOnDestroy(): void {
-    this.sub1.unsubscribe()
-    this.sub2.unsubscribe()
-  }
-
 }

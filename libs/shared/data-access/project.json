@@ -4,7 +4,7 @@
   "sourceRoot": "libs/shared/data-access/src",
   "prefix": "pos-frontend",
   "projectType": "library",
-  "tags": [],
+  "tags": ["scope:shared", "type:data-access"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

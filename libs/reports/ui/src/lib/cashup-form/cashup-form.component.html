@@ -1,75 +1,91 @@
-<div class="card">
-  <div class="card-header">Daily Cashup</div>
-  <div class="card-block">
-    <button mat-stroked-button type="button" (click)="togglePrintAngGenerate()">Print Previous Cashup</button>
-    @if (!printCashup) {
-      <div>
-        <div class="field">
-          <label class="field-label">Select Till Station</label>
-          <mat-form-field class="full-width" subscriptSizing="dynamic">
-            <mat-select [(ngModel)]="station">
-              @for (till of tills; track till) {
-                <mat-option [value]="till.station+'/'+till.tDate">
-                  Station {{ till.station }} for {{ till.tDate }}
-                </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <br />
-        <div class="clr-row">
-          @for (currency of n; track currency; let x = $index) {
-            <div class="clr-col-md-4">
-              <div class="text-center">
-                <strong>{{ currency.code }}</strong>
-              </div>
-              <table class="table table-vertical">
-                <tbody>
-                  <tr>
-                    <th>Type</th>
-                    <th>Amount at Hand</th>
-                  </tr>
-                  @for (deno of currency.denominations; track deno; let y = $index) {
-                    <tr>
-                      <th>{{ deno.type }}</th>
-                      <td>
-                        <input type="number" name="amount" [(ngModel)]="deno.value" />
-                      </td>
-                    </tr>
-                  }
-                  <tr>
-                    <th>Total</th>
-                    <td>
-                      {{ calculateTotal(currency.denominations) }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <a class="reset">Reset</a>
-            </div>
-          }
-        </div>
-        <button class="btn btn-success" (click)="submit()">
-          Generate Cashup Report
-        </button>
-      </div>
-    }
-
-    @if (printCashup) {
-      <div>
-        <br />
-        <div class="clr-row">
-          <div class="clr-col-md-6">
-            <input type="text" />
-          </div>
-          <div class="clr-col-md-6">
-            <input type="date" />
-          </div>
-        </div>
-        <button class="btn btn-success" (click)="submit()">
-          Generate Cashup Report
-        </button>
-      </div>
-    }
-  </div>
+<div class="mb-4 flex items-center justify-between gap-4">
+  <h2 class="text-lg font-semibold">{{ printPrevious() ? 'Print Previous Cashup' : 'Daily Cashup' }}</h2>
+  <button type="button" mat-stroked-button (click)="togglePrintPrevious()">
+    {{ printPrevious() ? 'Capture Daily Cashup' : 'Print Previous Cashup' }}
+  </button>
 </div>
+
+@if (printPrevious()) {
+  <form class="cashup-form" [formGroup]="previousForm" (ngSubmit)="submitPrevious()">
+    <div class="grid grid-cols-1 gap-x-6 md:grid-cols-2">
+      <div class="field">
+        <label class="field-label" for="cashup-previous-station">Till Station<span class="required-marker">*</span></label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="cashup-previous-station" matInput type="text" formControlName="station" />
+          @if (previousForm.controls.station.hasError('required')) {
+            <mat-error>Station is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="field">
+        <label class="field-label" for="cashup-previous-date">Date<span class="required-marker">*</span></label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="cashup-previous-date" matInput type="date" formControlName="tDate" />
+          @if (previousForm.controls.tDate.hasError('required')) {
+            <mat-error>Date is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="mt-4">
+      <button type="submit" mat-flat-button [disabled]="loading()">
+        @if (loading()) {
+          <mat-spinner diameter="18" />
+        } @else {
+          Generate Cashup Report
+        }
+      </button>
+    </div>
+  </form>
+} @else {
+  <form class="cashup-form" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="field">
+      <label class="field-label" for="cashup-till">Till Station<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width till-select" subscriptSizing="dynamic">
+        <mat-select id="cashup-till" formControlName="till">
+          @for (till of tills(); track $index) {
+            <mat-option [value]="till">{{ tillLabel(till) }}</mat-option>
+          } @empty {
+            <mat-option disabled>No tills awaiting cash-up</mat-option>
+          }
+        </mat-select>
+        @if (form.controls.till.hasError('required')) {
+          <mat-error>Select a till station</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="mt-4 grid grid-cols-1 gap-6 md:grid-cols-3">
+      @for (currency of form.controls.currencies.controls; track currency; let i = $index) {
+        <div class="currency-card">
+          <div class="mb-2 flex items-center justify-between">
+            <strong>{{ currency.controls.code.value }}</strong>
+            <button type="button" mat-button (click)="resetCurrency(i)">Reset</button>
+          </div>
+          @for (denomination of currency.controls.denominations.controls; track denomination) {
+            <mat-form-field class="full-width" subscriptSizing="dynamic">
+              <mat-label>{{ denomination.controls.type.value }}</mat-label>
+              <input matInput type="number" min="0" [formControl]="denomination.controls.value" />
+            </mat-form-field>
+          }
+          <div class="mt-2 flex justify-between font-semibold">
+            <span>Total</span>
+            <span>{{ total(i) }}</span>
+          </div>
+        </div>
+      } @empty {
+        <p class="text-gray-600">No currencies configured.</p>
+      }
+    </div>
+
+    <div class="mt-4">
+      <button type="submit" mat-flat-button [disabled]="loading()">
+        @if (loading()) {
+          <mat-spinner diameter="18" />
+        } @else {
+          Generate Cashup Report
+        }
+      </button>
+    </div>
+  </form>
+}

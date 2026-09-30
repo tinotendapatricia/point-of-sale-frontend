@@ -1,42 +1,24 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { PurchasesReportsService } from '@pos-frontend/reports/data-access';
-import { Subscription } from 'rxjs';
-import { ReportsFormComponent } from '@pos-frontend/reports/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { ReportStore } from '@pos-frontend/reports/data-access';
+import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/reports/ui';
 
 @Component({
-    selector: 'pos-frontend-purchases-report-grv-vs-purchases-detail',
-    templateUrl: './purchases-report-grv-vs-purchases-detail.component.html',
-    styleUrls: ['./purchases-report-grv-vs-purchases-detail.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReportsFormComponent]
+  selector: 'pos-frontend-purchases-report-grv-vs-purchases-detail',
+  templateUrl: './purchases-report-grv-vs-purchases-detail.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCardModule, ReportsFormComponent],
 })
-export class PurchasesReportGrvVsPurchasesDetailComponent implements OnDestroy {
+export class PurchasesReportGrvVsPurchasesDetailComponent {
+  private readonly reportStore = inject(ReportStore);
 
-  loading=false;
-  sub1 = new Subscription();
-  sub2 = new Subscription();
+  protected readonly loading = this.reportStore.purchasesLoading;
 
-  constructor(private reportsService: PurchasesReportsService) {}
- 
-
-  getPdf(details:any) {
-    this.loading=true
-    this.sub1 = this.reportsService.purchasesVsGrvDetailPDF(details.fromDate, details.toDate).subscribe({
-      next:()=>{
-        this.loading = false
-      },
-      error:()=>{
-        this.loading = false
-      }
-    });
+  protected getPdf({ fromDate, toDate }: ReportFormValue): void {
+    this.reportStore.getPurchasesVsGrvDetailPdf({ fromDate, toDate });
   }
 
-  ngOnDestroy(): void {
-    this.sub1.unsubscribe()
-    this.sub2.unsubscribe()
-  }
-
-  getExcel(details:any) {
-    this.sub2 = this.reportsService.purchasesVsGrvDetailExcel(details.fromDate, details.toDate).subscribe();
+  protected getExcel({ fromDate, toDate }: ReportFormValue): void {
+    this.reportStore.getPurchasesVsGrvDetailExcel({ fromDate, toDate });
   }
 }

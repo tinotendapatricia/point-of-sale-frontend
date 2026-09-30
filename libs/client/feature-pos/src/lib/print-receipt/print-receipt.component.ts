@@ -1,9 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-    selector: 'pos-frontend-print-receipt',
-    templateUrl: './print-receipt.component.html',
-    styleUrls: ['./print-receipt.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager
+  selector: 'pos-frontend-print-receipt',
+  templateUrl: './print-receipt.component.html',
+  styleUrl: './print-receipt.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PrintReceiptComponent {}

@@ -1,5 +1,9 @@
-<pos-frontend-license-form
-  [title]="'License Login'"
-  [loading]="submitting()"
-  (formValue)="license($event)"
-></pos-frontend-license-form>
+<div class="p-6">
+  <pos-frontend-license-form
+    title="License Login"
+    [activeUntil]="activeUntil()"
+    [loading]="submitting()"
+    (cancelled)="close(false)"
+    (submitted)="license($event)"
+  />
+</div>

@@ -1,5 +1,1 @@
-<pos-frontend-configurations-form
-  [title]="'Create New Configuration'"
-  [loading]="submitting()"
-  (formValue)="createConfiguration($event)"
-></pos-frontend-configurations-form>
+<pos-frontend-configurations-form [loading]="submitting()" (cancelled)="close(false)" (submitted)="create($event)" />

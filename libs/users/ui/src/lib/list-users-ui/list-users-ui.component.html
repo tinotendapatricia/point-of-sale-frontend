@@ -1,60 +1,36 @@
-<div class="table-wrap">
-  <table mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="username">
-      <th mat-header-cell *matHeaderCellDef>Username</th>
-      <td mat-cell *matCellDef="let user">{{ user.username }}</td>
-    </ng-container>
+<ng-template #statusTpl let-user>
+  <mat-chip [class.st-ok]="user.active" [class.st-alert]="!user.active">
+    {{ user.active ? 'Active' : 'Inactive' }}
+  </mat-chip>
+</ng-template>
 
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let user"><a>{{ user.name }}</a></td>
-    </ng-container>
+<ng-template #actionsTpl let-user>
+  <button type="button" mat-icon-button aria-label="Edit user" (click)="edited.emit(user)">
+    <mat-icon class="text-green-600">edit</mat-icon>
+  </button>
+  <button type="button" mat-icon-button aria-label="More actions" [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button type="button" mat-menu-item (click)="authoritiesViewed.emit(user)">Add user permissions</button>
+    <button type="button" mat-menu-item (click)="statusChanged.emit(user)">
+      {{ user.active ? 'Deactivate' : 'Activate' }}
+    </button>
+  </mat-menu>
+</ng-template>
 
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let user">
-        <mat-chip [class.st-ok]="user.active" [class.st-alert]="!user.active">
-          {{ user.active ? 'Active' : 'Inactive' }}
-        </mat-chip>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let user">
-        <button mat-icon-button (click)="updateSelected.emit(user)" aria-label="Edit user">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More actions">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="viewUserAuthorities.emit(user)">
-            Add user permissions
-          </button>
-          <button mat-menu-item (click)="changeSelectedUserStatus.emit(user)">
-            {{ user.active ? 'Deactivate' : 'Activate' }}
-          </button>
-        </mat-menu>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" [attr.colspan]="displayedColumns.length">
-        {{ loading() ? 'Loading…' : placeholderMessage() || 'No records found' }}
-      </td>
-    </tr>
-  </table>
-</div>
-
-@if (total() > 0) {
-  <mat-paginator
-    [length]="total()"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizeOptions"
-    (page)="onPage($event)"
-  ></mat-paginator>
-}
+<pos-frontend-table
+  caption="Users"
+  [action]="true"
+  [columns]="columns()"
+  [data]="dataSource()"
+  [loading]="loading()"
+  [paginated]="true"
+  [total]="total()"
+  (actioned)="actioned.emit()"
+  (page)="page.emit($event)"
+>
+  <ng-container ngProjectAs="header">
+    <ng-content select="header" />
+  </ng-container>
+</pos-frontend-table>

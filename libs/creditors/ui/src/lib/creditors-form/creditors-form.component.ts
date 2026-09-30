@@ -1,51 +1,58 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, effect } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CreditorsEntity } from '@pos-frontend/creditors/data-access';
+import type { CreditorRequest, CreditorsEntity } from '@pos-frontend/creditors/data-access';
+
+/** What the form emits: only the fields the user edits, never id or audit fields. */
+export type CreditorFormValue = Required<Pick<CreditorRequest, 'account' | 'name' | 'address' | 'description'>>;
 
 @Component({
-    selector: 'pos-frontend-creditors-form',
-    templateUrl: './creditors-form.component.html',
-    styleUrls: ['./creditors-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
+  selector: 'pos-frontend-creditors-form',
+  templateUrl: './creditors-form.component.html',
+  styleUrl: './creditors-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule],
 })
 export class CreditorsFormComponent {
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
+  private readonly fb = inject(NonNullableFormBuilder);
 
   readonly creditor = input<CreditorsEntity>();
   readonly loading = input(false);
-  readonly title = input('');
-  readonly btnTitle = input('Submit');
-  readonly formValue = output<any>();
+  readonly submitLabel = input('Submit');
 
-  readonly creditorForm = this.formBuilder.group({
-    name: [''],
-    account: [''],
+  readonly submitted = output<CreditorFormValue>();
+  readonly cancelled = output<void>();
+
+  protected readonly form = this.fb.group({
+    account: ['', Validators.required],
+    name: ['', Validators.required],
     address: [''],
     description: [''],
-    id: [''],
   });
 
   constructor() {
+    // Edit mode: reset() rather than patchValue() so the form is pristine/untouched again.
     effect(() => {
       const creditor = this.creditor();
       if (creditor) {
-        this.creditorForm.patchValue({ ...creditor, id: String(creditor.id) });
+        this.form.reset({
+          account: creditor.account,
+          name: creditor.name,
+          address: creditor.address ?? '',
+          description: creditor.description ?? '',
+        });
       }
     });
   }
 
-  cancel() {
-    this.dialogRef?.close(false);
-  }
-
-  submit() {
-    this.formValue.emit(this.creditorForm.value);
+  protected submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.submitted.emit(this.form.getRawValue());
   }
 }

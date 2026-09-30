@@ -1,143 +1,142 @@
-import { HttpClient, HttpParams, HttpRequest, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { Inject, Injectable } from '@angular/core';
+import {
+  HttpClient,
+  type HttpEvent,
+  HttpHeaders,
+  HttpParams,
+  HttpRequest,
+} from '@angular/common/http';
+import { Injectable, InjectionToken, inject } from '@angular/core';
+import { type Observable, catchError, throwError } from 'rxjs';
+
+/** Backend base URL, provided once per app in main.ts. */
+export const BASE_URL = new InjectionToken<string>('BaseUrl');
+
+type ContentType = '' | 'file' | 'form-data' | 'multipart-form-data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(
-    private http: HttpClient,
-    @Inject('BaseUrl') private baseUrl: string
-  ) {}
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = inject(BASE_URL);
 
   get<T>(
     path: string,
     params: HttpParams = new HttpParams(),
-    contentType?: string,
+    _contentType?: string,
     headers?: HttpHeaders
   ): Observable<T> {
     return this.http
-      .get<T>(`${this.baseUrl}${path}`, {
-        headers,
-        params: params,
-      })
+      .get<T>(`${this.baseUrl}${path}`, { headers, params })
       .pipe(catchError(this.formatErrors));
   }
 
   post<T>(
     path: string,
-    body: any,
+    body: unknown,
     params?: HttpParams,
     headers?: HttpHeaders
   ): Observable<T> {
     return this.http
       .post<T>(`${this.baseUrl}${path}`, body, {
         headers,
-        params: params ? params : new HttpParams(),
+        params: params ?? new HttpParams(),
       })
       .pipe(catchError(this.formatErrors));
   }
 
   postWithAuth<T>(
     path: string,
-    body: any,
+    body: unknown,
     params: HttpParams = new HttpParams(),
     headers: HttpHeaders = new HttpHeaders()
   ): Observable<T> {
     return this.http
-      .post<T>(`${this.baseUrl}${path}`, body, {
-        headers,
-        params: params,
-      })
+      .post<T>(`${this.baseUrl}${path}`, body, { headers, params })
       .pipe(catchError(this.formatErrors));
   }
 
   put<T>(
     path: string,
-    body: any = {},
+    body: unknown = {},
     params?: HttpParams,
-    contentType?: string
+    contentType?: ContentType
   ): Observable<T> {
     return this.http
       .put<T>(`${this.baseUrl}${path}`, JSON.stringify(body), {
-        headers: this.setHeaders(contentType ? contentType : ''),
-        params: params ? params : new HttpParams(),
+        headers: this.setHeaders(contentType ?? ''),
+        params: params ?? new HttpParams(),
       })
       .pipe(catchError(this.formatErrors));
   }
 
   patch<T>(
     path: string,
-    body: any = {},
+    body: unknown = {},
     params?: HttpParams,
-    contentType?: string
+    contentType?: ContentType
   ): Observable<T> {
     return this.http
       .patch<T>(`${this.baseUrl}${path}`, JSON.stringify(body), {
-        headers: this.setHeaders(contentType ? contentType : ''),
-        params: params ? params : new HttpParams(),
+        headers: this.setHeaders(contentType ?? ''),
+        params: params ?? new HttpParams(),
       })
       .pipe(catchError(this.formatErrors));
   }
 
   delete<T>(
     path: string,
-    contentType?: string,
+    contentType?: ContentType,
     params?: HttpParams
   ): Observable<T> {
     return this.http
       .delete<T>(`${this.baseUrl}${path}`, {
-        headers: this.setHeaders(contentType ? contentType : ''),
-        params: params ? params : new HttpParams(),
+        headers: this.setHeaders(contentType ?? ''),
+        params: params ?? new HttpParams(),
       })
       .pipe(catchError(this.formatErrors));
   }
 
-  file(path: string, file: File): Observable<any> {
+  file<T>(path: string, file: File): Observable<T> {
     const formData: FormData = new FormData();
 
     formData.append('file', file, file?.name);
     return this.http
-      .post(`${this.baseUrl}${path}`, formData)
+      .post<T>(`${this.baseUrl}${path}`, formData)
       .pipe(catchError(this.formatErrors));
   }
 
-  getFile<T>(
-    path: string,
-    params: HttpParams = new HttpParams()
-  ): Observable<any> {
-    return this.http.get<T>(`${this.baseUrl}${path}`, {
-      params: params,
-      responseType: 'blob' as 'json',
+  getFile(path: string, params: HttpParams = new HttpParams()): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}${path}`, {
+      params,
+      responseType: 'blob',
     });
   }
 
-  postFile<T>(
+  postFile(
     path: string,
-    fileDetails?:any,
+    fileDetails?: unknown,
     params: HttpParams = new HttpParams()
-  ): Observable<any> {
-    return this.http.post<T>(`${this.baseUrl}${path}`, fileDetails,{
-      params: params,
-      responseType: 'blob' as 'json',
+  ): Observable<Blob> {
+    return this.http.post(`${this.baseUrl}${path}`, fileDetails, {
+      params,
+      responseType: 'blob',
     });
   }
 
-  public upload<T>(path: string, file: File): Observable<any> {
+  upload<T>(path: string, file: File): Observable<HttpEvent<T>> {
     const formData: FormData = new FormData();
 
     formData.append('file', file, file?.name);
-    return this.http.request(
+    return this.http.request<T>(
       new HttpRequest('POST', `${this.baseUrl}${path}`, formData, {
         reportProgress: false,
       })
     );
   }
 
-  private setHeaders(contentType: string): HttpHeaders {
-    const headersConfig: { [key: string]: string } = {
+  private setHeaders(contentType: ContentType): HttpHeaders {
+    const headersConfig: Record<string, string> = {
       Accept: 'application/json',
     };
 
@@ -153,7 +152,7 @@ export class ApiService {
         headersConfig['Content-Type'] = `multipart/form-data`;
         break;
 
-      default:
+      case '':
         headersConfig['Content-Type'] = `application/json`;
         break;
     }
@@ -161,7 +160,7 @@ export class ApiService {
     return new HttpHeaders(headersConfig);
   }
 
-  private formatErrors(error: Error) {
-    return throwError(error);
+  private formatErrors(error: unknown): Observable<never> {
+    return throwError(() => error);
   }
 }

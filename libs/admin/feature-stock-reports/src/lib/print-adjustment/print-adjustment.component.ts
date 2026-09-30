@@ -1,40 +1,22 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { ReportsService } from '@pos-frontend/reports/data-access';
-import { Subscription } from 'rxjs';
-import { ReportsFormComponent } from '@pos-frontend/reports/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { ReportStore } from '@pos-frontend/reports/data-access';
+import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/reports/ui';
 
 @Component({
-    selector: 'pos-frontend-print-adjustment',
-    templateUrl: './print-adjustment.component.html',
-    styleUrls: ['./print-adjustment.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReportsFormComponent]
+  selector: 'pos-frontend-print-adjustment',
+  templateUrl: './print-adjustment.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCardModule, ReportsFormComponent],
 })
-export class PrintAdjustmentComponent implements OnDestroy {
+export class PrintAdjustmentComponent {
+  private readonly reportStore = inject(ReportStore);
 
+  protected readonly loading = this.reportStore.stockLoading;
 
-  loading=false;
-  sub1 = new Subscription();
-  sub2 = new Subscription();
-
-  constructor(private reportsService: ReportsService) {}
- 
-
-  getPdf(details:any) {
-    this.loading=true
-    this.sub1 = this.reportsService.printAdjustment(details).subscribe({
-      next:()=>{
-        this.loading = false
-      },
-      error:()=>{
-        this.loading = false
-      }
-    });
+  protected getPdf({ adjustmentNumber }: ReportFormValue): void {
+    if (adjustmentNumber !== null) {
+      this.reportStore.getAdjustmentReport({ adjustmentNumber });
+    }
   }
-
-  ngOnDestroy(): void {
-    this.sub1.unsubscribe()
-    this.sub2.unsubscribe()
-  }
-
 }

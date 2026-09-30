@@ -1,5 +1,1 @@
-<pos-frontend-group-form
-  [title]="'Create New Group'"
-  [loading]="submitting()"
-  (formValue)="createGroup($event)"
-></pos-frontend-group-form>
+<pos-frontend-group-form [loading]="submitting()" (cancelled)="close(false)" (submitted)="create($event)" />

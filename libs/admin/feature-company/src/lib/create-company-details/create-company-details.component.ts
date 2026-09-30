@@ -1,29 +1,26 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { CompanyService } from '@pos-frontend/company-details/data-access';
-import { CompanyDetailsFormComponent } from '@pos-frontend/company-details/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CompanyStore } from '@pos-frontend/company-details/data-access';
+import { CompanyDetailsFormComponent, type CompanyFormValue } from '@pos-frontend/company-details/ui';
+import { injectDrawerRef } from '@pos-frontend/core';
 
+/** Drawer content: opened from the company details page. */
 @Component({
-    selector: 'pos-frontend-create-company-details',
-    templateUrl: './create-company-details.component.html',
-    styleUrls: ['./create-company-details.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [CompanyDetailsFormComponent]
+  selector: 'pos-frontend-create-company-details',
+  templateUrl: './create-company-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CompanyDetailsFormComponent],
 })
 export class CreateCompanyDetailsComponent {
-  private readonly dialogRef = inject(MatDialogRef<CreateCompanyDetailsComponent, boolean>);
-  private readonly companyService = inject(CompanyService);
+  private readonly drawerRef = injectDrawerRef<boolean>();
+  private readonly companyStore = inject(CompanyStore);
 
-  readonly submitting = signal(false);
+  protected readonly submitting = this.companyStore.createLoading;
 
-  public createCompany(company: any) {
-    this.submitting.set(true);
-    this.companyService.createCompany(company).subscribe({
-      next: () => {
-        this.submitting.set(false);
-        this.dialogRef.close(true);
-      },
-      error: () => this.submitting.set(false),
-    });
+  protected create(value: CompanyFormValue): void {
+    this.companyStore.createCompany({ data: value, callback: () => this.close(true) });
+  }
+
+  protected close(created: boolean): void {
+    this.drawerRef.close(created);
   }
 }

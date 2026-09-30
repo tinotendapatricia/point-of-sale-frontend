@@ -1,49 +1,59 @@
-<h2 mat-dialog-title>{{ title() }}</h2>
-<mat-dialog-content>
-  <form [formGroup]="debtorForm" class="debtor-form">
+<form class="debtor-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label class="field-label" for="debtor-name">Name<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="debtor-name" matInput type="text" formControlName="name" />
+      @if (form.controls.name.hasError('required')) {
+        <mat-error>Name is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="debtor-account">Account<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="debtor-account" matInput type="text" formControlName="account" />
+      @if (form.controls.account.hasError('required')) {
+        <mat-error>Account is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="field-row">
     <div class="field">
-      <label class="field-label" for="debtor-name">Name<span class="required-marker">*</span></label>
+      <label id="debtor-currency-label" class="field-label" for="debtor-currency">
+        Currency<span class="required-marker">*</span>
+      </label>
       <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="debtor-name" type="text" formControlName="name" required />
+        <mat-select id="debtor-currency" aria-labelledby="debtor-currency-label" formControlName="currency">
+          @for (currency of currencies(); track currency.id) {
+            <mat-option [value]="currency.id">{{ currency.name }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls.currency.hasError('required')) {
+          <mat-error>Currency is required</mat-error>
+        }
       </mat-form-field>
     </div>
-
     <div class="field">
-      <label class="field-label" for="debtor-account">Account<span class="required-marker">*</span></label>
+      <label class="field-label" for="debtor-discount">Discount(%)</label>
       <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="debtor-account" type="text" formControlName="account" required />
+        <input id="debtor-discount" matInput type="number" min="0" max="100" formControlName="discount" />
+        @if (form.controls.discount.invalid) {
+          <mat-error>Discount must be between 0 and 100</mat-error>
+        }
       </mat-form-field>
     </div>
+  </div>
 
-    <div class="field-row">
-      <div class="field">
-        <label class="field-label">Currency</label>
-        <mat-form-field class="full-width" subscriptSizing="dynamic">
-          <mat-select formControlName="currency">
-            @for (currency of currencies(); track currency) {
-              <mat-option [value]="currency.id">{{ currency.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="field">
-        <label class="field-label" for="debtor-discount">Discount(%)</label>
-        <mat-form-field class="full-width" subscriptSizing="dynamic">
-          <input matInput id="debtor-discount" type="text" formControlName="discount" />
-        </mat-form-field>
-      </div>
-    </div>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
-    Cancel
-  </button>
-  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
-    @if (loading()) {
-      <mat-spinner diameter="18"></mat-spinner>
-    } @else {
-      {{ btnTitle() }}
-    }
-  </button>
-</mat-dialog-actions>
+  <div class="mt-4 flex justify-end gap-2">
+    <button type="button" mat-stroked-button [disabled]="loading()" (click)="cancelled.emit()">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel() }}
+      }
+    </button>
+  </div>
+</form>

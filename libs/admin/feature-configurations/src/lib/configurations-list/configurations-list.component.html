@@ -1,21 +1,7 @@
-<br />
-<div class="h">Configurations</div>
-<hr />
-<br />
-<mat-card class="login">
-  <mat-card-content>
-    &nbsp;<button class="act" (click)="createConfiguration()">
-    <mat-icon style="color: green">add_circle</mat-icon>Add
-    New</button
-    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getConfigurationList()">
-    <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
-      >Refresh
-    </button>
-
-    <pos-frontend-configurations-list-ui
-      [configurationsList]="(configurations$ | async)!"
-      [placeholderMessage]="'Configurations'"
-      (updateSelected)="updateConfiguration($event)"
-    ></pos-frontend-configurations-list-ui>
-  </mat-card-content>
-</mat-card>
+<pos-frontend-configurations-list-ui
+  [configurations]="configurations()"
+  [loading]="loading()"
+  (added)="add()"
+  (edited)="edit($event)"
+  (refreshed)="refresh()"
+/>

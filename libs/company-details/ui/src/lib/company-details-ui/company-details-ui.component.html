@@ -1,24 +1,6 @@
-<div class="clr-row">
-    <div class="clr-col-md-3">Name</div>
-    <div class="clr-col-md-3">{{company?.name}}</div>
-</div>
-<div class="clr-row">
-    <div class="clr-col-md-3">Email</div>
-    <div class="clr-col-md-3">{{company?.email}}</div>
-</div>
-<div class="clr-row">
-    <div class="clr-col-md-3">BP Number</div>
-    <div class="clr-col-md-3">{{company?.bpNumber}}</div>
-</div>
-<div class="clr-row">
-    <div class="clr-col-md-3">Address</div>
-    <div class="clr-col-md-3">{{company?.address}}</div>
-</div>
-<div class="clr-row">
-    <div class="clr-col-md-3">Tin</div>
-    <div class="clr-col-md-3">{{company?.tinNumber}}</div>
-</div>
-<div class="clr-row">
-    <div class="clr-col-md-3">Contact</div>
-    <div class="clr-col-md-3">{{company?.phone}}</div>
-</div>
+<dl class="grid grid-cols-[max-content_1fr] gap-x-8 gap-y-2">
+  @for (row of rows(); track row.label) {
+    <dt class="font-semibold">{{ row.label }}</dt>
+    <dd>{{ row.value || '--' }}</dd>
+  }
+</dl>

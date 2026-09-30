@@ -6,8 +6,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
     selector: 'pos-frontend-action-confirmation-form',
     templateUrl: './action-confirmation-form.component.html',
-    styleUrls: ['./action-confirmation-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './action-confirmation-form.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MatDialogModule, MatButtonModule, MatProgressSpinnerModule]
 })
 export class ActionConfirmationFormComponent {
@@ -20,7 +20,7 @@ export class ActionConfirmationFormComponent {
   /** @deprecated only used by callers that still embed this component directly instead of opening it via MatDialog. */
   readonly closeModal = output<boolean>();
 
-  cancel() {
+  protected cancel(): void {
     this.dialogRef?.close(false);
     this.closeModal.emit(false);
   }

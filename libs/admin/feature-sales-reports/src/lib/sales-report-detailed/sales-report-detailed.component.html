@@ -1,18 +1,14 @@
-
-
-<div class="card">
-    <div class="card-header">
-        Sales Reports per Period
-    </div>
-    <div class="card-block">
-        <pos-frontend-reports-form
-        (getPdf)="getPdf($event)"
-        (getExcel)="getExcel($event)"
-        [loading]="loading"
-        [isDate]="true"
-        [isExcel]="true"
-        ></pos-frontend-reports-form>
-    </div>
-</div>
-
-
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Sales Detailed Listing per Period</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <pos-frontend-reports-form
+      [isDate]="true"
+      [isExcel]="true"
+      [loading]="loading()"
+      (excelRequested)="getExcel($event)"
+      (pdfRequested)="getPdf($event)"
+    />
+  </mat-card-content>
+</mat-card>

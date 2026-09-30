@@ -1,5 +1,1 @@
-<pos-frontend-rate-form
-  [title]="'Update Rate'"
-  [loading]="submitting()"
-  (formValue)="updateRate($event)"
-></pos-frontend-rate-form>
+<pos-frontend-rate-form [loading]="submitting()" (cancelled)="cancel()" (submitted)="update($event)" />

@@ -1,27 +1,22 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
-import { DashboardService } from '../services/dashboard.service';
-import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+
+import { DashboardStore } from '../services/dashboard.store';
 
 @Component({
-    selector: 'pos-frontend-recent-transactions',
-    templateUrl: './recent-transactions.component.html',
-    styleUrls: ['./recent-transactions.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [AsyncPipe, CurrencyPipe]
+  selector: 'pos-frontend-recent-transactions',
+  templateUrl: './recent-transactions.component.html',
+  styleUrl: './recent-transactions.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CurrencyPipe],
 })
-export class RecentTransactionsComponent  implements OnInit {
+export class RecentTransactionsComponent {
+  private readonly dashboardStore = inject(DashboardStore);
 
-sales$: Observable<any[]> | undefined;
+  protected readonly recentTransactions = this.dashboardStore.recentTransactions;
+  protected readonly loading = this.dashboardStore.recentTransactionsLoading;
 
-constructor(public dashboardService: DashboardService) {}
-
-ngOnInit(): void {
-this.getRecentTransactions()
+  constructor() {
+    this.dashboardStore.getRecentTransactions();
+  }
 }
-
-getRecentTransactions() {
-  this.sales$ = this.dashboardService.getRecentTransactions();
-}
-}
-

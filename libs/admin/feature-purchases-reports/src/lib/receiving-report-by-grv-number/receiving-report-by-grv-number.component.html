@@ -1,5 +1,14 @@
-<pos-frontend-reports-form
-[isGrvNumber]="true"
-(getPdf)="getPdf($event)"
-(getExcel)="getExcel($event)"
-></pos-frontend-reports-form>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Receiving Report by GRV Number</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <pos-frontend-reports-form
+      [isExcel]="true"
+      [isGrvNumber]="true"
+      [loading]="loading()"
+      (excelRequested)="getExcel($event)"
+      (pdfRequested)="getPdf($event)"
+    />
+  </mat-card-content>
+</mat-card>

@@ -1,25 +1,31 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogRef } from '@angular/material/dialog';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { of } from 'rxjs';
-import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
-import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
+import { provideRouter } from '@angular/router';
+import { DrawerRef } from '@pos-frontend/core';
+import { CurrencyStore } from '@pos-frontend/currencies/data-access';
+import { DebtorStore } from '@pos-frontend/debtors/data-access';
+
 import { CreateDebtorsComponent } from './create-debtors.component';
 
 describe('CreateDebtorsComponent', () => {
   let component: CreateDebtorsComponent;
   let fixture: ComponentFixture<CreateDebtorsComponent>;
+  const debtorStore = { createLoading: () => false, createDebtor: jest.fn() };
+  const currencyStore = { currencies: () => [], getAllCurrencies: jest.fn() };
+  const drawerRef = { close: jest.fn() };
 
   beforeEach(async () => {
+    jest.clearAllMocks();
     await TestBed.configureTestingModule({
-    imports: [CreateDebtorsComponent],
-    providers: [
-      provideNoopAnimations(),
-      { provide: DebtorsFacade, useValue: { createNewDebtor: () => undefined, loaded$: of(false) } },
-      { provide: CurrenciesFacade, useValue: { getAllCurrencies: () => undefined, allCurrencies$: of([]) } },
-      { provide: MatDialogRef, useValue: { close: () => undefined } },
-    ],
-}).compileComponents();
+      imports: [CreateDebtorsComponent],
+      providers: [
+        provideRouter([]),
+        provideNoopAnimations(),
+        { provide: DebtorStore, useValue: debtorStore },
+        { provide: CurrencyStore, useValue: currencyStore },
+        { provide: DrawerRef, useValue: drawerRef },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CreateDebtorsComponent);
     component = fixture.componentInstance;
@@ -28,5 +34,15 @@ describe('CreateDebtorsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('loads the currencies for the select', () => {
+    expect(currencyStore.getAllCurrencies).toHaveBeenCalled();
+  });
+
+  it('closes the drawer without a result on cancel', () => {
+    fixture.nativeElement.querySelector('button[type=button]').click();
+    expect(drawerRef.close).toHaveBeenCalledWith(false);
+    expect(debtorStore.createDebtor).not.toHaveBeenCalled();
   });
 });

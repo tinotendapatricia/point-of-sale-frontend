@@ -1,48 +1,50 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, effect } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { VatEntity } from '@pos-frontend/vat/data-access';
+import type { VatEntity } from '@pos-frontend/vat/data-access';
+
+/** What the form emits: only the fields the user edits, never id or audit fields. */
+export type VatFormValue = Pick<VatEntity, 'vat'>;
 
 @Component({
-    selector: 'pos-frontend-vat-form',
-    templateUrl: './vat-form.component.html',
-    styleUrls: ['./vat-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
+  selector: 'pos-frontend-vat-form',
+  templateUrl: './vat-form.component.html',
+  styleUrl: './vat-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule],
 })
 export class VatFormComponent {
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
+  private readonly fb = inject(NonNullableFormBuilder);
 
   readonly vat = input<VatEntity>();
   readonly loading = input(false);
-  readonly title = input('');
-  readonly btnTitle = input('Submit');
-  readonly formValue = output<any>();
+  readonly submitLabel = input('Submit');
 
-  readonly vatForm = this.formBuilder.group({
-    vat: [''],
-    id: [''],
+  readonly submitted = output<VatFormValue>();
+  readonly cancelled = output<void>();
+
+  protected readonly form = this.fb.group({
+    vat: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
   });
 
   constructor() {
+    // Edit mode: reset() rather than patchValue() so the form is pristine/untouched again.
     effect(() => {
       const vat = this.vat();
       if (vat) {
-        this.vatForm.patchValue({ vat: String(vat.vat), id: String(vat.id) });
+        this.form.reset({ vat: vat.vat });
       }
     });
   }
 
-  cancel() {
-    this.dialogRef?.close(false);
-  }
-
-  submit() {
-    this.formValue.emit(this.vatForm.value);
+  protected submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.submitted.emit(this.form.getRawValue());
   }
 }

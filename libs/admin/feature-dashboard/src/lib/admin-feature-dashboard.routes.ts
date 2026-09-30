@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { type Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const ADMIN_FEATURE_DASHBOARD_ROUTES: Routes = [

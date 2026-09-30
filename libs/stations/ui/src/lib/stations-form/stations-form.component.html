@@ -1,44 +1,46 @@
-<h2 mat-dialog-title>{{ title() }}</h2>
-<mat-dialog-content>
-  <form [formGroup]="stationForm" class="station-form">
-    <div class="field">
-      <label class="field-label" for="station-account">Account<span class="required-marker">*</span></label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="station-account" type="text" formControlName="account" required />
-      </mat-form-field>
-    </div>
+<form class="station-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label class="field-label" for="station-account">Account<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="station-account" matInput type="text" formControlName="account" />
+      @if (form.controls.account.hasError('required')) {
+        <mat-error>Account is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
 
-    <div class="field">
-      <label class="field-label" for="station-name">Name<span class="required-marker">*</span></label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="station-name" type="text" formControlName="name" required />
-      </mat-form-field>
-    </div>
+  <div class="field">
+    <label class="field-label" for="station-name">Name<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="station-name" matInput type="text" formControlName="name" />
+      @if (form.controls.name.hasError('required')) {
+        <mat-error>Name is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
 
-    <div class="field">
-      <label class="field-label" for="station-address">Address</label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <textarea matInput id="station-address" formControlName="address" rows="4"></textarea>
-      </mat-form-field>
-    </div>
+  <div class="field">
+    <label class="field-label" for="station-address">Address</label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <textarea id="station-address" matInput formControlName="address" rows="4"></textarea>
+    </mat-form-field>
+  </div>
 
-    <div class="field">
-      <label class="field-label" for="station-contact">Contact Details</label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <textarea matInput id="station-contact" formControlName="contact" rows="4"></textarea>
-      </mat-form-field>
-    </div>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
-    Cancel
-  </button>
-  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
-    @if (loading()) {
-      <mat-spinner diameter="18"></mat-spinner>
-    } @else {
-      {{ btnTitle() }}
-    }
-  </button>
-</mat-dialog-actions>
+  <div class="field">
+    <label class="field-label" for="station-contact">Contact Details</label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <textarea id="station-contact" matInput formControlName="contact" rows="4"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="mt-4 flex justify-end gap-2">
+    <button type="button" mat-stroked-button [disabled]="loading()" (click)="cancelled.emit()">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel() }}
+      }
+    </button>
+  </div>
+</form>

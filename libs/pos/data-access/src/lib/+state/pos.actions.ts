@@ -1,9 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { PosEntity } from './pos.models';
+import { type CreateSaleRequest, type PosEntity } from './pos.models';
 
 export const createPos = createAction(
   '[Pos] Create Pos',
-  (posDetails: PosEntity) => ({ posDetails })
+  (posDetails: CreateSaleRequest) => ({ posDetails })
 );
 
 export const createPosuccess = createAction(

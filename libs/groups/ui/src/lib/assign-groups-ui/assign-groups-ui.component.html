@@ -1,27 +1,27 @@
 <div class="card-header">
-  <span style="font-weight: 900">Assign or Remove Authorities</span>
+  <span class="font-black">Assign or Remove Authorities</span>
 </div>
 <div class="roles-row">
-  <mat-checkbox [checked]="isAllSelected()" (change)="pushAllRoles()">
+  <mat-checkbox [checked]="allSelected()" (change)="selectAllRoles()">
     <strong>Assign All</strong>
   </mat-checkbox>
 </div>
 <div class="roles-grid">
-  @for (role of roles; track role) {
+  @for (role of roles(); track role.id) {
     <div class="roles-grid-item">
-      <mat-checkbox [checked]="isChecked(role.id)" (change)="pushToCheckedRoles(role.id)">
-        {{ role.name.split('_').join(' ') | titlecase }}
+      <mat-checkbox [checked]="isChecked(role.id)" (change)="toggleRole(role.id)">
+        {{ roleLabel(role) | titlecase }}
       </mat-checkbox>
     </div>
   }
 </div>
-<div class="card-header"></div>
-<br />
-<button mat-stroked-button type="button" [routerLink]="['/groups']">Cancel</button>
-<button mat-flat-button color="primary" type="button" [disabled]="loading" (click)="onSave()">
-  @if (loading) {
-    <mat-spinner diameter="18"></mat-spinner>
-  } @else {
-    Save
-  }
-</button>
+<div class="mt-6 flex gap-2">
+  <button type="button" mat-stroked-button (click)="cancelled.emit()">Cancel</button>
+  <button type="button" mat-flat-button [disabled]="loading()" (click)="save()">
+    @if (loading()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      Save
+    }
+  </button>
+</div>

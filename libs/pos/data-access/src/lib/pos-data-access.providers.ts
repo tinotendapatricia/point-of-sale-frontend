@@ -1,4 +1,4 @@
-import { EnvironmentProviders, Provider } from '@angular/core';
+import { type EnvironmentProviders, type Provider } from '@angular/core';
 import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import * as fromPos from './+state/pos.reducer';

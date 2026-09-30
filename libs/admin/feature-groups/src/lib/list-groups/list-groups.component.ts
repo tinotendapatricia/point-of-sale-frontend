@@ -1,61 +1,61 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DatagridState } from '@pos-frontend/shared/utils';
-import { GroupsEntity, GroupsFacade } from '@pos-frontend/groups/data-access';
-import { MatCard, MatCardContent } from '@angular/material/card';
+import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
+import { type PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DrawerService } from '@pos-frontend/core';
+import { GroupStore } from '@pos-frontend/groups/data-access';
 import { ListGroupsUiComponent } from '@pos-frontend/groups/ui';
+
 import { CreateGroupComponent } from '../create-group/create-group.component';
-import { AsyncPipe } from '@angular/common';
+
+const FIRST_PAGE = { page: 0, size: 10 };
 
 @Component({
-    selector: 'pos-frontend-list-groups',
-    templateUrl: './list-groups.component.html',
-    styleUrls: ['./list-groups.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, MatIconModule, ListGroupsUiComponent, AsyncPipe]
+  selector: 'pos-frontend-list-groups',
+  templateUrl: './list-groups.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatButtonModule, MatIconModule, ListGroupsUiComponent],
 })
 export class ListGroupsComponent {
-  private readonly dialog = inject(MatDialog);
+  private readonly injector = inject(Injector);
+  private readonly drawer = inject(DrawerService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly groupStore = inject(GroupStore);
 
-  constructor(
-    public groupsFacade: GroupsFacade,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  protected readonly groups = this.groupStore.paginatedGroups;
+  protected readonly total = this.groupStore.totalGroups;
+  protected readonly loading = this.groupStore.getPaginatedLoading;
 
-  public getGroupList(state: DatagridState) {
-    this.groupsFacade.getPaginatedGroups(state);
+  constructor() {
+    this.refresh();
   }
 
-  refresh() {
-    this.getGroupList({});
+  protected onPage(event: PageEvent): void {
+    this.groupStore.getPaginatedGroups({ page: event.pageIndex, size: event.pageSize });
   }
 
-  createGroup() {
-    this.dialog
-      .open(CreateGroupComponent, { width: '480px' })
+  protected refresh(): void {
+    this.groupStore.getPaginatedGroups(FIRST_PAGE);
+  }
+
+  protected createGroup(): void {
+    this.drawer
+      .open<CreateGroupComponent, boolean>(CreateGroupComponent, {
+        title: 'Create New Group',
+        size: 'md',
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((created) => created && this.refresh());
+      .subscribe((created) => {
+        if (created) {
+          this.refresh();
+        }
+      });
   }
 
-  updateGroup(group: GroupsEntity) {
-    this.router.navigate(['./update-group', group.id], {
-      relativeTo: this.route,
-    });
-  }
-
-  viewGroup(group: GroupsEntity) {
-    this.groupsFacade.getGroup(group.id);
-    this.router.navigate(['./group-details', group.id], {
-      relativeTo: this.route,
-    });
-  }
-
-  viewGroupAuthorities(groupId: any) {
-    this.router.navigate(['./view-group', groupId], {
-      relativeTo: this.route,
-    });
+  protected viewGroupAuthorities(groupId: string | number): void {
+    void this.router.navigate(['./view-group', groupId], { relativeTo: this.route });
   }
 }

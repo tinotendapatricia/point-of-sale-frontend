@@ -1,5 +1,1 @@
-<pos-frontend-category-form
-  [title]="'Create New Categorie'"
-  [loading]="submitting()"
-  (formValue)="createCategorie($event)"
-></pos-frontend-category-form>
+<pos-frontend-category-form [loading]="submitting()" (cancelled)="close(false)" (submitted)="create($event)" />

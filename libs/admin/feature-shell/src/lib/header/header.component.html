@@ -1,19 +1,19 @@
 <header class="pos-topbar bg-[#EEF6FF]">
   <a class="pos-topbar-brand" [routerLink]="['/dashboard']">
-    <img src="/assets/logo.png" alt="OctoPOS" />
+    <img ngSrc="/assets/logo.png" alt="OctoPOS" width="98" height="28" priority />
   </a>
 
   <div class="pos-topbar-actions">
-    @if (defaultCurrency(); as currency) {
+    @if (currencyStore.defaultCurrency(); as currency) {
       <span class="pos-topbar-currency">{{ currency.code }}</span>
     }
 
-    <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Account menu">
+    <button type="button" mat-icon-button aria-label="Account menu" [matMenuTriggerFor]="userMenu">
       <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #userMenu="matMenu">
       <a mat-menu-item [routerLink]="['/users/my-account']">My Account</a>
-      <button mat-menu-item type="button" (click)="authFacade.logout()">Log out</button>
+      <button type="button" mat-menu-item (click)="logout()">Log out</button>
     </mat-menu>
   </div>
 </header>

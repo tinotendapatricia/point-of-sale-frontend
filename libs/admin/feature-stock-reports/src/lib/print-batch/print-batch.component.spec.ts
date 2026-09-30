@@ -1,5 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReportStore } from '@pos-frontend/reports/data-access';
+
 import { PrintBatchComponent } from './print-batch.component';
+
+const reportStore = {
+  stockLoading: () => false,
+  getAdjustmentReport: jest.fn(),
+  getAdjustmentVsBatchReport: jest.fn(),
+  getBatchReport: jest.fn(),
+  getCurrentStockListing: jest.fn(),
+  getStockTakesForPeriod: jest.fn(),
+};
 
 describe('PrintBatchComponent', () => {
   let component: PrintBatchComponent;
@@ -7,8 +18,9 @@ describe('PrintBatchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [PrintBatchComponent],
-}).compileComponents();
+      imports: [PrintBatchComponent],
+      providers: [{ provide: ReportStore, useValue: reportStore }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PrintBatchComponent);
     component = fixture.componentInstance;

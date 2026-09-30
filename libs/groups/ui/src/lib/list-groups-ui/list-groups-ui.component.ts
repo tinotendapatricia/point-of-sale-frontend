@@ -1,37 +1,48 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { GroupsEntity } from '@pos-frontend/groups/data-access';
-import { DatagridState } from '@pos-frontend/shared/utils';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatIconModule } from '@angular/material/icon';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  type TemplateRef,
+  computed,
+  input,
+  output,
+  viewChild,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { type PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import type { GroupsEntity } from '@pos-frontend/groups/data-access';
+import { BmgTable, type TableColumnDef } from '@pos-frontend/shared/ui';
 
+/**
+ * Server-paginated groups table. Project a `<header>` to render a title and
+ * actions above the table.
+ */
 @Component({
-    selector: 'pos-frontend-list-groups-ui',
-    templateUrl: './list-groups-ui.component.html',
-    styleUrls: ['./list-groups-ui.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule]
+  selector: 'pos-frontend-list-groups-ui',
+  templateUrl: './list-groups-ui.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [BmgTable, MatButtonModule, MatIconModule],
 })
-export class ListGroupsUiComponent implements OnInit {
-  @Input() groupsList: GroupsEntity[] = [];
-  @Input() total = 0;
-  @Input() loading = true;
-  @Input() placeholderMessage = '';
-  @Output() updatedState = new EventEmitter<DatagridState>();
-  @Output() viewGroupPermissions = new EventEmitter<string | number>();
+export class ListGroupsUiComponent {
+  readonly groups = input<GroupsEntity[]>([]);
+  readonly total = input(0);
+  readonly loading = input(false);
 
-  readonly displayedColumns = ['name', 'createdBy', 'permissions', 'actions'];
-  readonly pageSizeOptions = [10, 25, 50];
-  readonly pageSize = 10;
+  readonly page = output<PageEvent>();
+  readonly actioned = output<void>();
+  /** Emits the group id. */
+  readonly permissionsViewed = output<string | number>();
 
-  ngOnInit(): void {
-    this.updatedState.emit({ page: { from: 0, size: this.pageSize } });
-  }
+  private readonly permissionsTpl = viewChild<TemplateRef<unknown>>('permissionsTpl');
+  private readonly actionsTpl = viewChild<TemplateRef<unknown>>('actionsTpl');
 
-  onPage(event: PageEvent): void {
-    this.updatedState.emit({
-      page: { from: event.pageIndex * event.pageSize, size: event.pageSize },
-    });
-  }
+  protected readonly dataSource = computed(() => new MatTableDataSource(this.groups()));
+
+  protected readonly columns = computed<TableColumnDef[]>(() => [
+    { key: 'name', header: 'Name' },
+    { key: 'createdBy', header: 'Created By' },
+    { key: 'permissions', header: '', template: this.permissionsTpl() },
+    { key: 'actions', header: '', align: 'right', template: this.actionsTpl() },
+  ]);
 }

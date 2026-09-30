@@ -1,31 +1,34 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { take } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
-import { MatDialogRef } from '@angular/material/dialog';
-import { VatFacade } from '@pos-frontend/vat/data-access';
-import { VatFormComponent } from '@pos-frontend/vat/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { injectDrawerRef } from '@pos-frontend/core';
+import { VatStore } from '@pos-frontend/vat/data-access';
+import { VatFormComponent, type VatFormValue } from '@pos-frontend/vat/ui';
 
+/** Drawer content: edits the VAT setting currently held in the store. */
 @Component({
-    selector: 'pos-frontend-update-vat',
-    templateUrl: './update-vat.component.html',
-    styleUrls: ['./update-vat.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [VatFormComponent, AsyncPipe]
+  selector: 'pos-frontend-update-vat',
+  templateUrl: './update-vat.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [VatFormComponent],
 })
 export class UpdateVatComponent {
-  private readonly dialogRef = inject(MatDialogRef<UpdateVatComponent, boolean>);
-  readonly vatFacade = inject(VatFacade);
+  private readonly drawerRef = injectDrawerRef<boolean>();
+  private readonly vatStore = inject(VatStore);
 
-  readonly submitting = signal(false);
+  protected readonly vat = this.vatStore.vat;
+  protected readonly submitting = this.vatStore.updateLoading;
 
-  public createVat(vat: any) {
-    this.submitting.set(true);
-    this.vatFacade.updateVat(vat);
-    this.vatFacade.loaded$.pipe(take(1)).subscribe((loaded) => {
-      this.submitting.set(false);
-      if (loaded) {
-        this.dialogRef.close(true);
-      }
+  protected update(value: VatFormValue): void {
+    const current = this.vat();
+    if (!current) {
+      return;
+    }
+    this.vatStore.updateVat({
+      data: { ...current, ...value },
+      callback: () => this.close(true),
     });
+  }
+
+  protected close(updated: boolean): void {
+    this.drawerRef.close(updated);
   }
 }

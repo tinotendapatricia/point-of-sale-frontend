@@ -1,42 +1,28 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { PurchasesReportsService } from '@pos-frontend/reports/data-access';
-import { Subscription } from 'rxjs';
-import { ReportsFormComponent } from '@pos-frontend/reports/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { ReportStore } from '@pos-frontend/reports/data-access';
+import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/reports/ui';
 
 @Component({
-    selector: 'pos-frontend-purchases-report-by-order-number',
-    templateUrl: './purchases-report-by-order-number.component.html',
-    styleUrls: ['./purchases-report-by-order-number.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReportsFormComponent]
+  selector: 'pos-frontend-purchases-report-by-order-number',
+  templateUrl: './purchases-report-by-order-number.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCardModule, ReportsFormComponent],
 })
-export class PurchasesReportByOrderNumberComponent implements OnDestroy {
+export class PurchasesReportByOrderNumberComponent {
+  private readonly reportStore = inject(ReportStore);
 
-  loading=false;
-  sub1 = new Subscription();
-  sub2 = new Subscription();
+  protected readonly loading = this.reportStore.purchasesLoading;
 
-  constructor(private reportsService: PurchasesReportsService) {}
- 
-
-  getPdf(details:any) {
-    this.loading=true
-    this.sub1 = this.reportsService.getPurchasesReportsByPurchaseOrder(details.orderNumber).subscribe({
-      next:()=>{
-        this.loading = false
-      },
-      error:()=>{
-        this.loading = false
-      }
-    });
+  protected getPdf({ orderNumber }: ReportFormValue): void {
+    if (orderNumber !== null) {
+      this.reportStore.getPurchaseOrderPdf({ orderNumber });
+    }
   }
 
-  ngOnDestroy(): void {
-    this.sub1.unsubscribe()
-    this.sub2.unsubscribe()
-  }
-
-  getExcel(details:any) {
-    this.sub2 = this.reportsService.getPurchasesReportsByPurchaseOrderExcel(details.orderNumber).subscribe();
+  protected getExcel({ orderNumber }: ReportFormValue): void {
+    if (orderNumber !== null) {
+      this.reportStore.getPurchaseOrderExcel({ orderNumber });
+    }
   }
 }

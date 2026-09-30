@@ -1,50 +1,31 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
-import { ReportsService } from '@pos-frontend/reports/data-access';
-import { Subscription } from 'rxjs';
-import { ReportsFormComponent } from '@pos-frontend/reports/ui';
-import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { DebtorStore } from '@pos-frontend/debtors/data-access';
+import { ReportStore } from '@pos-frontend/reports/data-access';
+import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/reports/ui';
 
 @Component({
-    selector: 'pos-frontend-sales-by-debtor',
-    templateUrl: './sales-by-debtor.component.html',
-    styleUrls: ['./sales-by-debtor.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReportsFormComponent, AsyncPipe]
+  selector: 'pos-frontend-sales-by-debtor',
+  templateUrl: './sales-by-debtor.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCardModule, ReportsFormComponent],
 })
-export class SalesByDebtorComponent implements OnInit, OnDestroy{
+export class SalesByDebtorComponent {
+  private readonly reportStore = inject(ReportStore);
+  private readonly debtorStore = inject(DebtorStore);
 
-  
-  loading=false;
-  sub1 = new Subscription();
-  sub2 = new Subscription();
+  protected readonly loading = this.reportStore.salesLoading;
+  protected readonly debtors = this.debtorStore.debtors;
 
-  constructor(private reportsService: ReportsService,
-    public debtorsFacade:DebtorsFacade
-    ) {}
-  ngOnInit(): void {
-    this.debtorsFacade.getAllDebtors()
-  }
- 
-
-  getPdf(details:any) {
-    this.loading=true
-    this.sub1 = this.reportsService.getAllSalesByDebtorPDF(details.fromDate,details.toDate, details.debtor).subscribe({
-      next:()=>{
-        this.loading = false
-      },
-      error:()=>{
-        this.loading = false
-      }
-    });
+  constructor() {
+    this.debtorStore.getAllDebtors();
   }
 
-  getExcel(details:any) {
-    this.sub2 = this.reportsService.getAllSalesByDebtorExcel(details.fromDate,details.toDate, details.debtor).subscribe();
+  protected getPdf({ fromDate, toDate, debtor }: ReportFormValue): void {
+    this.reportStore.getSalesByDebtorPdf({ fromDate, toDate, debtor });
   }
 
-  ngOnDestroy(): void {
-    this.sub1.unsubscribe()
-    this.sub2.unsubscribe()
+  protected getExcel({ fromDate, toDate, debtor }: ReportFormValue): void {
+    this.reportStore.getSalesByDebtorExcel({ fromDate, toDate, debtor });
   }
 }

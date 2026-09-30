@@ -1,14 +1,9 @@
-<pos-frontend-stock-take-count-form
-  (formValue)="initiateStockTake($event)"
-  [batchProducts]="batchProducts"
-  [products]="(productsFacade.allProducts$ | async)!"
-  (adjustedStock)="adjustStock($event)"
-
-></pos-frontend-stock-take-count-form>
-
-@if (isAdjustStock) {
-  <pos-frontend-stock-adjustment
-    (closeModal)="isAdjustStock=false"
-    [stockToBeAdjusted]="selectedAdjustedStock"
-  ></pos-frontend-stock-adjustment>
-}
+<div class="p-4">
+  <pos-frontend-stock-take-count-form
+    [batchProducts]="batchProducts()"
+    [loading]="loading()"
+    [products]="products()"
+    (adjusted)="adjustStock($event)"
+    (comparisonStarted)="compare($event)"
+  />
+</div>

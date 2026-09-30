@@ -1,5 +1,5 @@
-import { EnvironmentProviders, InjectionToken, Injector, makeEnvironmentProviders } from '@angular/core';
-import { ComponentPortal } from '@angular/cdk/portal';
+import { type EnvironmentProviders, InjectionToken, type Injector, makeEnvironmentProviders } from '@angular/core';
+import { type ComponentPortal } from '@angular/cdk/portal';
 
 /** Which edge the panel slides in from. */
 export type DrawerSide = 'end' | 'start';

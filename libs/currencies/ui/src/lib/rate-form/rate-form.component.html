@@ -1,30 +1,31 @@
-<h2 mat-dialog-title>{{ title() }}</h2>
-<mat-dialog-content>
-  <form [formGroup]="form" class="rate-form">
-    <div class="field">
-      <label class="field-label" for="rate-value">Rate<span class="required-marker">*</span></label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="rate-value" type="text" formControlName="rate" required />
-      </mat-form-field>
-    </div>
+<form class="rate-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label class="field-label" for="rate-value">Rate<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="rate-value" matInput type="number" min="0" formControlName="rate" />
+      @if (form.controls.rate.hasError('required')) {
+        <mat-error>Rate is required</mat-error>
+      } @else if (form.controls.rate.hasError('min')) {
+        <mat-error>Rate cannot be negative</mat-error>
+      }
+    </mat-form-field>
+  </div>
 
-    <div class="field">
-      <label class="field-label" for="rate-effective-date">Effective Date</label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="rate-effective-date" type="date" formControlName="effectiveDate" />
-      </mat-form-field>
-    </div>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
-    Cancel
-  </button>
-  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
-    @if (loading()) {
-      <mat-spinner diameter="18"></mat-spinner>
-    } @else {
-      {{ btnTitle() }}
-    }
-  </button>
-</mat-dialog-actions>
+  <div class="field">
+    <label class="field-label" for="rate-effective-date">Effective Date</label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="rate-effective-date" matInput type="date" formControlName="effectiveDate" />
+    </mat-form-field>
+  </div>
+
+  <div class="mt-4 flex justify-end gap-2">
+    <button type="button" mat-stroked-button [disabled]="loading()" (click)="cancelled.emit()">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel() }}
+      }
+    </button>
+  </div>
+</form>

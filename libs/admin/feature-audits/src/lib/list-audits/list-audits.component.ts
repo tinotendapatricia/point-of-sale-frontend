@@ -1,46 +1,46 @@
-import { ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
-import { Router, ActivatedRoute, RouterLinkActive, RouterLink } from '@angular/router';
-import { DatagridState } from '@pos-frontend/shared/utils';
-import { AuditsEntity, AuditsFacade } from '@pos-frontend/audit-trail/data-access';
-import { MatCard, MatCardContent } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
+import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
+import { type PageEvent } from '@angular/material/paginator';
+import { AuditStore, type AuditsEntity } from '@pos-frontend/audit-trail/data-access';
 import { ListAuditsUiComponent } from '@pos-frontend/audit-trail/ui';
-import { AsyncPipe } from '@angular/common';
+import { DrawerService } from '@pos-frontend/core';
+import { AuditDetailsDrawerComponent } from '../audit-details-drawer/audit-details-drawer.component';
+
+const FIRST_PAGE = { page: 0, size: 10 };
 
 @Component({
-    selector: 'pos-frontend-list-audits',
-    templateUrl: './list-audits.component.html',
-    styleUrls: ['./list-audits.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, RouterLinkActive, RouterLink, MatIconModule, ListAuditsUiComponent, AsyncPipe]
+  selector: 'pos-frontend-list-audits',
+  templateUrl: './list-audits.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ListAuditsUiComponent],
 })
 export class ListAuditsComponent {
-  public isUpdate = false;
-  public isCreate = false;
-  public isChangeStatus = false;
-  public selectedAudit!: AuditsEntity;
+  private readonly drawer = inject(DrawerService);
+  private readonly injector = inject(Injector);
+  protected readonly auditStore = inject(AuditStore);
 
-  constructor(
-    public auditsFacade: AuditsFacade,
-    private cdr: ChangeDetectorRef,
+  protected readonly loading = this.auditStore.getPaginatedLoading;
+  protected readonly audits = this.auditStore.paginatedAudits;
+  protected readonly total = this.auditStore.totalAudits;
 
-  ) {}
-
-  ngAfterViewChecked(): void {
-    this.cdr.detectChanges();
+  constructor() {
+    this.refresh();
   }
 
-  public getAuditList(state: DatagridState) {
-    this.auditsFacade.getPaginatedAudits(state);
+  protected onPage(event: PageEvent): void {
+    this.auditStore.getPaginatedAudits({ page: event.pageIndex, size: event.pageSize });
   }
 
-  refresh() {
-    this.isUpdate = false;
-    this.isCreate = false;
-    this.isChangeStatus = false;
-    this.getAuditList({});
+  protected refresh(): void {
+    this.auditStore.getPaginatedAudits(FIRST_PAGE);
   }
 
-
-
+  protected view(audit: AuditsEntity): void {
+    this.drawer.open<AuditDetailsDrawerComponent, void, AuditsEntity>(AuditDetailsDrawerComponent, {
+      title: audit.name,
+      subtitle: `By ${audit.actionedBy}`,
+      size: 'md',
+      data: audit,
+      injector: this.injector,
+    });
+  }
 }

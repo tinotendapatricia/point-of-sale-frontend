@@ -1,60 +1,69 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, effect } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
-import { DebtorsEntity } from '@pos-frontend/debtors/data-access';
+import { MatSelectModule } from '@angular/material/select';
+import type { CurrencyEntity } from '@pos-frontend/currencies/data-access';
+import type { DebtorRequest, DebtorsEntity } from '@pos-frontend/debtors/data-access';
+
+/** What the form emits: only the fields the user edits, never id or audit fields. */
+export type DebtorFormValue = Pick<DebtorRequest, 'name' | 'account' | 'currency' | 'discount'>;
 
 @Component({
-    selector: 'pos-frontend-debtors-form',
-    templateUrl: './debtors-form.component.html',
-    styleUrls: ['./debtors-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatProgressSpinnerModule]
+  selector: 'pos-frontend-debtors-form',
+  templateUrl: './debtors-form.component.html',
+  styleUrl: './debtors-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+  ],
 })
 export class DebtorsFormComponent {
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
+  private readonly fb = inject(NonNullableFormBuilder);
 
   readonly debtor = input<DebtorsEntity>();
+  readonly currencies = input<CurrencyEntity[]>([]);
   readonly loading = input(false);
-  readonly title = input('');
-  readonly btnTitle = input('Submit');
-  readonly currencies = input<CurrenciesEntity[]>([]);
-  readonly formValue = output<any>();
+  readonly submitLabel = input('Submit');
 
-  readonly debtorForm = this.formBuilder.group({
-    name: [''],
-    account: [''],
-    discount: [''],
-    currency: [''],
-    id: [''],
+  readonly submitted = output<DebtorFormValue>();
+  readonly cancelled = output<void>();
+
+  protected readonly form = this.fb.group({
+    name: ['', Validators.required],
+    account: ['', Validators.required],
+    currency: this.fb.control<string | number | null>(null, Validators.required),
+    discount: [0, [Validators.min(0), Validators.max(100)]],
   });
 
   constructor() {
+    // Edit mode: reset() rather than patchValue() so the form is pristine/untouched again.
     effect(() => {
       const debtor = this.debtor();
       if (debtor) {
-        this.debtorForm.patchValue({
+        this.form.reset({
           name: debtor.name,
           account: debtor.account,
-          discount: String(debtor.discount),
-          id: String(debtor.id),
+          currency: debtor.currency?.id ?? null,
+          discount: debtor.discount ?? 0,
         });
-        this.debtorForm.get('currency')?.patchValue(debtor.currency.id);
       }
     });
   }
 
-  cancel() {
-    this.dialogRef?.close(false);
-  }
-
-  submit() {
-    this.formValue.emit(this.debtorForm.value);
+  protected submit(): void {
+    const { currency, ...rest } = this.form.getRawValue();
+    if (this.form.invalid || currency === null) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.submitted.emit({ ...rest, currency });
   }
 }

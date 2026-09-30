@@ -1,33 +1,26 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
-import { Utilities } from '@pos-frontend/shared/utils';
-import { ConfigurationsFormComponent } from '@pos-frontend/configurations/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ConfigurationStore } from '@pos-frontend/configurations/data-access';
+import { type ConfigurationFormValue, ConfigurationsFormComponent } from '@pos-frontend/configurations/ui';
+import { injectDrawerRef } from '@pos-frontend/core';
 
+/** Drawer content: opened from the configurations list. */
 @Component({
-    selector: 'pos-frontend-create-configurations',
-    templateUrl: './create-configurations.component.html',
-    styleUrls: ['./create-configurations.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ConfigurationsFormComponent]
+  selector: 'pos-frontend-create-configurations',
+  templateUrl: './create-configurations.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ConfigurationsFormComponent],
 })
 export class CreateConfigurationsComponent {
-  private readonly dialogRef = inject(MatDialogRef<CreateConfigurationsComponent, boolean>);
-  private readonly configurationsService = inject(ConfigurationsService);
+  private readonly drawerRef = injectDrawerRef<boolean>();
+  private readonly configurationStore = inject(ConfigurationStore);
 
-  readonly submitting = signal(false);
+  protected readonly submitting = this.configurationStore.createLoading;
 
-  public createConfiguration(configuration: any) {
-    this.submitting.set(true);
-    this.configurationsService.createConfiguration(configuration).subscribe({
-      next: (res) => {
-        this.submitting.set(false);
-        Utilities.displayToast('success');
-        if (res) {
-          this.dialogRef.close(true);
-        }
-      },
-      error: () => this.submitting.set(false),
-    });
+  protected create(value: ConfigurationFormValue): void {
+    this.configurationStore.createConfiguration({ data: value, callback: () => this.close(true) });
+  }
+
+  protected close(created: boolean): void {
+    this.drawerRef.close(created);
   }
 }

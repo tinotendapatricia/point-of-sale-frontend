@@ -1,10 +1,10 @@
 <pos-frontend-pos-form
-  [debtors]="(debtorsFacade.allDebtors$ | async)!"
-  [products]="(productsFacade.allProducts$ | async)!"
-  [vat]="(vatFacade.selectedVat$ | async)!"
-  [currency]="(currenciesFacade.defaultCurrency$ | async)!"
-  (formValue)="createSale($event)"
-  [btnState]="(posFacade.btnState$ | async)!"
-  [sale]="(posFacade.selectedPos$ | async)!"
+  [debtors]="debtors()"
+  [products]="products()"
+  [currency]="currency()"
+  [btnState]="btnState()"
+  [sale]="sale()"
+  [station]="station"
   [isRefund]="true"
-></pos-frontend-pos-form>
+  (submitted)="createSale($event)"
+/>

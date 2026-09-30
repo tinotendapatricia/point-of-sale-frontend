@@ -1,69 +1,57 @@
-<div class="grv-fields">
-  <div class="field">
-    <label class="field-label">Purchase Order</label>
-    <mat-form-field class="full-width" subscriptSizing="dynamic">
-      <input matInput type="number" name="purchaseOrder" [(ngModel)]="purchaseOrder" />
-    </mat-form-field>
-  </div>
-  <div class="field">
-    <label class="field-label">Reference</label>
-    <mat-form-field class="full-width" subscriptSizing="dynamic">
-      <input matInput type="text" [(ngModel)]="reference" />
-    </mat-form-field>
-  </div>
-</div>
-  <br />
-  <button
-    class="btn btn-sm btn-primary"
-    (click)="getPurchaseOrder.emit(purchaseOrder)"
-    [disabled]="orders.length>0"
-    >
-    Get Purchase Order Products
-  </button>
+<ng-template #qtyReceivedTpl let-row>
+  <mat-form-field class="qty-field" subscriptSizing="dynamic">
+    <input matInput type="number" min="0" [attr.aria-label]="`Quantity received for ${row.name}`" [formControl]="row.control" />
+  </mat-form-field>
+</ng-template>
+<ng-template #amountTpl let-row>{{ row.amount | currency }}</ng-template>
+<ng-template #receivedValueTpl let-row>{{ receivedLines()[row.index]?.receivedValue | currency }}</ng-template>
 
-  <div class="card-header"></div>
-  @if (order) {
-    <div>
-      <h5>Goods Received</h5>
-      <table class="table table-compact">
-        <thead>
-          <th>Product</th>
-          <th>Purchased Quantity</th>
-          <th>Qty Received</th>
-          <th>Purchased Value</th>
-          <th>Received Value</th>
-        </thead>
-        <tbody>
-          @for (prod of orders; track prod; let i = $index) {
-            <tr>
-              <td>{{ prod.name }}</td>
-              <td>{{ prod.quantity }}</td>
-              <td>
-                <input
-                  type="number"
-                  [(ngModel)]="prod.qtyReceived"
-                  (keyup)="updateProduct(prod, i)"
-                  />
-                </td>
-                <td>{{ prod.amount | currency : '' }}</td>
-                <td >
-                  {{ prod.qtyReceived * (prod.amount / prod.quantity)|currency:'' }}
-                </td>
-              </tr>
-            }
-            <tr>
-              <td><strong>Total</strong></td>
-              <td><strong>{{calculateQuantity(orders)}}</strong> </td>
-              <td><strong>{{calculateQtyReceived(dataToBeSubmitted)}}</strong></td>
-              <td> <strong>{{totalPurchaseCost|currency}}</strong></td>
-              <td><strong>{{calculateReceivedValue(dataToBeSubmitted)|currency}}</strong></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<form class="grv-fields" [formGroup]="form" (ngSubmit)="requestOrder()">
+  <div class="field">
+    <label class="field-label" for="grv-purchase-order">Purchase Order<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="grv-purchase-order" matInput type="number" formControlName="purchaseOrder" />
+      @if (form.controls.purchaseOrder.hasError('required')) {
+        <mat-error>Purchase order number is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <div class="field">
+    <label class="field-label" for="grv-reference">Reference</label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="grv-reference" matInput type="text" formControlName="reference" />
+    </mat-form-field>
+  </div>
+  <div class="field-action">
+    <button type="submit" mat-stroked-button [disabled]="hasLines() || loadingOrder()">
+      @if (loadingOrder()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        Get Purchase Order Products
+      }
+    </button>
+  </div>
+</form>
+
+@if (hasLines()) {
+  <h2 class="mt-4 text-lg font-bold">Goods Received</h2>
+  <pos-frontend-table caption="Products" type="default" [columns]="columns()" [data]="rows()" [footer]="true">
+    <footer class="totals">
+      <span>Total</span>
+      <span>Purchased: {{ totalQuantity() }}</span>
+      <span>Received: {{ totalQtyReceived() }}</span>
+      <span>Purchased Value: {{ totalPurchaseCost() | currency }}</span>
+      <span>Received Value: {{ totalReceivedValue() | currency }}</span>
+    </footer>
+  </pos-frontend-table>
+}
+
+<div class="mt-4">
+  <button type="button" mat-flat-button [disabled]="!canSubmit()" (click)="submit()">
+    @if (loading()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      Update Products
     }
-    <br /><br />
-
-    <button class="btn btn-success" (click)="submit()"
-      [disabled]="stat"
-    >Update Products</button>
+  </button>
+</div>

@@ -1,0 +1,23 @@
+{
+  "skill_name": "angular-ui",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add a VAT section to the admin portal: a server-paginated list of VAT rates (code, name, rate %, created date, edit button) using our shared table, an 'Add New' button that opens the create form in a drawer, and an update page at update/:vatId. VatStore already exists in libs/vat/data-access.",
+      "expected_output": "VatFormComponent in libs/vat/ui (NonNullableFormBuilder, typed VatFormValue output, ngSubmit, mat-error), Create/Update containers and a list page on BmgTable in libs/admin/feature-vat, routes, mocked-store specs; all OnPush, signal-based, no inline styles.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "the category form in libs/categories/ui is failing lint all over the place — FormBuilder, output<any>, styleUrls etc. can you clean it up to our standards and fix create-category and update-category to match",
+      "expected_output": "CategoryFormComponent refactored to NonNullableFormBuilder with validators, CategoryFormValue type, submitted/cancelled outputs, OnPush, styleUrl, self-closing spinner, submit inside form; containers updated to the new outputs; update page loads by route id; specs updated.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I need a stations list page for the admin portal. Stations are a small fixed list so just load them all and page client-side, with a search box above the table that filters by name.",
+      "expected_output": "List page using BmgTable with [paginated] and [tplPagination], a signal search term and computed filtered data source, header projection for the search field with an associated label, no server paging.",
+      "files": []
+    }
+  ]
+}

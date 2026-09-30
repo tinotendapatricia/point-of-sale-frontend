@@ -1,40 +1,43 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { take } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RolesFacade } from '@pos-frontend/roles/data-access';
-import { UsersFacade } from '@pos-frontend/users/data-access';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RoleStore } from '@pos-frontend/roles/data-access';
+import { UserStore } from '@pos-frontend/users/data-access';
 import { UserRolesFormComponent } from '@pos-frontend/users/ui';
 
 @Component({
-    selector: 'pos-frontend-view-user-roles',
-    templateUrl: './view-user-roles.component.html',
-    styleUrls: ['./view-user-roles.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCardModule, UserRolesFormComponent]
+  selector: 'pos-frontend-view-user-roles',
+  templateUrl: './view-user-roles.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCardModule, UserRolesFormComponent],
 })
 export class ViewUserRolesComponent {
-  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  readonly userFacade = inject(UsersFacade);
-  readonly rolesFacade = inject(RolesFacade);
+  private readonly userStore = inject(UserStore);
+  private readonly roleStore = inject(RoleStore);
 
-  readonly allRoles = toSignal(this.rolesFacade.allRoles$, { initialValue: [] });
-  readonly selectedUser = toSignal(this.userFacade.selectedUser$, { initialValue: undefined });
+  private readonly userId = this.route.snapshot.paramMap.get('userId');
+
+  protected readonly roles = this.roleStore.roles;
+  protected readonly user = this.userStore.user;
+  protected readonly userRoles = computed(() => this.user()?.roles ?? []);
+  protected readonly submitting = this.userStore.assignRolesLoading;
 
   constructor() {
-    this.rolesFacade.getAllRoles();
-    this.userFacade.getUserById(
-      this.activatedRoute.snapshot.paramMap.get('userId')!
-    );
+    this.roleStore.getAllRoles();
+    if (this.userId) {
+      this.userStore.getUser({ id: this.userId });
+    }
   }
 
-  onSubmit(rolesDetails: any) {
-    rolesDetails.userId = this.activatedRoute.snapshot.paramMap.get('userId')!;
-    this.userFacade.assignUserRoles(rolesDetails);
-    this.userFacade.loaded$.pipe(take(1)).subscribe((res) => {
-      res ? this.router.navigate(['/users']) : null;
+  protected save(roles: string[]): void {
+    if (!this.userId) {
+      return;
+    }
+    this.userStore.assignUserRoles({
+      data: { userId: this.userId, roles },
+      callback: () => void this.router.navigate(['/users']),
     });
   }
 }

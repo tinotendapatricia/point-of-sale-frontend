@@ -1,49 +1,61 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ProductsFacade } from '@pos-frontend/products/data-access';
-import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
+import { ChangeDetectionStrategy, Component, Injector, inject, linkedSignal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ProductStore } from '@pos-frontend/products/data-access';
+import {
+  type AddProductsToBatchRequest,
+  type StockTakeBatchItem,
+  StockTakeStore,
+} from '@pos-frontend/stock-take/data-access';
 import { StockTakeFormComponent } from '@pos-frontend/stock-take/ui';
+
 import { CloseBatchComponent } from '../close-batch/close-batch.component';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'pos-frontend-create-stock-batch',
-    templateUrl: './create-stock-batch.component.html',
-    styleUrls: ['./create-stock-batch.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [StockTakeFormComponent, CloseBatchComponent, AsyncPipe]
+  selector: 'pos-frontend-create-stock-batch',
+  templateUrl: './create-stock-batch.component.html',
+  styleUrl: './create-stock-batch.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [StockTakeFormComponent, MatButtonModule, MatProgressSpinnerModule],
 })
-export class CreateStockBatchComponent implements OnInit  {
+export class CreateStockBatchComponent {
+  private readonly dialog = inject(MatDialog);
+  private readonly injector = inject(Injector);
+  private readonly productStore = inject(ProductStore);
+  private readonly stockTakeStore = inject(StockTakeStore);
 
-  batchNumber!:number|null 
-  isCloseBatch = false
-  selectedBatch!:any
+  protected readonly products = this.productStore.products;
+  protected readonly creating = this.stockTakeStore.createLoading;
+  /** The open batch; cleared locally once it has been closed. */
+  protected readonly batchNumber = linkedSignal<number | null>(
+    () => this.stockTakeStore.stockTakeBatch()?.batchNumber ?? null
+  );
 
-  constructor(private stockTakeService: StockTakeServiceService, public productsFacade:ProductsFacade){}
-
-  ngOnInit(): void {
-    this.productsFacade.getAllProducts()
+  constructor() {
+    this.productStore.getAllProducts();
   }
 
-
-  initiateBatch(): void {
-    this.stockTakeService.createStockTakeBatch().subscribe({
-      next:(res)=>{
-        this.batchNumber = res.batchNumber
-      }
-    })
+  protected initiateBatch(): void {
+    this.stockTakeStore.createStockTakeBatch();
   }
 
-  isAddProductsToStockBatch(batchDetail:any){
-    this.selectedBatch = batchDetail
-    this.isCloseBatch = true
-    
+  protected closeBatch(products: StockTakeBatchItem[]): void {
+    const batchNumber = this.batchNumber();
+    if (batchNumber === null) {
+      return;
+    }
+    this.dialog
+      .open<CloseBatchComponent, AddProductsToBatchRequest, boolean>(CloseBatchComponent, {
+        width: '420px',
+        data: { batchNumber, products },
+        injector: this.injector,
+      })
+      .afterClosed()
+      .subscribe((closed) => {
+        if (closed) {
+          this.batchNumber.set(null);
+        }
+      });
   }
-
-  close(){
-    this.batchNumber=null
-    this.isCloseBatch = false
-
-  }
-
-
 }

@@ -1,5 +1,1 @@
-<pos-frontend-user-form
-  [title]="'Create New User'"
-  [loading]="submitting()"
-  (formValue)="createUser($event)"
-></pos-frontend-user-form>
+<pos-frontend-user-form [loading]="submitting()" (cancelled)="close(false)" (submitted)="create($event)" />

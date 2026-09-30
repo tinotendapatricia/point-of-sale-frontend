@@ -1,37 +1,36 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { take } from 'rxjs';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { injectDrawerRef } from '@pos-frontend/core';
+import { type UsersEntity, UserStore } from '@pos-frontend/users/data-access';
+import { UserFormComponent, type UserFormValue } from '@pos-frontend/users/ui';
 
-import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
-import { UserFormComponent } from '@pos-frontend/users/ui';
-
-export interface UpdateUserData {
-  user: UsersEntity;
-}
-
+/** Drawer content. Open through DrawerService with `data: user`; closes with `true` on success. */
 @Component({
-    selector: 'pos-frontend-update-user',
-    templateUrl: './update-user.component.html',
-    styleUrls: ['./update-user.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [UserFormComponent]
+  selector: 'pos-frontend-update-user',
+  templateUrl: './update-user.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [UserFormComponent],
 })
 export class UpdateUserComponent {
-  private readonly dialogRef = inject(MatDialogRef<UpdateUserComponent, boolean>);
-  private readonly data = inject<UpdateUserData>(MAT_DIALOG_DATA);
-  readonly usersFacade = inject(UsersFacade);
+  private readonly drawerRef = injectDrawerRef<boolean, UsersEntity>();
+  private readonly userStore = inject(UserStore);
 
-  readonly user = this.data.user;
-  readonly submitting = signal(false);
+  protected readonly user = this.drawerRef.data;
+  protected readonly submitting = this.userStore.updateLoading;
 
-  public updateUser(user: any) {
-    this.submitting.set(true);
-    this.usersFacade.updateUser(user);
-    this.usersFacade.loaded$.pipe(take(1)).subscribe((loaded) => {
-      this.submitting.set(false);
-      if (loaded) {
-        this.dialogRef.close(true);
-      }
+  protected update(value: UserFormValue): void {
+    this.userStore.updateUser({
+      data: {
+        id: this.user.id,
+        username: value.username,
+        name: value.name,
+        // A blank password leaves the current one unchanged.
+        password: value.password || undefined,
+      },
+      callback: () => this.close(true),
     });
+  }
+
+  protected close(updated: boolean): void {
+    this.drawerRef.close(updated);
   }
 }

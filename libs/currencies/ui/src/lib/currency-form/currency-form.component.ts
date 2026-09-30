@@ -1,52 +1,72 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, effect } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  input,
+  output,
+} from '@angular/core';
+import {
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CurrenciesEntity } from '@pos-frontend/currencies/data-access';
+import type { CurrencyEntity } from '@pos-frontend/currencies/data-access';
+
+/** What the form emits: only the fields the user edits, never id or audit fields. */
+export type CurrencyFormValue = Pick<CurrencyEntity, 'name' | 'code' | 'symbol'>;
 
 @Component({
-    selector: 'pos-frontend-currency-form',
-    templateUrl: './currency-form.component.html',
-    styleUrls: ['./currency-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatRadioModule, MatButtonModule, MatProgressSpinnerModule]
+  selector: 'pos-frontend-currency-form',
+  templateUrl: './currency-form.component.html',
+  styleUrl: './currency-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+  ],
 })
 export class CurrencyFormComponent {
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
+  private readonly fb = inject(NonNullableFormBuilder);
 
-  readonly currency = input<CurrenciesEntity>();
+  readonly currency = input<CurrencyEntity>();
   readonly loading = input(false);
-  readonly title = input('');
-  readonly btnTitle = input('Submit');
-  readonly formValue = output<any>();
+  readonly submitLabel = input('Submit');
 
-  readonly currencyForm = this.formBuilder.group({
-    name: [''],
-    code: [''],
-    active: [true],
-    isDefault: [false],
-    id: [''],
+  readonly submitted = output<CurrencyFormValue>();
+  readonly cancelled = output<void>();
+
+  protected readonly form = this.fb.group({
+    name: ['', Validators.required],
+    code: ['', Validators.required],
+    symbol: ['', Validators.required],
   });
 
   constructor() {
     effect(() => {
       const currency = this.currency();
       if (currency) {
-        this.currencyForm.patchValue({ ...currency, id: String(currency.id) });
+        this.form.reset({
+          name: currency.name,
+          code: currency.code,
+          symbol: currency.symbol,
+        });
       }
     });
   }
 
-  cancel() {
-    this.dialogRef?.close(false);
-  }
-
-  submit() {
-    this.formValue.emit(this.currencyForm.value);
+  protected submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.submitted.emit(this.form.getRawValue());
   }
 }

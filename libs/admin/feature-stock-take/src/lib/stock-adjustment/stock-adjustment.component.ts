@@ -1,40 +1,31 @@
-import { Component, EventEmitter, Input, OnDestroy, Output, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ProductsFacade } from '@pos-frontend/products/data-access';
-import { Utilities } from '@pos-frontend/shared/utils';
-import { StockTakeServiceService } from '@pos-frontend/stock-take/data-access';
-import { Subscription } from 'rxjs';
 import { ActionConfirmationFormComponent } from '@pos-frontend/shared/ui';
+import { type AdjustStockRequest, StockTakeStore } from '@pos-frontend/stock-take/data-access';
 
+/** Opened through `MatDialog`; adjusts the stock and returns to the dashboard. */
 @Component({
-    selector: 'pos-frontend-stock-adjustment',
-    templateUrl: './stock-adjustment.component.html',
-    styleUrls: ['./stock-adjustment.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ActionConfirmationFormComponent]
+  selector: 'pos-frontend-stock-adjustment',
+  templateUrl: './stock-adjustment.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ActionConfirmationFormComponent],
 })
-export class StockAdjustmentComponent implements OnDestroy {
-  @Output() closeModal = new EventEmitter();
-  @Input() stockToBeAdjusted: any;
+export class StockAdjustmentComponent {
+  private readonly router = inject(Router);
+  private readonly dialogRef = inject<MatDialogRef<StockAdjustmentComponent, boolean>>(MatDialogRef);
+  private readonly stockTakeStore = inject(StockTakeStore);
+  private readonly adjustment = inject<AdjustStockRequest>(MAT_DIALOG_DATA);
 
-  sub = new Subscription()
-  constructor(
-    public stockTakeService: StockTakeServiceService,
-    public productsFacade: ProductsFacade,
-    private router:Router
-  ) {}
-  ngOnDestroy(): void {
-    this.sub.unsubscribe()
-  }
+  protected readonly submitting = this.stockTakeStore.adjustLoading;
 
-  adjustStock() {
-   this.sub = this.stockTakeService
-      .adjustStock(this.stockToBeAdjusted)
-      .subscribe((res) => {
-        this.router.navigate(['/dashboard'])
-        Utilities.displayToast('success',`Success. Stock Adjustment Number: ${res.adjustment.number}`);
-        this.closeModal.emit(true);
-
-      });
+  protected adjustStock(): void {
+    this.stockTakeStore.adjustStock({
+      data: this.adjustment,
+      callback: () => {
+        this.dialogRef.close(true);
+        void this.router.navigate(['/dashboard']);
+      },
+    });
   }
 }

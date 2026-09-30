@@ -1,117 +1,71 @@
-<form [formGroup]="reportForm">
-  <div class="clr-row">
-    <div class="clr-col-md-6">
-      @if (isDate) {
-        <div class="date">
-          <label>Date</label>
-          <input type="date" formControlName="fromDate" />
-        </div>
-      }
-    </div>
-    <div class="clr-col-md-6">
-      @if (isDate) {
-        <div class="date">
-          <label>To Date</label>
-          <input type="date" formControlName="toDate" />
-        </div>
-      }
-    </div>
-    <br />
-    @if (isProduct) {
-      <div class="clr-col-md-6">
-        <div class="select">
-          <br />
-          <label>Product</label>
-          <ng-select formControlName="product">
-            @for (product of products; track product) {
-              <ng-option [value]="product.id"
-                >{{ product.name }} {{ product.code }}
-              </ng-option>
-            }
-          </ng-select>
-          <small>Leave blank for all products</small>
-        </div>
+<form class="reports-form" [formGroup]="form" (ngSubmit)="requestPdf()">
+  <div class="grid grid-cols-1 gap-x-6 md:grid-cols-2">
+    @if (isDate()) {
+      <div class="field">
+        <label class="field-label" for="report-from-date">From Date<span class="required-marker">*</span></label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="report-from-date" matInput type="date" formControlName="fromDate" />
+          @if (controls.fromDate.hasError('required')) {
+            <mat-error>From date is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="field">
+        <label class="field-label" for="report-to-date">To Date<span class="required-marker">*</span></label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="report-to-date" matInput type="date" formControlName="toDate" />
+          @if (controls.toDate.hasError('required')) {
+            <mat-error>To date is required</mat-error>
+          }
+        </mat-form-field>
       </div>
     }
-    <br />
-    @if (isDebtor) {
-      <div class="clr-col-md-6">
-        <div class="select">
-          <br />
-          <label>Debtors</label>
-          <ng-select formControlName="debtor">
-            @for (debtor of debtors; track debtor) {
-              <ng-option [value]="debtor.id"
-                >{{ debtor.account }}
-              </ng-option>
-            }
-          </ng-select>
-          <small>Leave blank for all debtors</small>
-        </div>
+
+    @if (isProduct()) {
+      <div class="field">
+        <label class="field-label" for="report-product">Product</label>
+        <ng-select labelForId="report-product" placeholder="All products" formControlName="product">
+          @for (product of products(); track product.id) {
+            <ng-option [value]="product.id">{{ product.name }} {{ product.code }}</ng-option>
+          }
+        </ng-select>
+        <small class="hint">Leave blank for all products</small>
       </div>
     }
-    @if (isOrderNumber) {
-      <div class="clr-col-md-6">
-        <div class="field">
-          <label class="field-label">Purchase Order Number</label>
-          <mat-form-field class="full-width" subscriptSizing="dynamic">
-            <input matInput type="number" formControlName="orderNumber" />
-          </mat-form-field>
-        </div>
+
+    @if (isDebtor()) {
+      <div class="field">
+        <label class="field-label" for="report-debtor">Debtor</label>
+        <ng-select labelForId="report-debtor" placeholder="All debtors" formControlName="debtor">
+          @for (debtor of debtors(); track debtor.id) {
+            <ng-option [value]="debtor.id">{{ debtor.account }}</ng-option>
+          }
+        </ng-select>
+        <small class="hint">Leave blank for all debtors</small>
       </div>
     }
-    @if (isGrvNumber) {
-      <div class="clr-col-md-6">
-        <div class="field">
-          <label class="field-label">GRV Number</label>
-          <mat-form-field class="full-width" subscriptSizing="dynamic">
-            <input matInput type="number" formControlName="grvNumber" />
-          </mat-form-field>
-        </div>
-      </div>
-    }
-    @if (isBatch) {
-      <div class="clr-col-md-6">
-        <div class="field">
-          <label class="field-label">Batch Number</label>
-          <mat-form-field class="full-width" subscriptSizing="dynamic">
-            <input matInput type="number" formControlName="batchNumber" />
-          </mat-form-field>
-        </div>
-      </div>
-    }
-    @if (isAdjustmentNumber) {
-      <div class="clr-col-md-6">
-        <div class="field">
-          <label class="field-label">Adjustment Number</label>
-          <mat-form-field class="full-width" subscriptSizing="dynamic">
-            <input matInput type="number" formControlName="adjustmentNumber" />
-          </mat-form-field>
-        </div>
+
+    @for (field of numberFields(); track field.id) {
+      <div class="field">
+        <label class="field-label" [for]="field.id">{{ field.label }}<span class="required-marker">*</span></label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input matInput type="number" [id]="field.id" [formControl]="field.control" />
+          <mat-error>{{ field.label }} is required</mat-error>
+        </mat-form-field>
       </div>
     }
   </div>
-  <br />
-  <button
-    mat-flat-button
-    color="primary"
-    type="button"
-    [disabled]="loading"
-    (click)="getPdf.emit(reportForm.value)"
-    >
-    Get PDF
-  </button>
-  @if (isExcel) {
-    <button
-      mat-flat-button
-      color="primary"
-      type="button"
-      [disabled]="loading"
-      (click)="getExcel.emit(reportForm.value)"
-      >
-      Get Excel
-    </button>
-  }
-</form>
 
-<iframe id="pdf-iframe" style="width: 100%; height: 500px;" frameborder="0"></iframe>
+  <div class="mt-4 flex gap-2">
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        Get PDF
+      }
+    </button>
+    @if (isExcel()) {
+      <button type="button" mat-stroked-button [disabled]="loading()" (click)="requestExcel()">Get Excel</button>
+    }
+  </div>
+</form>

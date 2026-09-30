@@ -1,19 +1,26 @@
-<br />
-<div class="h">Value Added Tax (VAT)</div>
-<hr />
-<br />
-<mat-card class="login">
+<mat-card>
   <mat-card-content>
-    &nbsp;<button class="act" (click)="update()">
-    <mat-icon style="color: green">edit</mat-icon>Update</button
-    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getVat()">
-    <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
-      >Refresh
-    </button>
-    <div class="card-header"></div>
-    <br />
-    <pos-frontend-vat-details
-      [vat]="(vatFacade.selectedVat$ | async)!"
-    ></pos-frontend-vat-details>
+    <header class="mb-4 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold">Value Added Tax (VAT)</h1>
+        <p class="text-sm text-gray-600">The VAT rate applied to sales</p>
+      </div>
+      <div class="flex gap-2">
+        <button type="button" mat-stroked-button [disabled]="loading()" (click)="refresh()">
+          <mat-icon>sync</mat-icon>
+          Refresh
+        </button>
+        <button type="button" mat-flat-button [disabled]="!vat()" (click)="update()">
+          <mat-icon>edit</mat-icon>
+          Update
+        </button>
+      </div>
+    </header>
+
+    @if (loading() && !vat()) {
+      <p class="text-gray-600">Loading…</p>
+    } @else {
+      <pos-frontend-vat-details [vat]="vat()" />
+    }
   </mat-card-content>
 </mat-card>

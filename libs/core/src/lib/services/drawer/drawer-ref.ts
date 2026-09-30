@@ -1,8 +1,8 @@
-import { OverlayRef } from '@angular/cdk/overlay';
+import { type OverlayRef } from '@angular/cdk/overlay';
 import { inject } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { type Observable, ReplaySubject } from 'rxjs';
 
-import { DRAWER_DATA, DRAWER_SIZE_WIDTHS, DrawerSize, ResolvedDrawerConfig } from './drawer.config';
+import { DRAWER_DATA, DRAWER_SIZE_WIDTHS, type DrawerSize, type ResolvedDrawerConfig } from './drawer.config';
 
 /**
  * Handle for one open drawer. Returned by `DrawerService.open()` and

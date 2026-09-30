@@ -1,8 +1,8 @@
 <nav class="pos-sidenav h-full">
   <a
     class="pos-navlink"
-    [routerLink]="['/dashboard']"
     routerLinkActive="active"
+    [routerLink]="['/dashboard']"
   >
     <mat-icon>home</mat-icon>
     <span>Dashboard</span>
@@ -23,15 +23,15 @@
     @if (isOpen('products')) {
     <a
       class="pos-navlink pos-navlink-child"
-      [routerLink]="['/products']"
       routerLinkActive="active"
+      [routerLink]="['/products']"
     >
       Products
     </a>
     <a
       class="pos-navlink pos-navlink-child"
-      [routerLink]="['/products/break-bulk']"
       routerLinkActive="active"
+      [routerLink]="['/products/break-bulk']"
     >
       Break
     </a>
@@ -40,8 +40,8 @@
 
   <a
     class="pos-navlink"
-    [routerLink]="['/currencies']"
     routerLinkActive="active"
+    [routerLink]="['/currencies']"
   >
     <mat-icon>attach_money</mat-icon>
     <span>Currencies</span>
@@ -62,29 +62,29 @@
     @if (isOpen('purchases')) {
     <a
       class="pos-navlink pos-navlink-child"
-      [routerLink]="['/creditors']"
       routerLinkActive="active"
+      [routerLink]="['/creditors']"
     >
       Creditors
     </a>
     <a
       class="pos-navlink pos-navlink-child"
-      [routerLink]="['/purchase-orders']"
       routerLinkActive="active"
+      [routerLink]="['/purchase-orders']"
     >
       Purchase Orders
     </a>
     <a
       class="pos-navlink pos-navlink-child"
-      [routerLink]="['/receive-products']"
       routerLinkActive="active"
+      [routerLink]="['/receive-products']"
     >
       Receive Products
     </a>
     <a
       class="pos-navlink pos-navlink-child"
-      [routerLink]="['/purchases-reports']"
       routerLinkActive="active"
+      [routerLink]="['/purchases-reports']"
     >
       Reports
     </a>
@@ -106,15 +106,15 @@
     @if (isOpen('sales')) {
     <a
       class="pos-navlink pos-navlink-child"
-      [routerLink]="['/debtors']"
       routerLinkActive="active"
+      [routerLink]="['/debtors']"
     >
       Debtors
     </a>
     <a
       class="pos-navlink pos-navlink-child"
-      [routerLink]="['/sales-reports']"
       routerLinkActive="active"
+      [routerLink]="['/sales-reports']"
     >
       Reports
     </a>
@@ -136,15 +136,15 @@
     @if (isOpen('stock')) {
     <a
       class="pos-navlink pos-navlink-child"
-      [routerLink]="['/stock-take']"
       routerLinkActive="active"
+      [routerLink]="['/stock-take']"
     >
       Stock Take
     </a>
     <a
       class="pos-navlink pos-navlink-child"
-      [routerLink]="['/stocks']"
       routerLinkActive="active"
+      [routerLink]="['/stocks']"
     >
       Reports
     </a>
@@ -153,17 +153,17 @@
 
   <a
     class="pos-navlink"
-    [routerLink]="['/configurations']"
     routerLinkActive="active"
+    [routerLink]="['/configurations']"
   >
     <mat-icon>settings</mat-icon>
     <span>Configurations</span>
   </a>
-  <a class="pos-navlink" [routerLink]="['/company']" routerLinkActive="active">
+  <a class="pos-navlink" routerLinkActive="active" [routerLink]="['/company']">
     <mat-icon>apartment</mat-icon>
     <span>Company</span>
   </a>
-  <a class="pos-navlink" [routerLink]="['/audits']" routerLinkActive="active">
+  <a class="pos-navlink" routerLinkActive="active" [routerLink]="['/audits']">
     <mat-icon>fact_check</mat-icon>
     <span>Audit Trail</span>
   </a>

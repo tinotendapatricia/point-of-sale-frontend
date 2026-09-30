@@ -1,30 +1,38 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { take } from 'rxjs';
-import { MatDialogRef } from '@angular/material/dialog';
-import { CategoriesFacade } from '@pos-frontend/categories/data-access';
-import { CategoryFormComponent } from '@pos-frontend/categories/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { CategoryStore } from '@pos-frontend/categories/data-access';
+import {
+  CategoryFormComponent,
+  type CategoryFormValue,
+} from '@pos-frontend/categories/ui';
+import { injectDrawerRef } from '@pos-frontend/core';
 
 @Component({
-    selector: 'pos-frontend-create-category',
-    templateUrl: './create-category.component.html',
-    styleUrls: ['./create-category.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [CategoryFormComponent]
+  selector: 'pos-frontend-create-category',
+  templateUrl: './create-category.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CategoryFormComponent],
 })
 export class CreateCategoryComponent {
-  private readonly dialogRef = inject(MatDialogRef<CreateCategoryComponent, boolean>);
-  readonly categoriesService = inject(CategoriesFacade);
+  private readonly router = inject(Router);
+  // null on the routed /categories/new page; present when opened through DrawerService.
+  private readonly drawerRef = injectDrawerRef<boolean>({ optional: true });
+  private readonly categoryStore = inject(CategoryStore);
 
-  readonly submitting = signal(false);
+  protected readonly submitting = this.categoryStore.createLoading;
 
-  public createCategorie(categorie: any) {
-    this.submitting.set(true);
-    this.categoriesService.createNewCategorie(categorie);
-    this.categoriesService.loaded$.pipe(take(1)).subscribe((loaded) => {
-      this.submitting.set(false);
-      if (loaded) {
-        this.dialogRef.close(true);
-      }
+  protected create(value: CategoryFormValue): void {
+    this.categoryStore.createCategory({
+      data: value,
+      callback: () => this.close(true),
     });
+  }
+
+  protected close(created: boolean): void {
+    if (this.drawerRef) {
+      this.drawerRef.close(created);
+    } else {
+      void this.router.navigate(['/categories']);
+    }
   }
 }

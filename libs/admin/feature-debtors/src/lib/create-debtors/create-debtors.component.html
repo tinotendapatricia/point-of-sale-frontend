@@ -1,6 +1,6 @@
 <pos-frontend-debtors-form
-  [title]="'Create New Debtor'"
+  [currencies]="currencies()"
   [loading]="submitting()"
-  [currencies]="(currenciesFacade.allCurrencies$ | async)!"
-  (formValue)="createDebtor($event)"
-></pos-frontend-debtors-form>
+  (cancelled)="close(false)"
+  (submitted)="create($event)"
+/>

@@ -26,3 +26,9 @@
   color: var(--alert, red);
   margin-left: 2px;
 }
+
+.field-error {
+  color: var(--alert, red);
+  font-size: 12px;
+  margin-top: var(--space-1, 4px);
+}

@@ -1,53 +1,67 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, effect } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  output,
+} from '@angular/core';
+import {
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ProductsEntity } from '@pos-frontend/products/data-access';
+
+/** Which product value the form edits. */
+export type CostPriceMode = 'cost' | 'price';
+
+/** What the form emits; the container maps `amount` onto `cost` or `price` and adds the product id. */
+export interface CostPriceFormValue {
+  amount: number;
+  effectiveDate: string;
+}
 
 @Component({
-    selector: 'pos-frontend-update-cost-and-price',
-    templateUrl: './update-cost-and-price.component.html',
-    styleUrls: ['./update-cost-and-price.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
+  selector: 'pos-frontend-update-cost-and-price',
+  templateUrl: './update-cost-and-price.component.html',
+  styleUrl: './update-cost-and-price.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+  ],
 })
 export class UpdateCostAndPriceComponent {
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
+  private readonly fb = inject(NonNullableFormBuilder);
 
-  readonly product = input<ProductsEntity>();
+  readonly mode = input.required<CostPriceMode>();
   readonly loading = input(false);
-  readonly title = input('');
-  readonly btnTitle = input('Submit');
-  readonly isCost = input(false);
-  readonly isPrice = input(false);
-  readonly formValue = output<any>();
+  readonly submitLabel = input('Submit');
 
-  readonly form = this.formBuilder.group({
-    id: [''],
-    price: [''],
-    cost: [''],
-    currency: [{ disabled: true, value: '' }],
+  readonly submitted = output<CostPriceFormValue>();
+  readonly cancelled = output<void>();
+
+  protected readonly amountLabel = computed(() =>
+    this.mode() === 'cost' ? 'Cost' : 'Price'
+  );
+
+  protected readonly form = this.fb.group({
+    amount: [0, [Validators.required, Validators.min(0)]],
     effectiveDate: [''],
   });
 
-  constructor() {
-    effect(() => {
-      const product = this.product();
-      if (product) {
-        this.form.get('id')?.patchValue(String(product.id));
-      }
-    });
-  }
-
-  cancel() {
-    this.dialogRef?.close(false);
-  }
-
-  submit() {
-    this.formValue.emit(this.form.value);
+  protected submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.submitted.emit(this.form.getRawValue());
   }
 }

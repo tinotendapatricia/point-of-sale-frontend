@@ -15,6 +15,7 @@
 
 img {
   width: 100%;
+  height: auto;
   display: block;
   margin: 0 auto var(--space-4, 12px);
 }
@@ -83,7 +84,10 @@ img {
   margin-top: var(--space-2, 8px);
   text-align: center;
 
-  a {
+  .link-button {
+    padding: 0;
+    border: none;
+    background: none;
     font-family: var(--font-heading, inherit);
     font-weight: 900;
     color: var(--color-accent, green);

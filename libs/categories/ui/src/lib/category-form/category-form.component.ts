@@ -1,49 +1,67 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, effect } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  input,
+  output,
+} from '@angular/core';
+import {
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CategoriesEntity } from '@pos-frontend/categories/data-access';
+import type { CategoryEntity } from '@pos-frontend/categories/data-access';
+
+/** What the form emits: only the fields the user edits, never id or audit fields. */
+export type CategoryFormValue = Pick<CategoryEntity, 'name' | 'code'>;
 
 @Component({
-    selector: 'pos-frontend-category-form',
-    templateUrl: './category-form.component.html',
-    styleUrls: ['./category-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
+  selector: 'pos-frontend-category-form',
+  templateUrl: './category-form.component.html',
+  styleUrl: './category-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+  ],
 })
 export class CategoryFormComponent {
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
+  private readonly fb = inject(NonNullableFormBuilder);
 
-  readonly categorie = input<CategoriesEntity>();
+  readonly category = input<CategoryEntity>();
   readonly loading = input(false);
-  readonly title = input('');
-  readonly btnTitle = input('Submit');
-  readonly formValue = output<any>();
+  readonly submitLabel = input('Submit');
 
-  readonly categorieForm = this.formBuilder.group({
-    name: [''],
-    code: [''],
-    id: [''],
+  readonly submitted = output<CategoryFormValue>();
+  readonly cancelled = output<void>();
+
+  protected readonly form = this.fb.group({
+    name: ['', Validators.required],
+    code: ['', Validators.required],
   });
 
   constructor() {
     effect(() => {
-      const categorie = this.categorie();
-      if (categorie) {
-        this.categorieForm.patchValue(categorie);
+      const category = this.category();
+      if (category) {
+        this.form.reset({ name: category.name, code: category.code });
       }
     });
   }
 
-  cancel() {
-    this.dialogRef?.close(false);
-  }
-
-  submit() {
-    this.formValue.emit(this.categorieForm.value);
+  protected submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.submitted.emit(this.form.getRawValue());
   }
 }

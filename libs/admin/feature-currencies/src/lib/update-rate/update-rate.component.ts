@@ -1,37 +1,37 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { take } from 'rxjs';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CurrenciesEntity, CurrenciesFacade } from '@pos-frontend/currencies/data-access';
-import { RateFormComponent } from '@pos-frontend/currencies/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { injectDrawerData, injectDrawerRef } from '@pos-frontend/core';
+import {
+  type CurrencyEntity,
+  CurrencyStore,
+} from '@pos-frontend/currencies/data-access';
+import { RateFormComponent, type RateFormValue } from '@pos-frontend/currencies/ui';
 
 export interface UpdateRateData {
-  currency: CurrenciesEntity;
+  currency: CurrencyEntity;
 }
 
+/** Drawer content: opened from the currencies list with the row as data. */
 @Component({
-    selector: 'pos-frontend-update-rate',
-    templateUrl: './update-rate.component.html',
-    styleUrls: ['./update-rate.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [RateFormComponent]
+  selector: 'pos-frontend-update-rate',
+  templateUrl: './update-rate.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RateFormComponent],
 })
 export class UpdateRateComponent {
-  private readonly dialogRef = inject(MatDialogRef<UpdateRateComponent, boolean>);
-  private readonly data = inject<UpdateRateData>(MAT_DIALOG_DATA);
-  readonly currenciesService = inject(CurrenciesFacade);
+  private readonly drawerRef = injectDrawerRef<boolean>();
+  private readonly data = injectDrawerData<UpdateRateData>();
+  private readonly currencyStore = inject(CurrencyStore);
 
-  private readonly currency = this.data.currency;
-  readonly submitting = signal(false);
+  protected readonly submitting = this.currencyStore.updateRateLoading;
 
-  public updateRate(rateDetails: any) {
-    rateDetails.id = this.currency.id;
-    this.submitting.set(true);
-    this.currenciesService.updateRate(rateDetails);
-    this.currenciesService.loaded$.pipe(take(1)).subscribe((loaded) => {
-      this.submitting.set(false);
-      if (loaded) {
-        this.dialogRef.close(true);
-      }
+  protected update(value: RateFormValue): void {
+    this.currencyStore.updateRate({
+      data: { ...value, id: this.data.currency.id },
+      callback: () => this.drawerRef.close(true),
     });
+  }
+
+  protected cancel(): void {
+    this.drawerRef.close(false);
   }
 }

@@ -1,42 +1,31 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ProductsFacade } from '@pos-frontend/products/data-access';
-import { ReportsService } from '@pos-frontend/reports/data-access';
-import { Subscription } from 'rxjs';
-import { ReportsFormComponent } from '@pos-frontend/reports/ui';
-import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { ProductStore } from '@pos-frontend/products/data-access';
+import { ReportStore } from '@pos-frontend/reports/data-access';
+import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/reports/ui';
 
 @Component({
-    selector: 'pos-frontend-sales-by-period-and-product',
-    templateUrl: './sales-by-period-and-product.component.html',
-    styleUrls: ['./sales-by-period-and-product.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReportsFormComponent, AsyncPipe]
+  selector: 'pos-frontend-sales-by-period-and-product',
+  templateUrl: './sales-by-period-and-product.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCardModule, ReportsFormComponent],
 })
-export class SalesByPeriodAndProductComponent implements OnInit, OnDestroy {
-  loading = false;
-  sub1 = new Subscription();
-  sub2 = new Subscription();
+export class SalesByPeriodAndProductComponent {
+  private readonly reportStore = inject(ReportStore);
+  private readonly productStore = inject(ProductStore);
 
-  constructor(
-    private reportsService: ReportsService,
-    public productsFacade: ProductsFacade
-  ) {}
-  ngOnInit(): void {
-    this.productsFacade.getAllProducts();
+  protected readonly loading = this.reportStore.salesLoading;
+  protected readonly products = this.productStore.products;
+
+  constructor() {
+    this.productStore.getAllProducts();
   }
 
-  getPdf(details: any) {
-    this.loading = true;
-    this.sub1 = this.reportsService
-      .getAllSalesForPeriodByProductPDF(details.fromDate, details.toDate, details.product).subscribe();
+  protected getPdf({ fromDate, toDate, product }: ReportFormValue): void {
+    this.reportStore.getSalesByProductPdf({ fromDate, toDate, product });
   }
 
-  getExcel(details:any) {
-    this.sub2 = this.reportsService.getAllSalesForPeriodByProductExcel(details.fromDate,details.toDate, details.product).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.sub1.unsubscribe();
-    this.sub2.unsubscribe();
+  protected getExcel({ fromDate, toDate, product }: ReportFormValue): void {
+    this.reportStore.getSalesByProductExcel({ fromDate, toDate, product });
   }
 }

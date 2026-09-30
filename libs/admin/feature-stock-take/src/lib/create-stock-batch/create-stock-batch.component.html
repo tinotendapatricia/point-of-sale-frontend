@@ -1,26 +1,14 @@
-
-<div class="card">
-  <div class="card-block">
-    @if (batchNumber) {
-      <div class="batch">Batch Number: {{batchNumber}}</div>
-    }
-    @if (!batchNumber) {
-      <button class="btn btn-primary" (click)="initiateBatch()">Initiate Stock Take</button>
-    }
-    <br>
-      @if (batchNumber) {
-        <pos-frontend-stock-take-form
-          [products]="(productsFacade.allProducts$|async)!"
-          (formValue)="isAddProductsToStockBatch($event)"
-        ></pos-frontend-stock-take-form>
+<div class="p-4">
+  @if (batchNumber(); as batch) {
+    <div class="batch">Batch Number: {{ batch }}</div>
+    <pos-frontend-stock-take-form class="mt-4 block" [products]="products()" (submitted)="closeBatch($event)" />
+  } @else {
+    <button type="button" mat-flat-button [disabled]="creating()" (click)="initiateBatch()">
+      @if (creating()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        Initiate Stock Take
       }
-    </div>
-  </div>
-
-  @if (isCloseBatch) {
-    <pos-frontend-close-batch
-      [batchNumber]="batchNumber!"
-      [batch]="selectedBatch"
-      (closeModal)="close()"
-    ></pos-frontend-close-batch>
+    </button>
   }
+</div>

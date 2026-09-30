@@ -12,8 +12,7 @@ import { TableColumnDef } from './table.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ MatTableModule, MatPaginator, NgTemplateOutlet, MatCard, MatIcon, LowerCasePipe, MatButton],
   templateUrl: './table.html',
-  styles: [
-    `
+  styles: `
       :host {
         display: block;
         mat-card {
@@ -24,7 +23,6 @@ import { TableColumnDef } from './table.types';
         }
       }
     `,
-  ],
 })
 export class BmgTable<T> {
   public readonly loading = input<boolean>(false);

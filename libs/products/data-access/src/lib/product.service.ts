@@ -1,33 +1,40 @@
-import { Injectable } from '@angular/core';
-import { ProductsEntity } from './product.model';
-import { ApiService, Page } from '@pos-frontend/shared/data-access';
-import { HttpParams } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import {
+  ApiService,
+  type Page,
+  toHttpParams,
+} from '@pos-frontend/shared/data-access';
+import {
+  type BreakProductRequest,
+  type CreateProductRequest,
+  type ProductFilters,
+  type ProductsEntity,
+  type UpdateCostRequest,
+  type UpdatePriceRequest,
+} from './product.model';
+
 @Injectable({
   providedIn: 'root',
 })
-export class ProductsService {
-  constructor(private apiService: ApiService) {}
+export class ProductService {
+  private readonly apiService = inject(ApiService);
 
-  getPaginatedProducts(filters?: any) {
-    const httpParams = new HttpParams({ fromObject: filters });
+  getPaginatedProducts(filters?: ProductFilters) {
     return this.apiService.get<Page<ProductsEntity>>(
       `/products/paginated`,
-      httpParams
+      toHttpParams(filters)
     );
   }
 
-  createProduct(productDetails: ProductsEntity) {
+  createProduct(productDetails: CreateProductRequest) {
     return this.apiService.post<ProductsEntity>(
       `/products/create/`,
       productDetails
     );
   }
 
-  breakProduct(productDetails: ProductsEntity) {
-    return this.apiService.put<ProductsEntity>(
-      `/products/break`,
-      productDetails
-    );
+  breakProduct(details: BreakProductRequest) {
+    return this.apiService.put<ProductsEntity>(`/products/break`, details);
   }
 
   getProduct(productId: string | number) {
@@ -41,20 +48,22 @@ export class ProductsService {
     );
   }
 
-  updateCost(productDetails: any) {
+  updateCost(details: UpdateCostRequest) {
     return this.apiService.post<ProductsEntity>(
-      `/costs/update-cost/${productDetails.id}`,productDetails
+      `/costs/update-cost/${details.id}`,
+      details
     );
   }
 
-  updatePrice(productDetails: any) {
+  updatePrice(details: UpdatePriceRequest) {
     return this.apiService.post<ProductsEntity>(
-      `/prices/update-price/${productDetails.id}`,productDetails
+      `/prices/update-price/${details.id}`,
+      details
     );
   }
 
   deleteProduct(productId: string | number) {
-    return this.apiService.delete(`/products/${productId}`);
+    return this.apiService.delete<void>(`/products/${productId}`);
   }
 
   getAllProducts() {

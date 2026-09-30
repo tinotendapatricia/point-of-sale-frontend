@@ -1,36 +1,19 @@
-<div class="field">
-  <label class="field-label">Batch Number</label>
-  <mat-form-field class="full-width" subscriptSizing="dynamic">
-    <input matInput type="number" [(ngModel)]="batchNumber" />
-  </mat-form-field>
-</div>
-<button mat-flat-button color="primary" type="button" (click)="startComparison()">Start Stock Take Comparison</button>
-
-@if (newArray.length>0) {
-  <table class="table">
-    <thead>
-      <th>Product Id</th>
-      <th>Product Name</th>
-      <th>Batch Count</th>
-      <th>System Count</th>
-      <th>Variance</th>
-      <th></th>
-    </thead>
-    <tbody>
-      @for (product of newArray; track product) {
-        <tr>
-          <td>{{ product.productId }}</td>
-          <td>{{ product.name }}</td>
-          <td>{{ product.batchCount }}</td>
-          <td>{{ product.systemCount }}</td>
-          <td>{{ product.variance }}</td>
-          <td></td>
-        </tr>
+<form class="flex flex-wrap items-end gap-4" [formGroup]="form" (ngSubmit)="startComparison()">
+  <div class="field">
+    <label class="field-label" for="stock-count-batch">Batch Number<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="stock-count-batch" matInput type="number" formControlName="batchNumber" />
+      @if (form.controls.batchNumber.hasError('required')) {
+        <mat-error>Batch number is required</mat-error>
       }
-    </tbody>
-  </table>
-}
+    </mat-form-field>
+  </div>
+  <div class="field">
+    <button type="submit" mat-flat-button [disabled]="loading()">Start Stock Take Comparison</button>
+  </div>
+</form>
 
-@if (newArray.length!>0) {
-  <button class="btn btn-primary" (click)="adjustStock()">Adjust Stock</button>
+@if (hasComparison()) {
+  <pos-frontend-table caption="Products" type="default" [columns]="columns" [data]="dataSource()" />
+  <button type="button" class="mt-4" mat-flat-button (click)="adjustStock()">Adjust Stock</button>
 }

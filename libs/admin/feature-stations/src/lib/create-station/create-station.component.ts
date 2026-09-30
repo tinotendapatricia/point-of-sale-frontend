@@ -1,30 +1,32 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { take } from 'rxjs';
-import { MatDialogRef } from '@angular/material/dialog';
-import { StationsFacade } from '@pos-frontend/stations/data-access';
-import { StationsFormComponent } from '@pos-frontend/stations/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { injectDrawerRef } from '@pos-frontend/core';
+import { StationStore } from '@pos-frontend/stations/data-access';
+import { type StationFormValue, StationsFormComponent } from '@pos-frontend/stations/ui';
 
 @Component({
-    selector: 'pos-frontend-create-station',
-    templateUrl: './create-station.component.html',
-    styleUrls: ['./create-station.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [StationsFormComponent]
+  selector: 'pos-frontend-create-station',
+  templateUrl: './create-station.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [StationsFormComponent],
 })
 export class CreateStationComponent {
-  private readonly dialogRef = inject(MatDialogRef<CreateStationComponent, boolean>);
-  readonly stationsService = inject(StationsFacade);
+  private readonly router = inject(Router);
+  // null on the routed /stations/new page; present when opened through DrawerService.
+  private readonly drawerRef = injectDrawerRef<boolean>({ optional: true });
+  private readonly stationStore = inject(StationStore);
 
-  readonly submitting = signal(false);
+  protected readonly submitting = this.stationStore.createLoading;
 
-  public createStation(station: any) {
-    this.submitting.set(true);
-    this.stationsService.createNewStation(station);
-    this.stationsService.loaded$.pipe(take(1)).subscribe((loaded) => {
-      this.submitting.set(false);
-      if (loaded) {
-        this.dialogRef.close(true);
-      }
-    });
+  protected create(value: StationFormValue): void {
+    this.stationStore.createStation({ data: value, callback: () => this.close(true) });
+  }
+
+  protected close(created: boolean): void {
+    if (this.drawerRef) {
+      this.drawerRef.close(created);
+    } else {
+      void this.router.navigate(['/stations']);
+    }
   }
 }

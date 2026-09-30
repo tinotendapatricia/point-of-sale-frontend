@@ -3,11 +3,11 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'pos-frontend-side-nav',
-    templateUrl: './side-nav.component.html',
-    styleUrls: ['./side-nav.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [RouterLink, RouterLinkActive, MatIconModule]
+  selector: 'pos-frontend-side-nav',
+  templateUrl: './side-nav.component.html',
+  styleUrl: './side-nav.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, RouterLinkActive, MatIconModule],
 })
 export class SideNavComponent {
   private readonly router = inject(Router);
@@ -19,7 +19,7 @@ export class SideNavComponent {
     stock: ['/stock-take', '/stocks'],
   };
 
-  readonly openGroups = signal<Set<string>>(
+  protected readonly openGroups = signal<Set<string>>(
     new Set(
       Object.entries(SideNavComponent.GROUP_PATHS)
         .filter(([, paths]) => paths.some((path) => this.router.url.startsWith(path)))
@@ -27,14 +27,18 @@ export class SideNavComponent {
     )
   );
 
-  isOpen(key: string): boolean {
+  protected isOpen(key: string): boolean {
     return this.openGroups().has(key);
   }
 
-  toggle(key: string): void {
+  protected toggle(key: string): void {
     this.openGroups.update((current) => {
       const next = new Set(current);
-      next.has(key) ? next.delete(key) : next.add(key);
+      if (next.has(key)) {
+        next.delete(key);
+      } else {
+        next.add(key);
+      }
       return next;
     });
   }

@@ -1,61 +1,79 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DatagridState } from '@pos-frontend/shared/utils';
-import { CategoriesEntity, CategoriesFacade } from '@pos-frontend/categories/data-access';
-import { MatCard, MatCardContent } from '@angular/material/card';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Injector,
+  type TemplateRef,
+  computed,
+  inject,
+  viewChild,
+} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
-import { CategoryListUiComponent } from '@pos-frontend/categories/ui';
+import { type PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CategoryStore } from '@pos-frontend/categories/data-access';
+import { DrawerService } from '@pos-frontend/core';
+import { BmgTable, type TableColumnDef } from '@pos-frontend/shared/ui';
 import { CreateCategoryComponent } from '../create-category/create-category.component';
-import { AsyncPipe } from '@angular/common';
+
+const FIRST_PAGE = { page: 0, size: 10 };
 
 @Component({
-    selector: 'pos-frontend-categories-list',
-    templateUrl: './categories-list.component.html',
-    styleUrls: ['./categories-list.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, MatIconModule, CategoryListUiComponent, AsyncPipe]
+  selector: 'pos-frontend-categories-list',
+  templateUrl: './categories-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [BmgTable, MatIconModule, MatButtonModule],
 })
 export class CategoriesListComponent {
-  private readonly dialog = inject(MatDialog);
+  private readonly drawer = inject(DrawerService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly injector = inject(Injector);
+  private readonly categoryStore = inject(CategoryStore);
 
-  constructor(
-    public categoriesFacade: CategoriesFacade,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  private readonly actionsTpl = viewChild<TemplateRef<unknown>>('actionsTpl');
 
-  public getCategorieList(state: DatagridState) {
-    this.categoriesFacade.getPaginatedCategories(state);
+  protected readonly loading = this.categoryStore.getPaginatedLoading;
+  protected readonly total = this.categoryStore.totalCategories;
+  protected readonly dataSource = computed(
+    () => new MatTableDataSource(this.categoryStore.paginatedCategories())
+  );
+
+  protected readonly columns = computed<TableColumnDef[]>(() => [
+    { key: 'code', header: 'Code' },
+    { key: 'name', header: 'Name' },
+    { key: 'createdBy', header: 'Created By' },
+    { key: 'actions', header: '', align: 'right', template: this.actionsTpl() },
+  ]);
+
+  constructor() {
+    this.categoryStore.getPaginatedCategories(FIRST_PAGE);
   }
 
-  refresh() {
-    this.getCategorieList({});
+  protected onPage(event: PageEvent): void {
+    this.categoryStore.getPaginatedCategories({
+      page: event.pageIndex,
+      size: event.pageSize,
+    });
   }
 
-  createCategorie() {
-    this.dialog
-      .open(CreateCategoryComponent, { width: '480px' })
+  protected add(): void {
+    this.drawer
+      .open<CreateCategoryComponent, boolean>(CreateCategoryComponent, {
+        title: 'New Category',
+        size: 'md',
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((created) => created && this.refresh());
+      .subscribe((created) => {
+        if (created) {
+          this.categoryStore.getPaginatedCategories(FIRST_PAGE);
+        }
+      });
   }
 
-  updateCategorie(categorie: CategoriesEntity) {
-    this.router.navigate(['./update-categorie', categorie.id], {
-      relativeTo: this.route,
-    });
-  }
-
-  viewCategorie(categorie: CategoriesEntity) {
-    this.categoriesFacade.getCategorie(categorie.id);
-    this.router.navigate(['./categorie-details', categorie.id], {
-      relativeTo: this.route,
-    });
-  }
-
-  viewCategorieAuthorities(categorieId: any) {
-    this.router.navigate(['./view-categorie', categorieId], {
-      relativeTo: this.route,
-    });
+  protected edit(id: string | number): void {
+    void this.router.navigate(['./update', id], { relativeTo: this.route });
   }
 }

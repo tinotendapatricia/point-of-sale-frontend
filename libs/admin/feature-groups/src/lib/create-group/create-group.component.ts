@@ -1,30 +1,32 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { take } from 'rxjs';
-import { MatDialogRef } from '@angular/material/dialog';
-import { GroupsFacade } from '@pos-frontend/groups/data-access';
-import { GroupFormComponent } from '@pos-frontend/groups/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { injectDrawerRef } from '@pos-frontend/core';
+import { GroupStore } from '@pos-frontend/groups/data-access';
+import { GroupFormComponent, type GroupFormValue } from '@pos-frontend/groups/ui';
 
 @Component({
-    selector: 'pos-frontend-create-group',
-    templateUrl: './create-group.component.html',
-    styleUrls: ['./create-group.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [GroupFormComponent]
+  selector: 'pos-frontend-create-group',
+  templateUrl: './create-group.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [GroupFormComponent],
 })
 export class CreateGroupComponent {
-  private readonly dialogRef = inject(MatDialogRef<CreateGroupComponent, boolean>);
-  readonly groupsService = inject(GroupsFacade);
+  private readonly router = inject(Router);
+  // null when rendered outside a drawer.
+  private readonly drawerRef = injectDrawerRef<boolean>({ optional: true });
+  private readonly groupStore = inject(GroupStore);
 
-  readonly submitting = signal(false);
+  protected readonly submitting = this.groupStore.createLoading;
 
-  public createGroup(group: any) {
-    this.submitting.set(true);
-    this.groupsService.createNewGroup(group);
-    this.groupsService.loaded$.pipe(take(1)).subscribe((loaded) => {
-      this.submitting.set(false);
-      if (loaded) {
-        this.dialogRef.close(true);
-      }
-    });
+  protected create(value: GroupFormValue): void {
+    this.groupStore.createGroup({ data: value, callback: () => this.close(true) });
+  }
+
+  protected close(created: boolean): void {
+    if (this.drawerRef) {
+      this.drawerRef.close(created);
+    } else {
+      void this.router.navigate(['/groups']);
+    }
   }
 }

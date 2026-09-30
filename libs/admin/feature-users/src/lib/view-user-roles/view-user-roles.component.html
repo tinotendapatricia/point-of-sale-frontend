@@ -1,14 +1,11 @@
-<div class="pos-page-header">
-  <h1>Permissions for {{ selectedUser()?.name }}</h1>
-</div>
-
-<mat-card class="login">
+<mat-card>
   <mat-card-content>
+    <h1 class="mb-4 text-2xl font-bold">Permissions for {{ user()?.name }}</h1>
     <pos-frontend-user-roles-form
-      [roles]="allRoles()"
-      [userRoles]="selectedUser()?.roles"
-      [userId]="selectedUser()?.id"
-      (save)="onSubmit($event)"
-    ></pos-frontend-user-roles-form>
+      [loading]="submitting()"
+      [roles]="roles()"
+      [userRoles]="userRoles()"
+      (saved)="save($event)"
+    />
   </mat-card-content>
 </mat-card>

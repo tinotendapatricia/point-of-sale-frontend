@@ -1,63 +1,58 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DatagridState } from '@pos-frontend/shared/utils';
-import {
-  StationsEntity,
-  StationsFacade,
-} from '@pos-frontend/stations/data-access';
-import { MatCard, MatCardContent } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
+import { type PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DrawerService } from '@pos-frontend/core';
+import { StationStore } from '@pos-frontend/stations/data-access';
 import { StationsListUiComponent } from '@pos-frontend/stations/ui';
 import { CreateStationComponent } from '../create-station/create-station.component';
-import { AsyncPipe } from '@angular/common';
+
+const FIRST_PAGE = { page: 0, size: 10 };
 
 @Component({
-    selector: 'pos-frontend-stations-list',
-    templateUrl: './stations-list.component.html',
-    styleUrls: ['./stations-list.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, MatIconModule, StationsListUiComponent, AsyncPipe]
+  selector: 'pos-frontend-stations-list',
+  templateUrl: './stations-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [StationsListUiComponent],
 })
 export class StationsListComponent {
-  private readonly dialog = inject(MatDialog);
+  private readonly drawer = inject(DrawerService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly injector = inject(Injector);
+  protected readonly stationStore = inject(StationStore);
 
-  constructor(
-    public stationsFacade: StationsFacade,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  protected readonly loading = this.stationStore.getPaginatedLoading;
+  protected readonly stations = this.stationStore.paginatedStations;
+  protected readonly total = this.stationStore.totalStations;
 
-  public getStationList(state: DatagridState) {
-    this.stationsFacade.getPaginatedStations(state);
+  constructor() {
+    this.refresh();
   }
 
-  refresh() {
-    this.getStationList({});
+  protected onPage(event: PageEvent): void {
+    this.stationStore.getPaginatedStations({ page: event.pageIndex, size: event.pageSize });
   }
 
-  createStation() {
-    this.dialog
-      .open(CreateStationComponent, { width: '480px' })
+  protected refresh(): void {
+    this.stationStore.getPaginatedStations(FIRST_PAGE);
+  }
+
+  protected add(): void {
+    this.drawer
+      .open<CreateStationComponent, boolean>(CreateStationComponent, {
+        title: 'New Station',
+        size: 'md',
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((created) => created && this.refresh());
+      .subscribe((created) => {
+        if (created) {
+          this.refresh();
+        }
+      });
   }
 
-  updateStation(station: StationsEntity) {
-    this.router.navigate(['./update-station', station.id], {
-      relativeTo: this.route,
-    });
-  }
-
-  viewStation(station: StationsEntity) {
-    this.router.navigate(['./station-details', station.id], {
-      relativeTo: this.route,
-    });
-  }
-
-  viewStationAuthorities(stationId: any) {
-    this.router.navigate(['./view-station', stationId], {
-      relativeTo: this.route,
-    });
+  protected edit(id: string | number): void {
+    void this.router.navigate(['./update', id], { relativeTo: this.route });
   }
 }

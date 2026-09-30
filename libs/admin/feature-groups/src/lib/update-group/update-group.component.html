@@ -1,1 +1,7 @@
-<p>update-group works!</p>
+<pos-frontend-group-form
+  submitLabel="Update"
+  [group]="group"
+  [loading]="submitting()"
+  (cancelled)="close(false)"
+  (submitted)="update($event)"
+/>

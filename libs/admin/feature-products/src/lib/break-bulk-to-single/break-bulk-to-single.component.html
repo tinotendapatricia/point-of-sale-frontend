@@ -1,26 +1,24 @@
-
-<br />
-<div class="h">Products</div>
-<hr />
-<br />
-<mat-card class="login">
+<mat-card class="break-bulk-card">
   <mat-card-content>
-    &nbsp;<button
-      class="act"
-      [routerLink]="['/products/new']"
-      routerLinkActive="router-link-active"
-    >
-      <mat-icon style="color: green">add_circle</mat-icon>Add
-      New</button
-    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getProductList()">
-      <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
-      >Refresh
-    </button>
-<br><br>
+    <header class="mb-4 flex flex-wrap items-center justify-between gap-4">
+      <h1 class="text-2xl font-bold">Break Bulk</h1>
+      <div class="flex gap-2">
+        <a mat-stroked-button routerLink="/products/new">
+          <mat-icon class="text-green-600">add_circle</mat-icon>
+          Add New
+        </a>
+        <button type="button" mat-stroked-button (click)="refresh()">
+          <mat-icon class="text-indigo-700">sync</mat-icon>
+          Refresh
+        </button>
+      </div>
+    </header>
+
     <pos-frontend-break-bulk-form
-      [products]="productsStore.products()"
       [loading]="submitting()"
-      (formValue)="onSubmit($event)"
-    ></pos-frontend-break-bulk-form>
+      [products]="productStore.products()"
+      (cancelled)="cancel()"
+      (submitted)="breakBulk($event)"
+    />
   </mat-card-content>
 </mat-card>

@@ -1,39 +1,32 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { take } from 'rxjs';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { UsersEntity, UsersFacade } from '@pos-frontend/users/data-access';
 import { ActionConfirmationFormComponent } from '@pos-frontend/shared/ui';
+import { type UsersEntity, UserStore } from '@pos-frontend/users/data-access';
 
 export interface ChangeUserStatusData {
   user: UsersEntity;
 }
 
+/** Confirmation dialog. Open with MatDialog and `data: { user }`; closes with `true` on success. */
 @Component({
   selector: 'pos-frontend-change-user-status',
   templateUrl: './change-user-status.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
-  styleUrls: ['./change-user-status.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ActionConfirmationFormComponent],
 })
 export class ChangeUserStatusComponent {
-  private readonly dialogRef = inject(MatDialogRef<ChangeUserStatusComponent, boolean>);
-  private readonly usersFacade = inject(UsersFacade);
+  private readonly dialogRef =
+    inject<MatDialogRef<ChangeUserStatusComponent, boolean>>(MatDialogRef);
+  private readonly userStore = inject(UserStore);
   private readonly data = inject<ChangeUserStatusData>(MAT_DIALOG_DATA);
 
-  readonly user = this.data.user;
-  readonly submitting = signal(false);
+  protected readonly submitting = this.userStore.changeStatusLoading;
 
-  onSubmit() {
-    this.submitting.set(true);
-    this.usersFacade.changeUserStatus({
-      userId: this.user.id,
-      status: !this.user.active,
-    });
-    this.usersFacade.loaded$.pipe(take(1)).subscribe((loaded) => {
-      this.submitting.set(false);
-      if (loaded) {
-        this.dialogRef.close(true);
-      }
+  protected submit(): void {
+    const { user } = this.data;
+    this.userStore.changeUserStatus({
+      data: { userId: user.id, status: !user.active },
+      callback: () => this.dialogRef.close(true),
     });
   }
 }

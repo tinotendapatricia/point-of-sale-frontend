@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 
+/** Placeholder for the licensing company endpoints (unbuilt scaffold). */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class CompanyService {
-
-  constructor() { }
-}
+export class CompanyService {}

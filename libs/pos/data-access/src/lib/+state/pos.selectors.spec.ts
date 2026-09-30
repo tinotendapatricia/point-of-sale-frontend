@@ -1,15 +1,17 @@
-import { PosEntity } from './pos.models';
-import { posAdapter, PosPartialState, initialPosState } from './pos.reducer';
+import { ClrLoadingState } from '@clr/angular';
+
+import { createInvoice } from '../../testing/pos.fixtures';
+import {
+  posAdapter,
+  type PosPartialState,
+  initialPosState,
+} from './pos.reducer';
 import * as PosSelectors from './pos.selectors';
 
 describe('Pos Selectors', () => {
-  const ERROR_MSG = 'No Error Available';
-  const getPosId = (it: PosEntity) => it.id;
-  const createPosEntity = (id: string, name = '') =>
-    ({
-      id,
-      name: name || `name-${id}`,
-    } as PosEntity);
+  const error = new Error('No Error Available');
+  const createPosEntity = createInvoice;
+  const selected = createPosEntity('PRODUCT-BBB');
 
   let state: PosPartialState;
 
@@ -18,45 +20,41 @@ describe('Pos Selectors', () => {
       pos: posAdapter.setAll(
         [
           createPosEntity('PRODUCT-AAA'),
-          createPosEntity('PRODUCT-BBB'),
+          selected,
           createPosEntity('PRODUCT-CCC'),
         ],
         {
           ...initialPosState,
           selectedId: 'PRODUCT-BBB',
-          error: ERROR_MSG,
+          selectedPos: selected,
+          error,
           loaded: true,
+          btnState: ClrLoadingState.SUCCESS,
         }
       ),
     };
   });
 
-  describe('Pos Selectors', () => {
-    it('selectAllPos() should return the list of Pos', () => {
-      const results = PosSelectors.selectAllPos(state);
-      const selId = getPosId(results[1]);
+  it('selectAllPos() returns the list of Pos', () => {
+    const results = PosSelectors.selectAllPos(state);
 
-      expect(results.length).toBe(3);
-      expect(selId).toBe('PRODUCT-BBB');
-    });
+    expect(results.length).toBe(3);
+    expect(results[1].id).toBe('PRODUCT-BBB');
+  });
 
-    it('selectEntity() should return the selected Entity', () => {
-      const result = PosSelectors.selectEntity(state) as PosEntity;
-      const selId = getPosId(result);
+  it('getSelectedPos() returns the selected invoice', () => {
+    expect(PosSelectors.getSelectedPos(state)).toBe(selected);
+  });
 
-      expect(selId).toBe('PRODUCT-BBB');
-    });
+  it('selectPosLoaded() returns the loaded flag', () => {
+    expect(PosSelectors.selectPosLoaded(state)).toBe(true);
+  });
 
-    it('selectPosLoaded() should return the current "loaded" status', () => {
-      const result = PosSelectors.selectPosLoaded(state);
+  it('selectPosError() returns the error', () => {
+    expect(PosSelectors.selectPosError(state)).toBe(error);
+  });
 
-      expect(result).toBe(true);
-    });
-
-    it('selectPosError() should return the current "error" state', () => {
-      const result = PosSelectors.selectPosError(state);
-
-      expect(result).toBe(ERROR_MSG);
-    });
+  it('getBtnState() returns the button state', () => {
+    expect(PosSelectors.getBtnState(state)).toBe(ClrLoadingState.SUCCESS);
   });
 });

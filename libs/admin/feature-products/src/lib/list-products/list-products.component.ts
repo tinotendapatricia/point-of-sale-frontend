@@ -1,50 +1,67 @@
-import { Component, ChangeDetectionStrategy, Injector, TemplateRef, computed, inject, viewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
-import { PageEvent } from '@angular/material/paginator';
-import { MatDialog } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
 import { CurrencyPipe } from '@angular/common';
-import { DrawerService } from '@pos-frontend/core';
-import { BmgTable, TableColumnDef } from '@pos-frontend/shared/ui';
 import {
-  ProductsEntity,
+  ChangeDetectionStrategy,
+  Component,
+  Injector,
+  type TemplateRef,
+  computed,
+  inject,
+  viewChild,
+} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { type PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DrawerService, PosBadgeDirective } from '@pos-frontend/core';
+import {
+  type ProductsEntity,
   ProductStore,
 } from '@pos-frontend/products/data-access';
+import { BmgTable, type TableColumnDef } from '@pos-frontend/shared/ui';
 import { CreateProductComponent } from '../create-product/create-product.component';
-import { UpdateCostComponent } from '../update-cost/update-cost.component';
-import { UpdatePriceComponent } from '../update-price/update-price.component';
+import {
+  UpdateCostComponent,
+  type UpdateCostData,
+} from '../update-cost/update-cost.component';
+import {
+  UpdatePriceComponent,
+  type UpdatePriceData,
+} from '../update-price/update-price.component';
+
+const FIRST_PAGE = { page: 0, size: 10 };
 
 @Component({
-    selector: 'pos-frontend-list-products',
-    templateUrl: './list-products.component.html',
-    styleUrls: ['./list-products.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [BmgTable, MatIconModule, MatButtonModule, MatMenuModule, CurrencyPipe],
+  selector: 'pos-frontend-list-products',
+  templateUrl: './list-products.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    BmgTable,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    CurrencyPipe,
+    PosBadgeDirective,
+  ],
 })
 export class ListProductsComponent {
-  private readonly dialog = inject(MatDialog);
   private readonly drawer = inject(DrawerService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  // CreateProductComponent still depends on CurrenciesFacade, which is only
-  // provided on this route — DrawerService's own injector is the app root,
-  // so it needs this route's injector passed through explicitly.
   private readonly injector = inject(Injector);
-
-  protected readonly productsStore = inject(ProductStore);
-  protected readonly loading = this.productsStore.getPaginatedLoading;
-  protected readonly total = this.productsStore.totalProducts;
-  protected readonly dataSource = computed(
-    () => new MatTableDataSource(this.productsStore.paginatedProducts()),
-  );
+  private readonly productStore = inject(ProductStore);
 
   private readonly costTpl = viewChild<TemplateRef<unknown>>('costTpl');
   private readonly priceTpl = viewChild<TemplateRef<unknown>>('priceTpl');
   private readonly activeTpl = viewChild<TemplateRef<unknown>>('activeTpl');
   private readonly actionsTpl = viewChild<TemplateRef<unknown>>('actionsTpl');
+
+  protected readonly loading = this.productStore.getPaginatedLoading;
+  protected readonly total = this.productStore.totalProducts;
+  protected readonly dataSource = computed(
+    () => new MatTableDataSource(this.productStore.paginatedProducts())
+  );
 
   protected readonly columns = computed<TableColumnDef[]>(() => [
     { key: 'code', header: 'Code' },
@@ -54,59 +71,64 @@ export class ListProductsComponent {
     { key: 'cost', header: 'Current Unit Cost', align: 'right', template: this.costTpl() },
     { key: 'price', header: 'Current Unit Price', align: 'right', template: this.priceTpl() },
     { key: 'active', header: 'Status', align: 'center', template: this.activeTpl() },
-    { key: 'actions', header: '', template: this.actionsTpl() },
+    { key: 'actions', header: '', align: 'right', template: this.actionsTpl() },
   ]);
 
   constructor() {
-    this.getProductList({ pageIndex: 0, pageSize: 10 } as PageEvent);
+    this.productStore.getPaginatedProducts(FIRST_PAGE);
   }
 
-  getProductList(event: PageEvent) {
-    this.productsStore.getPaginatedProducts({
+  protected onPage(event: PageEvent): void {
+    this.productStore.getPaginatedProducts({
       page: event.pageIndex,
       size: event.pageSize,
     });
   }
 
-  refresh() {
-    this.getProductList({ pageIndex: 0, pageSize: 10 } as PageEvent);
-  }
-
-  addProduct() {
+  protected add(): void {
     this.drawer
       .open<CreateProductComponent, boolean>(CreateProductComponent, {
         title: 'New Product',
-        size: 'full',
+        size: 'md',
         injector: this.injector,
       })
       .afterClosed()
-      .subscribe((created) => created && this.refresh());
+      .subscribe((created) => this.refreshIf(created));
   }
 
-  updateCost(product: ProductsEntity) {
-    this.dialog
-      .open(UpdateCostComponent, { width: '420px', data: { product } })
+  protected edit(id: string | number): void {
+    void this.router.navigate(['./update', id], { relativeTo: this.route });
+  }
+
+  protected updateCost(product: ProductsEntity): void {
+    this.drawer
+      .open<UpdateCostComponent, boolean, UpdateCostData>(UpdateCostComponent, {
+        title: 'Update Cost',
+        subtitle: product.name,
+        size: 'sm',
+        data: { product },
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((updated) => updated && this.refresh());
+      .subscribe((updated) => this.refreshIf(updated));
   }
 
-  updatePrice(product: ProductsEntity) {
-    this.dialog
-      .open(UpdatePriceComponent, { width: '420px', data: { product } })
+  protected updatePrice(product: ProductsEntity): void {
+    this.drawer
+      .open<UpdatePriceComponent, boolean, UpdatePriceData>(UpdatePriceComponent, {
+        title: 'Update Price',
+        subtitle: product.name,
+        size: 'sm',
+        data: { product },
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((updated) => updated && this.refresh());
+      .subscribe((updated) => this.refreshIf(updated));
   }
 
-  viewProduct(product: ProductsEntity) {
-    this.router.navigate(['./product-details', product.id], {
-      relativeTo: this.route,
-    });
-  }
-
-  updateProduct(productId: string | number) {
-    this.productsStore.getProduct({ id: productId });
-    this.router.navigate(['./update', productId], {
-      relativeTo: this.route,
-    });
+  private refreshIf(changed: boolean | undefined): void {
+    if (changed) {
+      this.productStore.getPaginatedProducts(FIRST_PAGE);
+    }
   }
 }

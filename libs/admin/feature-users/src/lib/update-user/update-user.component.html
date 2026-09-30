@@ -1,7 +1,7 @@
 <pos-frontend-user-form
-  [title]="'Update User'"
-  [user]="user"
+  submitLabel="Update"
   [loading]="submitting()"
-  [btnTitle]="'Update'"
-  (formValue)="updateUser($event)"
-></pos-frontend-user-form>
+  [user]="user"
+  (cancelled)="close(false)"
+  (submitted)="update($event)"
+/>

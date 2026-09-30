@@ -1,17 +1,16 @@
-<div class="align-right grey-header">
-  <button class="btn btn-primary" [routerLink]="['/users']">
+<div class="mb-4 flex justify-end">
+  <a mat-stroked-button routerLink="/users">
     <mat-icon>arrow_back</mat-icon>
     Go Back
-  </button>
+  </a>
 </div>
-<br />
 
-<div class="padding-left-right-1">
-  <div class="card">
-    <div class="card-block">
-      <pos-frontend-user-details
-        [user]="(usersFacade.selectedUser$ | async)!"
-      ></pos-frontend-user-details>
-    </div>
-  </div>
-</div>
+<mat-card>
+  <mat-card-content>
+    @if (loading()) {
+      <p class="text-gray-600">Loading…</p>
+    } @else {
+      <pos-frontend-user-details [user]="user()" />
+    }
+  </mat-card-content>
+</mat-card>

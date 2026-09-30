@@ -1,83 +1,61 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ChangeDetectionStrategy
-} from '@angular/core';
-import { UntypedFormGroup, FormBuilder } from '@angular/forms';
-import { RolesEntity } from '@pos-frontend/roles/data-access';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { RouterLink } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  linkedSignal,
+  output,
+} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import type { RolesEntity } from '@pos-frontend/roles/data-access';
 
 @Component({
-    selector: 'pos-frontend-assign-groups-ui',
-    templateUrl: './assign-groups-ui.component.html',
-    styleUrls: ['./assign-groups-ui.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCheckboxModule, MatButtonModule, MatProgressSpinnerModule, RouterLink, TitleCasePipe]
+  selector: 'pos-frontend-assign-groups-ui',
+  templateUrl: './assign-groups-ui.component.html',
+  styleUrl: './assign-groups-ui.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCheckboxModule, MatButtonModule, MatProgressSpinnerModule, TitleCasePipe],
 })
-export class AssignGroupsUiComponent implements OnInit, OnChanges {
-  @Input() roles: RolesEntity[] = [];
-  @Input() groupRoles: RolesEntity[] = [];
-  @Input() groupId!: string;
-  @Input() loading = false;
-  @Output() save = new EventEmitter();
-  rolesForm!: UntypedFormGroup;
+export class AssignGroupsUiComponent {
+  /** Every role that can be assigned. */
+  readonly roles = input<RolesEntity[]>([]);
+  /** Roles the group already has; they start checked. */
+  readonly groupRoles = input<Pick<RolesEntity, 'id'>[]>([]);
+  readonly loading = input(false);
 
-  checkedRoles: string[] = [];
+  /** The ids of the checked roles. */
+  readonly saved = output<string[]>();
+  readonly cancelled = output<void>();
 
-  constructor(private fb: FormBuilder) {}
+  protected readonly checkedRoles = linkedSignal(() => this.groupRoles().map((role) => role.id));
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['groupRoles']?.currentValue) {
-      this.groupRoles?.forEach((element) => {
-        this.checkedRoles.push(element.id);
-      });
-    }
-    if (changes['groupId']?.currentValue) {
-      this.rolesForm.get('groupId')?.patchValue(this.groupId);
-    }
+  protected readonly allSelected = computed(
+    () => this.roles().length > 0 && this.checkedRoles().length === this.roles().length,
+  );
+
+  protected isChecked(id: string): boolean {
+    return this.checkedRoles().includes(id);
   }
 
-  ngOnInit(): void {
-    this.rolesForm = this.fb.group({
-      roles: '',
-      groupId: '',
-    });
+  protected toggleRole(id: string): void {
+    this.checkedRoles.update((roles) =>
+      roles.includes(id) ? roles.filter((r) => r !== id) : [...roles, id],
+    );
   }
 
-  isChecked(id: string) {
-    return this.checkedRoles.some((r) => r === id);
+  /** Checks every role (it never clears them, matching the original behaviour). */
+  protected selectAllRoles(): void {
+    this.checkedRoles.set(this.roles().map((role) => role.id));
   }
 
-  pushToCheckedRoles(id: string) {
-    const index = this.checkedRoles.indexOf(id);
-    index === -1
-      ? this.checkedRoles.push(id)
-      : this.checkedRoles.splice(index, 1);
+  protected roleLabel(role: RolesEntity): string {
+    return role.name.split('_').join(' ');
   }
 
-  isAllSelected() {
-    return this.checkedRoles?.length === this.roles?.length ? true : false;
-  }
-
-  pushAllRoles() {
-    this.roles.forEach((ele) => {
-      this.checkedRoles.some((r) => r === ele.id)
-        ? null
-        : this.checkedRoles.push(ele.id);
-    });
-  }
-
-  onSave() {
-    this.rolesForm.get('roles')?.patchValue(this.checkedRoles);
-    this.save.emit(this.rolesForm.value);
+  protected save(): void {
+    this.saved.emit(this.checkedRoles());
   }
 }

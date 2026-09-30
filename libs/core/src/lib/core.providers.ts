@@ -1,15 +1,13 @@
-import { EnvironmentProviders, Provider } from '@angular/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptorService } from './services/token-interceptor.service';
-import { provideAuthDataAccess } from '@pos-frontend/auth/data-access';
+import {
+  provideHttpClient,
+  withInterceptors,
+  withXhr,
+} from '@angular/common/http';
+import { type EnvironmentProviders } from '@angular/core';
 
-export function provideCoreServices(): (Provider | EnvironmentProviders)[] {
-  return [
-    provideAuthDataAccess(),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptorService,
-      multi: true,
-    },
-  ];
+import { tokenInterceptor } from './services/token-interceptor.service';
+
+/** HttpClient with the app-wide token/error interceptor. */
+export function provideCoreServices(): EnvironmentProviders {
+  return provideHttpClient(withXhr(), withInterceptors([tokenInterceptor]));
 }

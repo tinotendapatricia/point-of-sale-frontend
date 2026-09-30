@@ -1,7 +1,6 @@
 <pos-frontend-update-cost-and-price
-  [product]="product"
-  (formValue)="onSubmit($event)"
-  [title]="'Update Cost of'"
+  mode="cost"
   [loading]="submitting()"
-  [isCost]="true"
-></pos-frontend-update-cost-and-price>
+  (cancelled)="cancel()"
+  (submitted)="update($event)"
+/>

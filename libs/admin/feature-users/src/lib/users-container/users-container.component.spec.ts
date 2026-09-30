@@ -1,9 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, provideRouter } from '@angular/router';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { of } from 'rxjs';
-import { GroupsFacade } from '@pos-frontend/groups/data-access';
-import { UsersFacade } from '@pos-frontend/users/data-access';
+import { provideRouter } from '@angular/router';
+import { GroupStore } from '@pos-frontend/groups/data-access';
+import { UserStore } from '@pos-frontend/users/data-access';
 
 import { UsersContainerComponent } from './users-container.component';
 
@@ -13,24 +12,22 @@ describe('UsersContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [UsersContainerComponent],
-    providers: [
-      provideRouter([]),
-      provideNoopAnimations(),
-      { provide: ActivatedRoute, useValue: { snapshot: { paramMap: { get: () => null } } } },
-      { provide: GroupsFacade, useValue: { allGroups$: of([]), getAllGroups: () => undefined } },
-      {
-        provide: UsersFacade,
-        useValue: {
-          allUsers$: of([]),
-          totalUsers$: of(0),
-          loading$: of(false),
-          getPaginatesUsers: () => undefined,
-          getPaginatesUsersByGroup: () => undefined,
+      imports: [UsersContainerComponent],
+      providers: [
+        provideRouter([]),
+        provideNoopAnimations(),
+        { provide: GroupStore, useValue: { groups: () => [], getAllGroups: jest.fn() } },
+        {
+          provide: UserStore,
+          useValue: {
+            paginatedUsers: () => [],
+            totalUsers: () => 0,
+            getPaginatedLoading: () => false,
+            getPaginatedUsers: jest.fn(),
+          },
         },
-      },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UsersContainerComponent);
     component = fixture.componentInstance;

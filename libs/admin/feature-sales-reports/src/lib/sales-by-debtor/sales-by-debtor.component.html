@@ -1,14 +1,16 @@
-<div class="card">
-  <div class="card-header">Sales Reports per Period</div>
-  <div class="card-block">
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Sales by Debtor and Period</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
     <pos-frontend-reports-form
-      (getPdf)="getPdf($event)"
-      (getExcel)="getExcel($event)"
-      [loading]="loading"
+      [debtors]="debtors()"
       [isDate]="true"
       [isDebtor]="true"
       [isExcel]="true"
-      [debtors]="(debtorsFacade.allDebtors$ | async)!"
-    ></pos-frontend-reports-form>
-  </div>
-</div>
+      [loading]="loading()"
+      (excelRequested)="getExcel($event)"
+      (pdfRequested)="getPdf($event)"
+    />
+  </mat-card-content>
+</mat-card>

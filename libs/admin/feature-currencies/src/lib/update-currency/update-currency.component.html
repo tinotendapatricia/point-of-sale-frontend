@@ -1,7 +1,16 @@
-<pos-frontend-currency-form
-  [title]="'Update Currency'"
-  [btnTitle]="'Save'"
-  [loading]="submitting()"
-  (formValue)="createCurrency($event)"
-  [currency]="currency"
-></pos-frontend-currency-form>
+<mat-card>
+  <mat-card-content>
+    <h1 class="mb-4 text-2xl font-bold">Update Currency</h1>
+    @if (currencyStore.getOneLoading()) {
+      <p class="text-gray-600">Loading...</p>
+    } @else {
+      <pos-frontend-currency-form
+        submitLabel="Save"
+        [currency]="currencyStore.currency()"
+        [loading]="submitting()"
+        (cancelled)="cancel()"
+        (submitted)="update($event)"
+      />
+    }
+  </mat-card-content>
+</mat-card>

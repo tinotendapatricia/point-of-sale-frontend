@@ -1,7 +1,7 @@
 <pos-frontend-creditors-form
-  [title]="'Update Creditor'"
-  [btnTitle]="'Save'"
-  [loading]="submitting()"
-  (formValue)="createCreditor($event)"
+  submitLabel="Save"
   [creditor]="creditor"
-></pos-frontend-creditors-form>
+  [loading]="submitting()"
+  (cancelled)="close(false)"
+  (submitted)="update($event)"
+/>

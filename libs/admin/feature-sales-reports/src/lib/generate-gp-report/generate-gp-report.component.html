@@ -1,14 +1,14 @@
-<div class="card">
-    <div class="card-header">Sales Reports per Period</div>
-    <div class="card-block">
-      <pos-frontend-reports-form
-        (getPdf)="getPdf($event)"
-        [loading]="loading"
-        [isDate]="true"
-        [isDebtor]="true"
-        [debtors]="(debtorsFacade.allDebtors$ | async)!"
-        [isExcel]="true"
-      ></pos-frontend-reports-form>
-    </div>
-  </div>
-  
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Gross Profit Report</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <pos-frontend-reports-form
+      [debtors]="debtors()"
+      [isDate]="true"
+      [isDebtor]="true"
+      [loading]="loading()"
+      (pdfRequested)="getPdf($event)"
+    />
+  </mat-card-content>
+</mat-card>

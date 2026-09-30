@@ -4,10 +4,10 @@ import { NxWelcomeComponent } from './nx-welcome.component';
 @Component({
     selector: 'pos-frontend-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './app.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [NxWelcomeComponent]
 })
 export class AppComponent {
-  title = 'licensing-system';
+  readonly title = 'licensing-system';
 }

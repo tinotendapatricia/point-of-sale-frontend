@@ -1,4 +1,5 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import { ListUsersUiComponent } from './list-users-ui.component';
 
@@ -6,14 +7,12 @@ describe('ListUsersUiComponent', () => {
   let component: ListUsersUiComponent;
   let fixture: ComponentFixture<ListUsersUiComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-    imports: [ListUsersUiComponent]
-})
-    .compileComponents();
-  }));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ListUsersUiComponent],
+      providers: [provideNoopAnimations()],
+    }).compileComponents();
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ListUsersUiComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,5 +1,3 @@
-
-
 export interface BaseEntity {
   id: string | number;
   createdAt: string;
@@ -8,11 +6,8 @@ export interface BaseEntity {
   updatedBy?: string;
 }
 
-export interface Page<T> {
-  content: T[];
-  totalElements: number;
-  totalPages: number;
-  page: number;
+/** Input for store write methods: the payload plus a callback run on success. */
+export interface RxMethodInputWithCallback<T> {
+  data: T;
+  callback: () => void;
 }
-
-export type RxMethodInputWithCallback<T> = { data: T; callback: (arg?: any) => void };

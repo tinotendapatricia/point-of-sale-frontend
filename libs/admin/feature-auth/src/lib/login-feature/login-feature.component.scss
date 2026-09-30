@@ -1,10 +1,19 @@
 .floating-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 999;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+.license-icon {
+  color: purple;
+}
+
+.license-warning {
+  color: red;
+  font-weight: 900;
+}
+
+.license-expired {
+  font-size: 20px;
 }

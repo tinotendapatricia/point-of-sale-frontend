@@ -1,24 +1,9 @@
-<br />
-<div class="h">Stations</div>
-<hr />
-<br />
-<mat-card class="login">
-  <mat-card-content>
-    &nbsp;<button class="act" (click)="createStation()">
-    <mat-icon style="color: green">add_circle</mat-icon>Add
-    New</button
-    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getStationList({})">
-    <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
-      >Refresh
-    </button>
-
-    <pos-frontend-stations-list-ui
-      [stationsList]="(stationsFacade.allStations$ | async)!"
-      [total]="(stationsFacade.totalStations$ | async)!"
-      [loading]="(stationsFacade.loading$ | async)!"
-      [placeholderMessage]="'Stations'"
-      (updatedState)="getStationList($event)"
-      (viewStationPermissions)="viewStationAuthorities($event)"
-    ></pos-frontend-stations-list-ui>
-  </mat-card-content>
-</mat-card>
+<pos-frontend-stations-list-ui
+  [loading]="loading()"
+  [stations]="stations()"
+  [total]="total()"
+  (added)="add()"
+  (edited)="edit($event)"
+  (page)="onPage($event)"
+  (refreshed)="refresh()"
+/>

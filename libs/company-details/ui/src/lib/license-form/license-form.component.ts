@@ -1,37 +1,42 @@
-import { Component, ChangeDetectionStrategy, inject, input, output } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import type { LicenseSystemRequest } from '@pos-frontend/company-details/data-access';
+
+/** What the form emits: the license key. The container adds the company id. */
+export type LicenseFormValue = Pick<LicenseSystemRequest, 'license'>;
 
 @Component({
-    selector: 'pos-frontend-license-form',
-    templateUrl: './license-form.component.html',
-    styleUrls: ['./license-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
+  selector: 'pos-frontend-license-form',
+  templateUrl: './license-form.component.html',
+  styleUrl: './license-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule],
 })
 export class LicenseFormComponent {
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
+  private readonly fb = inject(NonNullableFormBuilder);
 
   readonly loading = input(false);
   readonly title = input('');
-  readonly btnTitle = input('OK');
-  readonly formValue = output<any>();
+  /** Shown as "Active Until": the current license expiry date, if known. */
+  readonly activeUntil = input('');
+  readonly submitLabel = input('OK');
 
-  readonly licenseForm = this.formBuilder.group({
-    license: [''],
-    id: [''],
+  readonly submitted = output<LicenseFormValue>();
+  readonly cancelled = output<void>();
+
+  protected readonly form = this.fb.group({
+    license: ['', Validators.required],
   });
 
-  cancel() {
-    this.dialogRef?.close(false);
-  }
-
-  submit() {
-    this.formValue.emit(this.licenseForm.value);
+  protected submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.submitted.emit(this.form.getRawValue());
   }
 }

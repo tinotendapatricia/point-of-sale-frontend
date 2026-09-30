@@ -4,7 +4,7 @@ export class SumQuantity {
 
   constructor(array: { type: string; quantity: number }[]) {
     this.array = array;
-    this.sum = array.reduce((a: any, b: any) => a + b.quantity, 0);
+    this.sum = array.reduce((a: number, b) => a + b.quantity, 0);
   }
 
   get array(): { type: string; quantity: number  }[] {

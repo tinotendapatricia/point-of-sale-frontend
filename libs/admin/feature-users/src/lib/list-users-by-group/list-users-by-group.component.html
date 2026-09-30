@@ -2,28 +2,33 @@
   <label class="field-label" for="group-select">Group</label>
   <mat-form-field subscriptSizing="dynamic">
     <mat-select id="group-select" [value]="groupId()" (selectionChange)="onGroupChange($event)">
-      @for (group of allGroups(); track group.id) {
+      @for (group of groups(); track group.id) {
         <mat-option [value]="group.id">{{ group.name }}</mat-option>
       }
     </mat-select>
   </mat-form-field>
 </div>
 
-<div>
-  <button mat-stroked-button color="primary" (click)="createUser()">Add</button>
-  <button mat-stroked-button (click)="getUserList({})">Refresh</button>
-
-  @if (groupId()) {
-    <pos-frontend-list-users-ui
-      [userList]="allUsers()"
-      [total]="totalUsers()"
-      [loading]="loading()"
-      [placeholderMessage]="'Users'"
-      (updatedState)="getUserList($event)"
-      (updateSelected)="updateUser($event)"
-      (viewSelected)="viewUser($event)"
-      (changeSelectedUserStatus)="changeUserStatus($event)"
-      (viewUserAuthorities)="viewUserAuthorities($event)"
-    ></pos-frontend-list-users-ui>
-  }
-</div>
+@if (groupId() !== undefined) {
+  <pos-frontend-list-users-ui
+    [loading]="loading()"
+    [total]="total()"
+    [users]="users()"
+    (actioned)="createUser()"
+    (authoritiesViewed)="viewUserAuthorities($event)"
+    (edited)="updateUser($event)"
+    (page)="onPage($event)"
+    (statusChanged)="changeUserStatus($event)"
+  >
+    <header class="flex flex-wrap items-center justify-end gap-2 px-4 py-2">
+      <button type="button" mat-stroked-button (click)="refresh()">
+        <mat-icon>sync</mat-icon>
+        Refresh
+      </button>
+      <button type="button" mat-flat-button (click)="createUser()">
+        <mat-icon>add_circle</mat-icon>
+        Add
+      </button>
+    </header>
+  </pos-frontend-list-users-ui>
+}

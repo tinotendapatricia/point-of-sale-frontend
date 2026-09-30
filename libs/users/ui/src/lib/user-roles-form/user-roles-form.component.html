@@ -2,21 +2,21 @@
   <span class="header-title">Assign or Remove Authorities</span>
 </div>
 
-<mat-checkbox [checked]="isAllSelected()" (change)="toggleAllRoles()">
+<mat-checkbox [checked]="allSelected()" (change)="toggleAllRoles()">
   <strong>Assign All</strong>
 </mat-checkbox>
 
 <div class="roles-grid">
   @for (role of roles(); track role.id) {
     <mat-checkbox [checked]="isChecked(role.id)" (change)="toggleRole(role.id)">
-      {{ role.name.split('_').join(' ') | titlecase }}
+      {{ roleLabel(role) | titlecase }}
     </mat-checkbox>
   }
 </div>
 
-<button mat-flat-button color="primary" [disabled]="loading()" (click)="onSave()">
+<button type="button" mat-flat-button [disabled]="loading()" (click)="save()">
   @if (loading()) {
-    <mat-spinner diameter="18"></mat-spinner>
+    <mat-spinner diameter="18" />
   } @else {
     Save
   }

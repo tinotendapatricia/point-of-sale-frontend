@@ -1,26 +1,33 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-import { AuditsEntity } from '@pos-frontend/audit-trail/data-access';
+import { KeyValuePipe, TitleCasePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import type { AuditsEntity } from '@pos-frontend/audit-trail/data-access';
 import { Utilities } from '@pos-frontend/shared/utils';
-import { TitleCasePipe, KeyValuePipe } from '@angular/common';
 
+const HIDDEN_FIELDS = new Set(['__v', 'id', 'password', '_id']);
+
+/** Key/value table of the audited resource, hiding internal and sensitive fields. */
 @Component({
-    selector: 'pos-frontend-audits-details',
-    templateUrl: './audits-details.component.html',
-    styleUrls: ['./audits-details.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [TitleCasePipe, KeyValuePipe]
+  selector: 'pos-frontend-audits-details',
+  templateUrl: './audits-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [KeyValuePipe, TitleCasePipe],
 })
 export class AuditsDetailsComponent {
-  @Input() audit!: AuditsEntity;
-  @Output() download = new EventEmitter();
-  public decamelize = Utilities.decamelize;
-  public nonDisplayableFields = ['__v', 'id', 'password','_id'];
+  readonly audit = input.required<AuditsEntity>();
 
-  constructor() {}
+  protected readonly fields = computed(() => {
+    const resource: Record<string, unknown> = { ...this.audit().resource };
+    return Object.fromEntries(Object.entries(resource).filter(([key]) => !HIDDEN_FIELDS.has(key)));
+  });
 
-  ngOnInit(): void {}
+  protected label(key: string): string {
+    return Utilities.decamelize(key);
+  }
 
-  public isHide(field: string | undefined) {
-    return this.nonDisplayableFields.some((element) => element === field);
+  protected display(value: unknown): string {
+    if (value === null || value === undefined) {
+      return '--';
+    }
+    return typeof value === 'object' ? JSON.stringify(value) : String(value);
   }
 }

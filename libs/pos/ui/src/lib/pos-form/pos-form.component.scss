@@ -420,3 +420,23 @@
   
   }
 } 
+.out-of-stock {
+  color: red;
+}
+
+.field-input {
+  margin-top: 8px;
+}
+
+.remove-item {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: rgb(228, 72, 72);
+}
+
+.error-message {
+  color: rgb(214, 33, 33);
+  font-weight: 900;
+}

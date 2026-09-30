@@ -1,48 +1,70 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CompanyEntity, CompanyService } from '@pos-frontend/company-details/data-access';
+import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
+import { CompanyStore } from '@pos-frontend/company-details/data-access';
 import { CompanyDetailsUiComponent } from '@pos-frontend/company-details/ui';
+import { DrawerService } from '@pos-frontend/core';
 import { CreateCompanyDetailsComponent } from '../create-company-details/create-company-details.component';
-import { UpdateCompanyDetailsComponent } from '../update-company-details/update-company-details.component';
+import {
+  type UpdateCompanyDetailsData,
+  UpdateCompanyDetailsComponent,
+} from '../update-company-details/update-company-details.component';
 
 @Component({
-    selector: 'pos-frontend-company-details',
-    templateUrl: './company-details.component.html',
-    styleUrls: ['./company-details.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, MatIconModule, CompanyDetailsUiComponent]
+  selector: 'pos-frontend-company-details',
+  templateUrl: './company-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatButtonModule, MatCard, MatCardContent, MatIconModule, CompanyDetailsUiComponent],
 })
-export class CompanyDetailsComponent implements OnInit {
-  private readonly dialog = inject(MatDialog);
+export class CompanyDetailsComponent {
+  private readonly drawer = inject(DrawerService);
+  private readonly injector = inject(Injector);
+  protected readonly companyStore = inject(CompanyStore);
 
-  company!: CompanyEntity;
-  constructor(private companyService: CompanyService) {}
+  protected readonly company = this.companyStore.company;
+  protected readonly loading = this.companyStore.getOneLoading;
 
-  ngOnInit(): void {
-    this.getCompany();
+  constructor() {
+    this.refresh();
   }
 
-  getCompany() {
-    this.companyService.getCompany().subscribe({
-      next: (res) => {
-        this.company = res;
-      },
-    });
+  protected refresh(): void {
+    this.companyStore.getCompany();
   }
 
-  create() {
-    this.dialog
-      .open(CreateCompanyDetailsComponent, { width: '480px' })
+  protected create(): void {
+    this.drawer
+      .open<CreateCompanyDetailsComponent, boolean>(CreateCompanyDetailsComponent, {
+        title: 'New Company',
+        size: 'md',
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((created) => created && this.getCompany());
+      .subscribe((created) => {
+        if (created) {
+          this.refresh();
+        }
+      });
   }
 
-  update() {
-    this.dialog
-      .open(UpdateCompanyDetailsComponent, { width: '480px', data: { company: this.company } })
+  protected update(): void {
+    const company = this.company();
+    if (!company) {
+      return;
+    }
+    this.drawer
+      .open<UpdateCompanyDetailsComponent, boolean, UpdateCompanyDetailsData>(UpdateCompanyDetailsComponent, {
+        title: 'Update Company',
+        size: 'md',
+        data: { company },
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((updated) => updated && this.getCompany());
+      .subscribe((updated) => {
+        if (updated) {
+          this.refresh();
+        }
+      });
   }
 }

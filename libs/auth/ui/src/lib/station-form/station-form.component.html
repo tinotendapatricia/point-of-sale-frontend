@@ -1,21 +1,24 @@
 <h2 mat-dialog-title>{{ title() }}</h2>
 <mat-dialog-content>
-  <form [formGroup]="stationForm" class="station-form">
+  <form id="station-form" class="station-form" [formGroup]="stationForm" (ngSubmit)="submit()">
     <div class="field">
       <label class="field-label" for="station-number">Station Number<span class="required-marker">*</span></label>
       <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="station-number" type="number" formControlName="stationNumber" required />
+        <input id="station-number" matInput type="number" formControlName="stationNumber" />
+        @if (stationForm.controls.stationNumber.hasError('required')) {
+          <mat-error>Station number is required</mat-error>
+        }
       </mat-form-field>
     </div>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
+  <button type="button" mat-stroked-button [disabled]="loading()" (click)="cancel()">
     Close
   </button>
-  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
+  <button type="submit" form="station-form" mat-flat-button color="primary" [disabled]="loading()">
     @if (loading()) {
-      <mat-spinner diameter="18"></mat-spinner>
+      <mat-spinner diameter="18" />
     } @else {
       {{ btnTitle() }}
     }

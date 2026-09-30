@@ -1,8 +1,8 @@
 <pos-frontend-debtors-form
-  [title]="'Update Debtor'"
-  [btnTitle]="'Save'"
-  [loading]="submitting()"
-  [currencies]="(currenciesFacade.allCurrencies$ | async)!"
+  submitLabel="Save"
+  [currencies]="currencies()"
   [debtor]="debtor"
-  (formValue)="createDebtor($event)"
-></pos-frontend-debtors-form>
+  [loading]="submitting()"
+  (cancelled)="close(false)"
+  (submitted)="update($event)"
+/>

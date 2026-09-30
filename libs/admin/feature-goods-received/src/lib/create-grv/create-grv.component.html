@@ -1,15 +1,13 @@
-<br />
-<div class="h">Goods Received Voucher</div>
-<hr />
-<br />
+<h1 class="my-4 text-2xl font-bold">Goods Received Voucher</h1>
 
-<mat-card class="login">
+<mat-card>
   <mat-card-content>
-  
     <pos-frontend-grv-form
-    (getPurchaseOrder)="getPurchaseOrder($event)"
-    [order]="(purchaseOrderFacade.selectedPurchaseOrder$|async)!"
-    (formValue) = "onSubmit($event)"
-    ></pos-frontend-grv-form>
+      [lines]="lines()"
+      [loading]="submitting()"
+      [loadingOrder]="loadingOrder()"
+      (orderRequested)="getPurchaseOrder($event)"
+      (submitted)="receive($event)"
+    />
   </mat-card-content>
 </mat-card>

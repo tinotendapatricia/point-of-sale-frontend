@@ -1,58 +1,71 @@
-<h2 mat-dialog-title>{{ title() }}</h2>
-<mat-dialog-content>
-  <form [formGroup]="companyForm" class="company-form">
-    <div class="field">
-      <label class="field-label" for="company-name">Name<span class="required-marker">*</span></label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="company-name" type="text" formControlName="name" required />
-      </mat-form-field>
-    </div>
+<form class="company-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label class="field-label" for="company-name">Name<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="company-name" matInput type="text" formControlName="name" />
+      @if (form.controls.name.hasError('required')) {
+        <mat-error>Name is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
 
-    <div class="field">
-      <label class="field-label" for="company-address">Address</label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <textarea matInput id="company-address" formControlName="address" rows="5"></textarea>
-      </mat-form-field>
-    </div>
+  <div class="field">
+    <label class="field-label" for="company-address">Address</label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <textarea id="company-address" matInput formControlName="address" rows="5"></textarea>
+    </mat-form-field>
+  </div>
 
-    <div class="field">
-      <label class="field-label" for="company-bp-number">BP Number<span class="required-marker">*</span></label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="company-bp-number" type="text" formControlName="bpNumber" required />
-      </mat-form-field>
-    </div>
+  <div class="field">
+    <label class="field-label" for="company-bp-number">BP Number<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="company-bp-number" matInput type="text" formControlName="bpNumber" />
+      @if (form.controls.bpNumber.hasError('required')) {
+        <mat-error>BP number is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
 
-    <div class="field">
-      <label class="field-label" for="company-tin-number">Tin Number<span class="required-marker">*</span></label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="company-tin-number" type="text" formControlName="tinNumber" required />
-      </mat-form-field>
-    </div>
+  <div class="field">
+    <label class="field-label" for="company-tin-number">Tin Number<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="company-tin-number" matInput type="text" formControlName="tinNumber" />
+      @if (form.controls.tinNumber.hasError('required')) {
+        <mat-error>Tin number is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
 
-    <div class="field">
-      <label class="field-label" for="company-email">Email<span class="required-marker">*</span></label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="company-email" type="text" formControlName="email" required />
-      </mat-form-field>
-    </div>
+  <div class="field">
+    <label class="field-label" for="company-email">Email<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="company-email" matInput type="email" formControlName="email" />
+      @if (form.controls.email.hasError('required')) {
+        <mat-error>Email is required</mat-error>
+      } @else if (form.controls.email.hasError('email')) {
+        <mat-error>Enter a valid email address</mat-error>
+      }
+    </mat-form-field>
+  </div>
 
-    <div class="field">
-      <label class="field-label" for="company-phone">Phone Number(s)<span class="required-marker">*</span></label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="company-phone" type="text" formControlName="phone" required />
-      </mat-form-field>
-    </div>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
-    Cancel
-  </button>
-  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
-    @if (loading()) {
-      <mat-spinner diameter="18"></mat-spinner>
-    } @else {
-      {{ btnTitle() }}
-    }
-  </button>
-</mat-dialog-actions>
+  <div class="field">
+    <label class="field-label" for="company-phone">Phone Number(s)<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="company-phone" matInput type="text" formControlName="phone" />
+      @if (form.controls.phone.hasError('required')) {
+        <mat-error>Phone number is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="mt-4 flex justify-end gap-2">
+    <button type="button" mat-stroked-button [disabled]="loading()" (click)="cancelled.emit()">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel() }}
+      }
+    </button>
+  </div>
+</form>

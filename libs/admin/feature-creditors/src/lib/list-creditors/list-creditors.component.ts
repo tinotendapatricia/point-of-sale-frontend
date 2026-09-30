@@ -1,59 +1,75 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DatagridState } from '@pos-frontend/shared/utils';
-import {
-  CreditorsEntity,
-  CreditorsFacade,
-} from '@pos-frontend/creditors/data-access';
-import { MatCard, MatCardContent } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, Injector, inject, signal } from '@angular/core';
+import { type PageEvent } from '@angular/material/paginator';
+import { DrawerService } from '@pos-frontend/core';
+import { type CreditorFilters, type CreditorsEntity, CreditorStore } from '@pos-frontend/creditors/data-access';
 import { ListCreditorsUiComponent } from '@pos-frontend/creditors/ui';
-import { AsyncPipe } from '@angular/common';
+
 import { CreateCreditorsComponent } from '../create-creditors/create-creditors.component';
-import { UpdateCreditorComponent } from '../update-creditor/update-creditor.component';
+import { type UpdateCreditorData, UpdateCreditorComponent } from '../update-creditor/update-creditor.component';
+
+const FIRST_PAGE: CreditorFilters = { page: 0, size: 10 };
 
 @Component({
-    selector: 'pos-frontend-list-creditors',
-    templateUrl: './list-creditors.component.html',
-    styleUrls: ['./list-creditors.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, MatIconModule, ListCreditorsUiComponent, AsyncPipe]
+  selector: 'pos-frontend-list-creditors',
+  templateUrl: './list-creditors.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ListCreditorsUiComponent],
 })
 export class ListCreditorsComponent {
-  private readonly dialog = inject(MatDialog);
+  private readonly drawer = inject(DrawerService);
+  private readonly injector = inject(Injector);
+  private readonly creditorStore = inject(CreditorStore);
 
-  constructor(
-    public creditorsFacade: CreditorsFacade,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  protected readonly creditors = this.creditorStore.paginatedCreditors;
+  protected readonly total = this.creditorStore.totalCreditors;
+  protected readonly loading = this.creditorStore.getPaginatedLoading;
+  private readonly currentPage = signal<CreditorFilters>(FIRST_PAGE);
 
-  public getCreditorList(state: DatagridState) {
-    this.creditorsFacade.getPaginatedCreditors(state);
+  constructor() {
+    this.load(FIRST_PAGE);
   }
 
-  refresh() {
-    this.getCreditorList({});
+  protected onPage(event: PageEvent): void {
+    this.load({ page: event.pageIndex, size: event.pageSize });
   }
 
-  createCreditor() {
-    this.dialog
-      .open(CreateCreditorsComponent, { width: '480px' })
+  protected refresh(): void {
+    this.load(this.currentPage());
+  }
+
+  protected add(): void {
+    this.drawer
+      .open<CreateCreditorsComponent, boolean>(CreateCreditorsComponent, {
+        title: 'Create New Creditor',
+        size: 'md',
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((created) => created && this.refresh());
+      .subscribe((created) => {
+        if (created) {
+          this.load(FIRST_PAGE);
+        }
+      });
   }
 
-  updateCreditor(creditor: CreditorsEntity) {
-    this.dialog
-      .open(UpdateCreditorComponent, { width: '480px', data: { creditor } })
+  protected edit(creditor: CreditorsEntity): void {
+    this.drawer
+      .open<UpdateCreditorComponent, boolean, UpdateCreditorData>(UpdateCreditorComponent, {
+        title: 'Update Creditor',
+        size: 'md',
+        data: { creditor },
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((updated) => updated && this.refresh());
+      .subscribe((updated) => {
+        if (updated) {
+          this.refresh();
+        }
+      });
   }
 
-  viewCreditor(creditor: CreditorsEntity) {
-    this.router.navigate(['./creditor-details', creditor.id], {
-      relativeTo: this.route,
-    });
+  private load(filters: CreditorFilters): void {
+    this.currentPage.set(filters);
+    this.creditorStore.getPaginatedCreditors(filters);
   }
 }

@@ -1,5 +1,1 @@
-<pos-frontend-currency-form
-  [title]="'Create New Currency'"
-  [loading]="submitting()"
-  (formValue)="createCurrency($event)"
-></pos-frontend-currency-form>
+<pos-frontend-currency-form [loading]="submitting()" (cancelled)="close(false)" (submitted)="create($event)" />

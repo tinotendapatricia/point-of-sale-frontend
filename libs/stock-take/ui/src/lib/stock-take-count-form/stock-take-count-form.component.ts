@@ -1,71 +1,107 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ChangeDetectionStrategy
+  computed,
+  inject,
+  input,
+  output,
+  signal,
 } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import type { ProductsEntity } from '@pos-frontend/products/data-access';
+import { BmgTable, type TableColumnDef } from '@pos-frontend/shared/ui';
+import type {
+  AdjustStockRequest,
+  AdjustedStockValue,
+  CountedStockItem,
+  StockTakeBatchProduct,
+} from '@pos-frontend/stock-take/data-access';
+
+const COLUMNS: TableColumnDef[] = [
+  { key: 'productId', header: 'Product Id' },
+  { key: 'name', header: 'Product Name' },
+  { key: 'batchCount', header: 'Batch Count' },
+  { key: 'systemCount', header: 'System Count' },
+  { key: 'variance', header: 'Variance' },
+];
 
 @Component({
-    selector: 'pos-frontend-stock-take-count-form',
-    templateUrl: './stock-take-count-form.component.html',
-    styleUrls: ['./stock-take-count-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule]
+  selector: 'pos-frontend-stock-take-count-form',
+  templateUrl: './stock-take-count-form.component.html',
+  styleUrl: './stock-take-count-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, BmgTable],
 })
-export class StockTakeCountFormComponent implements OnChanges {
-  @Output() formValue = new EventEmitter();
-  batchNumber!: number;
-  @Input() batchProducts: any;
-  @Input() products: any;
-  @Input() newArray: any[] = [];
-  @Output() adjustedStock = new EventEmitter();
-  countedStockItems: any[]=[];
+export class StockTakeCountFormComponent {
+  private readonly fb = inject(NonNullableFormBuilder);
 
-  startComparison() {
-    this.formValue.emit({ batchNumber: this.batchNumber });
-  }
+  readonly batchProducts = input<StockTakeBatchProduct[]>([]);
+  readonly products = input<ProductsEntity[]>([]);
+  readonly loading = input(false);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['batchProducts']?.currentValue) {
-      console.log('tino2')
-      console.log(this.batchProducts)
-      console.log(this.products)
-      this.batchProducts.forEach((p: any) => {
-        this.products.forEach((pro: any) => {
-          if (p.productId === pro.id) {
-            this.newArray.push({
-              productId: p.productId,
-              name: pro.name,
-              batchCount: p.quantity,
-              systemCount: pro.quantity,
-              variance: p.quantity - pro.quantity,
-            });
-            this.countedStockItems.push({
-              product: p.productId,
-              quantity: p.quantity,
-              adjustedOnBatch: p.stockBatch,
-            });
-          }
-        });
-      });
+  /** Emits the batch number to compare against the system stock. */
+  readonly comparisonStarted = output<number>();
+  readonly adjusted = output<AdjustStockRequest>();
 
+  protected readonly columns = COLUMNS;
+  protected readonly comparedBatch = signal<number | null>(null);
+
+  protected readonly form = this.fb.group({
+    batchNumber: this.fb.control<number | null>(null, Validators.required),
+  });
+
+  private readonly matches = computed(() => {
+    const products = this.products();
+    return this.batchProducts().flatMap((counted) => {
+      const product = products.find((p) => p.id === counted.productId);
+      return product ? [{ counted, product }] : [];
+    });
+  });
+
+  protected readonly comparison = computed<AdjustedStockValue[]>(() =>
+    this.matches().map(({ counted, product }) => ({
+      productId: counted.productId,
+      name: product.name,
+      batchCount: counted.quantity,
+      systemCount: product.quantity,
+      variance: counted.quantity - product.quantity,
+    }))
+  );
+
+  private readonly countedItems = computed<CountedStockItem[]>(() =>
+    this.matches().map(({ counted }) => ({
+      product: counted.productId,
+      quantity: counted.quantity,
+      adjustedOnBatch: counted.stockBatch,
+    }))
+  );
+
+  protected readonly dataSource = computed(() => new MatTableDataSource(this.comparison()));
+  protected readonly hasComparison = computed(() => this.comparison().length > 0);
+
+  protected startComparison(): void {
+    const { batchNumber } = this.form.getRawValue();
+    if (batchNumber === null) {
+      this.form.markAllAsTouched();
+      return;
     }
+    this.comparedBatch.set(batchNumber);
+    this.comparisonStarted.emit(batchNumber);
   }
 
-  adjustStock() {
-    this.adjustedStock.emit(
-      { values: this.countedStockItems ,
-        batchNumber: this.batchNumber,
-        adjustedValues:this.newArray,
-      }
-    
-    );
+  protected adjustStock(): void {
+    const batchNumber = this.comparedBatch();
+    if (batchNumber === null || !this.hasComparison()) {
+      return;
+    }
+    this.adjusted.emit({
+      batchNumber,
+      values: this.countedItems(),
+      adjustedValues: this.comparison(),
+    });
   }
 }

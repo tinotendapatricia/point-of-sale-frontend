@@ -10,3 +10,5 @@ export * from './lib/+state/pos.models';
 
 export { PosActions, PosFeature, PosSelectors };
 export * from './lib/pos-data-access.providers';
+export * from './lib/services/pos.service';
+export * from './lib/station-storage';

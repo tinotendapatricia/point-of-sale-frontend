@@ -1,22 +1,33 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { TitleCasePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { Utilities } from '@pos-frontend/shared/utils';
-import { VatEntity } from '@pos-frontend/vat/data-access';
-import { TitleCasePipe, KeyValuePipe } from '@angular/common';
+import type { VatEntity } from '@pos-frontend/vat/data-access';
 
+interface DetailField {
+  key: string;
+  label: string;
+  value: unknown;
+}
+
+const HIDDEN_FIELDS = new Set(['deleted', 'id', '__v']);
+
+/** Read-only list of every displayable field on the VAT setting. */
 @Component({
-    selector: 'pos-frontend-vat-details',
-    templateUrl: './vat-details.component.html',
-    styleUrls: ['./vat-details.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [TitleCasePipe, KeyValuePipe]
+  selector: 'pos-frontend-vat-details',
+  templateUrl: './vat-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TitleCasePipe],
 })
 export class VatDetailsComponent {
-  @Input() vat!: VatEntity;
+  readonly vat = input<VatEntity>();
 
-  public decamelize = Utilities.decamelize;
-  public nonDisplayableFields = ['deleted', 'id', '__v'];
-
-  public isHide(field: string | undefined) {
-    return this.nonDisplayableFields.some((element) => element === field);
-  }
+  protected readonly fields = computed<DetailField[]>(() => {
+    const vat = this.vat();
+    if (!vat) {
+      return [];
+    }
+    return Object.entries(vat)
+      .filter(([key]) => !HIDDEN_FIELDS.has(key))
+      .map(([key, value]) => ({ key, label: Utilities.decamelize(key), value }));
+  });
 }

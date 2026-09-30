@@ -1,37 +1,48 @@
-import { Action } from '@ngrx/store';
+import { type Action } from '@ngrx/store';
+import { ClrLoadingState } from '@clr/angular';
 
 import * as PosActions from './pos.actions';
-import { PosEntity } from './pos.models';
-import { PosState, initialPosState, posReducer } from './pos.reducer';
+import { createInvoice, saleRequest as request } from '../../testing/pos.fixtures';
+import { type PosState, initialPosState, posReducer } from './pos.reducer';
+
+const invoice = createInvoice();
 
 describe('Pos Reducer', () => {
-  const createPosEntity = (id: string, name = ''): PosEntity => ({
-    id,
-    name: name || `name-${id}`,
+  it('createPos puts the button in its loading state', () => {
+    const result: PosState = posReducer(
+      initialPosState,
+      PosActions.createPos(request)
+    );
+
+    expect(result.btnState).toBe(ClrLoadingState.LOADING);
+    expect(result.loaded).toBe(false);
   });
 
-  describe('valid Pos actions', () => {
-    it('loadPosSuccess should return the list of known Pos', () => {
-      const pos = [
-        createPosEntity('PRODUCT-AAA'),
-        createPosEntity('PRODUCT-zzz'),
-      ];
-      const action = PosActions.loadPosSuccess({ pos });
+  it('createPosuccess stores the created invoice', () => {
+    const result = posReducer(
+      initialPosState,
+      PosActions.createPosuccess(invoice)
+    );
 
-      const result: PosState = posReducer(initialPosState, action);
-
-      expect(result.loaded).toBe(true);
-      expect(result.ids.length).toBe(2);
-    });
+    expect(result.loaded).toBe(true);
+    expect(result.btnState).toBe(ClrLoadingState.SUCCESS);
+    expect(result.selectedPos).toBe(invoice);
   });
 
-  describe('unknown action', () => {
-    it('should return the previous state', () => {
-      const action = {} as Action;
+  it('createPosFailure keeps the error', () => {
+    const error = new Error('boom');
+    const result = posReducer(
+      initialPosState,
+      PosActions.createPosFailure({ error })
+    );
 
-      const result = posReducer(initialPosState, action);
+    expect(result.error).toBe(error);
+    expect(result.btnState).toBe(ClrLoadingState.ERROR);
+  });
 
-      expect(result).toBe(initialPosState);
-    });
+  it('returns the previous state for an unknown action', () => {
+    const action: Action = { type: 'unknown' };
+
+    expect(posReducer(initialPosState, action)).toBe(initialPosState);
   });
 });

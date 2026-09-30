@@ -1,14 +1,10 @@
-import { Routes } from '@angular/router';
-import { AuthGuard } from '@pos-frontend/auth/data-access';
+import { type Routes } from '@angular/router';
+import { authGuard } from '@pos-frontend/auth/data-access';
 import { PortalContainerComponent } from './portal-container/portal-container.component';
-import { provideCurrenciesDataAccess } from '@pos-frontend/currencies/data-access';
-
-const shellProviders = [provideCurrenciesDataAccess()];
 
 export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
   {
     path: 'auth',
-    providers: shellProviders,
     loadChildren: () =>
       import('@pos-frontend/admin/feature-auth').then(
         (module) => module.ADMIN_FEATURE_AUTH_ROUTES
@@ -17,9 +13,8 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
   {
     path: '',
     component: PortalContainerComponent,
-    canActivate: [AuthGuard],
-    providers: shellProviders,
-    
+    canActivate: [authGuard],
+
      children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
@@ -55,20 +50,6 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
         loadChildren: () =>
           import('@pos-frontend/admin/feature-stock-take').then(
             (module) => module.ADMIN_FEATURE_STOCK_TAKE_ROUTES
-          ),
-      },
-      {
-        path: 'categories',
-        loadChildren: () =>
-          import('@pos-frontend/admin/feature-categories').then(
-            (module) => module.ADMIN_FEATURE_CATEGORIES_ROUTES
-          ),
-      },
-      {
-        path: 'currencies',
-        loadChildren: () =>
-          import('@pos-frontend/admin/feature-currencies').then(
-            (module) => module.ADMIN_FEATURE_CURRENCIES_ROUTES
           ),
       },
       {
@@ -118,6 +99,20 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
         loadChildren: () =>
           import('@pos-frontend/admin/feature-products').then(
             (module) => module.ADMIN_FEATURE_PRODUCTS_ROUTES
+          ),
+      },
+      {
+        path: 'currencies',
+        loadChildren: () =>
+          import('@pos-frontend/admin/feature-currencies').then(
+            (module) => module.ADMIN_FEATURE_CURRENCIES_ROUTES
+          ),
+      },
+      {
+        path: 'categories',
+        loadChildren: () =>
+          import('@pos-frontend/admin/feature-categories').then(
+            (module) => module.ADMIN_FEATURE_CATEGORIES_ROUTES
           ),
       },
       /*{

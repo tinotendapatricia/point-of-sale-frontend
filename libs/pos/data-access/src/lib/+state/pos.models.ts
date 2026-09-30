@@ -1,8 +1,9 @@
-import { DebtorsEntity } from '@pos-frontend/debtors/data-access';
+import { type DebtorsEntity } from '@pos-frontend/debtors/data-access';
 
+/** An invoice (sale or refund) as returned by `/invoices/create`. */
 export interface PosEntity {
   id: string | number; // Primary ID
-  invoiceNumber:number
+  invoiceNumber: number;
   totalAmountExcVat: string;
   totalVat: string;
   total: string;
@@ -18,4 +19,34 @@ export interface SaleProducts {
   description: string;
   quantity: number;
   price: string;
+}
+
+/** One line on the till before the sale is submitted. */
+export interface SaleItem {
+  code: string;
+  description: string;
+  productId: string | number;
+  quantity: number;
+  price: number;
+  cost: number;
+  totalAmt: number;
+}
+
+/** 1 = sale, 2 = refund. */
+export type TransactionType = 1 | 2;
+
+/** POST `/invoices/create` body, built by the till form. */
+export interface CreateSaleRequest {
+  products: SaleItem[];
+  totalAmountExcVat: number;
+  totalVat: number;
+  total: number;
+  debtor: string | number;
+  station: string | null;
+  rate: number;
+  transactionType: TransactionType;
+  reference: string;
+  changeDebtor: string | number | null;
+  changeRate: number | null;
+  changeAmount: number | null;
 }

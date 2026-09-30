@@ -1,12 +1,3 @@
-import * as UsersActions from './lib/+state/users.actions';
-
-import * as UsersFeature from './lib/+state/users.reducer';
-
-import * as UsersSelectors from './lib/+state/users.selectors';
-
-export * from './lib/+state/users.facade';
-
-export * from './lib/+state/users.models';
-
-export { UsersActions, UsersFeature, UsersSelectors };
-export * from './lib/users-data-access.providers';
+export * from './lib/user.model';
+export * from './lib/user.service';
+export * from './lib/user.store';

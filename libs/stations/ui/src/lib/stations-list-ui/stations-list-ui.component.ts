@@ -1,37 +1,35 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { DatagridState } from '@pos-frontend/shared/utils';
-import { StationsEntity } from '@pos-frontend/stations/data-access';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatIconModule } from '@angular/material/icon';
+import { ChangeDetectionStrategy, Component, type TemplateRef, computed, input, output, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { type PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { BmgTable, type TableColumnDef } from '@pos-frontend/shared/ui';
+import type { StationsEntity } from '@pos-frontend/stations/data-access';
 
+/** Presentational stations table on the shared BmgTable, server-side paginated. */
 @Component({
-    selector: 'pos-frontend-stations-list-ui',
-    templateUrl: './stations-list-ui.component.html',
-    styleUrls: ['./stations-list-ui.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule]
+  selector: 'pos-frontend-stations-list-ui',
+  templateUrl: './stations-list-ui.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [BmgTable, MatButtonModule, MatIconModule],
 })
-export class StationsListUiComponent implements OnInit {
-  @Input() stationsList: StationsEntity[] = [];
-  @Input() total = 0;
-  @Input() loading = true;
-  @Input() placeholderMessage = '';
-  @Output() updatedState = new EventEmitter<DatagridState>();
-  @Output() viewStationPermissions = new EventEmitter<string | number>();
+export class StationsListUiComponent {
+  readonly stations = input.required<StationsEntity[]>();
+  readonly total = input(0);
+  readonly loading = input(false);
 
-  readonly displayedColumns = ['number', 'name', 'actions'];
-  readonly pageSizeOptions = [10, 25, 50];
-  readonly pageSize = 10;
+  readonly page = output<PageEvent>();
+  readonly added = output<void>();
+  readonly refreshed = output<void>();
+  readonly edited = output<string | number>();
 
-  ngOnInit(): void {
-    this.updatedState.emit({ page: { from: 0, size: this.pageSize } });
-  }
+  private readonly actionsTpl = viewChild<TemplateRef<unknown>>('actionsTpl');
 
-  onPage(event: PageEvent): void {
-    this.updatedState.emit({
-      page: { from: event.pageIndex * event.pageSize, size: event.pageSize },
-    });
-  }
+  protected readonly dataSource = computed(() => new MatTableDataSource(this.stations()));
+
+  protected readonly columns = computed<TableColumnDef[]>(() => [
+    { key: 'number', header: 'Account' },
+    { key: 'name', header: 'Name' },
+    { key: 'actions', header: '', align: 'right', template: this.actionsTpl() },
+  ]);
 }

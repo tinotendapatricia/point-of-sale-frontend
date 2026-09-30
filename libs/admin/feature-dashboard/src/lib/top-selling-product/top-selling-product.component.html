@@ -1,1 +1,11 @@
-<p>top-selling-product works!</p>
+<h2 class="mb-2 text-base font-semibold">Top Selling Products</h2>
+<ul class="text-sm">
+  @for (product of topSelling(); track product.name) {
+    <li class="flex justify-between">
+      <span>{{ product.name }}</span>
+      <span>{{ product.quantitySold }}</span>
+    </li>
+  } @empty {
+    <li>{{ loading() ? 'Loading…' : 'No products' }}</li>
+  }
+</ul>

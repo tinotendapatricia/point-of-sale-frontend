@@ -1,53 +1,61 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, effect } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CompanyEntity } from '@pos-frontend/company-details/data-access';
+import type { CompanyEntity, CompanyRequest } from '@pos-frontend/company-details/data-access';
+
+/** What the form emits: only the fields the user edits, never id, license or audit fields. */
+export type CompanyFormValue = CompanyRequest;
 
 @Component({
-    selector: 'pos-frontend-company-details-form',
-    templateUrl: './company-details-form.component.html',
-    styleUrls: ['./company-details-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
+  selector: 'pos-frontend-company-details-form',
+  templateUrl: './company-details-form.component.html',
+  styleUrl: './company-details-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule],
 })
 export class CompanyDetailsFormComponent {
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
+  private readonly fb = inject(NonNullableFormBuilder);
 
   readonly company = input<CompanyEntity>();
   readonly loading = input(false);
-  readonly title = input('');
-  readonly btnTitle = input('Submit');
-  readonly formValue = output<any>();
+  readonly submitLabel = input('Submit');
 
-  readonly companyForm = this.formBuilder.group({
-    name: [''],
+  readonly submitted = output<CompanyFormValue>();
+  readonly cancelled = output<void>();
+
+  protected readonly form = this.fb.group({
+    name: ['', Validators.required],
     address: [''],
-    bpNumber: [''],
-    tinNumber: [''],
-    email: [''],
-    phone: [''],
-    id: [''],
+    bpNumber: ['', Validators.required],
+    tinNumber: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    phone: ['', Validators.required],
   });
 
   constructor() {
     effect(() => {
       const company = this.company();
       if (company) {
-        this.companyForm.patchValue({ ...company, id: String(company.id) });
+        this.form.reset({
+          name: company.name,
+          address: company.address,
+          bpNumber: company.bpNumber,
+          tinNumber: company.tinNumber,
+          email: company.email,
+          phone: company.phone,
+        });
       }
     });
   }
 
-  cancel() {
-    this.dialogRef?.close(false);
-  }
-
-  submit() {
-    this.formValue.emit(this.companyForm.value);
+  protected submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.submitted.emit(this.form.getRawValue());
   }
 }

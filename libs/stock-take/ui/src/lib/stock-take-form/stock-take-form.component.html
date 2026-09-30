@@ -1,71 +1,50 @@
+<ng-template #actionsTpl let-row>
+  <button type="button" mat-icon-button aria-label="Delete product" (click)="deleteProduct(row.index)">
+    <mat-icon class="text-red-600">delete</mat-icon>
+  </button>
+  <button type="button" mat-icon-button aria-label="Edit product" (click)="editProduct(row.index)">
+    <mat-icon class="text-green-600">edit</mat-icon>
+  </button>
+</ng-template>
 
-
-<div class="clr-row">
-  <div class="clr-col-md-4">
-    <form [formGroup]="form">
-      <div class="clr-row">
-        <div class="clr-col-md-9">
-          <label>Select Product</label>
-          <ng-select formControlName="code">
-            @for (product of products; track product) {
-              <ng-option
-                [value]="product.code"
-                >{{ product.name }}</ng-option
-                >
-              }
-            </ng-select>
-          </div>
-          <div class="clr-col-md-3">
-            <div class="field">
-              <label class="field-label">Quantity</label>
-              <mat-form-field class="full-width" subscriptSizing="dynamic">
-                <input matInput type="number" formControlName="quantity" />
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-        <div class="text-center">
-          <button class="btn btn-sm" (click)="addProduct()"
-
-          >{{buttonMessage}}</button>
-          <hr>
-          </div>
-        </form>
+<div class="grid grid-cols-1 gap-6 md:grid-cols-12">
+  <form class="md:col-span-4" [formGroup]="form" (ngSubmit)="saveProduct()">
+    <div class="grid grid-cols-4 gap-4">
+      <div class="field col-span-3">
+        <label class="field-label" for="stock-take-product">Select Product<span class="required-marker">*</span></label>
+        <ng-select labelForId="stock-take-product" formControlName="code">
+          @for (product of products(); track product.id) {
+            <ng-option [value]="product.code">{{ product.name }}</ng-option>
+          }
+        </ng-select>
+        @if (form.controls.code.touched && form.controls.code.hasError('required')) {
+          <span class="err">Product is required</span>
+        }
       </div>
-      <div class="clr-col-md-8">
-        <span class="err">{{errorMessage}}</span>
-        <table class="table" style="font-size: 10px;">
-          <thead>
-            <th></th>
-            <th>Product</th>
-            <th>Product Description</th>
-            <th>Quantity</th>
-            <th></th>
-          </thead>
-          <tbody>
-            @for (p of selectedProducts; track p; let i = $index) {
-              <tr>
-                <td style="width: 10px;">{{i+1}}</td>
-                <td>{{ p.code }}</td>
-                <td>{{ p.productName }}</td>
-                <td>{{ p.quantity }}</td>
-                <td>
-                  <button mat-icon-button (click)="deleteProduct(p.code)" aria-label="Delete product">
-                    <mat-icon style="color: red">delete</mat-icon>
-                  </button>
-                  <button mat-icon-button (click)="updateProduct(i,p)" aria-label="Edit product">
-                    <mat-icon style="color: green">edit</mat-icon>
-                  </button>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-        <br>
-          <button class="btn btn-primary btn-block" (click)="onSubmit()" [disabled]="selectedProducts.length<=0">Close Batch</button>
-
-
-
-
-        </div>
+      <div class="field">
+        <label class="field-label" for="stock-take-quantity">Quantity<span class="required-marker">*</span></label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="stock-take-quantity" matInput type="number" min="0" formControlName="quantity" />
+          @if (form.controls.quantity.hasError('required')) {
+            <mat-error>Required</mat-error>
+          } @else if (form.controls.quantity.hasError('min')) {
+            <mat-error>Cannot be negative</mat-error>
+          }
+        </mat-form-field>
       </div>
+    </div>
+    <div class="text-center">
+      <button type="submit" mat-stroked-button>{{ buttonLabel() }}</button>
+    </div>
+  </form>
+
+  <div class="md:col-span-8">
+    @if (errorMessage()) {
+      <span class="err">{{ errorMessage() }}</span>
+    }
+    <pos-frontend-table caption="Products" type="default" [columns]="columns()" [data]="rows()" />
+    <button type="button" class="mt-4 w-full" mat-flat-button [disabled]="items().length === 0" (click)="submit()">
+      Close Batch
+    </button>
+  </div>
+</div>

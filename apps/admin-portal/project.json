@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "pos-frontend",
   "sourceRoot": "apps/admin-portal/src",
-  "tags": [],
+  "tags": ["scope:pos", "type:app"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -22,9 +22,9 @@
         ],
         "styles": [
           "node_modules/izitoast/dist/css/iziToast.min.css",
-                  "apps/admin-portal/src/styles.scss"
+          "apps/admin-portal/src/styles.scss"
         ],
-        "scripts": ["node_modules/izitoast/dist/js/iziToast.min.js"]
+        "scripts": []
       },
       "configurations": {
         "production": {

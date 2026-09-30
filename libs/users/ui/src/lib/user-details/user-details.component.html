@@ -1,6 +1,6 @@
 <dl class="details-list">
   @for (field of user() | keyvalue; track field.key) {
-    @if (!isHide(field.key)) {
+    @if (!isHidden(field.key)) {
       <div class="details-row">
         <dt>{{ decamelize(field.key) | titlecase }}</dt>
         <dd>

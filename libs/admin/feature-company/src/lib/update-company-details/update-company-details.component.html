@@ -1,7 +1,7 @@
 <pos-frontend-company-details-form
-  [title]="'Update Company'"
-  [btnTitle]="'Save'"
-  [loading]="submitting()"
-  (formValue)="createCompany($event)"
+  submitLabel="Save"
   [company]="company"
-></pos-frontend-company-details-form>
+  [loading]="submitting()"
+  (cancelled)="close(false)"
+  (submitted)="update($event)"
+/>

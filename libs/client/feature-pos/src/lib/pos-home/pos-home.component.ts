@@ -1,51 +1,60 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
-import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
-import { PosFacade } from '@pos-frontend/pos/data-access';
 import {
-  ProductsEntity,
-  ProductsFacade,
-} from '@pos-frontend/products/data-access';
-import { VatFacade } from '@pos-frontend/vat/data-access';
-import { Observable } from 'rxjs';
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  untracked,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ClrLoadingState } from '@clr/angular';
+import { CurrencyStore } from '@pos-frontend/currencies/data-access';
+import { DebtorStore } from '@pos-frontend/debtors/data-access';
+import {
+  type CreateSaleRequest,
+  PosFacade,
+  getStationNumber,
+} from '@pos-frontend/pos/data-access';
+import { ProductStore } from '@pos-frontend/products/data-access';
 import { PosFormComponent } from '@pos-frontend/pos/ui';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'pos-frontend-pos-home',
-    templateUrl: './pos-home.component.html',
-    styleUrls: ['./pos-home.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [PosFormComponent, AsyncPipe],
-    schemas: [NO_ERRORS_SCHEMA]
+  selector: 'pos-frontend-pos-home',
+  templateUrl: './pos-home.component.html',
+  styleUrl: './pos-home.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [PosFormComponent],
 })
-export class PosHomeComponent implements OnInit {
-  constructor(
-    public productsFacade: ProductsFacade,
-    public debtorsFacade: DebtorsFacade,
-    public vatFacade: VatFacade,
-    public currenciesFacade: CurrenciesFacade,
-    public posFacade: PosFacade,
-    private router:Router,
-    private route:ActivatedRoute
-  ) {}
+export class PosHomeComponent {
+  private readonly productStore = inject(ProductStore);
+  private readonly debtorStore = inject(DebtorStore);
+  private readonly currencyStore = inject(CurrencyStore);
+  private readonly posFacade = inject(PosFacade);
 
-  ngOnInit(): void {
-    this.productsFacade.getAllProducts();
-    this.debtorsFacade.getAllDebtors();
-    //this.vatFacade.getVat();
-    this.currenciesFacade.getDefaultCurrency();
-    
+  protected readonly products = this.productStore.products;
+  protected readonly debtors = this.debtorStore.debtors;
+  protected readonly currency = this.currencyStore.defaultCurrency;
+  protected readonly btnState = toSignal(this.posFacade.btnState$, {
+    initialValue: ClrLoadingState.DEFAULT,
+  });
+  protected readonly sale = toSignal(this.posFacade.selectedPos$);
+  protected readonly station = getStationNumber();
+
+  constructor() {
+    // Load the till data on entry and again after every invoice, so stock
+    // levels are fresh for the next customer.
+    effect(() => {
+      this.sale();
+      untracked(() => this.loadTillData());
+    });
   }
 
-  createSale(posDetails: any) {
-    console.log(posDetails)
-    this.posFacade.createNewPos(posDetails);
-    this.posFacade.loaded$.subscribe({
-      next:(res)=>{
-        this.ngOnInit()
-      }
-    })
+  protected createSale(sale: CreateSaleRequest): void {
+    this.posFacade.createNewPos(sale);
+  }
+
+  private loadTillData(): void {
+    this.productStore.getAllProducts();
+    this.debtorStore.getAllDebtors();
+    this.currencyStore.getDefaultCurrency();
   }
 }

@@ -1,57 +1,57 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, effect } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ConfigurationsEntity } from '@pos-frontend/configurations/data-access';
+import type { ConfigurationRequest, ConfigurationsEntity } from '@pos-frontend/configurations/data-access';
+
+/** What the form emits: only the fields the user edits, never id or audit fields. */
+export type ConfigurationFormValue = ConfigurationRequest;
 
 @Component({
-    selector: 'pos-frontend-configurations-form',
-    templateUrl: './configurations-form.component.html',
-    styleUrls: ['./configurations-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
+  selector: 'pos-frontend-configurations-form',
+  templateUrl: './configurations-form.component.html',
+  styleUrl: './configurations-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule],
 })
 export class ConfigurationsFormComponent {
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
+  private readonly fb = inject(NonNullableFormBuilder);
 
   readonly configuration = input<ConfigurationsEntity>();
   readonly loading = input(false);
-  readonly title = input('');
-  readonly btnTitle = input('Submit');
-  readonly formValue = output<any>();
+  readonly submitLabel = input('Submit');
 
-  readonly configurationForm = this.formBuilder.group({
-    copies: [''],
-    printerName: [''],
-    stationName: [''],
-    stationNumber: [''],
-    id: [''],
+  readonly submitted = output<ConfigurationFormValue>();
+  readonly cancelled = output<void>();
+
+  protected readonly form = this.fb.group({
+    stationName: ['', Validators.required],
+    stationNumber: [50, [Validators.required, Validators.min(50)]],
+    printerName: ['', Validators.required],
+    copies: [1, [Validators.required, Validators.min(1)]],
   });
 
   constructor() {
     effect(() => {
       const configuration = this.configuration();
       if (configuration) {
-        this.configurationForm.patchValue({
-          copies: String(configuration.copies),
-          printerName: configuration.printerName,
+        this.form.reset({
           stationName: configuration.stationName,
-          stationNumber: String(configuration.stationNumber),
-          id: String(configuration.id),
+          stationNumber: configuration.stationNumber,
+          printerName: configuration.printerName,
+          copies: configuration.copies,
         });
       }
     });
   }
 
-  cancel() {
-    this.dialogRef?.close(false);
-  }
-
-  submit() {
-    this.formValue.emit(this.configurationForm.value);
+  protected submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.submitted.emit(this.form.getRawValue());
   }
 }

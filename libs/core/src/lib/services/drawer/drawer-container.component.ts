@@ -21,8 +21,7 @@ let nextId = 0;
  * application has to place anything in its own template.
  */
 @Component({
-    selector: 'es-drawer-container',
-    standalone: true,
+    selector: 'pos-frontend-drawer-container',
     imports: [PortalModule, A11yModule, MatButtonModule, MatIconModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
@@ -34,39 +33,7 @@ let nextId = 0;
         '[attr.aria-labelledby]': 'config.title && !config.hideHeader ? titleId : null',
         '[attr.aria-label]': 'config.title && !config.hideHeader ? null : config.ariaLabel',
     },
-    template: `
-        <!-- autoCapture moves focus in on open and restores it on destroy. -->
-        <div class="flex h-full w-full flex-col bg-surface" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
-            @if (!config.hideHeader) {
-                <header class="flex items-start gap-3 border-b border-hairline px-5 py-4">
-                    <div class="min-w-0 flex-1">
-                        <h2 [id]="titleId" class="truncate text-base font-semibold text-ink">
-                            {{ config.title }}
-                        </h2>
-                        @if (config.subtitle) {
-                            <p class="mt-0.5 truncate text-sm text-ink-muted">
-                                {{ config.subtitle }}
-                            </p>
-                        }
-                    </div>
-                    @if (!config.disableClose) {
-                        <button
-                            mat-icon-button
-                            type="button"
-                            [attr.aria-label]="'Close ' + (config.title ?? 'panel')"
-                            (click)="ref.close()"
-                        >
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    }
-                </header>
-            }
-
-            <div class="flex-1 overflow-y-auto px-5 py-4">
-                <ng-template [cdkPortalOutlet]="content"></ng-template>
-            </div>
-        </div>
-    `,
+    templateUrl: './drawer-container.component.html',
 })
 export class DrawerContainerComponent {
     protected readonly ref = inject(DrawerRef);

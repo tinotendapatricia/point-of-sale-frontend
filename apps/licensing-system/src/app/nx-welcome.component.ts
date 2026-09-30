@@ -849,6 +849,6 @@ nx affected:e2e</pre>
   `,
     styles: [],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.Eager
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NxWelcomeComponent {}

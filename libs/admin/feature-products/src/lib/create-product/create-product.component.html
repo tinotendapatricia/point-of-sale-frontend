@@ -1,7 +1,1 @@
-
-    <pos-frontend-products-form
-      (formValue)="createProduct($event)"
-      [loading]="submitting()"
-      [currency]="(currenciesFacade.defaultCurrency$ | async)?.code"
-    ></pos-frontend-products-form>
-
+<pos-frontend-products-form [loading]="submitting()" (cancelled)="close(false)" (submitted)="create($event)" />

@@ -47,7 +47,8 @@ export class DrawerService {
             ...DRAWER_BASE_DEFAULTS,
             ...this.appDefaults,
             ...config,
-        } as ResolvedDrawerConfig<D>;
+            data: config.data,
+        };
 
         const overlayRef = this.overlay.create(this.overlayConfig(resolved));
         const ref = new DrawerRef<R, D>(resolved, overlayRef);

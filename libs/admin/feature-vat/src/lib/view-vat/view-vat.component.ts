@@ -1,36 +1,47 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
-import { VatFacade } from '@pos-frontend/vat/data-access';
+import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
+import { DrawerService } from '@pos-frontend/core';
+import { VatStore } from '@pos-frontend/vat/data-access';
 import { VatDetailsComponent } from '@pos-frontend/vat/ui';
+
 import { UpdateVatComponent } from '../update-vat/update-vat.component';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'pos-frontend-view-vat',
-    templateUrl: './view-vat.component.html',
-    styleUrls: ['./view-vat.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, MatIconModule, VatDetailsComponent, AsyncPipe]
+  selector: 'pos-frontend-view-vat',
+  templateUrl: './view-vat.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCard, MatCardContent, MatButtonModule, MatIconModule, VatDetailsComponent],
 })
-export class ViewVatComponent implements OnInit {
-  private readonly dialog = inject(MatDialog);
+export class ViewVatComponent {
+  private readonly drawer = inject(DrawerService);
+  private readonly injector = inject(Injector);
+  private readonly vatStore = inject(VatStore);
 
-  constructor(public vatFacade: VatFacade) {}
+  protected readonly vat = this.vatStore.vat;
+  protected readonly loading = this.vatStore.getOneLoading;
 
-  ngOnInit(): void {
-    this.getVat();
+  constructor() {
+    this.refresh();
   }
 
-  getVat() {
-    this.vatFacade.getVat();
+  protected refresh(): void {
+    this.vatStore.getVat();
   }
 
-  update() {
-    this.dialog
-      .open(UpdateVatComponent, { width: '420px' })
+  protected update(): void {
+    this.drawer
+      .open<UpdateVatComponent, boolean>(UpdateVatComponent, {
+        title: 'Update VAT',
+        size: 'sm',
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((updated) => updated && this.getVat());
+      .subscribe((updated) => {
+        if (updated) {
+          this.refresh();
+        }
+      });
   }
 }

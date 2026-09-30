@@ -1,46 +1,58 @@
-<h2 mat-dialog-title>{{ title() }}</h2>
-<mat-dialog-content>
-  <form [formGroup]="configurationForm" class="configuration-form">
-    <div class="field-row">
-      <div class="field">
-        <label class="field-label" for="config-station-name">Station Name<span class="required-marker">*</span></label>
-        <mat-form-field class="full-width" subscriptSizing="dynamic">
-          <input matInput id="config-station-name" type="text" formControlName="stationName" required />
-        </mat-form-field>
-      </div>
-      <div class="field">
-        <label class="field-label" for="config-station-number">Station Number<span class="required-marker">*</span></label>
-        <mat-form-field class="full-width" subscriptSizing="dynamic">
-          <input matInput id="config-station-number" type="number" min="50" formControlName="stationNumber" required />
-        </mat-form-field>
-      </div>
+<form class="configuration-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field-row">
+    <div class="field">
+      <label class="field-label" for="config-station-name">Station Name<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="config-station-name" matInput type="text" formControlName="stationName" />
+        @if (form.controls.stationName.hasError('required')) {
+          <mat-error>Station name is required</mat-error>
+        }
+      </mat-form-field>
     </div>
+    <div class="field">
+      <label class="field-label" for="config-station-number">Station Number<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="config-station-number" matInput type="number" min="50" formControlName="stationNumber" />
+        @if (form.controls.stationNumber.hasError('required')) {
+          <mat-error>Station number is required</mat-error>
+        } @else if (form.controls.stationNumber.hasError('min')) {
+          <mat-error>Station number must be 50 or more</mat-error>
+        }
+      </mat-form-field>
+    </div>
+  </div>
 
-    <div class="field-row">
-      <div class="field">
-        <label class="field-label" for="config-printer-name">Printer Name<span class="required-marker">*</span></label>
-        <mat-form-field class="full-width" subscriptSizing="dynamic">
-          <input matInput id="config-printer-name" type="text" formControlName="printerName" required />
-        </mat-form-field>
-      </div>
-      <div class="field">
-        <label class="field-label" for="config-copies">Print Copies<span class="required-marker">*</span></label>
-        <mat-form-field class="full-width" subscriptSizing="dynamic">
-          <input matInput id="config-copies" type="number" formControlName="copies" required />
-        </mat-form-field>
-      </div>
+  <div class="field-row">
+    <div class="field">
+      <label class="field-label" for="config-printer-name">Printer Name<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="config-printer-name" matInput type="text" formControlName="printerName" />
+        @if (form.controls.printerName.hasError('required')) {
+          <mat-error>Printer name is required</mat-error>
+        }
+      </mat-form-field>
     </div>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
-    Cancel
-  </button>
-  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
-    @if (loading()) {
-      <mat-spinner diameter="18"></mat-spinner>
-    } @else {
-      {{ btnTitle() }}
-    }
-  </button>
-</mat-dialog-actions>
+    <div class="field">
+      <label class="field-label" for="config-copies">Print Copies<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="config-copies" matInput type="number" min="1" formControlName="copies" />
+        @if (form.controls.copies.hasError('required')) {
+          <mat-error>Copies is required</mat-error>
+        } @else if (form.controls.copies.hasError('min')) {
+          <mat-error>At least one copy is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="mt-4 flex justify-end gap-2">
+    <button type="button" mat-stroked-button [disabled]="loading()" (click)="cancelled.emit()">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel() }}
+      }
+    </button>
+  </div>
+</form>

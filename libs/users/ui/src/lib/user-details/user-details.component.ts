@@ -1,30 +1,32 @@
-import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { KeyValuePipe, TitleCasePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { Utilities } from '@pos-frontend/shared/utils';
-import { UsersEntity } from '@pos-frontend/users/data-access';
+import type { UsersEntity } from '@pos-frontend/users/data-access';
+
+const NON_DISPLAYABLE_FIELDS = [
+  'deleted',
+  'id',
+  'group',
+  'roles',
+  'accountNonLocked',
+  'accountNonExpired',
+  'authorities',
+  'version',
+];
 
 @Component({
   selector: 'pos-frontend-user-details',
   templateUrl: './user-details.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
-  styleUrls: ['./user-details.component.scss'],
+  styleUrl: './user-details.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [KeyValuePipe, TitleCasePipe],
 })
 export class UserDetailsComponent {
   readonly user = input<UsersEntity>();
 
-  public decamelize = Utilities.decamelize;
-  public nonDisplayableFields = [
-    'deleted',
-    'id',
-    'group',
-    'accountNonLocked',
-    'accountNonExpired',
-    'authorities',
-    'version',
-  ];
+  protected readonly decamelize = Utilities.decamelize;
 
-  public isHide(field: string | undefined) {
-    return this.nonDisplayableFields.some((element) => element === field);
+  protected isHidden(field: string): boolean {
+    return NON_DISPLAYABLE_FIELDS.includes(field);
   }
 }

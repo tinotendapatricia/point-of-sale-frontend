@@ -1,32 +1,38 @@
-import { Component, EventEmitter, Input, Output, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
-import { ConfigurationsEntity } from '@pos-frontend/configurations/data-access';
-import { MatTableModule, MatTableDataSource } from '@angular/material/table';
-import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
-import { MatIconModule } from '@angular/material/icon';
+import { DatePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, type TemplateRef, computed, input, output, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableDataSource } from '@angular/material/table';
+import type { ConfigurationsEntity } from '@pos-frontend/configurations/data-access';
+import { BmgTable, type TableColumnDef } from '@pos-frontend/shared/ui';
 
+/** Presentational configurations table on the shared BmgTable, paginated client-side. */
 @Component({
-    selector: 'pos-frontend-configurations-list-ui',
-    templateUrl: './configurations-list-ui.component.html',
-    styleUrls: ['./configurations-list-ui.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule]
+  selector: 'pos-frontend-configurations-list-ui',
+  templateUrl: './configurations-list-ui.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [BmgTable, DatePipe, MatButtonModule, MatIconModule],
 })
-export class ConfigurationsListUiComponent implements AfterViewInit {
-  @Input() set configurationsList(value: ConfigurationsEntity[]) {
-    this.dataSource.data = value ?? [];
-  }
-  @Input() loading = false;
-  @Input() placeholderMessage = '';
-  @Output() updateSelected = new EventEmitter<any>();
+export class ConfigurationsListUiComponent {
+  readonly configurations = input.required<ConfigurationsEntity[]>();
+  readonly loading = input(false);
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  readonly added = output<void>();
+  readonly refreshed = output<void>();
+  readonly edited = output<ConfigurationsEntity>();
 
-  readonly displayedColumns = ['stationNumber', 'stationName', 'printerName', 'copies', 'createdBy', 'createdAt', 'actions'];
-  readonly pageSizeOptions = [10, 25, 50];
-  readonly dataSource = new MatTableDataSource<ConfigurationsEntity>([]);
+  private readonly actionsTpl = viewChild<TemplateRef<unknown>>('actionsTpl');
+  private readonly createdTpl = viewChild<TemplateRef<unknown>>('createdTpl');
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-  }
+  protected readonly dataSource = computed(() => new MatTableDataSource(this.configurations()));
+
+  protected readonly columns = computed<TableColumnDef[]>(() => [
+    { key: 'stationNumber', header: 'Station Number' },
+    { key: 'stationName', header: 'Station Name' },
+    { key: 'printerName', header: 'Printer Name' },
+    { key: 'copies', header: 'Printer Copies' },
+    { key: 'createdBy', header: 'Created By' },
+    { key: 'createdAt', header: 'Date Created', template: this.createdTpl() },
+    { key: 'actions', header: '', align: 'right', template: this.actionsTpl() },
+  ]);
 }

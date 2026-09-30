@@ -1,69 +1,59 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, effect, signal } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { RolesEntity } from '@pos-frontend/roles/data-access';
 import { TitleCasePipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  linkedSignal,
+  output,
+} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import type { RolesEntity } from '@pos-frontend/roles/data-access';
 
 @Component({
-    selector: 'pos-frontend-user-roles-form',
-    templateUrl: './user-roles-form.component.html',
-    styleUrls: ['./user-roles-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCheckboxModule, MatButtonModule, MatProgressSpinnerModule, TitleCasePipe]
+  selector: 'pos-frontend-user-roles-form',
+  templateUrl: './user-roles-form.component.html',
+  styleUrl: './user-roles-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCheckboxModule, MatButtonModule, MatProgressSpinnerModule, TitleCasePipe],
 })
 export class UserRolesFormComponent {
-  private readonly formBuilder = inject(FormBuilder);
-
+  /** Every role that can be assigned. */
   readonly roles = input<RolesEntity[]>([]);
-  readonly userRoles = input<{ id: string }[] | undefined>();
-  readonly userId = input<string | number>();
+  /** Roles the user already has; they start checked. */
+  readonly userRoles = input<Pick<RolesEntity, 'id'>[]>([]);
   readonly loading = input(false);
-  readonly save = output<unknown>();
 
-  readonly checkedRoles = signal<string[]>([]);
+  /** The ids of the checked roles. */
+  readonly saved = output<string[]>();
 
-  readonly rolesForm = this.formBuilder.group({
-    roles: this.formBuilder.control<string[]>([]),
-    userId: [''],
-  });
+  protected readonly checkedRoles = linkedSignal(() => this.userRoles().map((role) => role.id));
 
-  constructor() {
-    effect(() => {
-      const userRoles = this.userRoles();
-      if (userRoles) {
-        this.checkedRoles.set(userRoles.map((role) => role.id));
-      }
-    });
-    effect(() => {
-      const userId = this.userId();
-      if (userId) {
-        this.rolesForm.get('userId')?.patchValue(String(userId));
-      }
-    });
-  }
+  protected readonly allSelected = computed(
+    () => this.roles().length > 0 && this.checkedRoles().length === this.roles().length,
+  );
 
-  isChecked(id: string) {
+  protected isChecked(id: string): boolean {
     return this.checkedRoles().includes(id);
   }
 
-  toggleRole(id: string) {
+  protected toggleRole(id: string): void {
     this.checkedRoles.update((roles) =>
-      roles.includes(id) ? roles.filter((r) => r !== id) : [...roles, id]
+      roles.includes(id) ? roles.filter((r) => r !== id) : [...roles, id],
     );
   }
 
-  isAllSelected() {
-    return this.checkedRoles().length === this.roles().length && this.roles().length > 0;
+  protected toggleAllRoles(): void {
+    this.checkedRoles.set(this.allSelected() ? [] : this.roles().map((role) => role.id));
   }
 
-  toggleAllRoles() {
-    this.checkedRoles.set(this.isAllSelected() ? [] : this.roles().map((role) => role.id));
+  protected roleLabel(role: RolesEntity): string {
+    return role.name.split('_').join(' ');
   }
 
-  onSave() {
-    this.rolesForm.get('roles')?.patchValue(this.checkedRoles());
-    this.save.emit(this.rolesForm.value);
+  protected save(): void {
+    this.saved.emit(this.checkedRoles());
   }
 }

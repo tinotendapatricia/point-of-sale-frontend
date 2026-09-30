@@ -1,21 +1,37 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { AuthStore } from '@pos-frontend/auth/data-access';
+import { UserStore } from '@pos-frontend/users/data-access';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
-  let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
+  const authStore = { logout: jest.fn() };
+  const userStore = {
+    profile: () => ({ name: 'Jane Till' }),
+    getUserProfile: jest.fn(),
+  };
 
   beforeEach(async () => {
+    jest.clearAllMocks();
     await TestBed.configureTestingModule({
-    imports: [HeaderComponent],
-}).compileComponents();
+      imports: [HeaderComponent],
+      providers: [
+        { provide: AuthStore, useValue: authStore },
+        { provide: UserStore, useValue: userStore },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('loads and shows the signed-in user', () => {
+    expect(userStore.getUserProfile).toHaveBeenCalled();
+    expect(fixture.nativeElement.textContent).toContain('Jane Till');
+  });
+
+  it('logs out', () => {
+    fixture.nativeElement.querySelector('button').click();
+    expect(authStore.logout).toHaveBeenCalled();
   });
 });

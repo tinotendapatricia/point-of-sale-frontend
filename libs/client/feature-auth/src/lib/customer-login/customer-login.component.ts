@@ -1,77 +1,98 @@
-import { Component, ChangeDetectionStrategy, Injector, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  Injector,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
-import { ClrLoadingState } from '@clr/angular';
+import { Router } from '@angular/router';
 
-import { AuthFacade } from '@pos-frontend/auth/data-access';
-import { CompanyService } from '@pos-frontend/company-details/data-access';
-import { ConfigurationsService } from '@pos-frontend/configurations/data-access';
-import { Utilities } from '@pos-frontend/shared/utils';
+import { AuthStore, type LoginCredentials } from '@pos-frontend/auth/data-access';
 import { LoginFormComponent } from '@pos-frontend/auth/ui';
+import { CompanyStore } from '@pos-frontend/company-details/data-access';
+import { ConfigurationService } from '@pos-frontend/configurations/data-access';
+import { ToastService } from '@pos-frontend/core';
+import { getStationNumber } from '@pos-frontend/pos/data-access';
 import { ConfigureStationComponent } from '../configure-station/configure-station.component';
 
 @Component({
-    selector: 'pos-frontend-customer-login',
-    templateUrl: './customer-login.component.html',
-    styleUrls: ['./customer-login.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [LoginFormComponent]
+  selector: 'pos-frontend-customer-login',
+  templateUrl: './customer-login.component.html',
+  styleUrl: './customer-login.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [LoginFormComponent],
 })
 export class CustomerLoginComponent {
   private readonly injector = inject(Injector);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
-  private readonly configService = inject(ConfigurationsService);
-  private readonly companyService = inject(CompanyService);
-  readonly authFacade = inject(AuthFacade);
+  private readonly toast = inject(ToastService);
+  private readonly configService = inject(ConfigurationService);
+  private readonly authStore = inject(AuthStore);
+  private readonly companyStore = inject(CompanyStore);
 
-  readonly loading = toSignal(
-    this.authFacade.authBtnState$.pipe(map((state) => state === ClrLoadingState.LOADING)),
-    { initialValue: false }
+  protected readonly loading = this.authStore.loginLoading;
+  protected readonly station = signal(getStationNumber());
+  protected readonly expiryDate = computed(
+    () => this.companyStore.company()?.licenseExpDate
   );
-  readonly expiryDate = signal<string | undefined>(undefined);
-  readonly errMessage = signal(false);
+  protected readonly expired = computed(() => {
+    const date = this.expiryDate();
+    return date ? new Date(date) < new Date() : false;
+  });
 
   constructor() {
-    this.getLicense();
+    this.companyStore.getCompany();
+
+    // The license interceptor reads the license key from the session.
+    effect(() => {
+      const license = this.companyStore.company()?.license;
+      if (license) {
+        sessionStorage.setItem('license', license);
+      }
+    });
   }
 
-  onSubmit(authDetails: any) {
-    this.configService.getAllConfigurations().subscribe({
-      next: (res) => {
-        const station = res.findIndex(
-          (station) =>
-            station.stationNumber.toString() === localStorage.getItem('station')
+  /** Only a till with a known station number may log in. */
+  protected login(credentials: LoginCredentials): void {
+    this.configService
+      .getAllConfigurations()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((configurations) => {
+        const station = getStationNumber();
+        const known = configurations.some(
+          (config) => config.stationNumber.toString() === station
         );
-        if (station >= 0) {
-          this.authFacade.adminLogin(authDetails);
+        if (known) {
+          this.authStore.adminLogin({
+            data: credentials,
+            callback: () => void this.router.navigate(['']),
+          });
         } else {
-          sessionStorage.clear();
-          this.authFacade.logout();
-          Utilities.displayToast('error', 'Station Number ConfigurationError');
+          this.authStore.logout();
+          this.toast.error('Station Number ConfigurationError');
         }
-      },
-      error: () => {},
-    });
+      });
   }
 
-  getLicense() {
-    this.companyService.getCompany().subscribe({
-      next: (res) => {
-        sessionStorage.setItem('license', res?.license);
-        this.expiryDate.set(res?.licenseExpDate);
-        this.calDateDifference(res?.licenseExpDate);
-      },
-    });
-  }
-
-  calDateDifference(date: string) {
-    const today = new Date();
-    const givenDate = new Date(date);
-    this.errMessage.set(givenDate < today);
-  }
-
-  configureStation() {
-    this.dialog.open(ConfigureStationComponent, { width: '360px', injector: this.injector });
+  protected configureStation(): void {
+    this.dialog
+      .open<ConfigureStationComponent, unknown, boolean>(
+        ConfigureStationComponent,
+        { width: '360px', injector: this.injector }
+      )
+      .afterClosed()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((saved) => {
+        if (saved) {
+          this.station.set(getStationNumber());
+        }
+      });
   }
 }

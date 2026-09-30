@@ -1,24 +1,26 @@
-<h2 mat-dialog-title>{{ title() }}</h2>
-<mat-dialog-content>
-  <span> <i>Active Until:</i> </span>
-  <form [formGroup]="licenseForm" class="license-form">
-    <div class="field">
-      <label class="field-label">License</label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput type="text" formControlName="license" />
-      </mat-form-field>
-    </div>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
-    Cancel
-  </button>
-  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
-    @if (loading()) {
-      <mat-spinner diameter="18"></mat-spinner>
-    } @else {
-      {{ btnTitle() }}
-    }
-  </button>
-</mat-dialog-actions>
+@if (title()) {
+  <h2 class="mb-4 text-xl font-bold">{{ title() }}</h2>
+}
+<form class="license-form" [formGroup]="form" (ngSubmit)="submit()">
+  <p class="mb-2 italic">Active Until: {{ activeUntil() || '--' }}</p>
+  <div class="field">
+    <label class="field-label" for="license-key">License<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="license-key" matInput type="text" formControlName="license" />
+      @if (form.controls.license.hasError('required')) {
+        <mat-error>License is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="mt-4 flex justify-end gap-2">
+    <button type="button" mat-stroked-button [disabled]="loading()" (click)="cancelled.emit()">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel() }}
+      }
+    </button>
+  </div>
+</form>

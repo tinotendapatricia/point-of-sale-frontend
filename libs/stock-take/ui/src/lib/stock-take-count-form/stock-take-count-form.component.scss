@@ -1,6 +1,6 @@
 .full-width {
   width: 100%;
-  max-width: 220px;
+  min-width: 220px;
 }
 
 .field {
@@ -14,4 +14,9 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-bottom: var(--space-1, 4px);
+
+  .required-marker {
+    color: var(--alert, red);
+    margin-left: 2px;
+  }
 }

@@ -1,24 +1,9 @@
-<br />
-<div class="h">Creditors</div>
-<hr />
-<br />
-<mat-card class="login">
-  <mat-card-content>
-    &nbsp;<button class="act" (click)="createCreditor()">
-    <mat-icon style="color: green">add_circle</mat-icon>Add
-    New</button
-    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getCreditorList({})">
-    <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
-      >Refresh
-    </button>
-
-    <pos-frontend-list-creditors-ui
-      [creditorsList]="(creditorsFacade.allCreditors$ | async)!"
-      [total]="(creditorsFacade.totalCreditors$ | async)!"
-      [loading]="(creditorsFacade.loading$ | async)!"
-      [placeholderMessage]="'Creditors'"
-      (updatedState)="getCreditorList($event)"
-      (updateSelected)="updateCreditor($event)"
-    ></pos-frontend-list-creditors-ui>
-  </mat-card-content>
-</mat-card>
+<pos-frontend-list-creditors-ui
+  [creditors]="creditors()"
+  [loading]="loading()"
+  [total]="total()"
+  (added)="add()"
+  (edited)="edit($event)"
+  (page)="onPage($event)"
+  (refreshed)="refresh()"
+/>

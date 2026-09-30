@@ -1,29 +1,33 @@
-
-<br />
-<div class="h">Company Details</div>
-<hr />
-<br />
-<mat-card class="login">
+<mat-card>
   <mat-card-content>
-    &nbsp;@if (!company) {
-    <button class="act" (click)="create()"
-      >
-      <mat-icon style="color: green">add_circle</mat-icon>Add
-      New</button
-      >
-      }&nbsp;&nbsp;|&nbsp;&nbsp;@if (company) {
-      <button class="act" (click)="update()"
-        >
-        <mat-icon style="color: green">edit</mat-icon>Update
-        </button
-        >
-        }&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getCompany()">
-        <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
-          >Refresh
+    <header class="mb-4 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold">Company Details</h1>
+        <p class="text-sm text-gray-600">The company this installation is licensed to</p>
+      </div>
+      <div class="flex gap-2">
+        <button type="button" mat-stroked-button [disabled]="loading()" (click)="refresh()">
+          <mat-icon>sync</mat-icon>
+          Refresh
         </button>
-        <br><br>
-        <pos-frontend-company-details-ui
-          [company]="company"
-        ></pos-frontend-company-details-ui>
-      </mat-card-content>
-    </mat-card>
+        @if (company()) {
+          <button type="button" mat-flat-button (click)="update()">
+            <mat-icon>edit</mat-icon>
+            Update
+          </button>
+        } @else {
+          <button type="button" mat-flat-button (click)="create()">
+            <mat-icon>add_circle</mat-icon>
+            Add New
+          </button>
+        }
+      </div>
+    </header>
+
+    @if (loading()) {
+      <p class="text-gray-600">Loading…</p>
+    } @else {
+      <pos-frontend-company-details-ui [company]="company()" />
+    }
+  </mat-card-content>
+</mat-card>

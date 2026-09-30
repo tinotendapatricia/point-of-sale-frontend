@@ -1,29 +1,45 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
-import { ProductsEntity, ProductStore } from '@pos-frontend/products/data-access';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { ProductsFormComponent } from '@pos-frontend/products/ui';
-import { AsyncPipe } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProductStore } from '@pos-frontend/products/data-access';
+import {
+  type ProductFormValue,
+  ProductsFormComponent,
+} from '@pos-frontend/products/ui';
 
 @Component({
-    selector: 'pos-frontend-update-product',
-    templateUrl: './update-product.component.html',
-    styleUrls: ['./update-product.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, ProductsFormComponent, AsyncPipe]
+  selector: 'pos-frontend-update-product',
+  templateUrl: './update-product.component.html',
+  styleUrl: './update-product.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCard, MatCardContent, ProductsFormComponent],
 })
 export class UpdateProductComponent {
   private readonly router = inject(Router);
-  protected readonly productsStore = inject(ProductStore);
-  protected readonly currenciesFacade = inject(CurrenciesFacade);
+  private readonly route = inject(ActivatedRoute);
+  protected readonly productStore = inject(ProductStore);
 
-  protected readonly submitting = this.productsStore.updateLoading;
+  protected readonly submitting = this.productStore.updateLoading;
 
-  public createProduct(product: ProductsEntity) {
-    this.productsStore.updateProduct({
-      data: product,
-      callback: () => this.router.navigate(['/products']),
+  constructor() {
+    const id = this.route.snapshot.paramMap.get('productId');
+    if (id) {
+      this.productStore.getProduct({ id });
+    }
+  }
+
+  protected update(value: ProductFormValue): void {
+    const current = this.productStore.product();
+    if (!current) {
+      return;
+    }
+    this.productStore.updateProduct({
+      data: { ...current, ...value },
+      callback: () => void this.router.navigate(['/products']),
     });
+  }
+
+  protected cancel(): void {
+    void this.router.navigate(['/products']);
   }
 }

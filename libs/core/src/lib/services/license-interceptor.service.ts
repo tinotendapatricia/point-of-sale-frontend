@@ -1,27 +1,12 @@
-import {  HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { type HttpInterceptorFn } from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class LicenseInterceptorService implements HttpInterceptor{
-
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ):any {
-    if (sessionStorage.getItem('accessToken')) {
-      request = this.addAuthHeader(request);
-    }
-  }
-
-  private addAuthHeader(request: HttpRequest<any>) {
-    return request.clone({
-      setHeaders: {
-        "KEY": `Bearer ${sessionStorage.getItem('license')}`
-        
-      },
-    });
-  }
-
-}
+/**
+ * Adds the licence key header on its own. `tokenInterceptor` already does
+ * this, so only use it where the token interceptor isn't registered.
+ */
+export const licenseInterceptor: HttpInterceptorFn = (request, next) => {
+  const license = sessionStorage.getItem('license');
+  return next(
+    license ? request.clone({ setHeaders: { KEY: `Bearer ${license}` } }) : request
+  );
+};

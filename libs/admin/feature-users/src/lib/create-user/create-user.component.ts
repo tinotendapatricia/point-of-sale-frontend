@@ -1,31 +1,32 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { take } from 'rxjs';
-import { MatDialogRef } from '@angular/material/dialog';
-
-import { UsersFacade } from '@pos-frontend/users/data-access';
-import { UserFormComponent } from '@pos-frontend/users/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { injectDrawerRef } from '@pos-frontend/core';
+import { UserStore } from '@pos-frontend/users/data-access';
+import { UserFormComponent, type UserFormValue } from '@pos-frontend/users/ui';
 
 @Component({
-    selector: 'pos-frontend-create-user',
-    templateUrl: './create-user.component.html',
-    styleUrls: ['./create-user.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [UserFormComponent]
+  selector: 'pos-frontend-create-user',
+  templateUrl: './create-user.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [UserFormComponent],
 })
 export class CreateUserComponent {
-  private readonly dialogRef = inject(MatDialogRef<CreateUserComponent, boolean>);
-  readonly usersService = inject(UsersFacade);
+  private readonly router = inject(Router);
+  // null when rendered outside a drawer.
+  private readonly drawerRef = injectDrawerRef<boolean>({ optional: true });
+  private readonly userStore = inject(UserStore);
 
-  readonly submitting = signal(false);
+  protected readonly submitting = this.userStore.createLoading;
 
-  public createUser(user: any) {
-    this.submitting.set(true);
-    this.usersService.createNewUser(user);
-    this.usersService.loaded$.pipe(take(1)).subscribe((loaded) => {
-      this.submitting.set(false);
-      if (loaded) {
-        this.dialogRef.close(true);
-      }
-    });
+  protected create(value: UserFormValue): void {
+    this.userStore.createUser({ data: value, callback: () => this.close(true) });
+  }
+
+  protected close(created: boolean): void {
+    if (this.drawerRef) {
+      this.drawerRef.close(created);
+    } else {
+      void this.router.navigate(['/users']);
+    }
   }
 }

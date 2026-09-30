@@ -1,26 +1,28 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthFacade } from '@pos-frontend/auth/data-access';
-import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { AuthStore } from '@pos-frontend/auth/data-access';
+import { CurrencyStore } from '@pos-frontend/currencies/data-access';
 
 @Component({
-    selector: 'pos-frontend-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [RouterLink, MatMenuModule, MatIconModule, MatButtonModule]
+  selector: 'pos-frontend-header',
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgOptimizedImage, RouterLink, MatMenuModule, MatIconModule, MatButtonModule],
 })
 export class HeaderComponent {
-  readonly authFacade = inject(AuthFacade);
-  readonly currenciesService = inject(CurrenciesFacade);
-
-  readonly defaultCurrency = toSignal(this.currenciesService.defaultCurrency$, { initialValue: undefined });
+  private readonly authStore = inject(AuthStore);
+  protected readonly currencyStore = inject(CurrencyStore);
 
   constructor() {
-    this.currenciesService.getDefaultCurrency();
+    this.currencyStore.getDefaultCurrency();
+  }
+
+  protected logout(): void {
+    this.authStore.logout();
   }
 }

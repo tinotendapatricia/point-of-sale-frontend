@@ -1,36 +1,36 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { take } from 'rxjs';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CreditorsEntity, CreditorsFacade } from '@pos-frontend/creditors/data-access';
-import { CreditorsFormComponent } from '@pos-frontend/creditors/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { injectDrawerData, injectDrawerRef } from '@pos-frontend/core';
+import { type CreditorsEntity, CreditorStore } from '@pos-frontend/creditors/data-access';
+import { type CreditorFormValue, CreditorsFormComponent } from '@pos-frontend/creditors/ui';
 
+/** Drawer payload: the row being edited. */
 export interface UpdateCreditorData {
   creditor: CreditorsEntity;
 }
 
+/** Drawer content: edits the creditor passed in `DrawerConfig.data`. */
 @Component({
-    selector: 'pos-frontend-update-creditor',
-    templateUrl: './update-creditor.component.html',
-    styleUrls: ['./update-creditor.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [CreditorsFormComponent]
+  selector: 'pos-frontend-update-creditor',
+  templateUrl: './update-creditor.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CreditorsFormComponent],
 })
 export class UpdateCreditorComponent {
-  private readonly dialogRef = inject(MatDialogRef<UpdateCreditorComponent, boolean>);
-  private readonly data = inject<UpdateCreditorData>(MAT_DIALOG_DATA);
-  readonly creditorsService = inject(CreditorsFacade);
+  private readonly drawerRef = injectDrawerRef<boolean>();
+  private readonly data = injectDrawerData<UpdateCreditorData>();
+  private readonly creditorStore = inject(CreditorStore);
 
-  readonly creditor = this.data.creditor;
-  readonly submitting = signal(false);
+  protected readonly creditor = this.data.creditor;
+  protected readonly submitting = this.creditorStore.updateLoading;
 
-  public createCreditor(creditor: any) {
-    this.submitting.set(true);
-    this.creditorsService.updateCreditor(creditor);
-    this.creditorsService.loaded$.pipe(take(1)).subscribe((loaded) => {
-      this.submitting.set(false);
-      if (loaded) {
-        this.dialogRef.close(true);
-      }
+  protected update(value: CreditorFormValue): void {
+    this.creditorStore.updateCreditor({
+      data: { ...value, id: this.creditor.id },
+      callback: () => this.close(true),
     });
+  }
+
+  protected close(updated: boolean): void {
+    this.drawerRef.close(updated);
   }
 }

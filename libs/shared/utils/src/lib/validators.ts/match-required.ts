@@ -1,13 +1,13 @@
-import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import type { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 
 interface HasCode {
   code: unknown;
 }
 
-function instanceOfCharacter(character: any): character is HasCode {
+function instanceOfCharacter(character: unknown): character is HasCode {
   return (
     !!character && // truthy
-    typeof character !== 'string' && // Not just string input in the autocomplete
+    typeof character === 'object' && // Not just string input in the autocomplete
     'code' in character
   ); // Has some qualifying property of Character type
 }

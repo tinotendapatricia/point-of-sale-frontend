@@ -1,13 +1,12 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-    selector: "pos-frontend-root",
-    templateUrl: "./app.component.html",
-    styleUrls: ["./app.component.scss"],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [RouterOutlet]
+  selector: 'pos-frontend-root',
+  templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterOutlet],
 })
 export class AppComponent {
-  title = "admin-portal";
+  readonly title = 'admin-portal';
 }

@@ -1,14 +1,16 @@
-<div class="card">
-  <div class="card-header">Sales by Product</div>
-  <div class="card-block">
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Sales by Product</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
     <pos-frontend-reports-form
-      (getPdf)="getPdf($event)"
-      (getExcel)="getExcel($event)"
-      [loading]="loading"
       [isDate]="true"
-      [isProduct]="true"
       [isExcel]="true"
-      [products]="(productsFacade.allProducts$ | async)!"
-    ></pos-frontend-reports-form>
-  </div>
-</div>
+      [isProduct]="true"
+      [loading]="loading()"
+      [products]="products()"
+      (excelRequested)="getExcel($event)"
+      (pdfRequested)="getPdf($event)"
+    />
+  </mat-card-content>
+</mat-card>

@@ -1,48 +1,49 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, effect } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { GroupsEntity } from '@pos-frontend/groups/data-access';
+import type { GroupsEntity } from '@pos-frontend/groups/data-access';
+
+/** What the form emits: only the fields the user edits. */
+export type GroupFormValue = Pick<GroupsEntity, 'name'>;
 
 @Component({
-    selector: 'pos-frontend-group-form',
-    templateUrl: './group-form.component.html',
-    styleUrls: ['./group-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule]
+  selector: 'pos-frontend-group-form',
+  templateUrl: './group-form.component.html',
+  styleUrl: './group-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule],
 })
 export class GroupFormComponent {
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
+  private readonly fb = inject(NonNullableFormBuilder);
 
   readonly group = input<GroupsEntity>();
   readonly loading = input(false);
-  readonly title = input('');
-  readonly btnTitle = input('Submit');
-  readonly formValue = output<any>();
+  readonly submitLabel = input('Submit');
 
-  readonly groupForm = this.formBuilder.group({
-    name: [''],
-    id: [''],
+  readonly submitted = output<GroupFormValue>();
+  readonly cancelled = output<void>();
+
+  protected readonly form = this.fb.group({
+    name: ['', Validators.required],
   });
 
   constructor() {
     effect(() => {
       const group = this.group();
       if (group) {
-        this.groupForm.patchValue(group);
+        this.form.reset({ name: group.name });
       }
     });
   }
 
-  cancel() {
-    this.dialogRef?.close(false);
-  }
-
-  submit() {
-    this.formValue.emit(this.groupForm.value);
+  protected submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.submitted.emit(this.form.getRawValue());
   }
 }

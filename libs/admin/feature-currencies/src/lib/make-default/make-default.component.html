@@ -1,6 +1,6 @@
 <pos-frontend-action-confirmation-form
-  (proceed)="onSubmit()"
-  [message]="message"
-  [title]="'Change Default Currency'"
+  title="Change Default Currency"
   [loading]="submitting()"
-></pos-frontend-action-confirmation-form>
+  [message]="message"
+  (proceed)="confirm()"
+/>

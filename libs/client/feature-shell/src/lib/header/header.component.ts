@@ -1,30 +1,33 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { AuthenticationService } from '@pos-frontend/auth/data-access';
-import { UsersFacade } from '@pos-frontend/users/data-access';
-import { ActionConfirmationFormComponent } from '@pos-frontend/shared/ui';
-import { AsyncPipe } from '@angular/common';
-
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
+import { AuthStore } from '@pos-frontend/auth/data-access';
+import { getStationNumber } from '@pos-frontend/pos/data-access';
+import { UserStore } from '@pos-frontend/users/data-access';
 
 @Component({
-    selector: 'pos-frontend-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ActionConfirmationFormComponent, AsyncPipe]
+  selector: 'pos-frontend-header',
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgOptimizedImage],
 })
-export class HeaderComponent implements OnInit {
-  isClose = false;
-  station = localStorage.getItem('station');
+export class HeaderComponent {
+  private readonly authStore = inject(AuthStore);
+  private readonly userStore = inject(UserStore);
 
+  protected readonly station = getStationNumber();
+  protected readonly userName = computed(() => this.userStore.profile()?.name);
 
-  constructor(public authService: AuthenticationService, public usersService:UsersFacade) {}
-
-  ngOnInit(): void {
-     this.usersService.getUserProfile()
+  constructor() {
+    this.userStore.getUserProfile();
   }
 
-  closeApp() {
-    this.isClose = false;
-    this.authService.logout();
+  protected logout(): void {
+    this.authStore.logout();
   }
 }

@@ -1,7 +1,7 @@
 <pos-frontend-configurations-form
-  [title]="'Update Configuration'"
-  [btnTitle]="'Save'"
-  [loading]="submitting()"
-  (formValue)="createConfiguration($event)"
+  submitLabel="Save"
   [configuration]="configuration"
-></pos-frontend-configurations-form>
+  [loading]="submitting()"
+  (cancelled)="close(false)"
+  (submitted)="update($event)"
+/>

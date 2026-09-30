@@ -1,181 +1,202 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ProductsEntity } from '@pos-frontend/products/data-access';
 import {
-  CharacterSelectionRequiredValidator,
-  SumArray,
-  SumQuantity,
-  Utilities,
-} from '@pos-frontend/shared/utils';
-import { Observable } from 'rxjs';
-import { CreditorsEntity } from '@pos-frontend/creditors/data-access';
-import { NgSelectConfig, NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
+  ChangeDetectionStrategy,
+  Component,
+  type TemplateRef,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableDataSource } from '@angular/material/table';
+import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
+import type { CreditorsEntity } from '@pos-frontend/creditors/data-access';
+import type { ProductsEntity } from '@pos-frontend/products/data-access';
+import type {
+  CreatePurchaseOrderRequest,
+  PurchaseOrderLineRequest,
+} from '@pos-frontend/purchase-orders/data-access';
+import { BmgTable, type TableColumnDef } from '@pos-frontend/shared/ui';
 
 @Component({
-    selector: 'pos-frontend-purchase-order-form',
-    templateUrl: './purchase-order-form.component.html',
-    styleUrls: ['./purchase-order-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [FormsModule, ReactiveFormsModule, NgSelectComponent, NgOptionComponent, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, AsyncPipe, CurrencyPipe]
+  selector: 'pos-frontend-purchase-order-form',
+  templateUrl: './purchase-order-form.component.html',
+  styleUrl: './purchase-order-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectComponent,
+    NgOptionComponent,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    CurrencyPipe,
+    BmgTable,
+  ],
 })
-export class PurchaseOrderFormComponent implements OnInit {
-  @Input() purchaseOrderNumber!: string;
-  @Input() products$!: Observable<ProductsEntity[]>;
-  @Input() creditors!: CreditorsEntity[];
-  @Output() formValue = new EventEmitter();
-  date = new Date();
-  product: ProductsEntity | undefined;
-  purchaseOrderProducts: any[] = [];
-  productToBeSubmitted: any[] = [];
-  cost = 0;
-  quantity = 0;
-  btnText = 'Add Product';
+export class PurchaseOrderFormComponent {
+  private readonly fb = inject(NonNullableFormBuilder);
 
-  form = new UntypedFormGroup({});
-  updateIndex: any;
+  readonly purchaseOrderNumber = input<string>();
+  readonly products = input.required<ProductsEntity[]>();
+  readonly creditors = input.required<CreditorsEntity[]>();
+  readonly loading = input(false);
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private config: NgSelectConfig
-  ) {}
+  readonly submitted = output<CreatePurchaseOrderRequest>();
 
-  ngOnInit() {
-    this.form = this.formBuilder.group({
-      creditor: [''],
-      code: ['', CharacterSelectionRequiredValidator],
-      date: '',
-      name: '',
-      quantityPurchased: '',
-      cost: '',
-      cname: '',
-      reference: '',
-      product: '',
+  private readonly valueTpl = viewChild<TemplateRef<unknown>>('valueTpl');
+  private readonly actionsTpl = viewChild<TemplateRef<unknown>>('actionsTpl');
+
+  protected readonly lines = signal<PurchaseOrderLineRequest[]>([]);
+  protected readonly editIndex = signal<number | null>(null);
+  protected readonly lineError = signal('');
+
+  protected readonly form = this.fb.group({
+    date: [''],
+    creditor: this.fb.control<string | number | null>(null, Validators.required),
+    reference: [''],
+  });
+
+  protected readonly lineForm = this.fb.group({
+    code: this.fb.control<string | null>(null, Validators.required),
+    name: [''],
+    quantityPurchased: this.fb.control<number | null>(null, [
+      Validators.required,
+      Validators.min(1),
+    ]),
+    cost: this.fb.control<number | null>(null, [Validators.required, Validators.min(0)]),
+  });
+
+  protected readonly lineButtonLabel = computed(() =>
+    this.editIndex() === null ? 'Add Product' : 'Update Product'
+  );
+  protected readonly totalAmount = computed(() =>
+    this.lines().reduce((sum, line) => sum + line.value, 0)
+  );
+  protected readonly totalQuantity = computed(() =>
+    this.lines().reduce((sum, line) => sum + line.quantity, 0)
+  );
+  protected readonly rows = computed(
+    () => new MatTableDataSource(this.lines().map((line, index) => ({ ...line, index })))
+  );
+  protected readonly columns = computed<TableColumnDef[]>(() => [
+    { key: 'code', header: 'Product Code' },
+    { key: 'description', header: 'Description' },
+    { key: 'quantityPurchased', header: 'Quantity' },
+    { key: 'value', header: 'Value', template: this.valueTpl() },
+    { key: 'actions', header: '', align: 'right', template: this.actionsTpl() },
+  ]);
+
+  /** Clears the whole order, e.g. after a successful create. */
+  reset(): void {
+    this.form.reset();
+    this.resetLine();
+    this.lines.set([]);
+  }
+
+  protected productSelected(): void {
+    const product = this.findProduct(this.lineForm.controls.code.value);
+    this.lineForm.patchValue({
+      name: product?.name ?? '',
+      cost: product?.cost[0]?.value ?? null,
     });
   }
 
-  selectedProd() {
-    this.products$.subscribe((res) => {
-      this.product = res.find(
-        (prod) => prod.code === this.form.get('code')?.value
-      );
-
-      this.form.get('name')?.patchValue(this.product?.name);
-      this.form.get('cost')?.patchValue(this.product?.cost[0].value);
-    });
-  }
-
-  addProducts() {
-    let product: ProductsEntity | undefined;
-    const productCode = this.productToBeSubmitted.find(
-      (product) => product.code === this.form.get('code')?.value
+  protected saveLine(): void {
+    if (this.lineForm.invalid) {
+      this.lineForm.markAllAsTouched();
+      return;
+    }
+    const { code, name, quantityPurchased, cost } = this.lineForm.getRawValue();
+    const product = this.findProduct(code);
+    if (!code || !product || quantityPurchased === null || cost === null) {
+      return;
+    }
+    const editIndex = this.editIndex();
+    const duplicate = this.lines().some(
+      (line, index) => line.code === code && index !== editIndex
     );
-    switch (this.btnText) {
-      case 'Add Product':
-        this.products$.subscribe((res) => {
-          product = res.find(
-            (pro) => pro.code === this.form.get('code')?.value
-          );
-        });
+    if (duplicate) {
+      this.lineError.set('Product already added');
+      return;
+    }
 
-        this.form.get('product')?.patchValue(product?.id);
+    const value = cost * quantityPurchased;
+    const line: PurchaseOrderLineRequest = {
+      product: product.id,
+      code,
+      description: name,
+      quantityPurchased,
+      quantity: quantityPurchased,
+      cost: value,
+      value,
+    };
+    this.lines.update((lines) =>
+      editIndex === null
+        ? [...lines, line]
+        : lines.map((existing, index) => (index === editIndex ? line : existing))
+    );
+    this.resetLine();
+  }
 
-        if (!productCode) {
-          this.productToBeSubmitted.push({
-            code: this.form.get('code')?.value,
-            quantityPurchased: this.form.get('quantityPurchased')?.value,
-            product: this.form.get('product')?.value,
-            cost:
-              this.form.get('cost')?.value *
-              this.form.get('quantityPurchased')?.value,
-            value:
-              this.form.get('cost')?.value *
-              this.form.get('quantityPurchased')?.value,
-            quantity: this.form.get('quantityPurchased')?.value,
-            description: this.form.get('name')?.value,
-          });
-        } else {
-          Utilities.displayToast('error', 'Product Already Added');
-        }
-        this.form.get('code')?.reset();
-        this.form.get('quantityPurchased')?.reset();
-        this.form.get('cost')?.reset();
-        this.form.get('name')?.reset();
-        this.form.get('product')?.reset();
+  protected editLine(index: number): void {
+    const line = this.lines()[index];
+    if (!line) {
+      return;
+    }
+    this.editIndex.set(index);
+    this.lineError.set('');
+    this.lineForm.reset({
+      code: line.code,
+      name: line.description,
+      quantityPurchased: line.quantityPurchased,
+      cost: line.quantityPurchased ? line.cost / line.quantityPurchased : 0,
+    });
+  }
 
-        break;
-      case 'Update Product':
-        this.quantity =
-          this.quantity + +this.form.get('quantityPurchased')?.value;
-        this.products$.subscribe((res) => {
-          product = res.find(
-            (pro) => pro.code === this.form.get('code')?.value
-          );
-        });
-        this.form.get('product')?.patchValue(product?.id);
-        this.productToBeSubmitted[this.updateIndex] = {
-          code: this.form.get('code')?.value,
-          quantityPurchased: this.form.get('quantityPurchased')?.value,
-          product: this.form.get('product')?.value,
-          cost:
-            this.form.get('cost')?.value *
-            this.form.get('quantityPurchased')?.value,
-          value:
-            this.form.get('cost')?.value *
-            this.form.get('quantityPurchased')?.value,
-          description: this.form.get('name')?.value,
-          quantity: this.form.get('quantityPurchased')?.value,
-        };
-        this.form.get('code')?.reset();
-        this.form.get('quantityPurchased')?.reset();
-        this.form.get('cost')?.reset();
-        this.form.get('name')?.reset();
-        this.form.get('product')?.reset();
-        this.btnText = 'Add Product';
-        break;
-
-      default:
-        break;
+  protected removeLine(index: number): void {
+    this.lines.update((lines) => lines.filter((_, i) => i !== index));
+    if (this.editIndex() === index) {
+      this.resetLine();
     }
   }
 
-  onCreateDocument() {
-    this.formValue.emit({
-      creditor: this.form.get('creditor')?.value,
-      totalAmount: this.calculateTotal(this.productToBeSubmitted),
-      totalQty: this.calculateQuantity(this.productToBeSubmitted),
-      products: this.productToBeSubmitted,
-      reference: this.form.get('reference')?.value,
+  protected submit(): void {
+    const { creditor, reference } = this.form.getRawValue();
+    if (this.form.invalid || creditor === null) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    if (!this.lines().length) {
+      this.lineError.set('Add at least one product');
+      return;
+    }
+    this.submitted.emit({
+      creditor,
+      reference,
+      totalAmount: this.totalAmount(),
+      totalQty: this.totalQuantity(),
+      products: this.lines(),
     });
   }
 
-  updateProduct(product: any, index: any) {
-    this.btnText = 'Update Product';
-    this.updateIndex = index;
-    this.form.get('code')?.patchValue(product.code);
-    this.form.get('quantityPurchased')?.patchValue(product.quantityPurchased);
-    this.form.get('cost')?.patchValue(product.cost / product.quantityPurchased);
-    this.form.get('name')?.patchValue(product.description);
-    this.form.get('product')?.patchValue(product.product);
-    this.cost = this.cost - product.cost * product.quantityPurchased; // TODO
+  private resetLine(): void {
+    this.lineForm.reset();
+    this.editIndex.set(null);
+    this.lineError.set('');
   }
 
-  removeProduct(product: any) {
-    this.productToBeSubmitted.splice(product, 1);
-    this.purchaseOrderProducts.splice(product, 1);
-  }
-
-  calculateTotal(array: any) {
-    const arr = new SumArray(array);
-    return arr.sum;
-  }
-
-  calculateQuantity(array: any) {
-    const arr = new SumQuantity(array);
-    return arr.sum;
+  private findProduct(code: string | null): ProductsEntity | undefined {
+    return this.products().find((product) => product.code === code);
   }
 }

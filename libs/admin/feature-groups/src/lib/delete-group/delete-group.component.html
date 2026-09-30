@@ -1,1 +1,6 @@
-<p>delete-group works!</p>
+<pos-frontend-action-confirmation-form
+  title="Delete Group"
+  [loading]="submitting()"
+  [message]="message"
+  (proceed)="submit()"
+/>

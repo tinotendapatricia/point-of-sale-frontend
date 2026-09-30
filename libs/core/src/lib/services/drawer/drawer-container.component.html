@@ -1,0 +1,31 @@
+<!-- autoCapture moves focus in on open and restores it on destroy. -->
+<div class="flex h-full w-full flex-col bg-surface" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
+    @if (!config.hideHeader) {
+        <header class="flex items-start gap-3 border-b border-hairline px-5 py-4 bg-title">
+            <div class="min-w-0 flex-1">
+                <h2 class="truncate text-base font-semibold text-ink" [id]="titleId">
+                    {{ config.title }}
+                </h2>
+                @if (config.subtitle) {
+                    <p class="mt-0.5 truncate text-sm text-ink-muted">
+                        {{ config.subtitle }}
+                    </p>
+                }
+            </div>
+            @if (!config.disableClose) {
+                <button
+                    mat-icon-button
+                    type="button"
+                    [attr.aria-label]="`Close ${config.title ?? 'panel'}`"
+                    (click)="ref.close()"
+                >
+                    <mat-icon>close</mat-icon>
+                </button>
+            }
+        </header>
+    }
+
+    <div class="flex-1 overflow-y-auto px-5 py-4">
+        <ng-template [cdkPortalOutlet]="content" />
+    </div>
+</div>

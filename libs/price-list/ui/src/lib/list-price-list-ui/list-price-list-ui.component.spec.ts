@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { ListPriceListUiComponent } from './list-price-list-ui.component';
 
 describe('ListPriceListUiComponent', () => {

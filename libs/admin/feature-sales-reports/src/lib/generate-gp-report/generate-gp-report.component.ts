@@ -1,45 +1,27 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { DebtorsFacade } from '@pos-frontend/debtors/data-access';
-import { ReportsService } from '@pos-frontend/reports/data-access';
-import { Subscription } from 'rxjs';
-import { ReportsFormComponent } from '@pos-frontend/reports/ui';
-import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { DebtorStore } from '@pos-frontend/debtors/data-access';
+import { ReportStore } from '@pos-frontend/reports/data-access';
+import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/reports/ui';
 
 @Component({
-    selector: 'pos-frontend-generate-gp-report',
-    templateUrl: './generate-gp-report.component.html',
-    styleUrls: ['./generate-gp-report.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReportsFormComponent, AsyncPipe]
+  selector: 'pos-frontend-generate-gp-report',
+  templateUrl: './generate-gp-report.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCardModule, ReportsFormComponent],
 })
-export class GenerateGpReportComponent implements OnInit, OnDestroy {
-  loading = false;
-  sub1 = new Subscription();
-  sub2 = new Subscription();
+export class GenerateGpReportComponent {
+  private readonly reportStore = inject(ReportStore);
+  private readonly debtorStore = inject(DebtorStore);
 
-  constructor(
-    private reportsService: ReportsService,
-    public debtorsFacade: DebtorsFacade
-  ) {}
+  protected readonly loading = this.reportStore.salesLoading;
+  protected readonly debtors = this.debtorStore.debtors;
 
-  ngOnInit(): void {
-    this.debtorsFacade.getAllDebtors();
+  constructor() {
+    this.debtorStore.getAllDebtors();
   }
 
-  getPdf(details: any) {
-    this.loading = true;
-    this.sub1 = this.reportsService.generateGPReport(details.fromDate, details.toDate, details.debtor).subscribe({
-      next: () => {
-        this.loading = false;
-      },
-      error: () => {
-        this.loading = false;
-      },
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.sub1.unsubscribe();
-    this.sub2.unsubscribe();
+  protected getPdf({ fromDate, toDate, debtor }: ReportFormValue): void {
+    this.reportStore.getGrossProfitReport({ fromDate, toDate, debtor });
   }
 }

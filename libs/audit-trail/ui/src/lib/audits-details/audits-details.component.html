@@ -1,22 +1,14 @@
-
-
-
-<table class="table table-vertical">
+<table class="w-full text-left">
   <tbody>
-    @for (field of audit.resource | keyvalue; track field) {
+    @for (field of fields() | keyvalue; track field.key) {
+      <tr class="border-b border-gray-200">
+        <th class="py-2 pr-4 font-semibold" scope="row">{{ label(field.key) | titlecase }}</th>
+        <td class="py-2 break-all">{{ display(field.value) }}</td>
+      </tr>
+    } @empty {
       <tr>
-        @if (!isHide($safeNavigationMigration(field?.key))) {
-          <th>{{ decamelize(field.key) | titlecase }}</th>
-          <td>
-            {{ field?.value }}
-            @if ($safeNavigationMigration(field?.value) === null || $safeNavigationMigration(field?.value) === undefined) {
-              <span
-                >--</span
-                >
-              }
-            </td>
-          }
-        </tr>
-      }
-    </tbody>
-  </table>
+        <td class="py-2 text-gray-600">No details recorded</td>
+      </tr>
+    }
+  </tbody>
+</table>

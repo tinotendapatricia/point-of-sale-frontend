@@ -1,23 +1,28 @@
-<br />
-<div class="h">Categories</div>
-<hr />
-<br />
-<mat-card class="login">
-  <mat-card-content>
-    &nbsp;<button class="act" (click)="createCategorie()">
-    <mat-icon style="color: green">add_circle</mat-icon>Add
-    New</button
-    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getCategorieList({})">
-    <mat-icon style="color: rgb(190, 14, 38)">remove_circle</mat-icon
-      >Refresh
-    </button>
+<ng-template #actionsTpl let-row>
+  <button type="button" mat-icon-button aria-label="Edit category" (click)="edit(row.id)">
+    <mat-icon class="text-green-600">edit</mat-icon>
+  </button>
+</ng-template>
 
-    <pos-frontend-category-list-ui
-      [categoriesList]="(categoriesFacade.allCategories$ | async)!"
-      [total]="(categoriesFacade.totalCategories$ | async)!"
-      [loading]="(categoriesFacade.loading$ | async)!"
-      [placeholderMessage]="'Categories'"
-      (updatedState)="getCategorieList($event)"
-    ></pos-frontend-category-list-ui>
-  </mat-card-content>
-</mat-card>
+<pos-frontend-table
+  caption="Categories"
+  [action]="true"
+  [columns]="columns()"
+  [data]="dataSource()"
+  [loading]="loading()"
+  [paginated]="true"
+  [total]="total()"
+  (actioned)="add()"
+  (page)="onPage($event)"
+>
+  <header class="flex flex-wrap items-center justify-between gap-4 px-4 py-2">
+    <div>
+      <h1 class="text-2xl font-bold">Categories</h1>
+      <p class="text-sm text-gray-600">Manage product categories</p>
+    </div>
+    <button type="button" mat-flat-button (click)="add()">
+      <mat-icon class="text-green-600">add_circle</mat-icon>
+      Add New
+    </button>
+  </header>
+</pos-frontend-table>

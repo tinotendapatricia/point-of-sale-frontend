@@ -64,7 +64,7 @@
               <span class="font-semibold">No {{ caption() | lowercase }} found</span>
               <span class="text-md text-secondary">You don't have any {{ caption() | lowercase }} yet.</span>
               @if (action()) {
-                <button class="mt-2" matButton="outlined" (click)="actioned.emit()">
+                <button class="mt-2" type="button" matButton="outlined" (click)="actioned.emit()">
                   <mat-icon>add</mat-icon>
                   Add {{ caption() | lowercase }}
                 </button>

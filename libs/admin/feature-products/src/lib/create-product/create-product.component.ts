@@ -1,36 +1,38 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { CurrenciesFacade } from '@pos-frontend/currencies/data-access';
-import { ProductsEntity, ProductStore } from '@pos-frontend/products/data-access';
 import { injectDrawerRef } from '@pos-frontend/core';
-import { ProductsFormComponent } from '@pos-frontend/products/ui';
-import { AsyncPipe } from '@angular/common';
+import { ProductStore } from '@pos-frontend/products/data-access';
+import {
+  type ProductFormValue,
+  ProductsFormComponent,
+} from '@pos-frontend/products/ui';
 
 @Component({
-    selector: 'pos-frontend-create-product',
-    templateUrl: './create-product.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ProductsFormComponent, AsyncPipe]
+  selector: 'pos-frontend-create-product',
+  templateUrl: './create-product.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ProductsFormComponent],
 })
 export class CreateProductComponent {
   private readonly router = inject(Router);
-  // Only present when opened via DrawerService — absent for the routed `/products/new` page.
+  // null on the routed /products/new page; present when opened through DrawerService.
   private readonly drawerRef = injectDrawerRef<boolean>({ optional: true });
-  protected readonly productsStore = inject(ProductStore);
-  protected readonly currenciesFacade = inject(CurrenciesFacade);
+  private readonly productStore = inject(ProductStore);
 
-  protected readonly submitting = this.productsStore.createLoading;
+  protected readonly submitting = this.productStore.createLoading;
 
-  public createProduct(product: ProductsEntity) {
-    this.productsStore.createProduct({
-      data: product,
-      callback: () => {
-        if (this.drawerRef) {
-          this.drawerRef.close(true);
-        } else {
-          this.router.navigate(['/products']);
-        }
-      },
+  protected create(value: ProductFormValue): void {
+    this.productStore.createProduct({
+      data: value,
+      callback: () => this.close(true),
     });
+  }
+
+  protected close(created: boolean): void {
+    if (this.drawerRef) {
+      this.drawerRef.close(created);
+    } else {
+      void this.router.navigate(['/products']);
+    }
   }
 }

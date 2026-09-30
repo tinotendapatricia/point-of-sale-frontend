@@ -1,5 +1,1 @@
-<pos-frontend-creditors-form
-  [title]="'Create New Creditor'"
-  [loading]="submitting()"
-  (formValue)="createCreditor($event)"
-></pos-frontend-creditors-form>
+<pos-frontend-creditors-form [loading]="submitting()" (cancelled)="close(false)" (submitted)="create($event)" />

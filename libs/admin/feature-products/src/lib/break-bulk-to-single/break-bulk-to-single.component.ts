@@ -1,43 +1,51 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  inject,
-} from '@angular/core';
-import { RouterLinkActive, RouterLink } from '@angular/router';
-import {
-  ProductsEntity,
-  ProductStore,
-} from '@pos-frontend/products/data-access';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { BreakBulkFormComponent } from '@pos-frontend/products/ui';
-import { AsyncPipe } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import { ProductStore } from '@pos-frontend/products/data-access';
+import {
+  BreakBulkFormComponent,
+  type BreakBulkFormValue,
+} from '@pos-frontend/products/ui';
 
 @Component({
-    selector: 'pos-frontend-break-bulk-to-single',
-    templateUrl: './break-bulk-to-single.component.html',
-    styleUrls: ['./break-bulk-to-single.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, RouterLinkActive, RouterLink, MatIconModule, BreakBulkFormComponent, AsyncPipe]
+  selector: 'pos-frontend-break-bulk-to-single',
+  templateUrl: './break-bulk-to-single.component.html',
+  styleUrl: './break-bulk-to-single.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatCard,
+    MatCardContent,
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
+    BreakBulkFormComponent,
+  ],
 })
-export class BreakBulkToSingleComponent implements OnInit {
-  protected readonly productsStore = inject(ProductStore);
+export class BreakBulkToSingleComponent {
+  private readonly router = inject(Router);
+  protected readonly productStore = inject(ProductStore);
 
-  protected readonly submitting = this.productsStore.breakLoading;
+  protected readonly submitting = this.productStore.breakLoading;
 
-  ngOnInit(): void {
-    this.getProductList();
+  constructor() {
+    this.productStore.getAllProducts();
   }
 
-  public getProductList() {
-    this.productsStore.getAllProducts();
+  protected refresh(): void {
+    this.productStore.getAllProducts();
   }
 
-  onSubmit(details: ProductsEntity) {
-    this.productsStore.breakProduct({
-      data: details,
-      callback: () => undefined,
+  protected breakBulk(value: BreakBulkFormValue): void {
+    this.productStore.breakProduct({
+      data: value,
+      // Quantities change after a break, so reload the product options.
+      callback: () => this.productStore.getAllProducts(),
     });
+  }
+
+  protected cancel(): void {
+    void this.router.navigate(['/products']);
   }
 }

@@ -1,58 +1,84 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, effect, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
+import {
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { GroupsEntity } from '@pos-frontend/groups/data-access';
-import { UsersEntity } from '@pos-frontend/users/data-access';
+import type { UsersEntity } from '@pos-frontend/users/data-access';
+
+/** What the form emits: only the fields the user edits. */
+export interface UserFormValue {
+  username: string;
+  name: string;
+  /** Required when creating; may be left blank when editing. */
+  password: string;
+}
 
 @Component({
-    selector: 'pos-frontend-user-form',
-    templateUrl: './user-form.component.html',
-    styleUrls: ['./user-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule]
+  selector: 'pos-frontend-user-form',
+  templateUrl: './user-form.component.html',
+  styleUrl: './user-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+  ],
 })
 export class UserFormComponent {
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<unknown>, { optional: true });
+  private readonly fb = inject(NonNullableFormBuilder);
 
   readonly user = input<UsersEntity>();
   readonly loading = input(false);
-  readonly groups = input<GroupsEntity[]>([]);
-  readonly title = input('');
-  readonly btnTitle = input('Submit');
-  readonly formValue = output<any>();
-  readonly hidePassword = signal(true);
+  readonly submitLabel = input('Submit');
 
-  readonly userForm = this.formBuilder.group({
-    username: [''],
-    name: [''],
-    password: [''],
-    id: [''],
+  readonly submitted = output<UserFormValue>();
+  readonly cancelled = output<void>();
+
+  protected readonly hidePassword = signal(true);
+
+  protected readonly form = this.fb.group({
+    username: ['', Validators.required],
+    name: ['', Validators.required],
+    password: ['', Validators.required],
   });
 
   constructor() {
+    // Edit mode: the password becomes optional, and the form is reset so it is pristine again.
     effect(() => {
       const user = this.user();
       if (user) {
-        this.userForm.patchValue({
-          username: user.username,
-          name: user.name,
-          id: String(user.id),
-        });
+        this.form.controls.password.clearValidators();
+        this.form.reset({ username: user.username, name: user.name, password: '' });
       }
     });
   }
 
-  cancel() {
-    this.dialogRef?.close(false);
+  protected togglePassword(): void {
+    this.hidePassword.update((hidden) => !hidden);
   }
 
-  submit() {
-    this.formValue.emit(this.userForm.value);
+  protected submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.submitted.emit(this.form.getRawValue());
   }
 }

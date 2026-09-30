@@ -1,9 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+/** Unrouted placeholder; nothing references it. */
 @Component({
-    selector: 'pos-frontend-delete-currency',
-    templateUrl: './delete-currency.component.html',
-    styleUrls: ['./delete-currency.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager
+  selector: 'pos-frontend-delete-currency',
+  templateUrl: './delete-currency.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeleteCurrencyComponent {}

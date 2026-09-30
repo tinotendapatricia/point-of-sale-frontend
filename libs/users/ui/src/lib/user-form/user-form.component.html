@@ -1,52 +1,56 @@
-<h2 mat-dialog-title>{{ title() }}</h2>
-<mat-dialog-content>
-  <form [formGroup]="userForm" class="user-form">
-    <div class="field">
-      <label class="field-label" for="user-username">Username<span class="required-marker">*</span></label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="user-username" type="text" formControlName="username" required />
-      </mat-form-field>
-    </div>
+<form class="user-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label class="field-label" for="user-username">Username<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="user-username" matInput type="text" formControlName="username" />
+      @if (form.controls.username.hasError('required')) {
+        <mat-error>Username is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
 
-    <div class="field">
-      <label class="field-label" for="user-name">Name<span class="required-marker">*</span></label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input matInput id="user-name" type="text" formControlName="name" required />
-      </mat-form-field>
-    </div>
+  <div class="field">
+    <label class="field-label" for="user-name">Name<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="user-name" matInput type="text" formControlName="name" />
+      @if (form.controls.name.hasError('required')) {
+        <mat-error>Name is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
 
-    <div class="field">
-      <label class="field-label" for="user-password">Password<span class="required-marker">*</span></label>
-      <mat-form-field class="full-width" subscriptSizing="dynamic">
-        <input
-          matInput
-          id="user-password"
-          formControlName="password"
-          [type]="hidePassword() ? 'password' : 'text'"
-          required
-        />
-        <button
-          mat-icon-button
-          matSuffix
-          type="button"
-          [attr.aria-label]="hidePassword() ? 'Show password' : 'Hide password'"
-          (click)="hidePassword.set(!hidePassword())"
-        >
-          <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
-    Cancel
-  </button>
-  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="submit()">
-    @if (loading()) {
-      <mat-spinner diameter="18"></mat-spinner>
-    } @else {
-      {{ btnTitle() }}
-    }
-  </button>
-</mat-dialog-actions>
+  <div class="field">
+    <label class="field-label" for="user-password">
+      Password
+      @if (!user()) {
+        <span class="required-marker">*</span>
+      }
+    </label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="user-password" matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        [attr.aria-label]="hidePassword() ? 'Show password' : 'Hide password'"
+        (click)="togglePassword()"
+      >
+        <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      @if (form.controls.password.hasError('required')) {
+        <mat-error>Password is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="mt-4 flex justify-end gap-2">
+    <button type="button" mat-stroked-button [disabled]="loading()" (click)="cancelled.emit()">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel() }}
+      }
+    </button>
+  </div>
+</form>

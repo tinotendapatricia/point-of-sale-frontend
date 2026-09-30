@@ -1,43 +1,24 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { PurchasesReportsService } from '@pos-frontend/reports/data-access';
-import { Subscription } from 'rxjs';
-import { ReportsFormComponent } from '@pos-frontend/reports/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { ReportStore } from '@pos-frontend/reports/data-access';
+import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/reports/ui';
 
 @Component({
-    selector: 'pos-frontend-purchases-report-grv-vs-purchases-summary',
-    templateUrl: './purchases-report-grv-vs-purchases-summary.component.html',
-    styleUrls: ['./purchases-report-grv-vs-purchases-summary.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReportsFormComponent]
+  selector: 'pos-frontend-purchases-report-grv-vs-purchases-summary',
+  templateUrl: './purchases-report-grv-vs-purchases-summary.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCardModule, ReportsFormComponent],
 })
-export class PurchasesReportGrvVsPurchasesSummaryComponent implements OnDestroy {
+export class PurchasesReportGrvVsPurchasesSummaryComponent {
+  private readonly reportStore = inject(ReportStore);
 
-  loading=false;
-  sub1 = new Subscription();
-  sub2 = new Subscription();
+  protected readonly loading = this.reportStore.purchasesLoading;
 
-  constructor(private reportsService: PurchasesReportsService) {}
- 
-
-  getPdf(details:any) {
-    this.loading=true
-    this.sub1 = this.reportsService.purchasesVsGrvSummaryPDF(details.fromDate, details.toDate).subscribe({
-      next:()=>{
-        this.loading = false
-      },
-      error:()=>{
-        this.loading = false
-      }
-    });
+  protected getPdf({ fromDate, toDate }: ReportFormValue): void {
+    this.reportStore.getPurchasesVsGrvSummaryPdf({ fromDate, toDate });
   }
 
-  ngOnDestroy(): void {
-    this.sub1.unsubscribe()
-    this.sub2.unsubscribe()
+  protected getExcel({ fromDate, toDate }: ReportFormValue): void {
+    this.reportStore.getPurchasesVsGrvSummaryExcel({ fromDate, toDate });
   }
-
-  getExcel(details:any) {
-    this.sub2 = this.reportsService.purchasesVsGrvSummaryExcel(details.fromDate, details.toDate).subscribe();
-  }
-
 }

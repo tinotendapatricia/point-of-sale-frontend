@@ -1,46 +1,63 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
-import { ConfigurationsEntity, ConfigurationsService } from '@pos-frontend/configurations/data-access';
-import { Observable } from 'rxjs';
-import { MatCard, MatCardContent } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
+import { type ConfigurationsEntity, ConfigurationStore } from '@pos-frontend/configurations/data-access';
 import { ConfigurationsListUiComponent } from '@pos-frontend/configurations/ui';
+import { DrawerService } from '@pos-frontend/core';
 import { CreateConfigurationsComponent } from '../create-configurations/create-configurations.component';
-import { UpdateConfigurationsComponent } from '../update-configurations/update-configurations.component';
-import { AsyncPipe } from '@angular/common';
+import {
+  type UpdateConfigurationsData,
+  UpdateConfigurationsComponent,
+} from '../update-configurations/update-configurations.component';
 
 @Component({
-    selector: 'pos-frontend-configurations-list',
-    templateUrl: './configurations-list.component.html',
-    styleUrls: ['./configurations-list.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, MatIconModule, ConfigurationsListUiComponent, AsyncPipe]
+  selector: 'pos-frontend-configurations-list',
+  templateUrl: './configurations-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ConfigurationsListUiComponent],
 })
-export class ConfigurationsListComponent implements OnInit {
-  private readonly dialog = inject(MatDialog);
-  configurations$!: Observable<ConfigurationsEntity[]>;
+export class ConfigurationsListComponent {
+  private readonly drawer = inject(DrawerService);
+  private readonly injector = inject(Injector);
+  protected readonly configurationStore = inject(ConfigurationStore);
 
-  constructor(public configurationsService: ConfigurationsService) {}
+  protected readonly loading = this.configurationStore.getManyLoading;
+  protected readonly configurations = this.configurationStore.configurations;
 
-  ngOnInit(): void {
-    this.getConfigurationList();
+  constructor() {
+    this.refresh();
   }
 
-  public getConfigurationList() {
-    this.configurations$ = this.configurationsService.getAllConfigurations();
+  protected refresh(): void {
+    this.configurationStore.getAllConfigurations();
   }
 
-  createConfiguration() {
-    this.dialog
-      .open(CreateConfigurationsComponent, { width: '520px' })
+  protected add(): void {
+    this.drawer
+      .open<CreateConfigurationsComponent, boolean>(CreateConfigurationsComponent, {
+        title: 'New Configuration',
+        size: 'md',
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((created) => created && this.getConfigurationList());
+      .subscribe((created) => {
+        if (created) {
+          this.refresh();
+        }
+      });
   }
 
-  updateConfiguration(configuration: ConfigurationsEntity) {
-    this.dialog
-      .open(UpdateConfigurationsComponent, { width: '520px', data: { configuration } })
+  protected edit(configuration: ConfigurationsEntity): void {
+    this.drawer
+      .open<UpdateConfigurationsComponent, boolean, UpdateConfigurationsData>(UpdateConfigurationsComponent, {
+        title: 'Update Configuration',
+        size: 'md',
+        data: { configuration },
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((updated) => updated && this.getConfigurationList());
+      .subscribe((updated) => {
+        if (updated) {
+          this.refresh();
+        }
+      });
   }
 }

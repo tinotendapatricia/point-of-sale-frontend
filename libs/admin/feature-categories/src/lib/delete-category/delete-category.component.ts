@@ -1,11 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+/** Unrouted placeholder; nothing references it. */
 @Component({
-    selector: 'pos-frontend-delete-category',
-    templateUrl: './delete-category.component.html',
-    styleUrls: ['./delete-category.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager
+  selector: 'pos-frontend-delete-category',
+  templateUrl: './delete-category.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DeleteCategoryComponent {
-
-}
+export class DeleteCategoryComponent {}

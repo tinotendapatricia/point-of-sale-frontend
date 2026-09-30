@@ -1,59 +1,75 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DatagridState } from '@pos-frontend/shared/utils';
-import {
-  DebtorsEntity,
-  DebtorsFacade,
-} from '@pos-frontend/debtors/data-access';
-import { MatCard, MatCardContent } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, Injector, inject, signal } from '@angular/core';
+import { type PageEvent } from '@angular/material/paginator';
+import { DrawerService } from '@pos-frontend/core';
+import { type DebtorFilters, type DebtorsEntity, DebtorStore } from '@pos-frontend/debtors/data-access';
 import { DebtorsListUiComponent } from '@pos-frontend/debtors/ui';
-import { AsyncPipe } from '@angular/common';
+
 import { CreateDebtorsComponent } from '../create-debtors/create-debtors.component';
-import { UpdateDebtorsComponent } from '../update-debtors/update-debtors.component';
+import { type UpdateDebtorsData, UpdateDebtorsComponent } from '../update-debtors/update-debtors.component';
+
+const FIRST_PAGE: DebtorFilters = { page: 0, size: 10 };
 
 @Component({
-    selector: 'pos-frontend-list-debtors',
-    templateUrl: './list-debtors.component.html',
-    styleUrls: ['./list-debtors.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatCard, MatCardContent, MatIconModule, DebtorsListUiComponent, AsyncPipe]
+  selector: 'pos-frontend-list-debtors',
+  templateUrl: './list-debtors.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [DebtorsListUiComponent],
 })
 export class ListDebtorsComponent {
-  private readonly dialog = inject(MatDialog);
+  private readonly drawer = inject(DrawerService);
+  private readonly injector = inject(Injector);
+  private readonly debtorStore = inject(DebtorStore);
 
-  constructor(
-    public debtorsFacade: DebtorsFacade,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  protected readonly debtors = this.debtorStore.paginatedDebtors;
+  protected readonly total = this.debtorStore.totalDebtors;
+  protected readonly loading = this.debtorStore.getPaginatedLoading;
+  private readonly currentPage = signal<DebtorFilters>(FIRST_PAGE);
 
-  public getDebtorList(state: DatagridState) {
-    this.debtorsFacade.getPaginatedDebtors(state);
+  constructor() {
+    this.load(FIRST_PAGE);
   }
 
-  refresh() {
-    this.getDebtorList({});
+  protected onPage(event: PageEvent): void {
+    this.load({ page: event.pageIndex, size: event.pageSize });
   }
 
-  createDebtor() {
-    this.dialog
-      .open(CreateDebtorsComponent, { width: '480px' })
+  protected refresh(): void {
+    this.load(this.currentPage());
+  }
+
+  protected add(): void {
+    this.drawer
+      .open<CreateDebtorsComponent, boolean>(CreateDebtorsComponent, {
+        title: 'Create New Debtor',
+        size: 'md',
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((created) => created && this.refresh());
+      .subscribe((created) => {
+        if (created) {
+          this.load(FIRST_PAGE);
+        }
+      });
   }
 
-  updateDebtor(debtor: DebtorsEntity) {
-    this.dialog
-      .open(UpdateDebtorsComponent, { width: '480px', data: { debtor } })
+  protected edit(debtor: DebtorsEntity): void {
+    this.drawer
+      .open<UpdateDebtorsComponent, boolean, UpdateDebtorsData>(UpdateDebtorsComponent, {
+        title: 'Update Debtor',
+        size: 'md',
+        data: { debtor },
+        injector: this.injector,
+      })
       .afterClosed()
-      .subscribe((updated) => updated && this.refresh());
+      .subscribe((updated) => {
+        if (updated) {
+          this.refresh();
+        }
+      });
   }
 
-  viewDebtor(debtor: DebtorsEntity) {
-    this.router.navigate(['./debtor-details', debtor.id], {
-      relativeTo: this.route,
-    });
+  private load(filters: DebtorFilters): void {
+    this.currentPage.set(filters);
+    this.debtorStore.getPaginatedDebtors(filters);
   }
 }

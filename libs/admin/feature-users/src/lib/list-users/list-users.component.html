@@ -1,27 +1,27 @@
-<div class="pos-page-header">
-  <h1>Users</h1>
-</div>
-
-<mat-card class="login">
-  <mat-card-content>
-    <button mat-stroked-button color="primary" (click)="createUser()">
-      <mat-icon>add_circle</mat-icon>
-      Add New
-    </button>
-    <button mat-stroked-button (click)="getUserList({})">
-      <mat-icon>sync</mat-icon>
-      Refresh
-    </button>
-
-    <pos-frontend-list-users-ui
-      [userList]="allUsers()"
-      [total]="totalUsers()"
-      [loading]="loading()"
-      [placeholderMessage]="'Users'"
-      (updatedState)="getUserList($event)"
-      (updateSelected)="updateUser($event)"
-      (changeSelectedUserStatus)="changeUserStatus($event)"
-      (viewUserAuthorities)="viewUserAuthorities($event)"
-    ></pos-frontend-list-users-ui>
-  </mat-card-content>
-</mat-card>
+<pos-frontend-list-users-ui
+  [loading]="loading()"
+  [total]="total()"
+  [users]="users()"
+  (actioned)="createUser()"
+  (authoritiesViewed)="viewUserAuthorities($event)"
+  (edited)="updateUser($event)"
+  (page)="onPage($event)"
+  (statusChanged)="changeUserStatus($event)"
+>
+  <header class="flex flex-wrap items-center justify-between gap-4 px-4 py-2">
+    <div>
+      <h1 class="text-2xl font-bold">Users</h1>
+      <p class="text-sm text-gray-600">Manage users and their permissions</p>
+    </div>
+    <div class="flex gap-2">
+      <button type="button" mat-stroked-button (click)="refresh()">
+        <mat-icon>sync</mat-icon>
+        Refresh
+      </button>
+      <button type="button" mat-flat-button (click)="createUser()">
+        <mat-icon>add_circle</mat-icon>
+        Add New
+      </button>
+    </div>
+  </header>
+</pos-frontend-list-users-ui>

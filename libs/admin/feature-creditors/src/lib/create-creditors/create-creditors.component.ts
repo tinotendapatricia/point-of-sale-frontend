@@ -1,30 +1,32 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { take } from 'rxjs';
-import { MatDialogRef } from '@angular/material/dialog';
-import { CreditorsFacade } from '@pos-frontend/creditors/data-access';
-import { CreditorsFormComponent } from '@pos-frontend/creditors/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { injectDrawerRef } from '@pos-frontend/core';
+import { CreditorStore } from '@pos-frontend/creditors/data-access';
+import { type CreditorFormValue, CreditorsFormComponent } from '@pos-frontend/creditors/ui';
 
 @Component({
-    selector: 'pos-frontend-create-creditors',
-    templateUrl: './create-creditors.component.html',
-    styleUrls: ['./create-creditors.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [CreditorsFormComponent]
+  selector: 'pos-frontend-create-creditors',
+  templateUrl: './create-creditors.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CreditorsFormComponent],
 })
 export class CreateCreditorsComponent {
-  private readonly dialogRef = inject(MatDialogRef<CreateCreditorsComponent, boolean>);
-  readonly creditorsService = inject(CreditorsFacade);
+  private readonly router = inject(Router);
+  // null when rendered outside a drawer; present when opened through DrawerService.
+  private readonly drawerRef = injectDrawerRef<boolean>({ optional: true });
+  private readonly creditorStore = inject(CreditorStore);
 
-  readonly submitting = signal(false);
+  protected readonly submitting = this.creditorStore.createLoading;
 
-  public createCreditor(creditor: any) {
-    this.submitting.set(true);
-    this.creditorsService.createNewCreditor(creditor);
-    this.creditorsService.loaded$.pipe(take(1)).subscribe((loaded) => {
-      this.submitting.set(false);
-      if (loaded) {
-        this.dialogRef.close(true);
-      }
-    });
+  protected create(value: CreditorFormValue): void {
+    this.creditorStore.createCreditor({ data: value, callback: () => this.close(true) });
+  }
+
+  protected close(created: boolean): void {
+    if (this.drawerRef) {
+      this.drawerRef.close(created);
+    } else {
+      void this.router.navigate(['/creditors']);
+    }
   }
 }

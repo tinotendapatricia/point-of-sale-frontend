@@ -1,31 +1,44 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ProductsEntity, ProductStore } from '@pos-frontend/products/data-access';
-import { UpdateCostAndPriceComponent } from '@pos-frontend/products/ui';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { injectDrawerData, injectDrawerRef } from '@pos-frontend/core';
+import {
+  type ProductsEntity,
+  ProductStore,
+} from '@pos-frontend/products/data-access';
+import {
+  type CostPriceFormValue,
+  UpdateCostAndPriceComponent,
+} from '@pos-frontend/products/ui';
 
 export interface UpdatePriceData {
   product: ProductsEntity;
 }
 
+/** Drawer content: opened from the products list with the row as data. */
 @Component({
-    selector: 'pos-frontend-update-price',
-    templateUrl: './update-price.component.html',
-    styleUrls: ['./update-price.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [UpdateCostAndPriceComponent]
+  selector: 'pos-frontend-update-price',
+  templateUrl: './update-price.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [UpdateCostAndPriceComponent],
 })
 export class UpdatePriceComponent {
-  private readonly dialogRef = inject(MatDialogRef<UpdatePriceComponent, boolean>);
-  private readonly data = inject<UpdatePriceData>(MAT_DIALOG_DATA);
-  protected readonly productsStore = inject(ProductStore);
+  private readonly drawerRef = injectDrawerRef<boolean>();
+  private readonly data = injectDrawerData<UpdatePriceData>();
+  private readonly productStore = inject(ProductStore);
 
-  readonly product = this.data.product;
-  protected readonly submitting = this.productsStore.updateLoading;
+  protected readonly submitting = this.productStore.updateLoading;
 
-  public onSubmit(price: ProductsEntity) {
-    this.productsStore.updatePrice({
-      data: price,
-      callback: () => this.dialogRef.close(true),
+  protected update(value: CostPriceFormValue): void {
+    this.productStore.updatePrice({
+      data: {
+        id: this.data.product.id,
+        price: value.amount,
+        effectiveDate: value.effectiveDate,
+      },
+      callback: () => this.drawerRef.close(true),
     });
+  }
+
+  protected cancel(): void {
+    this.drawerRef.close(false);
   }
 }

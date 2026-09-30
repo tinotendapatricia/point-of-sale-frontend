@@ -1,24 +1,9 @@
-<br />
-<div class="h">Debtors</div>
-<hr />
-<br />
-<mat-card class="login">
-  <mat-card-content>
-    &nbsp;<button class="act" (click)="createDebtor()">
-    <mat-icon style="color: green">add_circle</mat-icon>Add
-    New</button
-    >&nbsp;&nbsp;|&nbsp;&nbsp;<button class="act" (click)="getDebtorList({})">
-    <mat-icon style="color: rgb(73, 7, 226)">sync</mat-icon
-      >Refresh
-    </button>
-
-    <pos-frontend-debtors-list-ui
-      [debtorsList]="(debtorsFacade.allDebtors$ | async)!"
-      [total]="(debtorsFacade.totalDebtors$ | async)!"
-      [loading]="(debtorsFacade.loading$ | async)!"
-      [placeholderMessage]="'Debtors'"
-      (updatedState)="getDebtorList($event)"
-      (updateSelected)="updateDebtor($event)"
-    ></pos-frontend-debtors-list-ui>
-  </mat-card-content>
-</mat-card>
+<pos-frontend-debtors-list-ui
+  [debtors]="debtors()"
+  [loading]="loading()"
+  [total]="total()"
+  (added)="add()"
+  (edited)="edit($event)"
+  (page)="onPage($event)"
+  (refreshed)="refresh()"
+/>

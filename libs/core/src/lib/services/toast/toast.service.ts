@@ -35,11 +35,6 @@ export class ToastService {
     this.show('info', message, options);
   }
 
-  /** Kept for callers migrating off the old static helper. */
-  displayToast(type: ToastType, message?: string) {
-    this.show(type, message);
-  }
-
   dismissAll() {
     iziToast.destroy();
   }

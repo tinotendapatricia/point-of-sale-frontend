@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddProductToPriceListFormComponent } from './add-product-to-price-list-form.component';
 
 describe('AddProductToPriceListFormComponent', () => {

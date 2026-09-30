@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "pos-frontend",
   "sourceRoot": "apps/customer-portal/src",
-  "tags": [],
+  "tags": ["scope:pos", "type:app"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -25,7 +25,7 @@
           "node_modules/@clr/ui/clr-ui.min.css",
           "node_modules/izitoast/dist/css/iziToast.min.css"
         ],
-        "scripts": ["node_modules/izitoast/dist/js/iziToast.min.js"]
+        "scripts": []
       },
       "configurations": {
         "production": {

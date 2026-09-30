@@ -1,48 +1,50 @@
-<form [formGroup]="productForm" class="product-form">
+<form class="product-form" [formGroup]="form" (ngSubmit)="submit()">
   <div class="field">
     <label class="field-label" for="product-name">Name<span class="required-marker">*</span></label>
     <mat-form-field class="full-width" subscriptSizing="dynamic">
-      <input matInput id="product-name" type="text" formControlName="name" required />
+      <input id="product-name" matInput type="text" formControlName="name" />
+      @if (form.controls.name.hasError('required')) {
+        <mat-error>Name is required</mat-error>
+      }
     </mat-form-field>
   </div>
 
   <div class="field">
     <label class="field-label" for="product-code">Code<span class="required-marker">*</span></label>
     <mat-form-field class="full-width" subscriptSizing="dynamic">
-      <input matInput id="product-code" type="text" formControlName="code" required />
+      <input id="product-code" matInput type="text" formControlName="code" />
+      @if (form.controls.code.hasError('required')) {
+        <mat-error>Code is required</mat-error>
+      }
     </mat-form-field>
   </div>
 
   <div class="field">
-    <label class="field-label" for="product-barcode">Barcode Code<span class="required-marker">*</span></label>
+    <label class="field-label" for="product-barcode">Barcode<span class="required-marker">*</span></label>
     <mat-form-field class="full-width" subscriptSizing="dynamic">
-      <input matInput id="product-barcode" type="text" formControlName="barcode" required />
+      <input id="product-barcode" matInput type="text" formControlName="barcode" />
+      @if (form.controls.barcode.hasError('required')) {
+        <mat-error>Barcode is required</mat-error>
+      }
     </mat-form-field>
   </div>
 
   <div class="field">
-    <label class="field-label">Active<span class="required-marker">*</span></label>
-    <mat-radio-group formControlName="active">
+    <span id="product-active-label" class="field-label">Active<span class="required-marker">*</span></span>
+    <mat-radio-group class="flex gap-4" aria-labelledby="product-active-label" formControlName="active">
       <mat-radio-button [value]="true">Yes</mat-radio-button>
       <mat-radio-button [value]="false">No</mat-radio-button>
     </mat-radio-group>
   </div>
+
+  <div class="mt-4 flex justify-end gap-2">
+    <button type="button" mat-stroked-button [disabled]="loading()" (click)="cancelled.emit()">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel() }}
+      }
+    </button>
+  </div>
 </form>
-<div class="card-header"></div>
-<br />
-<button mat-stroked-button type="button" (click)="closeModal.emit(false)">
-  Cancel
-</button>
-<button
-  mat-flat-button
-  color="primary"
-  type="button"
-  [disabled]="!productForm.valid || loading"
-  (click)="formValue.emit(productForm.value)"
->
-  @if (loading) {
-    <mat-spinner diameter="18"></mat-spinner>
-  } @else {
-    Submit
-  }
-</button>

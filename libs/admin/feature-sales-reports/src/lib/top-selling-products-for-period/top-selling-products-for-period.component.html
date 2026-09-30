@@ -1,13 +1,8 @@
-<div class="card">
-    <div class="card-header">Top Selling Products per Period</div>
-    <div class="card-block">
-      <pos-frontend-reports-form
-        (getPdf)="getPdf($event)"
-        (getExcel)="getExcel($event)"
-        [loading]="loading"
-        [isDate]="true"
-     
-      ></pos-frontend-reports-form>
-    </div>
-  </div>
-  
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Top Selling Products per Period</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <pos-frontend-reports-form [isDate]="true" [loading]="loading()" (pdfRequested)="getPdf($event)" />
+  </mat-card-content>
+</mat-card>

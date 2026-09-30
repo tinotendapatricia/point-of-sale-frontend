@@ -3,8 +3,8 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 @Component({
   selector: 'pos-frontend-price-list-form',
   templateUrl: './price-list-form.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
-  styleUrls: ['./price-list-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './price-list-form.component.scss',
 })
 export class PriceListFormComponent   {
 

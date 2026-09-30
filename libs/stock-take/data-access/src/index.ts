@@ -1,3 +1,3 @@
-
-export * from './lib/models/stock-take.model'
-export * from './lib/services/stock-take.service.service'
+export * from './lib/stock-take.model';
+export * from './lib/stock-take.service';
+export * from './lib/stock-take.store';
