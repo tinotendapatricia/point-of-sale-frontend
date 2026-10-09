@@ -141,8 +141,8 @@ $pos-theme: mat.define-theme((color: (theme-type: light,
         tertiary: $pos-teal, // mono scheme — tertiary reads as primary
         use-system-variables: false,
       ),
-      typography: (brand-family: 'Barlow Condensed, system-ui, sans-serif',
-        plain-family: 'Barlow, system-ui, sans-serif',
+      typography: (brand-family: 'IBM Plex Sans, system-ui, sans-serif',
+        plain-family: 'IBM Plex Sans, system-ui, sans-serif',
         bold-weight: 700,
         medium-weight: 500,
         regular-weight: 400,
@@ -238,8 +238,8 @@ $pos-theme: mat.define-theme((color: (theme-type: light,
   --shadow-drawer: var(--shadow-lg);
 
   /* Type */
-  --font-heading: 'Barlow Condensed', system-ui, sans-serif;
-  --font-body: 'Barlow', system-ui, sans-serif;
+  --font-heading: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
   --font-heading-weight: 600;
 
   /* Layout constants used by the shell */
@@ -517,7 +517,6 @@ html {
 
 .mat-mdc-header-cell {
   letter-spacing: 0.08em;
-  text-transform: uppercase;
   color: color-mix(in srgb, var(--color-text) 60%, transparent);
   border-bottom-color: var(--color-divider);
 }
@@ -540,7 +539,6 @@ h3,
 h4 {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  text-transform: uppercase;
   letter-spacing: 0.01em;
   margin: 0;
 }
@@ -602,6 +600,7 @@ h4 {
   background: var(--color-accent-900);
   color: #e8f4f2;
   border-right: none;
+  overflow: hidden;
 }
 
 .pos-navlink {
@@ -616,7 +615,6 @@ h4 {
   font-family: var(--font-heading);
   font-size: 14px;
   letter-spacing: 0.03em;
-  text-transform: uppercase;
 
   &:hover {
     background: color-mix(in srgb, #ffffff 12%, transparent);
@@ -652,7 +650,6 @@ h4 {
   .route {
     font-size: 9px;
     letter-spacing: 0.14em;
-    text-transform: uppercase;
     color: var(--color-accent-700);
   }
 
@@ -683,7 +680,6 @@ h4 {
   .kicker {
     font-size: 10px;
     letter-spacing: 0.1em;
-    text-transform: uppercase;
   }
 
   .value {

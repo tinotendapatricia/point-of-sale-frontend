@@ -1,16 +1,3 @@
-<h1 class="mb-4 text-2xl font-bold">Purchases and GRV Reports</h1>
-
-<mat-tab-group>
-  <mat-tab label="Purchases vs GRV Summary For Period">
-    <div class="pt-4"><pos-frontend-purchases-report-grv-vs-purchases-summary /></div>
-  </mat-tab>
-  <mat-tab label="Purchases Vs GRV Detailed">
-    <div class="pt-4"><pos-frontend-purchases-report-grv-vs-purchases-detail /></div>
-  </mat-tab>
-  <mat-tab label="Purchase Report By Order Number">
-    <div class="pt-4"><pos-frontend-purchases-report-by-order-number /></div>
-  </mat-tab>
-  <mat-tab label="Receiving By GRV Number">
-    <div class="pt-4"><pos-frontend-receiving-report-by-grv-number /></div>
-  </mat-tab>
-</mat-tab-group>
+<pos-frontend-reports-layout title="Purchases and GRV Reports" [items]="reports">
+  <router-outlet />
+</pos-frontend-reports-layout>

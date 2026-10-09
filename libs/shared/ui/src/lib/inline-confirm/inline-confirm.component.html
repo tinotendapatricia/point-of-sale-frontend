@@ -1,0 +1,17 @@
+<div class="inline-confirm" role="alertdialog" aria-labelledby="inline-confirm-title" aria-describedby="inline-confirm-message">
+  <mat-icon class="icon">help_outline</mat-icon>
+  <div class="min-w-0 flex-1">
+    <p id="inline-confirm-title" class="title">{{ title() }}</p>
+    <p id="inline-confirm-message" class="message">{{ message() }}</p>
+  </div>
+  <div class="actions">
+    <button type="button" mat-stroked-button [disabled]="loading()" (click)="cancelled.emit()">Cancel</button>
+    <button type="button" mat-flat-button [disabled]="loading()" (click)="confirmed.emit()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ confirmLabel() }}
+      }
+    </button>
+  </div>
+</div>

@@ -1,13 +1,19 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
+import { RouterOutlet } from '@angular/router';
+import { type ReportNavItem, ReportsLayoutComponent } from '@pos-frontend/shared/ui';
 
-import { CreateStockBatchComponent } from '../create-stock-batch/create-stock-batch.component';
-import { StockTakeComponent } from '../stock-take/stock-take.component';
+import { STOCK_TAKE_PAGES } from '../stock-take-pages';
 
 @Component({
   selector: 'pos-frontend-stock-take-container',
   templateUrl: './stock-take-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatTabsModule, CreateStockBatchComponent, StockTakeComponent],
+  imports: [RouterOutlet, ReportsLayoutComponent],
 })
-export class StockTakeContainerComponent {}
+export class StockTakeContainerComponent {
+  protected readonly steps: ReportNavItem[] = STOCK_TAKE_PAGES.map(({ path, label, description }) => ({
+    path,
+    label,
+    description,
+  }));
+}

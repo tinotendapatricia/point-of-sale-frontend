@@ -1,9 +1,36 @@
-<pos-frontend-debtors-list-ui
-  [debtors]="debtors()"
-  [loading]="loading()"
-  [total]="total()"
-  (added)="add()"
-  (edited)="edit($event)"
-  (page)="onPage($event)"
-  (refreshed)="refresh()"
-/>
+<ng-template #discountTpl let-row>{{ row.discount || '--' }}</ng-template>
+
+<ng-template #actionsTpl let-row>
+  <button type="button" mat-icon-button [attr.aria-label]="`Edit ${row.name}`" (click)="edit(row)">
+    <mat-icon class="text-green-600">edit</mat-icon>
+  </button>
+</ng-template>
+
+<div
+  class="bg-white  px-6 mx-6 mt-4 border border-gray-200 rounded-lg shadow-sm"
+>
+  <pos-frontend-table
+    caption="Debtors"
+    [action]="true"
+    [columns]="columns()"
+    [data]="dataSource()"
+    [loading]="loading()"
+    [paginated]="true"
+    [total]="total()"
+    (actioned)="add()"
+    (page)="onPage($event)"
+  >
+    <header class="flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold">Debtors</h1>
+        <span class="text-sm text-gray-500">
+          Manage debtors
+        </span>
+      </div>
+      <div class="flex gap-2">
+        <button type="button" mat-stroked-button [disabled]="loading()" (click)="refresh()">Refresh</button>
+        <button type="button" mat-flat-button (click)="add()">Add New</button>
+      </div>
+    </header>
+  </pos-frontend-table>
+</div>

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { ReportStore } from '@pos-frontend/reports/data-access';
 import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/reports/ui';
 
@@ -7,16 +6,16 @@ import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/report
   selector: 'pos-frontend-print-adjustment',
   templateUrl: './print-adjustment.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, ReportsFormComponent],
+  imports: [ReportsFormComponent],
 })
 export class PrintAdjustmentComponent {
   private readonly reportStore = inject(ReportStore);
 
   protected readonly loading = this.reportStore.stockLoading;
 
-  protected getPdf({ adjustmentNumber }: ReportFormValue): void {
+  protected getPdf({ adjustmentNumber, download }: ReportFormValue): void {
     if (adjustmentNumber !== null) {
-      this.reportStore.getAdjustmentReport({ adjustmentNumber });
+      this.reportStore.getAdjustmentReport({ adjustmentNumber, download });
     }
   }
 }

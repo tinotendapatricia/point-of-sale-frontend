@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { ConfigurationStore } from '@pos-frontend/configurations/data-access';
 import { CurrencyStore } from '@pos-frontend/currencies/data-access';
 import { type CashupRequest, ReportStore } from '@pos-frontend/reports/data-access';
@@ -9,7 +8,7 @@ import { CashupFormComponent } from '@pos-frontend/reports/ui';
   selector: 'pos-frontend-till-cashup-report',
   templateUrl: './till-cashup-report.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, CashupFormComponent],
+  imports: [CashupFormComponent],
 })
 export class TillCashupReportComponent {
   private readonly reportStore = inject(ReportStore);

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { ReportStore } from '@pos-frontend/reports/data-access';
 import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/reports/ui';
 
@@ -7,22 +6,22 @@ import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/report
   selector: 'pos-frontend-purchases-report-by-order-number',
   templateUrl: './purchases-report-by-order-number.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, ReportsFormComponent],
+  imports: [ReportsFormComponent],
 })
 export class PurchasesReportByOrderNumberComponent {
   private readonly reportStore = inject(ReportStore);
 
   protected readonly loading = this.reportStore.purchasesLoading;
 
-  protected getPdf({ orderNumber }: ReportFormValue): void {
+  protected getPdf({ orderNumber, download }: ReportFormValue): void {
     if (orderNumber !== null) {
-      this.reportStore.getPurchaseOrderPdf({ orderNumber });
+      this.reportStore.getPurchaseOrderPdf({ orderNumber, download });
     }
   }
 
-  protected getExcel({ orderNumber }: ReportFormValue): void {
+  protected getExcel({ orderNumber, download }: ReportFormValue): void {
     if (orderNumber !== null) {
-      this.reportStore.getPurchaseOrderExcel({ orderNumber });
+      this.reportStore.getPurchaseOrderExcel({ orderNumber, download });
     }
   }
 }

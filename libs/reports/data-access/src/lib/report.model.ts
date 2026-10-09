@@ -9,6 +9,11 @@ export interface CashupEntity {
   denominations: Denomination[];
 }
 
+/** How a generated report reaches the user: opened in a new tab (default) or saved to disk. */
+export interface ReportDelivery {
+  download?: boolean;
+}
+
 /** Inclusive date range, dates formatted as the backend expects (yyyy-MM-dd). */
 export interface DateRangeReportRequest {
   fromDate: string;

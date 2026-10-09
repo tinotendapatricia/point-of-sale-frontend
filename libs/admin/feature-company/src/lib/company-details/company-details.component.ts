@@ -1,29 +1,38 @@
-import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCard, MatCardContent } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
 import { CompanyStore } from '@pos-frontend/company-details/data-access';
-import { CompanyDetailsUiComponent } from '@pos-frontend/company-details/ui';
-import { DrawerService } from '@pos-frontend/core';
-import { CreateCompanyDetailsComponent } from '../create-company-details/create-company-details.component';
+
 import {
-  type UpdateCompanyDetailsData,
-  UpdateCompanyDetailsComponent,
-} from '../update-company-details/update-company-details.component';
+  type CreateCompanyDetailsData,
+  CreateCompanyDetailsComponent,
+} from '../create-company-details/create-company-details.component';
 
 @Component({
   selector: 'pos-frontend-company-details',
   templateUrl: './company-details.component.html',
+  styleUrl: './company-details.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatButtonModule, MatCard, MatCardContent, MatIconModule, CompanyDetailsUiComponent],
+  imports: [MatButtonModule],
 })
 export class CompanyDetailsComponent {
-  private readonly drawer = inject(DrawerService);
-  private readonly injector = inject(Injector);
-  protected readonly companyStore = inject(CompanyStore);
+  private readonly dialog = inject(MatDialog);
+  private readonly companyStore = inject(CompanyStore);
 
   protected readonly company = this.companyStore.company;
   protected readonly loading = this.companyStore.getOneLoading;
+
+  protected readonly rows = computed(() => {
+    const company = this.company();
+    return [
+      { label: 'Name', value: company?.name },
+      { label: 'Email', value: company?.email },
+      { label: 'BP Number', value: company?.bpNumber },
+      { label: 'TIN Number', value: company?.tinNumber },
+      { label: 'Phone Number(s)', value: company?.phone },
+      { label: 'Address', value: company?.address },
+    ];
+  });
 
   constructor() {
     this.refresh();
@@ -33,36 +42,17 @@ export class CompanyDetailsComponent {
     this.companyStore.getCompany();
   }
 
-  protected create(): void {
-    this.drawer
-      .open<CreateCompanyDetailsComponent, boolean>(CreateCompanyDetailsComponent, {
-        title: 'New Company',
-        size: 'md',
-        injector: this.injector,
-      })
-      .afterClosed()
-      .subscribe((created) => {
-        if (created) {
-          this.refresh();
-        }
-      });
-  }
-
-  protected update(): void {
+  /** Opens the company dialog: update when a record exists, create otherwise. */
+  protected edit(): void {
     const company = this.company();
-    if (!company) {
-      return;
-    }
-    this.drawer
-      .open<UpdateCompanyDetailsComponent, boolean, UpdateCompanyDetailsData>(UpdateCompanyDetailsComponent, {
-        title: 'Update Company',
-        size: 'md',
-        data: { company },
-        injector: this.injector,
+    this.dialog
+      .open<CreateCompanyDetailsComponent, CreateCompanyDetailsData, boolean>(CreateCompanyDetailsComponent, {
+        width: '560px',
+        data: company ? { company } : {},
       })
       .afterClosed()
-      .subscribe((updated) => {
-        if (updated) {
+      .subscribe((saved) => {
+        if (saved) {
           this.refresh();
         }
       });

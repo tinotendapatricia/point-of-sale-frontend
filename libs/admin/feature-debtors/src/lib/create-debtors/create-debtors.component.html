@@ -1,6 +1,63 @@
-<pos-frontend-debtors-form
-  [currencies]="currencies()"
-  [loading]="submitting()"
-  (cancelled)="close(false)"
-  (submitted)="create($event)"
-/>
+<pos-frontend-dialog-header [title]="title" [subtitle]="debtor?.account" [hideClose]="loading()" />
+
+<form class="dialog-form" [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="field">
+      <label class="field-label" for="debtor-name">Name<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="debtor-name" matInput type="text" formControlName="name" />
+        @if (form.controls.name.hasError('required')) {
+          <mat-error>Name is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="debtor-account">Account<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="debtor-account" matInput type="text" formControlName="account" />
+        @if (form.controls.account.hasError('required')) {
+          <mat-error>Account is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label id="debtor-currency-label" class="field-label" for="debtor-currency">
+          Currency<span class="required-marker">*</span>
+        </label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <mat-select id="debtor-currency" aria-labelledby="debtor-currency-label" formControlName="currency">
+            @for (currency of currencies(); track currency.id) {
+              <mat-option [value]="currency.id">{{ currency.name }}</mat-option>
+            }
+          </mat-select>
+          @if (form.controls.currency.hasError('required')) {
+            <mat-error>Currency is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="field">
+        <label class="field-label" for="debtor-discount">Discount(%)</label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="debtor-discount" matInput type="number" min="0" max="100" formControlName="discount" />
+          @if (form.controls.discount.invalid) {
+            <mat-error>Discount must be between 0 and 100</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button type="button" mat-stroked-button mat-dialog-close [disabled]="loading()">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel }}
+      }
+    </button>
+  </mat-dialog-actions>
+</form>

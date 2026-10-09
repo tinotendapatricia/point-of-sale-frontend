@@ -1,10 +1,6 @@
-<mat-card>
-  <mat-card-content>
-    <pos-frontend-cashup-form
-      [currencies]="currencies()"
-      [loading]="loading()"
-      [tills]="tills()"
-      (submitted)="generate($event)"
-    />
-  </mat-card-content>
-</mat-card>
+<pos-frontend-cashup-form
+  [currencies]="currencies()"
+  [loading]="loading()"
+  [tills]="tills()"
+  (submitted)="generate($event)"
+/>

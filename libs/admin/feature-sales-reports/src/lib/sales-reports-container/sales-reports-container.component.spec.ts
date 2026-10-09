@@ -1,21 +1,22 @@
-import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { provideRouter } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
 import { ConfigurationStore } from '@pos-frontend/configurations/data-access';
 import { CurrencyStore } from '@pos-frontend/currencies/data-access';
 import { DebtorStore } from '@pos-frontend/debtors/data-access';
 import { ProductStore } from '@pos-frontend/products/data-access';
 import { ReportStore } from '@pos-frontend/reports/data-access';
 
-import { SalesReportsContainerComponent } from './sales-reports-container.component';
+import { ADMIN_FEATURE_SALES_REPORTS_ROUTES } from '../admin-feature-sales-reports.routes';
 
 describe('SalesReportsContainerComponent', () => {
-  let component: SalesReportsContainerComponent;
-  let fixture: ComponentFixture<SalesReportsContainerComponent>;
+  let harness: RouterTestingHarness;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [SalesReportsContainerComponent],
+    TestBed.configureTestingModule({
       providers: [
+        provideRouter(ADMIN_FEATURE_SALES_REPORTS_ROUTES),
         provideNoopAnimations(),
         {
           provide: ReportStore,
@@ -32,18 +33,21 @@ describe('SalesReportsContainerComponent', () => {
           useValue: { pendingCashups: () => [], getPendingCashups: jest.fn() },
         },
       ],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(SalesReportsContainerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    });
+    harness = await RouterTestingHarness.create('/');
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('lists every report in the side nav', () => {
+    const links = harness.routeNativeElement!.querySelectorAll('pos-frontend-report-nav a');
+    expect(links).toHaveLength(7);
   });
 
-  it('renders the sales summary tab first', () => {
-    expect(fixture.nativeElement.querySelector('pos-frontend-all-sales-reports')).toBeTruthy();
+  it('shows the selected report title above it', () => {
+    const first = harness.routeNativeElement!.querySelector('pos-frontend-report-nav .report-label')!.textContent;
+    expect(harness.routeNativeElement!.querySelector('.report-title')!.textContent).toBe(first);
+  });
+
+  it('opens the first report by default', () => {
+    expect(harness.routeNativeElement!.querySelector('pos-frontend-all-sales-reports')).toBeTruthy();
   });
 });

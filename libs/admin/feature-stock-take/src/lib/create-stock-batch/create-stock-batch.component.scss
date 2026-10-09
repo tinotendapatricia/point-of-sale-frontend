@@ -1,9 +1,58 @@
-.batch {
-  width: fit-content;
+.batch-badge {
   padding: 4px 12px;
-  border: 1px solid #9de4b3;
-  text-align: center;
-  font-weight: 900;
-  font-size: 18px;
-  background: #c4f1c4;
+  border-radius: var(--radius-md, 6px);
+  background: color-mix(in srgb, var(--color-accent, #0f766e) 12%, transparent);
+  color: var(--color-accent-900, inherit);
+  font-family: var(--font-heading, inherit);
+  font-weight: 700;
+}
+
+/* Product, quantity and the add button sit on one row and wrap on narrow screens. */
+.count-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0 var(--space-4, 16px);
+}
+
+.product-field {
+  flex: 1 1 280px;
+}
+
+.quantity-field {
+  width: 140px;
+}
+
+.field-button {
+  margin-bottom: var(--space-3, 10px);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.field {
+  margin-bottom: var(--space-3, 10px);
+}
+
+.field-label {
+  display: block;
+  font-size: 11px;
+  font-family: var(--font-heading, inherit);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text, inherit);
+  margin-bottom: var(--space-1, 4px);
+
+  .required-marker {
+    color: var(--alert, red);
+    margin-left: 2px;
+  }
+}
+
+.field-error {
+  margin-top: var(--space-1, 4px);
+  color: var(--alert, red);
+  font-size: 12px;
 }

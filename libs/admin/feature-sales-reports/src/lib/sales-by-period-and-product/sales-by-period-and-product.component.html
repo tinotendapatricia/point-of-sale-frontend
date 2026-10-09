@@ -1,16 +1,9 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Sales by Product</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <pos-frontend-reports-form
-      [isDate]="true"
-      [isExcel]="true"
-      [isProduct]="true"
-      [loading]="loading()"
-      [products]="products()"
-      (excelRequested)="getExcel($event)"
-      (pdfRequested)="getPdf($event)"
-    />
-  </mat-card-content>
-</mat-card>
+<pos-frontend-reports-form
+  [isDate]="true"
+  [isExcel]="true"
+  [isProduct]="true"
+  [loading]="loading()"
+  [products]="products()"
+  (excelRequested)="getExcel($event)"
+  (pdfRequested)="getPdf($event)"
+/>

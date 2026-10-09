@@ -1,0 +1,8 @@
+<nav class="report-nav" [attr.aria-label]="label()">
+  @for (item of items(); track item.path) {
+    <a class="report-link" routerLinkActive="active" ariaCurrentWhenActive="page" [routerLink]="item.path">
+      <span class="report-label">{{ item.label }}</span>
+      <span class="report-description">{{ item.description }}</span>
+    </a>
+  }
+</nav>

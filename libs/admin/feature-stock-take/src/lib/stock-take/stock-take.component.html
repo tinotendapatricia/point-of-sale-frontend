@@ -1,9 +1,41 @@
-<div class="p-4">
-  <pos-frontend-stock-take-count-form
-    [batchProducts]="batchProducts()"
-    [loading]="loading()"
-    [products]="products()"
-    (adjusted)="adjustStock($event)"
-    (comparisonStarted)="compare($event)"
-  />
-</div>
+<form class="compare-form" [formGroup]="form" (ngSubmit)="compare()">
+  <div class="field batch-field">
+    <label class="field-label" for="stock-count-batch">Batch Number<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="stock-count-batch" matInput type="number" formControlName="batchNumber" />
+      @if (form.controls.batchNumber.hasError('required')) {
+        <mat-error>Batch number is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <button type="submit" class="field-button" mat-flat-button [disabled]="loading()">
+    @if (loading()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      Compare with System Stock
+    }
+  </button>
+</form>
+
+@if (hasComparison()) {
+  <pos-frontend-table caption="Batch vs system stock" type="default" [columns]="columns" [data]="dataSource()" />
+
+  <div class="mt-4">
+    @if (confirmingAdjust()) {
+      <pos-frontend-inline-confirm
+        confirmLabel="Adjust Stock"
+        message="System quantities will be set to the batch counts. Only another stock take can reverse this."
+        [title]="`Adjust stock to batch ${comparedBatch()}?`"
+        [loading]="adjusting()"
+        (cancelled)="confirmingAdjust.set(false)"
+        (confirmed)="adjustStock()"
+      />
+    } @else {
+      <div class="flex justify-end">
+        <button type="button" mat-flat-button (click)="confirmingAdjust.set(true)">Adjust Stock</button>
+      </div>
+    }
+  </div>
+} @else if (comparedBatch() !== null && !loading()) {
+  <p class="text-sm text-gray-500">No counted products found for batch {{ comparedBatch() }}.</p>
+}

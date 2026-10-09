@@ -1,33 +1,31 @@
-<mat-card>
-  <mat-card-content>
-    <header class="mb-4 flex flex-wrap items-center justify-between gap-4">
-      <div>
-        <h1 class="text-2xl font-bold">Company Details</h1>
-        <p class="text-sm text-gray-600">The company this installation is licensed to</p>
-      </div>
-      <div class="flex gap-2">
-        <button type="button" mat-stroked-button [disabled]="loading()" (click)="refresh()">
-          <mat-icon>sync</mat-icon>
-          Refresh
-        </button>
-        @if (company()) {
-          <button type="button" mat-flat-button (click)="update()">
-            <mat-icon>edit</mat-icon>
-            Update
-          </button>
-        } @else {
-          <button type="button" mat-flat-button (click)="create()">
-            <mat-icon>add_circle</mat-icon>
-            Add New
-          </button>
-        }
-      </div>
-    </header>
+<div
+  class="bg-white px-6 py-5 mx-6 mt-4 border border-gray-200 rounded-lg shadow-sm"
+>
+  <header class="mb-4 flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold">Company Details</h1>
+      <span class="text-sm text-gray-500">
+        The company this installation is licensed to
+      </span>
+    </div>
+    <div class="flex gap-2">
+      <button type="button" mat-stroked-button [disabled]="loading()" (click)="refresh()">Refresh</button>
+      <button type="button" mat-flat-button (click)="edit()">{{ company() ? 'Update' : 'Add New' }}</button>
+    </div>
+  </header>
 
-    @if (loading()) {
-      <p class="text-gray-600">Loading…</p>
-    } @else {
-      <pos-frontend-company-details-ui [company]="company()" />
-    }
-  </mat-card-content>
-</mat-card>
+  @if (loading()) {
+    <p class="text-sm text-gray-500">Loading…</p>
+  } @else if (company()) {
+    <dl class="details">
+      @for (row of rows(); track row.label) {
+        <div>
+          <dt class="detail-label">{{ row.label }}</dt>
+          <dd class="detail-value">{{ row.value || '--' }}</dd>
+        </div>
+      }
+    </dl>
+  } @else {
+    <p class="text-sm text-gray-500">No company details yet. Use Add New to set them up.</p>
+  }
+</div>

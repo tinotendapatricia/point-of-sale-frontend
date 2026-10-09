@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { DebtorStore } from '@pos-frontend/debtors/data-access';
 import { ReportStore } from '@pos-frontend/reports/data-access';
 import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/reports/ui';
@@ -8,7 +7,7 @@ import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/report
   selector: 'pos-frontend-sales-by-debtor',
   templateUrl: './sales-by-debtor.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, ReportsFormComponent],
+  imports: [ReportsFormComponent],
 })
 export class SalesByDebtorComponent {
   private readonly reportStore = inject(ReportStore);
@@ -21,11 +20,11 @@ export class SalesByDebtorComponent {
     this.debtorStore.getAllDebtors();
   }
 
-  protected getPdf({ fromDate, toDate, debtor }: ReportFormValue): void {
-    this.reportStore.getSalesByDebtorPdf({ fromDate, toDate, debtor });
+  protected getPdf({ fromDate, toDate, debtor, download }: ReportFormValue): void {
+    this.reportStore.getSalesByDebtorPdf({ fromDate, toDate, debtor, download });
   }
 
-  protected getExcel({ fromDate, toDate, debtor }: ReportFormValue): void {
-    this.reportStore.getSalesByDebtorExcel({ fromDate, toDate, debtor });
+  protected getExcel({ fromDate, toDate, debtor, download }: ReportFormValue): void {
+    this.reportStore.getSalesByDebtorExcel({ fromDate, toDate, debtor, download });
   }
 }

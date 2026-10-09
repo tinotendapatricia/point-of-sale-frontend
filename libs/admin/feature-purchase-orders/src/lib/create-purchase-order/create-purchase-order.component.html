@@ -1,13 +1,152 @@
-<h1 class="my-4 text-2xl font-bold">Purchase Order</h1>
+<div class="mx-6 mt-4 mb-6 flex flex-col gap-4">
+  <header class="flex flex-wrap items-center gap-3">
+    <div>
+      <h1 class="page-title">New Purchase Order</h1>
+      <p class="text-sm text-gray-500">Choose a supplier, add the items you're ordering, then create the order.</p>
+    </div>
+    @if (purchaseOrderNumber(); as orderNumber) {
+      <span class="order-badge">Last created: PON {{ orderNumber }}</span>
+    }
+  </header>
 
-<mat-card>
-  <mat-card-content>
-    <pos-frontend-purchase-order-form
-      [creditors]="creditors()"
-      [loading]="submitting()"
-      [products]="products()"
-      [purchaseOrderNumber]="purchaseOrderNumber()"
-      (submitted)="create($event)"
-    />
-  </mat-card-content>
-</mat-card>
+  <!-- 1. Supplier details -->
+  <section class="card" [formGroup]="form">
+    <h2 class="section-title">1. Supplier details</h2>
+    <div class="supplier-grid">
+      <div class="field supplier-field">
+        <label class="field-label" for="po-creditor">Supplier (Creditor)<span class="required-marker">*</span></label>
+        <ng-select labelForId="po-creditor" placeholder="Search or select a supplier…" formControlName="creditor">
+          @for (creditor of creditors(); track creditor.id) {
+            <ng-option [value]="creditor.id">{{ creditor.name }}</ng-option>
+          }
+        </ng-select>
+        @if (form.controls.creditor.touched && form.controls.creditor.hasError('required')) {
+          <p class="field-error">Supplier is required</p>
+        }
+      </div>
+      <div class="field">
+        <label class="field-label" for="po-date">Order Date</label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="po-date" matInput type="date" formControlName="date" />
+        </mat-form-field>
+      </div>
+      <div class="field">
+        <label class="field-label" for="po-reference">Supplier Reference / Quote No.</label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="po-reference" matInput type="text" placeholder="Optional" formControlName="reference" />
+        </mat-form-field>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Items -->
+  <section class="card">
+    <div class="mb-3 flex items-center justify-between">
+      <h2 class="section-title mb-0">2. Items</h2>
+      <span class="text-xs text-gray-500">{{ items.length }} {{ items.length === 1 ? 'item' : 'items' }}</span>
+    </div>
+
+    <form class="entry-row" [formGroup]="itemForm" (ngSubmit)="addItem()">
+      <div class="field entry-product">
+        <label class="field-label" for="po-product">Product<span class="required-marker">*</span></label>
+        <ng-select labelForId="po-product" placeholder="Search by code or name…" formControlName="code" (change)="productSelected()">
+          @for (product of products(); track product.id) {
+            <ng-option [value]="product.code">{{ product.code }} · {{ product.name }}</ng-option>
+          }
+        </ng-select>
+        @if (itemForm.controls.code.touched && itemForm.controls.code.hasError('required')) {
+          <p class="field-error">Product is required</p>
+        }
+      </div>
+      <div class="field entry-number">
+        <label class="field-label" for="po-quantity">Quantity</label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="po-quantity" class="text-right" matInput type="number" min="1" formControlName="quantity" />
+          @if (itemForm.controls.quantity.invalid) {
+            <mat-error>At least 1</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="field entry-number">
+        <label class="field-label" for="po-cost">Unit Cost</label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="po-cost" class="text-right" matInput type="number" min="0" formControlName="unitCost" />
+          @if (itemForm.controls.unitCost.invalid) {
+            <mat-error>0 or more</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="field entry-total">
+        <span class="field-label">Line Total</span>
+        <span class="entry-total-value">{{ entryTotal() | currency }}</span>
+      </div>
+      <button type="submit" class="entry-button" mat-stroked-button>
+        <mat-icon>add</mat-icon>
+        Add item
+      </button>
+    </form>
+
+    @if (itemError()) {
+      <p class="field-error mb-2">{{ itemError() }}</p>
+    }
+
+    <div class="items-table-wrap" [formGroup]="form">
+      <table class="items-table">
+        <thead>
+          <tr>
+            <th scope="col">Code</th>
+            <th scope="col">Description</th>
+            <th class="num" scope="col">Quantity</th>
+            <th class="num" scope="col">Unit cost</th>
+            <th class="num" scope="col">Line total</th>
+            <th scope="col"><span class="sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody formArrayName="items">
+          @for (item of items.controls; track item; let i = $index) {
+            <tr [formGroupName]="i">
+              <td class="code">{{ item.controls.code.value }}</td>
+              <td>{{ item.controls.description.value }}</td>
+              <td class="num">
+                <input class="cell-input" type="number" min="1" formControlName="quantity" [attr.aria-label]="`Quantity for ${item.controls.description.value}`" />
+              </td>
+              <td class="num">
+                <input class="cell-input" type="number" min="0" formControlName="unitCost" [attr.aria-label]="`Unit cost for ${item.controls.description.value}`" />
+              </td>
+              <td class="num font-semibold">{{ lineTotal(item) | currency }}</td>
+              <td class="actions">
+                <button type="button" mat-icon-button [attr.aria-label]="`Remove ${item.controls.description.value}`" (click)="removeItem(i)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td class="empty" colspan="6">No items yet. Pick a product above and add it.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Totals and actions -->
+  <section class="card footer-card">
+    <dl class="totals">
+      <dt>Total quantity</dt>
+      <dd>{{ totalQuantity() }}</dd>
+      <dt class="grand">Order total</dt>
+      <dd class="grand">{{ totalAmount() | currency }}</dd>
+    </dl>
+    <div class="flex gap-2">
+      <button type="button" mat-button [disabled]="submitting()" (click)="reset()">Cancel</button>
+      <button type="button" mat-flat-button [disabled]="submitting()" (click)="submit()">
+        @if (submitting()) {
+          <mat-spinner diameter="18" />
+        } @else {
+          Create purchase order
+        }
+      </button>
+    </div>
+  </section>
+</div>

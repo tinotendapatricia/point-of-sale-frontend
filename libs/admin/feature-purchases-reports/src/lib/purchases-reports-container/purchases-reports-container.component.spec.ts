@@ -1,34 +1,36 @@
-import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { provideRouter } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
 import { ReportStore } from '@pos-frontend/reports/data-access';
 
-import { PurchasesReportsContainerComponent } from './purchases-reports-container.component';
+import { ADMIN_FEATURE_PURCHASES_REPORTS_ROUTES } from '../admin-feature-purchases-reports.routes';
 
 describe('PurchasesReportsContainerComponent', () => {
-  let component: PurchasesReportsContainerComponent;
-  let fixture: ComponentFixture<PurchasesReportsContainerComponent>;
+  let harness: RouterTestingHarness;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [PurchasesReportsContainerComponent],
+    TestBed.configureTestingModule({
       providers: [
+        provideRouter(ADMIN_FEATURE_PURCHASES_REPORTS_ROUTES),
         provideNoopAnimations(),
         { provide: ReportStore, useValue: { purchasesLoading: () => false } },
       ],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(PurchasesReportsContainerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    });
+    harness = await RouterTestingHarness.create('/');
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('lists every report in the side nav', () => {
+    const links = harness.routeNativeElement!.querySelectorAll('pos-frontend-report-nav a');
+    expect(links).toHaveLength(4);
   });
 
-  it('renders the purchases vs GRV summary tab first', () => {
-    expect(
-      fixture.nativeElement.querySelector('pos-frontend-purchases-report-grv-vs-purchases-summary')
-    ).toBeTruthy();
+  it('shows the selected report title above it', () => {
+    const first = harness.routeNativeElement!.querySelector('pos-frontend-report-nav .report-label')!.textContent;
+    expect(harness.routeNativeElement!.querySelector('.report-title')!.textContent).toBe(first);
+  });
+
+  it('opens the first report by default', () => {
+    expect(harness.routeNativeElement!.querySelector('pos-frontend-purchases-report-grv-vs-purchases-summary')).toBeTruthy();
   });
 });

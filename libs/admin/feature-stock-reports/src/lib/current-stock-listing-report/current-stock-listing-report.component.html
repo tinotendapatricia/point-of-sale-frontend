@@ -1,8 +1,1 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Current Stock Listing</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <pos-frontend-reports-form [loading]="loading()" (pdfRequested)="getPdf()" />
-  </mat-card-content>
-</mat-card>
+<pos-frontend-reports-form [loading]="loading()" (pdfRequested)="getPdf($event)" />

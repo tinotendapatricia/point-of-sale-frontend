@@ -1,14 +1,75 @@
-<div class="p-4">
-  @if (batchNumber(); as batch) {
-    <div class="batch">Batch Number: {{ batch }}</div>
-    <pos-frontend-stock-take-form class="mt-4 block" [products]="products()" (submitted)="closeBatch($event)" />
-  } @else {
-    <button type="button" mat-flat-button [disabled]="creating()" (click)="initiateBatch()">
-      @if (creating()) {
-        <mat-spinner diameter="18" />
-      } @else {
-        Initiate Stock Take
+<ng-template #actionsTpl let-row>
+  <button type="button" mat-icon-button [attr.aria-label]="`Edit ${row.productName}`" (click)="editProduct(row.index)">
+    <mat-icon class="text-green-600">edit</mat-icon>
+  </button>
+  <button type="button" mat-icon-button [attr.aria-label]="`Remove ${row.productName}`" (click)="deleteProduct(row.index)">
+    <mat-icon class="text-red-600">delete</mat-icon>
+  </button>
+</ng-template>
+
+@if (batchNumber(); as batch) {
+  <div class="mb-4 flex flex-wrap items-center gap-3">
+    <span class="batch-badge">Batch {{ batch }}</span>
+    <span class="text-sm text-gray-500">Add each product you counted, then close the batch.</span>
+  </div>
+
+  <form class="count-form" [formGroup]="form" (ngSubmit)="saveProduct()">
+    <div class="field product-field">
+      <label class="field-label" for="stock-take-product">Product<span class="required-marker">*</span></label>
+      <ng-select labelForId="stock-take-product" formControlName="code">
+        @for (product of products(); track product.id) {
+          <ng-option [value]="product.code">{{ product.name }} {{ product.code }}</ng-option>
+        }
+      </ng-select>
+      @if (form.controls.code.touched && form.controls.code.hasError('required')) {
+        <p class="field-error">Product is required</p>
       }
-    </button>
+    </div>
+    <div class="field quantity-field">
+      <label class="field-label" for="stock-take-quantity">Quantity<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="stock-take-quantity" matInput type="number" min="0" formControlName="quantity" />
+        @if (form.controls.quantity.hasError('required')) {
+          <mat-error>Required</mat-error>
+        } @else if (form.controls.quantity.hasError('min')) {
+          <mat-error>Cannot be negative</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <button type="submit" class="field-button" mat-stroked-button>{{ saveLabel() }}</button>
+  </form>
+
+  @if (errorMessage()) {
+    <p class="field-error mb-2">{{ errorMessage() }}</p>
   }
-</div>
+
+  <pos-frontend-table caption="Counted products" type="default" [columns]="columns()" [data]="rows()" />
+
+  <div class="mt-4">
+    @if (confirmingClose()) {
+      <pos-frontend-inline-confirm
+        confirmLabel="Close Batch"
+        message="Check the products above first. Closing saves these counts to the batch."
+        [title]="`Close batch ${batch}?`"
+        [loading]="closing()"
+        (cancelled)="confirmingClose.set(false)"
+        (confirmed)="closeBatch()"
+      />
+    } @else {
+      <div class="flex justify-end">
+        <button type="button" mat-flat-button [disabled]="items().length === 0" (click)="confirmingClose.set(true)">
+          Close Batch
+        </button>
+      </div>
+    }
+  </div>
+} @else {
+  <p class="mb-4 text-sm text-gray-500">There is no open batch. Start one to begin counting.</p>
+  <button type="button" mat-flat-button [disabled]="creating()" (click)="initiateBatch()">
+    @if (creating()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      Initiate Stock Take
+    }
+  </button>
+}

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { ReportStore } from '@pos-frontend/reports/data-access';
 import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/reports/ui';
 
@@ -7,16 +6,16 @@ import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/report
   selector: 'pos-frontend-adjustment-vs-batch',
   templateUrl: './adjustment-vs-batch.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, ReportsFormComponent],
+  imports: [ReportsFormComponent],
 })
 export class AdjustmentVsBatchComponent {
   private readonly reportStore = inject(ReportStore);
 
   protected readonly loading = this.reportStore.stockLoading;
 
-  protected getPdf({ batchNumber }: ReportFormValue): void {
+  protected getPdf({ batchNumber, download }: ReportFormValue): void {
     if (batchNumber !== null) {
-      this.reportStore.getAdjustmentVsBatchReport({ batch: batchNumber });
+      this.reportStore.getAdjustmentVsBatchReport({ batch: batchNumber, download });
     }
   }
 }

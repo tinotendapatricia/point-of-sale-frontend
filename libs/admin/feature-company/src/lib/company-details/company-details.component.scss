@@ -1,0 +1,20 @@
+.details {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-4, 16px) var(--space-6, 24px);
+  margin: 0;
+}
+
+.detail-label {
+  font-family: var(--font-heading, inherit);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.detail-value {
+  margin: 2px 0 0;
+  white-space: pre-line;
+}

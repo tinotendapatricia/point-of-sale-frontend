@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { ReportStore } from '@pos-frontend/reports/data-access';
 import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/reports/ui';
 
@@ -7,18 +6,18 @@ import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/report
   selector: 'pos-frontend-all-sales-reports',
   templateUrl: './all--sales-reports.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, ReportsFormComponent],
+  imports: [ReportsFormComponent],
 })
 export class AllSalesReportsComponent {
   private readonly reportStore = inject(ReportStore);
 
   protected readonly loading = this.reportStore.salesLoading;
 
-  protected getPdf({ fromDate, toDate }: ReportFormValue): void {
-    this.reportStore.getSalesSummaryPdf({ fromDate, toDate });
+  protected getPdf({ fromDate, toDate, download }: ReportFormValue): void {
+    this.reportStore.getSalesSummaryPdf({ fromDate, toDate, download });
   }
 
-  protected getExcel({ fromDate, toDate }: ReportFormValue): void {
-    this.reportStore.getSalesSummaryExcel({ fromDate, toDate });
+  protected getExcel({ fromDate, toDate, download }: ReportFormValue): void {
+    this.reportStore.getSalesSummaryExcel({ fromDate, toDate, download });
   }
 }

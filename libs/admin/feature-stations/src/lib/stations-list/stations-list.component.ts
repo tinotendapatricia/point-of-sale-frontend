@@ -1,58 +1,86 @@
-import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  type TemplateRef,
+  computed,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { type PageEvent } from '@angular/material/paginator';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DrawerService } from '@pos-frontend/core';
-import { StationStore } from '@pos-frontend/stations/data-access';
-import { StationsListUiComponent } from '@pos-frontend/stations/ui';
-import { CreateStationComponent } from '../create-station/create-station.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { type StationFilters, type StationsEntity, StationStore } from '@pos-frontend/stations/data-access';
+import { BmgTable, type TableColumnDef } from '@pos-frontend/shared/ui';
 
-const FIRST_PAGE = { page: 0, size: 10 };
+import { type CreateStationData, CreateStationComponent } from '../create-station/create-station.component';
+
+const FIRST_PAGE: StationFilters = { page: 0, size: 10 };
 
 @Component({
   selector: 'pos-frontend-stations-list',
   templateUrl: './stations-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [StationsListUiComponent],
+  imports: [BmgTable, MatButtonModule, MatIconModule],
 })
 export class StationsListComponent {
-  private readonly drawer = inject(DrawerService);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly injector = inject(Injector);
-  protected readonly stationStore = inject(StationStore);
+  private readonly dialog = inject(MatDialog);
+  private readonly stationStore = inject(StationStore);
 
-  protected readonly loading = this.stationStore.getPaginatedLoading;
-  protected readonly stations = this.stationStore.paginatedStations;
+  private readonly actionsTpl = viewChild<TemplateRef<unknown>>('actionsTpl');
+  private readonly currentPage = signal<StationFilters>(FIRST_PAGE);
+
   protected readonly total = this.stationStore.totalStations;
+  protected readonly loading = this.stationStore.getPaginatedLoading;
+  protected readonly dataSource = computed(() => new MatTableDataSource(this.stationStore.paginatedStations()));
+
+  protected readonly columns = computed<TableColumnDef[]>(() => [
+    { key: 'number', header: 'Account' },
+    { key: 'name', header: 'Name' },
+    { key: 'actions', header: '', align: 'right', template: this.actionsTpl() },
+  ]);
 
   constructor() {
-    this.refresh();
+    this.load(FIRST_PAGE);
   }
 
   protected onPage(event: PageEvent): void {
-    this.stationStore.getPaginatedStations({ page: event.pageIndex, size: event.pageSize });
+    this.load({ page: event.pageIndex, size: event.pageSize });
   }
 
   protected refresh(): void {
-    this.stationStore.getPaginatedStations(FIRST_PAGE);
+    this.load(this.currentPage());
   }
 
   protected add(): void {
-    this.drawer
-      .open<CreateStationComponent, boolean>(CreateStationComponent, {
-        title: 'New Station',
-        size: 'md',
-        injector: this.injector,
-      })
+    this.dialog
+      .open<CreateStationComponent, CreateStationData, boolean>(CreateStationComponent, { width: '480px' })
       .afterClosed()
       .subscribe((created) => {
         if (created) {
+          this.load(FIRST_PAGE);
+        }
+      });
+  }
+
+  protected edit(station: StationsEntity): void {
+    this.dialog
+      .open<CreateStationComponent, CreateStationData, boolean>(CreateStationComponent, {
+        width: '480px',
+        data: { station },
+      })
+      .afterClosed()
+      .subscribe((updated) => {
+        if (updated) {
           this.refresh();
         }
       });
   }
 
-  protected edit(id: string | number): void {
-    void this.router.navigate(['./update', id], { relativeTo: this.route });
+  private load(filters: StationFilters): void {
+    this.currentPage.set(filters);
+    this.stationStore.getPaginatedStations(filters);
   }
 }

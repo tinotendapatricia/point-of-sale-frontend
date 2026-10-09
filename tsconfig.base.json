@@ -116,18 +116,15 @@
       "@pos-frontend/creditors/data-access": [
         "libs/creditors/data-access/src/index.ts"
       ],
-      "@pos-frontend/creditors/ui": ["libs/creditors/ui/src/index.ts"],
       "@pos-frontend/currencies/data-access": [
         "libs/currencies/data-access/src/index.ts"
       ],
       "@pos-frontend/debtors/data-access": [
         "libs/debtors/data-access/src/index.ts"
       ],
-      "@pos-frontend/debtors/ui": ["libs/debtors/ui/src/index.ts"],
       "@pos-frontend/groups/data-access": [
         "libs/groups/data-access/src/index.ts"
       ],
-      "@pos-frontend/goods-received/ui": ["libs/goods-received/ui/src/index.ts"],
       "@pos-frontend/groups/ui": ["libs/groups/ui/src/index.ts"],
       "@pos-frontend/pos/data-access": ["libs/pos/data-access/src/index.ts"],
       "@pos-frontend/pos/ui": ["libs/pos/ui/src/index.ts"],
@@ -137,9 +134,6 @@
       ],
       "@pos-frontend/purchase-orders/data-access": [
         "libs/purchase-orders/data-access/src/index.ts"
-      ],
-      "@pos-frontend/purchase-orders/ui": [
-        "libs/purchase-orders/ui/src/index.ts"
       ],
       "@pos-frontend/reports/data-access": [
         "libs/reports/data-access/src/index.ts"
@@ -156,11 +150,9 @@
       "@pos-frontend/stations/data-access": [
         "libs/stations/data-access/src/index.ts"
       ],
-      "@pos-frontend/stations/ui": ["libs/stations/ui/src/index.ts"],
       "@pos-frontend/stock-take/data-access": [
         "libs/stock-take/data-access/src/index.ts"
       ],
-      "@pos-frontend/stock-take/ui": ["libs/stock-take/ui/src/index.ts"],
       "@pos-frontend/users/data-access": [
         "libs/users/data-access/src/index.ts"
       ],

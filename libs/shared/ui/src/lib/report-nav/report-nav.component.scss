@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.report-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.report-link {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: var(--radius-md, 6px);
+  color: var(--color-text, inherit);
+  text-decoration: none;
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-accent, #0f766e) 6%, transparent);
+  }
+
+  &.active {
+    background: color-mix(in srgb, var(--color-accent, #0f766e) 12%, transparent);
+  }
+}
+
+.report-label {
+  font-family: var(--font-heading, inherit);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.report-description {
+  font-size: 11px;
+  line-height: 1.35;
+  opacity: 0.7;
+}

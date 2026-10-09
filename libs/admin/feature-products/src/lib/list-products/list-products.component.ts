@@ -5,6 +5,7 @@ import {
   type TemplateRef,
   computed,
   inject,
+  signal,
   viewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -49,6 +50,7 @@ const FIRST_PAGE = { page: 0, size: 10 };
 })
 export class ListProductsComponent {
   private readonly dialog = inject(MatDialog);
+  private readonly currentPage = signal(FIRST_PAGE);
   private readonly productStore = inject(ProductStore);
 
   private readonly costTpl = viewChild<TemplateRef<unknown>>('costTpl');
@@ -74,14 +76,15 @@ export class ListProductsComponent {
   ]);
 
   constructor() {
-    this.productStore.getPaginatedProducts(FIRST_PAGE);
+    this.load(FIRST_PAGE);
   }
 
   protected onPage(event: PageEvent): void {
-    this.productStore.getPaginatedProducts({
-      page: event.pageIndex,
-      size: event.pageSize,
-    });
+    this.load({ page: event.pageIndex, size: event.pageSize });
+  }
+
+  protected refresh(): void {
+    this.load(this.currentPage());
   }
 
   protected add(): void {
@@ -125,7 +128,12 @@ export class ListProductsComponent {
 
   private refreshIf(changed: boolean | undefined): void {
     if (changed) {
-      this.productStore.getPaginatedProducts(FIRST_PAGE);
+      this.load(FIRST_PAGE);
     }
+  }
+
+  private load(filters: typeof FIRST_PAGE): void {
+    this.currentPage.set(filters);
+    this.productStore.getPaginatedProducts(filters);
   }
 }

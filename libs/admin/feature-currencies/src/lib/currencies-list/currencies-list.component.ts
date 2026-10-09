@@ -5,6 +5,7 @@ import {
   type TemplateRef,
   computed,
   inject,
+  signal,
   viewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -42,6 +43,7 @@ const FIRST_PAGE = { page: 0, size: 10 };
 })
 export class CurrenciesListComponent {
   private readonly dialog = inject(MatDialog);
+  private readonly currentPage = signal(FIRST_PAGE);
   private readonly currencyStore = inject(CurrencyStore);
 
   private readonly rateTpl = viewChild<TemplateRef<unknown>>('rateTpl');
@@ -64,14 +66,15 @@ export class CurrenciesListComponent {
   ]);
 
   constructor() {
-    this.currencyStore.getPaginatedCurrencies(FIRST_PAGE);
+    this.load(FIRST_PAGE);
   }
 
   protected onPage(event: PageEvent): void {
-    this.currencyStore.getPaginatedCurrencies({
-      page: event.pageIndex,
-      size: event.pageSize,
-    });
+    this.load({ page: event.pageIndex, size: event.pageSize });
+  }
+
+  protected refresh(): void {
+    this.load(this.currentPage());
   }
 
   protected add(): void {
@@ -115,7 +118,12 @@ export class CurrenciesListComponent {
 
   private refreshIf(changed: boolean | undefined): void {
     if (changed) {
-      this.currencyStore.getPaginatedCurrencies(FIRST_PAGE);
+      this.load(FIRST_PAGE);
     }
+  }
+
+  private load(filters: typeof FIRST_PAGE): void {
+    this.currentPage.set(filters);
+    this.currencyStore.getPaginatedCurrencies(filters);
   }
 }

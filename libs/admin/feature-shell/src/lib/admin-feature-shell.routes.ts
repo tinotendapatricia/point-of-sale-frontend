@@ -37,14 +37,7 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
           import('@pos-frontend/admin/feature-groups').then(
             (module) => module.ADMIN_FEATURE_GROUPS_ROUTES
           ),
-      },
-      {
-        path: 'configurations',
-        loadChildren: () =>
-          import('@pos-frontend/admin/feature-configurations').then(
-            (module) => module.ADMIN_FEATURE_CONFIGURATIONS_ROUTES
-          ),
-      },
+      },*/
       {
         path: 'stock-take',
         loadChildren: () =>
@@ -93,7 +86,21 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
           import('@pos-frontend/admin/feature-stock-reports').then(
             (module) => module.ADMIN_FEATURE_STOCK_REPORTS_ROUTES
           ),
-      },*/
+      },
+      {
+        path: 'purchases-reports',
+        loadChildren: () =>
+          import('@pos-frontend/admin/feature-purchases-reports').then(
+            (module) => module.ADMIN_FEATURE_PURCHASES_REPORTS_ROUTES
+          ),
+      },
+      {
+        path: 'configurations',
+        loadChildren: () =>
+          import('@pos-frontend/admin/feature-configurations').then(
+            (module) => module.ADMIN_FEATURE_CONFIGURATIONS_ROUTES
+          ),
+      },
       {
         path: 'products',
         loadChildren: () =>
@@ -115,18 +122,11 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
             (module) => module.ADMIN_FEATURE_CATEGORIES_ROUTES
           ),
       },
-      /*{
+      {
         path: 'receive-products',
         loadChildren: () =>
           import('@pos-frontend/admin/feature-goods-received').then(
             (module) => module.ADMIN_FEATURE_GOODS_RECEIVED_ROUTES
-          ),
-      },
-      {
-        path: 'purchases-reports',
-        loadChildren: () =>
-          import('@pos-frontend/admin/feature-purchases-reports').then(
-            (module) => module.ADMIN_FEATURE_PURCHASES_REPORTS_ROUTES
           ),
       },
       {
@@ -143,7 +143,7 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
             (module) => module.ADMIN_FEATURE_PURCHASE_ORDERS_ROUTES
           ),
       },
-      {
+      /*{
         path: 'vat',
         loadChildren: () =>
           import('@pos-frontend/admin/feature-vat').then(

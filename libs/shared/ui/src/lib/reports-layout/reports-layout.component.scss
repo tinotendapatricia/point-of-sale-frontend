@@ -1,0 +1,27 @@
+:host {
+  display: block;
+}
+
+.reports-title {
+  font-family: var(--font-heading, inherit);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  margin: 4px 10px 8px;
+  font-family: var(--font-heading, inherit);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.report-title {
+  font-family: var(--font-heading, inherit);
+  font-size: 18px;
+  font-weight: 700;
+}

@@ -44,7 +44,10 @@
           Manage your product inventory
         </span>
       </div>
-      <button type="button" mat-flat-button (click)="add()">Add New</button>
+      <div class="flex gap-2">
+        <button type="button" mat-stroked-button [disabled]="loading()" (click)="refresh()">Refresh</button>
+        <button type="button" mat-flat-button (click)="add()">Add New</button>
+      </div>
     </header>
   </pos-frontend-table>
 </div>

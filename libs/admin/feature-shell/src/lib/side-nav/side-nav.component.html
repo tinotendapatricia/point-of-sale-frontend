@@ -1,6 +1,6 @@
 <nav class="pos-sidenav h-full">
   <a
-    class="pos-navlink"
+    class="pos-navlink mt-4"
     routerLinkActive="active"
     [routerLink]="['/dashboard']"
   >
@@ -150,6 +150,11 @@
     </a>
     }
   </div>
+
+  <a class="pos-navlink" routerLinkActive="active" [routerLink]="['/stations']">
+    <mat-icon>devices</mat-icon>
+    <span>Stations</span>
+  </a>
 
   <a
     class="pos-navlink"

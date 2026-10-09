@@ -1,0 +1,39 @@
+/* Batch number and the compare button sit on one row. */
+.compare-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0 var(--space-4, 16px);
+}
+
+.batch-field {
+  width: 220px;
+}
+
+.field-button {
+  margin-bottom: var(--space-3, 10px);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.field {
+  margin-bottom: var(--space-3, 10px);
+}
+
+.field-label {
+  display: block;
+  font-size: 11px;
+  font-family: var(--font-heading, inherit);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text, inherit);
+  margin-bottom: var(--space-1, 4px);
+
+  .required-marker {
+    color: var(--alert, red);
+    margin-left: 2px;
+  }
+}

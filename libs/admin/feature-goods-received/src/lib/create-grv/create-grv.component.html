@@ -1,13 +1,97 @@
-<h1 class="my-4 text-2xl font-bold">Goods Received Voucher</h1>
+<div class="mx-6 mt-4 mb-6 flex flex-col gap-4">
+  <header>
+    <h1 class="page-title">Receive Products</h1>
+    <p class="text-sm text-gray-500">Look up a purchase order, enter what arrived, then receive the goods.</p>
+  </header>
 
-<mat-card>
-  <mat-card-content>
-    <pos-frontend-grv-form
-      [lines]="lines()"
-      [loading]="submitting()"
-      [loadingOrder]="loadingOrder()"
-      (orderRequested)="getPurchaseOrder($event)"
-      (submitted)="receive($event)"
-    />
-  </mat-card-content>
-</mat-card>
+  <!-- 1. Purchase order -->
+  <section class="card">
+    <h2 class="section-title">1. Purchase order</h2>
+    <form class="lookup-row" [formGroup]="form" (ngSubmit)="getPurchaseOrder()">
+      <div class="field lookup-field">
+        <label class="field-label" for="grv-purchase-order">Purchase Order No.<span class="required-marker">*</span></label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="grv-purchase-order" matInput type="number" formControlName="purchaseOrder" />
+          @if (form.controls.purchaseOrder.hasError('required')) {
+            <mat-error>Purchase order number is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="field lookup-field">
+        <label class="field-label" for="grv-reference">Reference</label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="grv-reference" matInput type="text" placeholder="Optional, e.g. supplier invoice no." formControlName="reference" />
+        </mat-form-field>
+      </div>
+      <button type="submit" class="lookup-button" mat-stroked-button [disabled]="hasLines() || loadingOrder()">
+        @if (loadingOrder()) {
+          <mat-spinner diameter="18" />
+        } @else {
+          Load order
+        }
+      </button>
+    </form>
+  </section>
+
+  <!-- 2. Items received -->
+  <section class="card">
+    <div class="mb-3 flex items-center justify-between">
+      <h2 class="section-title mb-0">2. Items received</h2>
+      @if (hasLines()) {
+        <span class="text-xs text-gray-500">{{ lines().length }} {{ lines().length === 1 ? 'line' : 'lines' }}</span>
+      }
+    </div>
+
+    <div class="items-table-wrap">
+      <table class="items-table">
+        <thead>
+          <tr>
+            <th scope="col">Product</th>
+            <th class="num" scope="col">Ordered</th>
+            <th class="num" scope="col">Unit cost</th>
+            <th class="num" scope="col">Received</th>
+            <th class="num" scope="col">Ordered value</th>
+            <th class="num" scope="col">Received value</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (line of receivedLines(); track $index; let i = $index) {
+            <tr>
+              <td>{{ line.name }}</td>
+              <td class="num">{{ line.quantity }}</td>
+              <td class="num">{{ line.unitCost | currency }}</td>
+              <td class="num">
+                <input class="cell-input" type="number" min="0" [attr.aria-label]="`Quantity received for ${line.name}`" [formControl]="quantities.at(i)" />
+              </td>
+              <td class="num">{{ line.amount | currency }}</td>
+              <td class="num font-semibold">{{ line.receivedValue | currency }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td class="empty" colspan="6">Load a purchase order to see what can be received.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Totals and actions -->
+  <section class="card footer-card">
+    <dl class="totals">
+      <dt>Quantity ordered / received</dt>
+      <dd>{{ totalQuantity() }} / {{ totalQtyReceived() }}</dd>
+      <dt>Ordered value</dt>
+      <dd>{{ totalPurchaseCost() | currency }}</dd>
+      <dt class="grand">Received value</dt>
+      <dd class="grand">{{ totalReceivedValue() | currency }}</dd>
+    </dl>
+    <button type="button" mat-flat-button [disabled]="!canSubmit()" (click)="receive()">
+      @if (submitting()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        Receive goods
+      }
+    </button>
+  </section>
+</div>

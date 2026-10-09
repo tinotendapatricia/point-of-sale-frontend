@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+.inline-confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3, 10px) var(--space-4, 16px);
+  padding: var(--space-3, 10px) var(--space-4, 16px);
+  border: 1px solid color-mix(in srgb, var(--color-accent, #0f766e) 35%, transparent);
+  border-radius: var(--radius-md, 6px);
+  background: color-mix(in srgb, var(--color-accent, #0f766e) 8%, transparent);
+}
+
+.icon {
+  color: var(--color-accent, #0f766e);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-heading, inherit);
+  font-weight: 600;
+}
+
+.message {
+  margin: 2px 0 0;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-2, 8px);
+}

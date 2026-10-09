@@ -16,7 +16,12 @@ describe('ReportsFormComponent', () => {
     grvNumber: null,
     batchNumber: null,
     adjustmentNumber: null,
+    download: false,
   };
+  const button = (label: string): HTMLButtonElement =>
+    [...fixture.nativeElement.querySelectorAll('button')].find((b: HTMLButtonElement) =>
+      b.textContent?.includes(label)
+    );
 
   const setInput = (id: string, value: string): void => {
     const input: HTMLInputElement = fixture.nativeElement.querySelector(`#${id}`);
@@ -39,11 +44,18 @@ describe('ReportsFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('emits pdfRequested with no fields shown', () => {
+  it('views the PDF with no fields shown', () => {
     const emitted = jest.fn();
     component.pdfRequested.subscribe(emitted);
     fixture.nativeElement.querySelector('button[type=submit]').click();
     expect(emitted).toHaveBeenCalledWith(empty);
+  });
+
+  it('downloads the PDF from the PDF button', () => {
+    const emitted = jest.fn();
+    component.pdfRequested.subscribe(emitted);
+    button('PDF').click();
+    expect(emitted).toHaveBeenCalledWith({ ...empty, download: true });
   });
 
   it('requires the dates when isDate is set', () => {
@@ -66,13 +78,13 @@ describe('ReportsFormComponent', () => {
   });
 
   it('shows the excel button only when isExcel is set', () => {
-    expect(fixture.nativeElement.querySelector('button[type=button]')).toBeNull();
+    expect(button('Excel')).toBeUndefined();
     fixture.componentRef.setInput('isExcel', true);
     fixture.detectChanges();
 
     const emitted = jest.fn();
     component.excelRequested.subscribe(emitted);
-    fixture.nativeElement.querySelector('button[type=button]').click();
-    expect(emitted).toHaveBeenCalledWith(empty);
+    button('Excel').click();
+    expect(emitted).toHaveBeenCalledWith({ ...empty, download: true });
   });
 });

@@ -15,6 +15,7 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
@@ -34,6 +35,8 @@ export interface ReportFormValue {
   grvNumber: number | null;
   batchNumber: number | null;
   adjustmentNumber: number | null;
+  /** false: open the report in a new tab ("View report"); true: save the file. */
+  download: boolean;
 }
 
 @Component({
@@ -48,6 +51,7 @@ export interface ReportFormValue {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
     MatProgressSpinnerModule,
   ],
 })
@@ -106,15 +110,16 @@ export class ReportsFormComponent {
     });
   }
 
-  protected requestPdf(): void {
+  /** "View report" opens the PDF in a new tab; the PDF button saves it. */
+  protected requestPdf(download: boolean): void {
     if (this.isValid()) {
-      this.pdfRequested.emit(this.form.getRawValue());
+      this.pdfRequested.emit({ ...this.form.getRawValue(), download });
     }
   }
 
   protected requestExcel(): void {
     if (this.isValid()) {
-      this.excelRequested.emit(this.form.getRawValue());
+      this.excelRequested.emit({ ...this.form.getRawValue(), download: true });
     }
   }
 

@@ -1,26 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
-import { AllSalesReportsComponent } from '../all--sales-reports/all--sales-reports.component';
-import { GenerateGpReportComponent } from '../generate-gp-report/generate-gp-report.component';
-import { SalesByDebtorComponent } from '../sales-by-debtor/sales-by-debtor.component';
-import { SalesByPeriodAndProductComponent } from '../sales-by-period-and-product/sales-by-period-and-product.component';
-import { SalesReportDetailedComponent } from '../sales-report-detailed/sales-report-detailed.component';
-import { TillCashupReportComponent } from '../till-cashup-report/till-cashup-report.component';
-import { TopSellingProductsForPeriodComponent } from '../top-selling-products-for-period/top-selling-products-for-period.component';
+import { RouterOutlet } from '@angular/router';
+import { type ReportNavItem, ReportsLayoutComponent } from '@pos-frontend/shared/ui';
+import { SALES_REPORT_PAGES } from '../sales-report-pages';
 
 @Component({
   selector: 'pos-frontend-sales-reports-container',
   templateUrl: './sales-reports-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    MatTabsModule,
-    AllSalesReportsComponent,
-    SalesReportDetailedComponent,
-    SalesByPeriodAndProductComponent,
-    SalesByDebtorComponent,
-    TopSellingProductsForPeriodComponent,
-    TillCashupReportComponent,
-    GenerateGpReportComponent,
-  ],
+  imports: [RouterOutlet, ReportsLayoutComponent],
 })
-export class SalesReportsContainerComponent {}
+export class SalesReportsContainerComponent {
+  protected readonly reports: ReportNavItem[] = SALES_REPORT_PAGES.map(({ path, label, description }) => ({
+    path,
+    label,
+    description,
+  }));
+}

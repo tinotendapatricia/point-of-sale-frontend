@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { DebtorStore } from '@pos-frontend/debtors/data-access';
 import { ReportStore } from '@pos-frontend/reports/data-access';
 import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/reports/ui';
@@ -8,7 +7,7 @@ import { type ReportFormValue, ReportsFormComponent } from '@pos-frontend/report
   selector: 'pos-frontend-generate-gp-report',
   templateUrl: './generate-gp-report.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, ReportsFormComponent],
+  imports: [ReportsFormComponent],
 })
 export class GenerateGpReportComponent {
   private readonly reportStore = inject(ReportStore);
@@ -21,7 +20,7 @@ export class GenerateGpReportComponent {
     this.debtorStore.getAllDebtors();
   }
 
-  protected getPdf({ fromDate, toDate, debtor }: ReportFormValue): void {
-    this.reportStore.getGrossProfitReport({ fromDate, toDate, debtor });
+  protected getPdf({ fromDate, toDate, debtor, download }: ReportFormValue): void {
+    this.reportStore.getGrossProfitReport({ fromDate, toDate, debtor, download });
   }
 }

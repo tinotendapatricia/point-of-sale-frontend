@@ -26,11 +26,19 @@ import {
   type GrvNumberReportRequest,
   type OrderNumberReportRequest,
   type ProductReportRequest,
+  type ReportDelivery,
   type StockByProductAndPeriodRequest,
   type StockByProductRequest,
 } from './report.model';
 
 type ReportCollection = 'sales' | 'purchases' | 'stock' | 'cashup';
+
+/** 'Failed to generate GRV report' -> 'grv-report': the failure text already names the report. */
+const fileName = (failure: string): string =>
+  failure
+    .replace(/^Failed to generate /, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-');
 
 
 export const ReportStore = signalStore(
@@ -46,15 +54,16 @@ export const ReportStore = signalStore(
   withMethods(
     (store, service = inject(ReportService), toast = inject(ToastService)) => {
       /**
-       * Builds a read method that downloads a report file and opens it in a
-       * new tab. Newer requests cancel stale ones (switchMap).
+       * Builds a read method that fetches a report file and either opens it in
+       * a new tab or, with `download: true`, saves it. Newer requests cancel
+       * stale ones (switchMap).
        */
       const openReport = <T>(
         collection: ReportCollection,
         failure: string,
         load: (request: T) => Observable<Blob>
       ) =>
-        rxMethod<T>(
+        rxMethod<T & ReportDelivery>(
           pipe(
             tap(() => patchState(store, setLoading(collection))),
             switchMap(request =>
@@ -62,7 +71,11 @@ export const ReportStore = signalStore(
                 tapResponse({
                   next: file => {
                     patchState(store, setLoaded(collection));
-                    Utilities.displayFile(file);
+                    if (request.download) {
+                      Utilities.downloadFile(file, fileName(failure));
+                    } else {
+                      Utilities.displayFile(file);
+                    }
                   },
                   error: error => {
                     patchState(store, setError(error, collection));
@@ -216,7 +229,7 @@ export const ReportStore = signalStore(
           'Failed to generate stock takes report',
           request => service.getStockTakesForPeriod(request)
         ),
-        getCurrentStockListing: openReport<void>(
+        getCurrentStockListing: openReport<ReportDelivery>(
           'stock',
           'Failed to generate current stock listing',
           () => service.getCurrentStockListing()

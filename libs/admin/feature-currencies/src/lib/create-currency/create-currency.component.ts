@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -28,7 +33,6 @@ export interface CreateCurrencyData {
 @Component({
   selector: 'pos-frontend-create-currency',
   templateUrl: './create-currency.component.html',
-  styleUrl: './create-currency.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

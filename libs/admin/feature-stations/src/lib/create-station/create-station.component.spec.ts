@@ -1,42 +1,75 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { provideRouter } from '@angular/router';
 import { StationStore } from '@pos-frontend/stations/data-access';
-import { CreateStationComponent } from './create-station.component';
+
+import { type CreateStationData, CreateStationComponent } from './create-station.component';
 
 describe('CreateStationComponent', () => {
-  let component: CreateStationComponent;
   let fixture: ComponentFixture<CreateStationComponent>;
-  const store = { createLoading: () => false, createStation: jest.fn() };
+  const store = {
+    createLoading: () => false,
+    updateLoading: () => false,
+    createStation: jest.fn(),
+    updateStation: jest.fn(),
+  };
+  const dialogRef = { close: jest.fn() };
 
-  beforeEach(async () => {
-    store.createStation.mockClear();
+  const setup = async (data: CreateStationData | null = null): Promise<void> => {
+    jest.clearAllMocks();
     await TestBed.configureTestingModule({
       imports: [CreateStationComponent],
-      providers: [provideRouter([]), provideNoopAnimations(), { provide: StationStore, useValue: store }],
+      providers: [
+        provideNoopAnimations(),
+        { provide: StationStore, useValue: store },
+        { provide: MatDialogRef, useValue: dialogRef },
+        { provide: MAT_DIALOG_DATA, useValue: data },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CreateStationComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  };
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  const el = (): HTMLElement => fixture.nativeElement;
+  const set = (selector: string, value: string): void => {
+    const input = el().querySelector<HTMLInputElement>(selector)!;
+    input.value = value;
+    input.dispatchEvent(new Event('input'));
+  };
+  const submit = (): void => el().querySelector<HTMLButtonElement>('button[type=submit]')!.click();
 
-  it('sends the form value to the store', () => {
-    const el: HTMLElement = fixture.nativeElement;
-    const type = (id: string, value: string) => {
-      const input = el.querySelector<HTMLInputElement>('#' + id)!;
-      input.value = value;
-      input.dispatchEvent(new Event('input'));
-    };
-    type('station-account', '12');
-    type('station-name', 'Till 12');
-    el.querySelector<HTMLButtonElement>('button[type=submit]')!.click();
+  it('creates the station and closes the dialog on success', async () => {
+    await setup();
+    set('#station-account', '101');
+    set('#station-name', 'Till 1');
+
+    submit();
+
     expect(store.createStation).toHaveBeenCalledWith({
-      data: { account: '12', name: 'Till 12', address: '', contact: '' },
+      data: { account: '101', name: 'Till 1', address: '', contact: '' },
+      callback: expect.any(Function),
+    });
+    store.createStation.mock.calls[0][0].callback();
+    expect(dialogRef.close).toHaveBeenCalledWith(true);
+  });
+
+  it('does not submit while invalid', async () => {
+    await setup();
+
+    submit();
+
+    expect(store.createStation).not.toHaveBeenCalled();
+  });
+
+  it('updates the station passed in dialog data', async () => {
+    await setup({ station: { id: 3, number: 101, name: 'Till 1', createdAt: '', updatedAt: '' } });
+    set('#station-name', 'Front Till');
+
+    submit();
+
+    expect(store.updateStation).toHaveBeenCalledWith({
+      data: { id: 3, account: '101', name: 'Front Till', address: '', contact: '' },
       callback: expect.any(Function),
     });
   });

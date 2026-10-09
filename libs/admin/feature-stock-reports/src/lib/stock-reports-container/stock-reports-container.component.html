@@ -1,19 +1,3 @@
-<h1 class="mb-4 text-2xl font-bold">Stock Take Reports</h1>
-
-<mat-tab-group>
-  <mat-tab label="Current Stock Listing Reports">
-    <div class="pt-4"><pos-frontend-current-stock-listing-report /></div>
-  </mat-tab>
-  <mat-tab label="Print Batch">
-    <div class="pt-4"><pos-frontend-print-batch /></div>
-  </mat-tab>
-  <mat-tab label="Print Stock Adjustment">
-    <div class="pt-4"><pos-frontend-print-adjustment /></div>
-  </mat-tab>
-  <mat-tab label="Batch vs Adjustment">
-    <div class="pt-4"><pos-frontend-adjustment-vs-batch /></div>
-  </mat-tab>
-  <mat-tab label="Stock Takes for Period">
-    <div class="pt-4"><pos-frontend-stock-take-for-period /></div>
-  </mat-tab>
-</mat-tab-group>
+<pos-frontend-reports-layout title="Stock Take Reports" [items]="reports">
+  <router-outlet />
+</pos-frontend-reports-layout>

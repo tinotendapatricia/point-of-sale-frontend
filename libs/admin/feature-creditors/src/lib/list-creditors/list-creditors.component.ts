@@ -1,11 +1,21 @@
-import { ChangeDetectionStrategy, Component, Injector, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  type TemplateRef,
+  computed,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { type PageEvent } from '@angular/material/paginator';
-import { DrawerService } from '@pos-frontend/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { type CreditorFilters, type CreditorsEntity, CreditorStore } from '@pos-frontend/creditors/data-access';
-import { ListCreditorsUiComponent } from '@pos-frontend/creditors/ui';
+import { BmgTable, type TableColumnDef } from '@pos-frontend/shared/ui';
 
-import { CreateCreditorsComponent } from '../create-creditors/create-creditors.component';
-import { type UpdateCreditorData, UpdateCreditorComponent } from '../update-creditor/update-creditor.component';
+import { type CreateCreditorsData, CreateCreditorsComponent } from '../create-creditors/create-creditors.component';
 
 const FIRST_PAGE: CreditorFilters = { page: 0, size: 10 };
 
@@ -13,17 +23,25 @@ const FIRST_PAGE: CreditorFilters = { page: 0, size: 10 };
   selector: 'pos-frontend-list-creditors',
   templateUrl: './list-creditors.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ListCreditorsUiComponent],
+  imports: [BmgTable, MatButtonModule, MatIconModule],
 })
 export class ListCreditorsComponent {
-  private readonly drawer = inject(DrawerService);
-  private readonly injector = inject(Injector);
+  private readonly dialog = inject(MatDialog);
   private readonly creditorStore = inject(CreditorStore);
 
-  protected readonly creditors = this.creditorStore.paginatedCreditors;
+  private readonly actionsTpl = viewChild<TemplateRef<unknown>>('actionsTpl');
+  private readonly currentPage = signal<CreditorFilters>(FIRST_PAGE);
+
   protected readonly total = this.creditorStore.totalCreditors;
   protected readonly loading = this.creditorStore.getPaginatedLoading;
-  private readonly currentPage = signal<CreditorFilters>(FIRST_PAGE);
+  protected readonly dataSource = computed(() => new MatTableDataSource(this.creditorStore.paginatedCreditors()));
+
+  protected readonly columns = computed<TableColumnDef[]>(() => [
+    { key: 'account', header: 'Account' },
+    { key: 'name', header: 'Name' },
+    { key: 'address', header: 'Address' },
+    { key: 'actions', header: '', align: 'right', template: this.actionsTpl() },
+  ]);
 
   constructor() {
     this.load(FIRST_PAGE);
@@ -38,12 +56,8 @@ export class ListCreditorsComponent {
   }
 
   protected add(): void {
-    this.drawer
-      .open<CreateCreditorsComponent, boolean>(CreateCreditorsComponent, {
-        title: 'Create New Creditor',
-        size: 'md',
-        injector: this.injector,
-      })
+    this.dialog
+      .open<CreateCreditorsComponent, CreateCreditorsData, boolean>(CreateCreditorsComponent, { width: '480px' })
       .afterClosed()
       .subscribe((created) => {
         if (created) {
@@ -53,12 +67,10 @@ export class ListCreditorsComponent {
   }
 
   protected edit(creditor: CreditorsEntity): void {
-    this.drawer
-      .open<UpdateCreditorComponent, boolean, UpdateCreditorData>(UpdateCreditorComponent, {
-        title: 'Update Creditor',
-        size: 'md',
+    this.dialog
+      .open<CreateCreditorsComponent, CreateCreditorsData, boolean>(CreateCreditorsComponent, {
+        width: '480px',
         data: { creditor },
-        injector: this.injector,
       })
       .afterClosed()
       .subscribe((updated) => {

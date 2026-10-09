@@ -1,5 +1,5 @@
-<form class="reports-form" [formGroup]="form" (ngSubmit)="requestPdf()">
-  <div class="grid grid-cols-1 gap-x-6 md:grid-cols-2">
+<form class="reports-form" [formGroup]="form" (ngSubmit)="requestPdf(false)">
+  <div class="report-fields">
     @if (isDate()) {
       <div class="field">
         <label class="field-label" for="report-from-date">From Date<span class="required-marker">*</span></label>
@@ -56,16 +56,24 @@
     }
   </div>
 
-  <div class="mt-4 flex gap-2">
+  <div class="report-actions">
     <button type="submit" mat-flat-button [disabled]="loading()">
       @if (loading()) {
         <mat-spinner diameter="18" />
       } @else {
-        Get PDF
+        <mat-icon>visibility</mat-icon>
+        View report
       }
     </button>
+    <button type="button" mat-stroked-button aria-label="Download PDF" [disabled]="loading()" (click)="requestPdf(true)">
+      <mat-icon>download</mat-icon>
+      PDF
+    </button>
     @if (isExcel()) {
-      <button type="button" mat-stroked-button [disabled]="loading()" (click)="requestExcel()">Get Excel</button>
+      <button type="button" mat-stroked-button aria-label="Download Excel" [disabled]="loading()" (click)="requestExcel()">
+        <mat-icon>download</mat-icon>
+        Excel
+      </button>
     }
   </div>
 </form>

@@ -19,4 +19,20 @@ export class Utilities {
       alert('Please disable your Pop-up blocker and try again.');
     }
   }
+
+  /** Saves a file to disk; the extension is taken from the blob's MIME type. */
+  static downloadFile(data: Blob, baseName: string) {
+    const extensions: Record<string, string> = {
+      'application/pdf': 'pdf',
+      'application/vnd.ms-excel': 'xls',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+    };
+    const extension = extensions[data?.type];
+    const url = window.URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = extension ? `${baseName}.${extension}` : baseName;
+    link.click();
+    window.URL.revokeObjectURL(url);
+  }
 }

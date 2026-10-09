@@ -1,11 +1,21 @@
-import { ChangeDetectionStrategy, Component, Injector, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  type TemplateRef,
+  computed,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { type PageEvent } from '@angular/material/paginator';
-import { DrawerService } from '@pos-frontend/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { type DebtorFilters, type DebtorsEntity, DebtorStore } from '@pos-frontend/debtors/data-access';
-import { DebtorsListUiComponent } from '@pos-frontend/debtors/ui';
+import { BmgTable, type TableColumnDef } from '@pos-frontend/shared/ui';
 
-import { CreateDebtorsComponent } from '../create-debtors/create-debtors.component';
-import { type UpdateDebtorsData, UpdateDebtorsComponent } from '../update-debtors/update-debtors.component';
+import { type CreateDebtorsData, CreateDebtorsComponent } from '../create-debtors/create-debtors.component';
 
 const FIRST_PAGE: DebtorFilters = { page: 0, size: 10 };
 
@@ -13,17 +23,26 @@ const FIRST_PAGE: DebtorFilters = { page: 0, size: 10 };
   selector: 'pos-frontend-list-debtors',
   templateUrl: './list-debtors.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DebtorsListUiComponent],
+  imports: [BmgTable, MatButtonModule, MatIconModule],
 })
 export class ListDebtorsComponent {
-  private readonly drawer = inject(DrawerService);
-  private readonly injector = inject(Injector);
+  private readonly dialog = inject(MatDialog);
   private readonly debtorStore = inject(DebtorStore);
 
-  protected readonly debtors = this.debtorStore.paginatedDebtors;
+  private readonly discountTpl = viewChild<TemplateRef<unknown>>('discountTpl');
+  private readonly actionsTpl = viewChild<TemplateRef<unknown>>('actionsTpl');
+  private readonly currentPage = signal<DebtorFilters>(FIRST_PAGE);
+
   protected readonly total = this.debtorStore.totalDebtors;
   protected readonly loading = this.debtorStore.getPaginatedLoading;
-  private readonly currentPage = signal<DebtorFilters>(FIRST_PAGE);
+  protected readonly dataSource = computed(() => new MatTableDataSource(this.debtorStore.paginatedDebtors()));
+
+  protected readonly columns = computed<TableColumnDef[]>(() => [
+    { key: 'account', header: 'Account' },
+    { key: 'name', header: 'Name' },
+    { key: 'discount', header: 'Discount', template: this.discountTpl() },
+    { key: 'actions', header: '', align: 'right', template: this.actionsTpl() },
+  ]);
 
   constructor() {
     this.load(FIRST_PAGE);
@@ -38,12 +57,8 @@ export class ListDebtorsComponent {
   }
 
   protected add(): void {
-    this.drawer
-      .open<CreateDebtorsComponent, boolean>(CreateDebtorsComponent, {
-        title: 'Create New Debtor',
-        size: 'md',
-        injector: this.injector,
-      })
+    this.dialog
+      .open<CreateDebtorsComponent, CreateDebtorsData, boolean>(CreateDebtorsComponent, { width: '480px' })
       .afterClosed()
       .subscribe((created) => {
         if (created) {
@@ -53,12 +68,10 @@ export class ListDebtorsComponent {
   }
 
   protected edit(debtor: DebtorsEntity): void {
-    this.drawer
-      .open<UpdateDebtorsComponent, boolean, UpdateDebtorsData>(UpdateDebtorsComponent, {
-        title: 'Update Debtor',
-        size: 'md',
+    this.dialog
+      .open<CreateDebtorsComponent, CreateDebtorsData, boolean>(CreateDebtorsComponent, {
+        width: '480px',
         data: { debtor },
-        injector: this.injector,
       })
       .afterClosed()
       .subscribe((updated) => {

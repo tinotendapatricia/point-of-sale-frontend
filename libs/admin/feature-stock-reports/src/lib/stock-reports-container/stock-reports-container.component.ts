@@ -1,22 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
-import { AdjustmentVsBatchComponent } from '../adjustment-vs-batch/adjustment-vs-batch.component';
-import { CurrentStockListingReportComponent } from '../current-stock-listing-report/current-stock-listing-report.component';
-import { PrintAdjustmentComponent } from '../print-adjustment/print-adjustment.component';
-import { PrintBatchComponent } from '../print-batch/print-batch.component';
-import { StockTakeForPeriodComponent } from '../stock-take-for-period/stock-take-for-period.component';
+import { RouterOutlet } from '@angular/router';
+import { type ReportNavItem, ReportsLayoutComponent } from '@pos-frontend/shared/ui';
+import { STOCK_REPORT_PAGES } from '../stock-report-pages';
 
 @Component({
   selector: 'pos-frontend-stock-reports-container',
   templateUrl: './stock-reports-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    MatTabsModule,
-    CurrentStockListingReportComponent,
-    PrintBatchComponent,
-    PrintAdjustmentComponent,
-    AdjustmentVsBatchComponent,
-    StockTakeForPeriodComponent,
-  ],
+  imports: [RouterOutlet, ReportsLayoutComponent],
 })
-export class StockReportsContainerComponent {}
+export class StockReportsContainerComponent {
+  protected readonly reports: ReportNavItem[] = STOCK_REPORT_PAGES.map(({ path, label, description }) => ({
+    path,
+    label,
+    description,
+  }));
+}
