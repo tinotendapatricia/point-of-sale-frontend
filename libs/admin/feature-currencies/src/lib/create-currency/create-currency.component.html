@@ -1,1 +1,46 @@
-<pos-frontend-currency-form [loading]="submitting()" (cancelled)="close(false)" (submitted)="create($event)" />
+<pos-frontend-dialog-header [title]="title" [hideClose]="loading()" />
+
+<form class="currency-form" [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="field">
+      <label class="field-label" for="currency-name">Name<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="currency-name" matInput type="text" formControlName="name" />
+        @if (form.controls.name.hasError('required')) {
+          <mat-error>Name is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="currency-code">Code<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="currency-code" matInput type="text" formControlName="code" />
+        @if (form.controls.code.hasError('required')) {
+          <mat-error>Code is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="currency-symbol">Symbol<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="currency-symbol" matInput type="text" formControlName="symbol" />
+        @if (form.controls.symbol.hasError('required')) {
+          <mat-error>Symbol is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button type="button" mat-stroked-button mat-dialog-close [disabled]="loading()">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel }}
+      }
+    </button>
+  </mat-dialog-actions>
+</form>

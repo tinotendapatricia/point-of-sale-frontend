@@ -2,13 +2,14 @@ import { Component, inject, input, output, ChangeDetectionStrategy } from '@angu
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DialogHeaderComponent } from '../dialog-header/dialog-header.component';
 
 @Component({
     selector: 'pos-frontend-action-confirmation-form',
     templateUrl: './action-confirmation-form.component.html',
     styleUrl: './action-confirmation-form.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [MatDialogModule, MatButtonModule, MatProgressSpinnerModule]
+    imports: [DialogHeaderComponent, MatDialogModule, MatButtonModule, MatProgressSpinnerModule]
 })
 export class ActionConfirmationFormComponent {
   private readonly dialogRef = inject(MatDialogRef<ActionConfirmationFormComponent>, { optional: true });

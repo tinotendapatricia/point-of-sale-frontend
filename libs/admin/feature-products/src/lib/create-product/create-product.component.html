@@ -1,1 +1,54 @@
-<pos-frontend-products-form [loading]="submitting()" (cancelled)="close(false)" (submitted)="create($event)" />
+<pos-frontend-dialog-header [title]="title" [subtitle]="product?.code" [hideClose]="loading()" />
+
+<form class="dialog-form" [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="field">
+      <label class="field-label" for="product-name">Name<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="product-name" matInput type="text" formControlName="name" />
+        @if (form.controls.name.hasError('required')) {
+          <mat-error>Name is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="product-code">Code<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="product-code" matInput type="text" formControlName="code" />
+        @if (form.controls.code.hasError('required')) {
+          <mat-error>Code is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="product-barcode">Barcode<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="product-barcode" matInput type="text" formControlName="barcode" />
+        @if (form.controls.barcode.hasError('required')) {
+          <mat-error>Barcode is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <span id="product-active-label" class="field-label">Active<span class="required-marker">*</span></span>
+      <mat-radio-group class="flex gap-4" aria-labelledby="product-active-label" formControlName="active">
+        <mat-radio-button [value]="true">Yes</mat-radio-button>
+        <mat-radio-button [value]="false">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button type="button" mat-stroked-button mat-dialog-close [disabled]="loading()">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel }}
+      }
+    </button>
+  </mat-dialog-actions>
+</form>

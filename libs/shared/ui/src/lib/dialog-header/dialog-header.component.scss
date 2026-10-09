@@ -1,0 +1,9 @@
+/* Undo Material's dialog-title spacing so the header matches the drawer's. */
+.dialog-title.mat-mdc-dialog-title {
+    margin: 0;
+    padding: 0;
+
+    &::before {
+        display: none;
+    }
+}

@@ -2,25 +2,27 @@ import { CurrencyPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Injector,
   type TemplateRef,
   computed,
   inject,
   viewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { type PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DrawerService, PosBadgeDirective } from '@pos-frontend/core';
+import { PosBadgeDirective } from '@pos-frontend/core';
 import {
   type ProductsEntity,
   ProductStore,
 } from '@pos-frontend/products/data-access';
 import { BmgTable, type TableColumnDef } from '@pos-frontend/shared/ui';
-import { CreateProductComponent } from '../create-product/create-product.component';
+import {
+  CreateProductComponent,
+  type CreateProductData,
+} from '../create-product/create-product.component';
 import {
   UpdateCostComponent,
   type UpdateCostData,
@@ -46,10 +48,7 @@ const FIRST_PAGE = { page: 0, size: 10 };
   ],
 })
 export class ListProductsComponent {
-  private readonly drawer = inject(DrawerService);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly injector = inject(Injector);
+  private readonly dialog = inject(MatDialog);
   private readonly productStore = inject(ProductStore);
 
   private readonly costTpl = viewChild<TemplateRef<unknown>>('costTpl');
@@ -86,41 +85,39 @@ export class ListProductsComponent {
   }
 
   protected add(): void {
-    this.drawer
-      .open<CreateProductComponent, boolean>(CreateProductComponent, {
-        title: 'New Product',
-        size: 'md',
-        injector: this.injector,
+    this.dialog
+      .open<CreateProductComponent, CreateProductData, boolean>(CreateProductComponent, {
+        width: '480px',
       })
       .afterClosed()
       .subscribe((created) => this.refreshIf(created));
   }
 
-  protected edit(id: string | number): void {
-    void this.router.navigate(['./update', id], { relativeTo: this.route });
+  protected edit(product: ProductsEntity): void {
+    this.dialog
+      .open<CreateProductComponent, CreateProductData, boolean>(CreateProductComponent, {
+        width: '480px',
+        data: { product },
+      })
+      .afterClosed()
+      .subscribe((updated) => this.refreshIf(updated));
   }
 
   protected updateCost(product: ProductsEntity): void {
-    this.drawer
-      .open<UpdateCostComponent, boolean, UpdateCostData>(UpdateCostComponent, {
-        title: 'Update Cost',
-        subtitle: product.name,
-        size: 'sm',
+    this.dialog
+      .open<UpdateCostComponent, UpdateCostData, boolean>(UpdateCostComponent, {
+        width: '420px',
         data: { product },
-        injector: this.injector,
       })
       .afterClosed()
       .subscribe((updated) => this.refreshIf(updated));
   }
 
   protected updatePrice(product: ProductsEntity): void {
-    this.drawer
-      .open<UpdatePriceComponent, boolean, UpdatePriceData>(UpdatePriceComponent, {
-        title: 'Update Price',
-        subtitle: product.name,
-        size: 'sm',
+    this.dialog
+      .open<UpdatePriceComponent, UpdatePriceData, boolean>(UpdatePriceComponent, {
+        width: '420px',
         data: { product },
-        injector: this.injector,
       })
       .afterClosed()
       .subscribe((updated) => this.refreshIf(updated));

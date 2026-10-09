@@ -2,7 +2,6 @@ import { CurrencyPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Injector,
   type TemplateRef,
   computed,
   inject,
@@ -14,14 +13,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { type PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DrawerService } from '@pos-frontend/core';
 import {
   type CurrencyEntity,
   CurrencyStore,
 } from '@pos-frontend/currencies/data-access';
 import { BmgTable, type TableColumnDef } from '@pos-frontend/shared/ui';
-import { CreateCurrencyComponent } from '../create-currency/create-currency.component';
+import {
+  CreateCurrencyComponent,
+  type CreateCurrencyData,
+} from '../create-currency/create-currency.component';
 import {
   MakeDefaultComponent,
   type MakeDefaultData,
@@ -30,6 +30,7 @@ import {
   UpdateRateComponent,
   type UpdateRateData,
 } from '../update-rate/update-rate.component';
+import { MatCardModule } from '@angular/material/card';
 
 const FIRST_PAGE = { page: 0, size: 10 };
 
@@ -37,14 +38,10 @@ const FIRST_PAGE = { page: 0, size: 10 };
   selector: 'pos-frontend-currencies-list',
   templateUrl: './currencies-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BmgTable, MatIconModule, MatButtonModule, MatMenuModule, CurrencyPipe],
+  imports: [BmgTable, MatIconModule, MatButtonModule, MatMenuModule, CurrencyPipe, MatCardModule],
 })
 export class CurrenciesListComponent {
   private readonly dialog = inject(MatDialog);
-  private readonly drawer = inject(DrawerService);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly injector = inject(Injector);
   private readonly currencyStore = inject(CurrencyStore);
 
   private readonly rateTpl = viewChild<TemplateRef<unknown>>('rateTpl');
@@ -78,18 +75,22 @@ export class CurrenciesListComponent {
   }
 
   protected add(): void {
-    this.drawer
-      .open<CreateCurrencyComponent, boolean>(CreateCurrencyComponent, {
-        title: 'New Currency',
-        size: 'md',
-        injector: this.injector,
+    this.dialog
+      .open<CreateCurrencyComponent, CreateCurrencyData, boolean>(CreateCurrencyComponent, {
+        width: '480px',
       })
       .afterClosed()
       .subscribe((created) => this.refreshIf(created));
   }
 
-  protected edit(id: string | number): void {
-    void this.router.navigate(['./update', id], { relativeTo: this.route });
+  protected edit(currency: CurrencyEntity): void {
+    this.dialog
+      .open<CreateCurrencyComponent, CreateCurrencyData, boolean>(CreateCurrencyComponent, {
+        width: '480px',
+        data: { currency },
+      })
+      .afterClosed()
+      .subscribe((updated) => this.refreshIf(updated));
   }
 
   protected makeDefault(currency: CurrencyEntity): void {
@@ -103,13 +104,10 @@ export class CurrenciesListComponent {
   }
 
   protected updateRate(currency: CurrencyEntity): void {
-    this.drawer
-      .open<UpdateRateComponent, boolean, UpdateRateData>(UpdateRateComponent, {
-        title: 'Update Rate',
-        subtitle: currency.code,
-        size: 'sm',
+    this.dialog
+      .open<UpdateRateComponent, UpdateRateData, boolean>(UpdateRateComponent, {
+        width: '420px',
         data: { currency },
-        injector: this.injector,
       })
       .afterClosed()
       .subscribe((updated) => this.refreshIf(updated));

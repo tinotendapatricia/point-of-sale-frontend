@@ -1,73 +1,89 @@
-@switch (type()) {
-  @case ('card') {
-    <mat-card>
-      <ng-container *ngTemplateOutlet="table" />
-    </mat-card>
-  }
-  @default {
-    <ng-container *ngTemplateOutlet="table" />
-  }
-}
+@switch (type()) { @case ('card') {
+<mat-card>
+  <ng-container *ngTemplateOutlet="table" />
+</mat-card>
+} @default {
+<ng-container *ngTemplateOutlet="table" />
+} }
 
 <ng-template #table>
   <div class="w-full overflow-x-auto">
     <div class="relative my-4">
-      <ng-content select="header" />
-
-      <table class="w-full bg-transparent" mat-table [dataSource]="dataSource()">
+      <div class="py-4">
+        <ng-content select="header" />
+      </div>
+      <table
+        class="w-full bg-transparent mt-3"
+        mat-table
+        [dataSource]="dataSource()"
+      >
         <caption class="sr-only" [innerText]="caption()"></caption>
 
         @for (col of columns(); track col) {
-          <ng-container [matColumnDef]="col.key">
-            <th *matHeaderCellDef mat-header-cell [style.text-align]="col.align">{{ col.header }}</th>
-            <td *matCellDef="let row" mat-cell [style.text-align]="col.align">
-              @if (loading()) {
-                <div bmgSkeleton="line" class="w-full" height="16px"></div>
-              } @else {
-                @if (!col.template) {
-                  {{ row[col.key] }}
-                } @else {
-                  <ng-container *ngTemplateOutlet="col.template; context: { $implicit: row, col: col }" />
-                }
+        <ng-container [matColumnDef]="col.key">
+          <th *matHeaderCellDef mat-header-cell [style.text-align]="col.align">
+            {{ col.header }}
+          </th>
+          <td *matCellDef="let row" mat-cell [style.text-align]="col.align">
+            @if (loading()) {
+            <div bmgSkeleton="line" class="w-full" height="16px"></div>
+            } @else { @if (!col.template) { {{ row[col.key] }} } @else {
+            <ng-container
+              *ngTemplateOutlet="col.template; context: { $implicit: row, col: col }"
+            />
+            } }
+          </td>
+        </ng-container>
+        } @if (paginated() || footer()) {
+        <ng-container matColumnDef="footer">
+          <td
+            *matFooterCellDef
+            class="border-0 px-0"
+            mat-footer-cell
+            [attr.colspan]="displayedColumns().length"
+          >
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <ng-content select="footer" />
+              @if (paginated()) {
+              <mat-paginator
+                class="mt-4"
+                [class.pointer-events-none]="loading()"
+                [length]="total()"
+                [pageSizeOptions]="[10, 25, 100]"
+                [showFirstLastButtons]="true"
+                (page)="page.emit($event)"
+              />
               }
-            </td>
-          </ng-container>
-        }
-        @if (paginated() || footer()) {
-          <ng-container matColumnDef="footer">
-            <td *matFooterCellDef class="border-0 px-0" mat-footer-cell [attr.colspan]="displayedColumns().length">
-              <div class="flex flex-wrap items-center justify-between gap-4">
-                <ng-content select="footer" />
-                @if (paginated()) {
-                  <mat-paginator
-                    class="mt-4"
-                    [class.pointer-events-none]="loading()"
-                    [length]="total()"
-                    [pageSizeOptions]="[10, 25, 100]"
-                    [showFirstLastButtons]="true"
-                    (page)="page.emit($event)" />
-                }
-              </div>
-            </td>
-          </ng-container>
+            </div>
+          </td>
+        </ng-container>
         }
 
         <tr *matHeaderRowDef="displayedColumns()" mat-header-row></tr>
         <tr *matRowDef="let row; columns: displayedColumns()" mat-row></tr>
         @if (paginated() || footer()) {
-          <tr *matFooterRowDef="['footer']" mat-footer-row></tr>
+        <tr *matFooterRowDef="['footer']" mat-footer-row></tr>
         }
 
         <tr *matNoDataRow>
           <td class="mat-cell" [attr.colspan]="displayedColumns().length">
             <div class="py-6 w-full flex flex-col justify-center items-center">
-              <span class="font-semibold">No {{ caption() | lowercase }} found</span>
-              <span class="text-md text-secondary">You don't have any {{ caption() | lowercase }} yet.</span>
+              <span class="font-semibold"
+                >No {{ caption() | lowercase }} found</span
+              >
+              <span class="text-md text-secondary"
+                >You don't have any {{ caption() | lowercase }} yet.</span
+              >
               @if (action()) {
-                <button class="mt-2" type="button" matButton="outlined" (click)="actioned.emit()">
-                  <mat-icon>add</mat-icon>
-                  Add {{ caption() | lowercase }}
-                </button>
+              <button
+                class="mt-2"
+                type="button"
+                matButton="outlined"
+                (click)="actioned.emit()"
+              >
+                <mat-icon>add</mat-icon>
+                Add {{ caption() | lowercase }}
+              </button>
               }
             </div>
           </td>

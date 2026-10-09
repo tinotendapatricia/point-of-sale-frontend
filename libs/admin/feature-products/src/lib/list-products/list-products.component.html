@@ -11,7 +11,7 @@
 </ng-template>
 
 <ng-template #actionsTpl let-row>
-  <button type="button" mat-icon-button aria-label="Edit product" (click)="edit(row.id)">
+  <button type="button" mat-icon-button aria-label="Edit product" (click)="edit(row)">
     <mat-icon class="text-green-600">edit</mat-icon>
   </button>
   <button type="button" mat-icon-button aria-label="More actions" [matMenuTriggerFor]="menu">
@@ -23,25 +23,28 @@
   </mat-menu>
 </ng-template>
 
-<pos-frontend-table
-  caption="Products"
-  [action]="true"
-  [columns]="columns()"
-  [data]="dataSource()"
-  [loading]="loading()"
-  [paginated]="true"
-  [total]="total()"
-  (actioned)="add()"
-  (page)="onPage($event)"
+<div
+  class="bg-white  px-6 mx-6 mt-4 border border-gray-200 rounded-lg shadow-sm"
 >
-  <header class="flex flex-wrap items-center justify-between gap-4 px-4 py-2">
-    <div>
-      <h1 class="text-2xl font-bold">Products</h1>
-      <p class="text-sm text-gray-600">Manage your product inventory</p>
-    </div>
-    <button type="button" mat-flat-button (click)="add()">
-      <mat-icon class="text-green-600">add_circle</mat-icon>
-      Add New
-    </button>
-  </header>
-</pos-frontend-table>
+  <pos-frontend-table
+    caption="Products"
+    [action]="true"
+    [columns]="columns()"
+    [data]="dataSource()"
+    [loading]="loading()"
+    [paginated]="true"
+    [total]="total()"
+    (actioned)="add()"
+    (page)="onPage($event)"
+  >
+    <header class="flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold">Products</h1>
+        <span class="text-sm text-gray-500">
+          Manage your product inventory
+        </span>
+      </div>
+      <button type="button" mat-flat-button (click)="add()">Add New</button>
+    </header>
+  </pos-frontend-table>
+</div>

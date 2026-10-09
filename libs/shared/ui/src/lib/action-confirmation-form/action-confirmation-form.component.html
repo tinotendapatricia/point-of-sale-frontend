@@ -1,12 +1,12 @@
-<h2 mat-dialog-title class="title">{{ title() }}</h2>
+<pos-frontend-dialog-header [title]="title()" [hideClose]="loading()" />
 <mat-dialog-content>
-  <p>{{ message() }}</p>
+  <p class="message">{{ message() }}</p>
 </mat-dialog-content>
-<mat-dialog-actions class="modal-footer">
-  <button mat-stroked-button color="warn" type="button" [disabled]="loading()" (click)="cancel()">
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" [disabled]="loading()" (click)="cancel()">
     No
   </button>
-  <button mat-flat-button color="primary" type="button" [disabled]="loading()" (click)="proceed.emit()">
+  <button mat-flat-button type="button" [disabled]="loading()" (click)="proceed.emit()">
     @if (loading()) {
       <mat-spinner diameter="18" />
     } @else {

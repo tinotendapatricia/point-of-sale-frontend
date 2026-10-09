@@ -1,46 +1,62 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { DRAWER_DATA, DrawerRef } from '@pos-frontend/core';
 import { ProductStore } from '@pos-frontend/products/data-access';
 import { UpdateCostComponent } from './update-cost.component';
 
 describe('UpdateCostComponent', () => {
-  let component: UpdateCostComponent;
   let fixture: ComponentFixture<UpdateCostComponent>;
   const store = { updateLoading: () => false, updateCost: jest.fn() };
-  const drawerRef = { close: jest.fn() };
+  const dialogRef = { close: jest.fn() };
+  const product = { id: 7, name: 'Sugar 2kg', cost: [{ value: 1.5 }] };
+
+  const el = () => fixture.nativeElement as HTMLElement;
+  const input = () => el().querySelector<HTMLInputElement>('#cost-value')!;
+  const submit = () =>
+    el().querySelector<HTMLButtonElement>('button[type=submit]')!.click();
 
   beforeEach(async () => {
+    store.updateCost.mockClear();
+    dialogRef.close.mockClear();
     await TestBed.configureTestingModule({
       imports: [UpdateCostComponent],
       providers: [
         provideNoopAnimations(),
         { provide: ProductStore, useValue: store },
-        { provide: DrawerRef, useValue: drawerRef },
-        { provide: DRAWER_DATA, useValue: { product: { id: 11, name: 'Cola' } } },
+        { provide: MatDialogRef, useValue: dialogRef },
+        { provide: MAT_DIALOG_DATA, useValue: { product } },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UpdateCostComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('pre-fills the current cost and shows the product name', () => {
+    expect(input().value).toBe('1.5');
+    expect(el().textContent).toContain('Sugar 2kg');
   });
 
-  it('sends an UpdateCostRequest for the drawer product', () => {
-    const el: HTMLElement = fixture.nativeElement;
-    const amount = el.querySelector<HTMLInputElement>('#cost-price-amount')!;
-    amount.value = '3';
-    amount.dispatchEvent(new Event('input'));
+  it('updates the cost and closes the dialog', () => {
+    input().value = '2';
+    input().dispatchEvent(new Event('input'));
 
-    el.querySelector<HTMLButtonElement>('button[type=submit]')!.click();
+    submit();
 
     expect(store.updateCost).toHaveBeenCalledWith({
-      data: { id: 11, cost: 3, effectiveDate: '' },
+      data: { id: 7, cost: 2, effectiveDate: '' },
       callback: expect.any(Function),
     });
+    store.updateCost.mock.calls[0][0].callback();
+    expect(dialogRef.close).toHaveBeenCalledWith(true);
+  });
+
+  it('does not submit a negative cost', () => {
+    input().value = '-1';
+    input().dispatchEvent(new Event('input'));
+
+    submit();
+
+    expect(store.updateCost).not.toHaveBeenCalled();
   });
 });

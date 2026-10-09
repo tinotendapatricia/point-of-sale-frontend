@@ -1,1 +1,35 @@
-<pos-frontend-rate-form [loading]="submitting()" (cancelled)="cancel()" (submitted)="update($event)" />
+<pos-frontend-dialog-header title="Update Rate" [subtitle]="currency.code" [hideClose]="loading()" />
+
+<form class="rate-form" [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="field">
+      <label class="field-label" for="rate-value">Rate<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="rate-value" matInput type="number" min="0" formControlName="rate" />
+        @if (form.controls.rate.hasError('required')) {
+          <mat-error>Rate is required</mat-error>
+        } @else if (form.controls.rate.hasError('min')) {
+          <mat-error>Rate cannot be negative</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="rate-effective-date">Effective Date</label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="rate-effective-date" matInput type="date" formControlName="effectiveDate" />
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button type="button" mat-stroked-button mat-dialog-close [disabled]="loading()">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        Update
+      }
+    </button>
+  </mat-dialog-actions>
+</form>

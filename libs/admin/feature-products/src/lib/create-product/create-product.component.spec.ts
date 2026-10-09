@@ -1,54 +1,100 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { provideRouter } from '@angular/router';
-import { DrawerRef } from '@pos-frontend/core';
-import { ProductStore } from '@pos-frontend/products/data-access';
-import { CreateProductComponent } from './create-product.component';
+import {
+  type ProductsEntity,
+  ProductStore,
+} from '@pos-frontend/products/data-access';
+import {
+  CreateProductComponent,
+  type CreateProductData,
+} from './create-product.component';
 
 describe('CreateProductComponent', () => {
-  let component: CreateProductComponent;
   let fixture: ComponentFixture<CreateProductComponent>;
-  const store = { createLoading: () => false, createProduct: jest.fn() };
-  const drawerRef = { close: jest.fn() };
+  let store: Record<string, jest.Mock | (() => boolean)>;
+  let dialogRef: { close: jest.Mock };
 
-  beforeEach(async () => {
+  const setup = async (data: CreateProductData | null = null) => {
+    store = {
+      createLoading: () => false,
+      updateLoading: () => false,
+      createProduct: jest.fn(),
+      updateProduct: jest.fn(),
+    };
+    dialogRef = { close: jest.fn() };
     await TestBed.configureTestingModule({
       imports: [CreateProductComponent],
       providers: [
-        provideRouter([]),
         provideNoopAnimations(),
         { provide: ProductStore, useValue: store },
-        { provide: DrawerRef, useValue: drawerRef },
+        { provide: MatDialogRef, useValue: dialogRef },
+        { provide: MAT_DIALOG_DATA, useValue: data },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CreateProductComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  };
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  const el = () => fixture.nativeElement as HTMLElement;
+  const fill = (id: string, value: string) => {
+    const input = el().querySelector<HTMLInputElement>(id)!;
+    input.value = value;
+    input.dispatchEvent(new Event('input'));
+  };
+  const submit = () =>
+    el().querySelector<HTMLButtonElement>('button[type=submit]')!.click();
 
-  it('creates the product and closes the drawer on success', () => {
-    const el: HTMLElement = fixture.nativeElement;
-    const fill = (id: string, value: string) => {
-      const input = el.querySelector<HTMLInputElement>(id)!;
-      input.value = value;
-      input.dispatchEvent(new Event('input'));
-    };
-    fill('#product-name', 'Cola');
-    fill('#product-code', 'C1');
-    fill('#product-barcode', '600100');
+  it('creates a product and closes the dialog', async () => {
+    await setup();
+    fill('#product-name', 'Sugar 2kg');
+    fill('#product-code', 'SUG2');
+    fill('#product-barcode', '600123');
 
-    el.querySelector<HTMLButtonElement>('button[type=submit]')!.click();
+    submit();
 
-    expect(store.createProduct).toHaveBeenCalledWith({
-      data: { name: 'Cola', code: 'C1', barcode: '600100', active: false },
+    expect(store['createProduct']).toHaveBeenCalledWith({
+      data: { name: 'Sugar 2kg', code: 'SUG2', barcode: '600123', active: false },
       callback: expect.any(Function),
     });
-    store.createProduct.mock.calls[0][0].callback();
-    expect(drawerRef.close).toHaveBeenCalledWith(true);
+    (store['createProduct'] as jest.Mock).mock.calls[0][0].callback();
+    expect(dialogRef.close).toHaveBeenCalledWith(true);
+  });
+
+  it('does not submit while invalid', async () => {
+    await setup();
+
+    submit();
+
+    expect(store['createProduct']).not.toHaveBeenCalled();
+  });
+
+  it('updates the product passed in dialog data', async () => {
+    const product: ProductsEntity = {
+      id: 7,
+      name: 'Sugar 2kg',
+      code: 'SUG2',
+      barcode: '600123',
+      active: true,
+      price: [],
+      cost: [],
+      taxable: '',
+      quantity: 0,
+      reorderLevel: 0,
+      mass: '',
+      measuredIn: '',
+      createdAt: '',
+      updatedAt: '',
+    };
+    await setup({ product });
+    fill('#product-name', 'Sugar 2 kg');
+
+    submit();
+
+    expect(store['updateProduct']).toHaveBeenCalledWith({
+      data: { ...product, name: 'Sugar 2 kg' },
+      callback: expect.any(Function),
+    });
   });
 });

@@ -1,48 +1,62 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { DRAWER_DATA, DrawerRef } from '@pos-frontend/core';
 import { ProductStore } from '@pos-frontend/products/data-access';
 import { UpdatePriceComponent } from './update-price.component';
 
 describe('UpdatePriceComponent', () => {
-  let component: UpdatePriceComponent;
   let fixture: ComponentFixture<UpdatePriceComponent>;
   const store = { updateLoading: () => false, updatePrice: jest.fn() };
-  const drawerRef = { close: jest.fn() };
+  const dialogRef = { close: jest.fn() };
+  const product = { id: 7, name: 'Sugar 2kg', price: [{ value: 1.5 }] };
+
+  const el = () => fixture.nativeElement as HTMLElement;
+  const input = () => el().querySelector<HTMLInputElement>('#price-value')!;
+  const submit = () =>
+    el().querySelector<HTMLButtonElement>('button[type=submit]')!.click();
 
   beforeEach(async () => {
+    store.updatePrice.mockClear();
+    dialogRef.close.mockClear();
     await TestBed.configureTestingModule({
       imports: [UpdatePriceComponent],
       providers: [
         provideNoopAnimations(),
         { provide: ProductStore, useValue: store },
-        { provide: DrawerRef, useValue: drawerRef },
-        { provide: DRAWER_DATA, useValue: { product: { id: 11, name: 'Cola' } } },
+        { provide: MatDialogRef, useValue: dialogRef },
+        { provide: MAT_DIALOG_DATA, useValue: { product } },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UpdatePriceComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('pre-fills the current price and shows the product name', () => {
+    expect(input().value).toBe('1.5');
+    expect(el().textContent).toContain('Sugar 2kg');
   });
 
-  it('sends an UpdatePriceRequest and closes on success', () => {
-    const el: HTMLElement = fixture.nativeElement;
-    const amount = el.querySelector<HTMLInputElement>('#cost-price-amount')!;
-    amount.value = '4.5';
-    amount.dispatchEvent(new Event('input'));
+  it('updates the price and closes the dialog', () => {
+    input().value = '2';
+    input().dispatchEvent(new Event('input'));
 
-    el.querySelector<HTMLButtonElement>('button[type=submit]')!.click();
+    submit();
 
     expect(store.updatePrice).toHaveBeenCalledWith({
-      data: { id: 11, price: 4.5, effectiveDate: '' },
+      data: { id: 7, price: 2, effectiveDate: '' },
       callback: expect.any(Function),
     });
     store.updatePrice.mock.calls[0][0].callback();
-    expect(drawerRef.close).toHaveBeenCalledWith(true);
+    expect(dialogRef.close).toHaveBeenCalledWith(true);
+  });
+
+  it('does not submit a negative price', () => {
+    input().value = '-1';
+    input().dispatchEvent(new Event('input'));
+
+    submit();
+
+    expect(store.updatePrice).not.toHaveBeenCalled();
   });
 });

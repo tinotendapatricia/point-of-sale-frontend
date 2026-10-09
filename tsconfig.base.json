@@ -120,7 +120,6 @@
       "@pos-frontend/currencies/data-access": [
         "libs/currencies/data-access/src/index.ts"
       ],
-      "@pos-frontend/currencies/ui": ["libs/currencies/ui/src/index.ts"],
       "@pos-frontend/debtors/data-access": [
         "libs/debtors/data-access/src/index.ts"
       ],
@@ -136,7 +135,6 @@
       "@pos-frontend/products/data-access": [
         "libs/products/data-access/src/index.ts"
       ],
-      "@pos-frontend/products/ui": ["libs/products/ui/src/index.ts"],
       "@pos-frontend/purchase-orders/data-access": [
         "libs/purchase-orders/data-access/src/index.ts"
       ],
