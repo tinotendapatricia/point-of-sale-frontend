@@ -1,16 +1,13 @@
+import { type BaseEntity } from '@pos-frontend/core';
 import { type DebtorsEntity } from '@pos-frontend/debtors/data-access';
 
 /** An invoice (sale or refund) as returned by `/invoices/create`. */
-export interface PosEntity {
-  id: string | number; // Primary ID
+export interface PosEntity extends BaseEntity {
   invoiceNumber: number;
   totalAmountExcVat: string;
   totalVat: string;
   total: string;
   debtor: DebtorsEntity;
-  createdBy: string;
-  createdAt: Date;
-  updatedAt: Date;
   products: SaleProducts[];
 }
 

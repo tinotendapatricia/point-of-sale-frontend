@@ -7,7 +7,11 @@
 // POS Admin console design system (Industry) — see design_handoff_pos_admin/README.md.
 // Applies once, globally, per that handoff's own instructions: this flattens shape,
 // elevation and surface tint for every Material component in this app.
-@use './styles/pos-admin-theme' as pos-theme;
+@use '../../../libs/shared/ui/src/styles/pos-theme' as pos-theme;
+
+// DrawerService (@pos-frontend/core) renders inside .cdk-overlay-container,
+// outside every component's view, so its panel/backdrop classes must be global.
+@use '../../../libs/core/src/lib/services/drawer/drawer';
 
 // Tailwind utilities. Preflight is disabled (see tailwind.config.js) because
 // this app's existing Material/Clarity/pos-theme styling was never built to
@@ -16,13 +20,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* You can add global styles to this file, and also import other style files */
-@import '~material-icons/iconfont/material-icons.css';
-@import '~@ng-select/ng-select/themes/default.theme.css';
-
-// DrawerService (@pos-frontend/core) renders inside .cdk-overlay-container,
-// outside every component's view, so its panel/backdrop classes must be global.
-@import '../../../libs/core/src/lib/services/drawer/drawer';
+/* You can add global styles to this file. Third-party CSS (material-icons,
+   ng-select theme) is loaded via the "styles" array in project.json. */
 
 .required::after{
   content: '*';

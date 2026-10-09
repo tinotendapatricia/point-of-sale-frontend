@@ -1,5 +1,5 @@
 <pos-frontend-login-form
-  title="Octopus Login"
+  title="Till Login"
   [loading]="loading()"
   [isClient]="true"
   [station]="station()"
@@ -8,7 +8,9 @@
 />
 
 @if (expired()) {
-  <p class="license-warning license-expired text-center">LICENSE EXPIRED.PLEASE RENEW</p>
-} @else {
-  <p class="license-warning text-center">Your license will expire on {{ expiryDate() }} Please renew.</p>
+  <p class="license-banner expired">License expired. Please renew.</p>
+} @else if (expiringSoon()) {
+  <p class="license-banner">
+    Your license expires on {{ expiryDate() }} ({{ daysRemaining() }} day(s) left). Please renew.
+  </p>
 }

@@ -1,8 +1,7 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { of } from 'rxjs';
-import { ConfigurationService } from '@pos-frontend/configurations/data-access';
+import { ConfigurationStore } from '@pos-frontend/configurations/data-access';
 import { ToastService } from '@pos-frontend/core';
 import { getStationNumber } from '@pos-frontend/pos/data-access';
 import { ConfigureStationComponent } from './configure-station.component';
@@ -22,8 +21,11 @@ describe('ConfigureStationComponent', () => {
         provideNoopAnimations(),
         { provide: MatDialogRef, useValue: dialogRef },
         {
-          provide: ConfigurationService,
-          useValue: { getAllConfigurations: () => of([{ stationNumber: 3 }]) },
+          provide: ConfigurationStore,
+          useValue: {
+            configurations: () => [{ stationNumber: 3 }],
+            getManyLoading: () => false,
+          },
         },
         { provide: ToastService, useValue: toast },
       ],
@@ -34,16 +36,31 @@ describe('ConfigureStationComponent', () => {
     fixture.detectChanges();
   });
 
+  const enter = (stationNumber: number | null) => {
+    const host = component as unknown as {
+      form: { patchValue(v: object): void };
+      submit(): void;
+    };
+    host.form.patchValue({ stationNumber });
+    host.submit();
+  };
+
   it('stores a known station and closes', () => {
-    component['setStation']({ stationNumber: 3 });
+    enter(3);
     expect(getStationNumber()).toBe('3');
     expect(dialogRef.close).toHaveBeenCalledWith(true);
   });
 
   it('rejects an unknown station', () => {
-    component['setStation']({ stationNumber: 8 });
+    enter(8);
     expect(getStationNumber()).toBeNull();
     expect(toast.error).toHaveBeenCalled();
+    expect(dialogRef.close).not.toHaveBeenCalled();
+  });
+
+  it('does nothing without a station number', () => {
+    enter(null);
+    expect(toast.error).not.toHaveBeenCalled();
     expect(dialogRef.close).not.toHaveBeenCalled();
   });
 });

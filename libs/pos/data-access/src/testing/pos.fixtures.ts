@@ -1,4 +1,4 @@
-import { type CreateSaleRequest, type PosEntity } from '../lib/+state/pos.models';
+import { type CreateSaleRequest } from '../lib/pos.model';
 
 /** Shared test data for the pos data-access specs. */
 export const saleRequest: CreateSaleRequest = {
@@ -15,24 +15,3 @@ export const saleRequest: CreateSaleRequest = {
   changeRate: null,
   changeAmount: null,
 };
-
-export const createInvoice = (id: string | number = 1): PosEntity => ({
-  id,
-  invoiceNumber: 42,
-  totalAmountExcVat: '10',
-  totalVat: '0',
-  total: '10',
-  debtor: {
-    id: 1,
-    name: 'Cash',
-    account: 'CASH',
-    discount: 0,
-    currency: { id: 1, name: 'US Dollar', rate: [] },
-    createdAt: '',
-    updatedAt: '',
-  },
-  createdBy: 'admin',
-  createdAt: new Date(0),
-  updatedAt: new Date(0),
-  products: [],
-});

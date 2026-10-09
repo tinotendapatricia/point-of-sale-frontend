@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { ApiService } from '@pos-frontend/shared/data-access';
-import { type CreateSaleRequest, type PosEntity } from '../+state/pos.models';
+import { type CreateSaleRequest, type PosEntity } from './pos.model';
 
 @Injectable({
   providedIn: 'root',

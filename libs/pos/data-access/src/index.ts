@@ -1,14 +1,4 @@
-import * as PosActions from './lib/+state/pos.actions';
-
-import * as PosFeature from './lib/+state/pos.reducer';
-
-import * as PosSelectors from './lib/+state/pos.selectors';
-
-export * from './lib/+state/pos.facade';
-
-export * from './lib/+state/pos.models';
-
-export { PosActions, PosFeature, PosSelectors };
-export * from './lib/pos-data-access.providers';
-export * from './lib/services/pos.service';
+export * from './lib/pos.model';
+export * from './lib/pos.service';
+export * from './lib/pos.store';
 export * from './lib/station-storage';

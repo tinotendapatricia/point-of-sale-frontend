@@ -1,5 +1,5 @@
 // Uses the POS Admin ("Industry") design tokens where the host app defines them
-// (apps/admin-portal/src/styles/_pos-admin-theme.scss) via var(--token, fallback).
+// (libs/shared/ui/src/styles/_pos-theme.scss) via var(--token, fallback).
 // Apps that don't define these tokens (e.g. customer-portal) get the fallback
 // values, which match this component's pre-existing, un-themed look.
 

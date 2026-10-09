@@ -7,13 +7,15 @@
   "tags": ["scope:pos", "type:app"],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/admin-portal",
+        "outputPath": {
+          "base": "dist/apps/admin-portal",
+          "browser": ""
+        },
         "index": "apps/admin-portal/src/index.html",
-        "main": "apps/admin-portal/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/admin-portal/tsconfig.app.json",
         "assets": [
@@ -21,10 +23,14 @@
           "apps/admin-portal/src/assets"
         ],
         "styles": [
-          "node_modules/izitoast/dist/css/iziToast.min.css",
+          "apps/admin-portal/src/styles/vendor/iziToast.css",
+          "node_modules/material-icons/iconfont/material-icons.css",
+          "node_modules/@ng-select/ng-select/themes/default.theme.css",
           "apps/admin-portal/src/styles.scss"
         ],
-        "scripts": []
+        "scripts": [],
+        "browser": "apps/admin-portal/src/main.ts",
+        "allowedCommonJsDependencies": ["izitoast"]
       },
       "configurations": {
         "production": {
@@ -43,9 +49,7 @@
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -53,7 +57,7 @@
       }
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "defaultConfiguration": "development",
       "continuous": true,
       "configurations": {
@@ -66,7 +70,7 @@
       }
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "admin-portal:build"
       }

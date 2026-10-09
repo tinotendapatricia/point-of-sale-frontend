@@ -5,13 +5,11 @@ import {
   inject,
   untracked,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ClrLoadingState } from '@clr/angular';
 import { CurrencyStore } from '@pos-frontend/currencies/data-access';
 import { DebtorStore } from '@pos-frontend/debtors/data-access';
 import {
   type CreateSaleRequest,
-  PosFacade,
+  PosStore,
   getStationNumber,
 } from '@pos-frontend/pos/data-access';
 import { ProductStore } from '@pos-frontend/products/data-access';
@@ -28,15 +26,13 @@ export class RefundHomeComponent {
   private readonly productStore = inject(ProductStore);
   private readonly debtorStore = inject(DebtorStore);
   private readonly currencyStore = inject(CurrencyStore);
-  private readonly posFacade = inject(PosFacade);
+  private readonly posStore = inject(PosStore);
 
   protected readonly products = this.productStore.products;
   protected readonly debtors = this.debtorStore.debtors;
   protected readonly currency = this.currencyStore.defaultCurrency;
-  protected readonly btnState = toSignal(this.posFacade.btnState$, {
-    initialValue: ClrLoadingState.DEFAULT,
-  });
-  protected readonly sale = toSignal(this.posFacade.selectedPos$);
+  protected readonly submitting = this.posStore.createLoading;
+  protected readonly sale = this.posStore.pos;
   protected readonly station = getStationNumber();
 
   constructor() {
@@ -49,7 +45,8 @@ export class RefundHomeComponent {
   }
 
   protected createSale(sale: CreateSaleRequest): void {
-    this.posFacade.createNewPos(sale);
+    // The till clears itself when the new invoice lands in the store.
+    this.posStore.createPos({ data: sale, callback: () => undefined });
   }
 
   private loadTillData(): void {

@@ -1,5 +1,7 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { AuthStore } from '@pos-frontend/auth/data-access';
+import { CurrencyStore } from '@pos-frontend/currencies/data-access';
 import { UserStore } from '@pos-frontend/users/data-access';
 import { HeaderComponent } from './header.component';
 
@@ -16,6 +18,11 @@ describe('HeaderComponent', () => {
     await TestBed.configureTestingModule({
       imports: [HeaderComponent],
       providers: [
+        provideRouter([]),
+        {
+          provide: CurrencyStore,
+          useValue: { defaultCurrency: () => ({ code: 'USD' }) },
+        },
         { provide: AuthStore, useValue: authStore },
         { provide: UserStore, useValue: userStore },
       ],
@@ -28,6 +35,7 @@ describe('HeaderComponent', () => {
   it('loads and shows the signed-in user', () => {
     expect(userStore.getUserProfile).toHaveBeenCalled();
     expect(fixture.nativeElement.textContent).toContain('Jane Till');
+    expect(fixture.nativeElement.textContent).toContain('USD');
   });
 
   it('logs out', () => {

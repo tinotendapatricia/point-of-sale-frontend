@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,7 +11,7 @@ import { CurrencyStore } from '@pos-frontend/currencies/data-access';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgOptimizedImage, RouterLink, MatMenuModule, MatIconModule, MatButtonModule],
+  imports: [ RouterLink, MatMenuModule, MatIconModule, MatButtonModule],
 })
 export class HeaderComponent {
   private readonly authStore = inject(AuthStore);

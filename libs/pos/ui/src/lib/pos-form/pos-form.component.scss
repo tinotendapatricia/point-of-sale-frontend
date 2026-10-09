@@ -1,442 +1,189 @@
+:host {
+  display: block;
+  height: 100%;
+}
 
-  .currency{
+.till {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: var(--space-4);
+  height: 100%;
+  min-height: 0;
+}
+
+.till-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: var(--space-4);
+}
+
+.till-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px 180px;
+  gap: var(--space-3);
+  align-items: end;
+}
+
+.till-cart {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  margin-top: var(--space-3);
+  border-top: 1px solid var(--color-divider);
+}
+
+.cart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-8) var(--space-4);
+  color: var(--color-neutral-600);
+  text-align: center;
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    color: var(--color-neutral-400);
+  }
+
+  p {
+    margin: 0;
+    font-size: 12px;
+  }
+}
+
+.actions-cell {
+  width: 40px;
+  text-align: right;
+}
+
+.remove-icon {
+  color: var(--alert);
+}
+
+.till-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.till-summary,
+.till-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+.summary-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mode-chip {
+  padding: 2px 10px;
+  border-radius: var(--radius-md);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--ok-100);
+  color: var(--ok);
+
+  &.refund {
+    background: var(--warn-100);
+    color: var(--warn);
+  }
+}
+
+.total-kpi {
+  border-top-color: var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-title-background);
+
+  .value {
+    font-size: 34px;
+    margin: var(--space-1) 0;
+  }
+}
+
+.last-invoice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: 12px;
+  color: var(--ok);
+
+  mat-icon {
     font-size: 18px;
-    font-weight: 900;
-    text-align: center;
-    
+    width: 18px;
+    height: 18px;
   }
-
-  .q{
-    background-color: #800080;
-    color: white;
-    font-size: 20px;
-    text-align: center;
-    margin-right: 14px;
-    padding: 0;
-    width: 12%;
-  }
-
-  .q2{
-    background-color: #800080;
-    color: white;
-    font-size: 20px;
-    text-align: center;
-    margin-left: 14px;
-    padding: 0;
-    width: 12%;
-  }
-
-  .refund{
-    background: purple;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    font-weight: 900;
-    font-size: 19px;
-  }
-
-  .sale{
-    background: #47B479;
-    color: purple;
-    padding: 10px;
-    text-align: center;
-    font-weight: 900;
-    font-size: 19px;
-  }
-
-  .actions {
-    //box-shadow: 5px -1px 7px #958c8c;
-    height: 100vh;
-    overflow-y: hidden; // hide vertical
-    overflow-x: hidden; // hide horizontal
-  }
-  
-  .main {
-   box-shadow: 0px 0px 7px 1px #958c8c;
-    height: 100vh;
-    overflow-y: hidden; // hide vertical
-    overflow-x: hidden; // hide horizontal
-  }
-  
-  input {
-    border: 1px solid rgb(179, 169, 169);
-    overflow-y: hidden;
-    overflow-x: hidden;
-    padding: 3px;
-    font-size: 12px;
-    outline-color: purple;
-    border-radius: 4px;
-  }
-  
-  .m td {
-    padding: 15px;
-    background: purple;
-    color: white;
-    font-size: 34px;
-    border: 2px solid;
-    overflow-x: auto;
-    overflow-y: auto;
-  }
-  
-  .m {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-  }
-  
-  .actions button.cancel {
-    background: #ed4646;
-    padding: 4px;
-    color: white;
-    font-weight: 900;
-    width: 100%;
-  }
-  
-  .actions button.void {
-    background: #e1e440;
-    padding: 14px;
-    color: black;
-    font-weight: 900;
-    width: 100%;
-  }
-  
-
-  
-  .amts .b {
-    font-size: 15px;
-    font-weight: 900;
-    color: purple;
-  }
-  
-  .amts .a {
-    font-size: 10px;
-    font-weight: 900;
-  }
-  
-  table.m {
-  }
-  
-  .btn1 {
-    position: absolute;
-    bottom: 57px;
-    right: 26%;
-    left: 64%;
-    margin-left: -150px;
-    background: #47B479;
-    height: 6%;
-    color: white;
-    font-size: 8px;
-    font-weight: 900;
-    border-radius: 5px;
-    cursor: pointer;
-    outline: none;
-    max-width: none;
-    border: none;
-  }
-  
-  .fin:hover {
-    background-color: purple;
-  }
-  
-  .table.table-compact td {
-    padding-top: 2px;
-    padding-bottom: 2px;
-    font-size: 10px;
-    font-weight: 600;
-  }
-  
-  .account  .ng-select-container {
-        height: 36px;
-        background: purple;
-  
-  }
-
-  @media (max-width: 468px) {
-    
-.table-container{
-  height: 55%; /* Set the fixed height of the table container */
-      overflow-y: auto; /* Make the table container scrollable vertically */
 }
 
-    .btn1 {
- 
-      position: absolute;
-      bottom: 17px;
-      right: 26%;
-      left: 40%;
-      text-transform: uppercase;
-      background: #47B479;
-      height: 6%;
-      color: white;
-      font-size: 19px;
-      font-weight: 900;
-      border-radius: 5px;
-      cursor: pointer;
-      outline: none;
-      max-width: none;
-      border: none;
-    }
-    
-    .fin:hover {
-      background-color: purple;
-    }
-  }
+.charge-button {
+  --mat-button-filled-container-height: 56px;
+  --mat-button-filled-label-text-size: 18px;
+  width: 100%;
+}
 
+.full-width {
+  width: 100%;
+}
 
-  @media (min-width: 768px) {
-    .table-container{
-      height: 55%; /* Set the fixed height of the table container */
-          overflow-y: auto; /* Make the table container scrollable vertically */
-    }
-    .currency{
-      font-size: 39px;
-      font-weight: 900;
-      text-align: center;
-      
-    }
-  
-    .actions {
-      //box-shadow: 5px -1px 7px #958c8c;
-      height: 100vh;
-      overflow-y: hidden; // hide vertical
-      overflow-x: hidden; // hide horizontal
-    }
-    
-    .main {
-     box-shadow: 0px 0px 7px 1px #958c8c;
-      height: 100vh;
-      overflow-y: hidden; // hide vertical
-      overflow-x: hidden; // hide horizontal
-    }
-    
-    input {
-      border: 1px solid rgb(179, 169, 169);
-      overflow-y: hidden;
-      overflow-x: hidden;
-      padding: 3px;
-      font-size: 12px;
-      outline-color: purple;
-      border-radius: 4px;
-    }
-    
-    .m td {
-      padding: 15px;
-      background: purple;
-      color: white;
-      font-size: 34px;
-      border: 2px solid;
-      overflow-x: auto;
-      overflow-y: auto;
-    }
-    
-    .m {
-      position: fixed;
-      bottom: 0;
-      right: 0;
-    }
-    
-    .actions button.cancel {
-      background: #ed4646;
-      padding: 14px;
-      color: white;
-      font-weight: 900;
-      width: 100%;
-    }
-    
-    .actions button.void {
-      background: #e1e440;
-      padding: 14px;
-      color: black;
-      font-weight: 900;
-      width: 100%;
-    }
+.field-label {
+  display: block;
+  font-size: 11px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
 
-    
-    .amts .b {
-      font-size: 15px;
-      font-weight: 900;
-      color: purple;
-    }
-    
-    .amts .a {
-      font-size: 17px;
-      font-weight: 900;
-    }
-    
-    table.m {
-    }
-    
-    .btn1 {
- 
-      position: absolute;
-      bottom: 17px;
-      right: 26%;
-      left: 40%;
-      background: #47B479;
-      height: 6%;
-      color: white;
-      font-size: 19px;
-      font-weight: 900;
-      border-radius: 5px;
-      cursor: pointer;
-      outline: none;
-      max-width: none;
-      border: none;
-    }
-    
-    .fin:hover {
-      background-color: purple;
-    }
-    
-    .table.table-compact td {
-      padding-top: 2px;
-      padding-bottom: 2px;
-      font-size: 10px;
-      font-weight: 600;
-    }
-    
-    .account  .ng-select-container {
-          height: 36px;
-          background: purple;
-    
-    }
-  } 
+  .required-marker {
+    color: var(--alert);
+    margin-left: 2px;
+  }
+}
 
-  //BIGGER SCRRENS
-@media (min-width: 1024px) {
+.option-name {
+  font-weight: 500;
+}
 
-  .currency{
-    font-size: 39px;
-    font-weight: 900;
-    text-align: center;
-    
-  }
+.option-meta {
+  margin-left: var(--space-2);
+  font-size: 11px;
+  color: var(--color-neutral-600);
+}
 
-  .actions {
-    //box-shadow: 5px -1px 7px #958c8c;
-    height: 100vh;
-    overflow-y: hidden; // hide vertical
-    overflow-x: hidden; // hide horizontal
-  }
-  
-  .main {
-   box-shadow: 0px 0px 7px 1px #958c8c;
-    height: 100vh;
-    overflow-y: hidden; // hide vertical
-    overflow-x: hidden; // hide horizontal
-  }
-  
-  input {
-    border: 1px solid rgb(179, 169, 169);
-    overflow-y: hidden;
-    overflow-x: hidden;
-    padding: 3px;
-    font-size: 12px;
-    outline-color: purple;
-    border-radius: 4px;
-  }
-  
-  .m td {
-    padding: 15px;
-    background: purple;
-    color: white;
-    font-size: 34px;
-    border: 2px solid;
-    overflow-x: auto;
-    overflow-y: auto;
-  }
-  
-  .m {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-  }
-  
-  .actions button.cancel {
-    background: #ed4646;
-    padding: 14px;
-    color: white;
-    font-weight: 900;
-    width: 100%;
-  }
-  
-  .actions button.void {
-    background: #e1e440;
-    padding: 14px;
-    color: black;
-    font-weight: 900;
-    width: 100%;
-  }
-  
-
-  
-  .amts .b {
-    font-size: 15px;
-    font-weight: 900;
-    color: purple;
-  }
-  
-  .amts .a {
-    font-size: 25px;
-    font-weight: 900;
-  }
-  
-  table.m {
-  }
-  
-  .btn1 {
-    position: absolute;
-    bottom: 0px;
-    right: 26%;
-    left: 30%;
-    margin-left: -150px;
-    background: #47B479;
-    height: 14%;
-    color: white;
-    font-size: 33px;
-    font-weight: 900;
-    border-radius: 5px;
-    cursor: pointer;
-    outline: none;
-    max-width: none;
-    border: none;
-    
-  }
-  
-  .fin:hover {
-    background-color: purple;
-  }
-  
-  .table.table-compact td {
-    padding-top: 2px;
-    padding-bottom: 2px;
-    font-size: 10px;
-    font-weight: 600;
-  }
-  
-  .account  .ng-select-container {
-        height: 36px;
-        background: purple;
-  
-  }
-} 
 .out-of-stock {
-  color: red;
+  margin-left: var(--space-2);
+  font-size: 11px;
+  color: var(--alert);
 }
 
-.field-input {
-  margin-top: 8px;
-}
+@media (max-width: 900px) {
+  .till {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
 
-.remove-item {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  color: rgb(228, 72, 72);
-}
+  .till-entry {
+    grid-template-columns: 1fr 1fr;
+  }
 
-.error-message {
-  color: rgb(214, 33, 33);
-  font-weight: 900;
+  .product-field {
+    grid-column: 1 / -1;
+  }
+
+  .till-cart {
+    max-height: 50vh;
+  }
 }

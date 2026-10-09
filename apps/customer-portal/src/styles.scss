@@ -2,281 +2,119 @@
 // See https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+// The same design system as the admin portal, so both apps look alike.
+@use '../../../libs/shared/ui/src/styles/pos-theme' as pos-theme;
+
+// DrawerService (@pos-frontend/core) renders inside .cdk-overlay-container,
+// outside every component's view, so its panel/backdrop classes must be global.
+@use '../../../libs/core/src/lib/services/drawer/drawer';
+
+// Preflight is disabled (see tailwind.config.js); only components and
+// utilities are generated.
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* You can add global styles to this file, and also import other style files */
-@import '~material-icons/iconfont/material-icons.css';
-@import '~@ng-select/ng-select/themes/default.theme.css';
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-}
+/* Third-party CSS (iziToast, material-icons, ng-select theme) is loaded via
+   the "styles" array in project.json. */
 
-html {
-  @include mat.theme((
-    color: (
-      primary: mat.$violet-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
-}
+@layer base {
+  html,
+  body {
+    height: 100%;
+  }
 
-input[type='text'],
-input[type='email'],
-input[type='number'],
-input[type='date'],
-input[type='time'],
-input[type='password'] {
-  font-size: 12px !important;
-  margin: auto;
-  display: inline-block;
-  box-sizing: border-box;
-  border: 1px solid #b4abab;
-  border-radius: 3px;
-  width: 100% !important;
-  outline: none;
-}
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-feature-settings: 'tnum' 1;
+    -webkit-font-smoothing: antialiased;
+  }
 
-mat-form-field {
-  width: 100%;
-}
-
-.block {
-  width: 100%;
-}
-
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-.spinner:before {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
-  margin-top: -10px;
-  margin-left: -10px;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-  border-top-color: #192ac4;
-  animation: spinner 0.8s linear infinite;
-  cursor: not-allowed;
-}
-
-.h {
-  color: purple;
-  font-weight: 900;
-  font-size: 20px;
-}
-
-.act {
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-  background-color: white;
-}
-
-.act:hover {
-  font-size: 11px;
-  font-weight: 900;
-  cursor: pointer;
-  background-color: rgb(196, 164, 196, 0.3);
-  padding: 2px;
-  border-radius: 2px;
-}
-
-.datagrid-row:nth-child(even) {
-  background-color: #e0d6d64d;
-}
-.datagrid-cell {
-  outline: none !important;
-}
-
-.clr-input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  background: 0 0;
-  color: #000;
-  display: inline-block;
-  border-bottom: 1px solid #999;
-  padding: 0 0.25rem;
-  font-size: 0.541667rem;
-  height: 1.3rem !important;
-  max-height: 1.9rem !important;
-}
-input[type='text'],
-input[type='email'],
-input[type='number'],
-input[type='password'] {
-  font-size: 1em;
-  margin: auto;
-  display: inline-block;
-  box-sizing: border-box;
-  border: 1px solid #b4abab;
-  border-radius: 3px;
-  width: 100%;
-}
-
-select {
-  width: 100%;
-  font-size: 1em;
-  margin: auto;
-  display: inline-block;
-  border: 1px solid #ccc !important;
-  border-radius: 4px !important;
-  box-sizing: border-box;
-  height: 1.4rem !important;
-}
-
-textarea {
-  font-size: 1em;
-  border: 1px solid grey !important;
-  min-width: 50%;
-  width: 100%;
-}
-
-.clr-control-container textarea {
-  width: 100%;
-  border-color: grey;
-}
-
-.clr-control-container {
-  width: 90%;
-}
-
-.clr-input-wrapper {
-  white-space: nowrap;
-  max-height: 1.6rem !important;
-  height: 1.6rem !important;
-}
-
-.clr-input-group {
-  height: 1.8rem;
-  border-bottom: none;
-}
-
-clr-subtext {
-  margin-top: -8px !important;
-}
-
-.clr-form-control {
-  margin-top: 8px !important;
-}
-
-cds-icon {
-  cursor: pointer;
-}
-
-hr {
-  border: 1px solid purple !important;
-}
-
-.clr-select-wrapper {
-  max-height: 1.2rem;
-  display: inline-block;
-  width: 100% !important;
-}
-
-.header {
-  background: white !important;
-  box-shadow: 0px 1px 11px #837171 !important;
-}
-
-fieldset {
-  border: 1px solid rgb(128, 0, 100);
-  border-radius: 20px;
-  padding: 0 30px;
-  background: #e7cbe4;
-}
-
-legend {
-  display: block;
-  width: fit-content;
-  padding: 0;
-  line-height: inherit;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 900 !important;
-  color: black;
-}
-
-.datagrid-table .datagrid-cell {
-  font-weight: 500;
-  font-size: 10px !important;
-}
-
-.label {
-  font-size: 10px !important;
-}
-
-.clr-control-label {
-  font-size: 10px !important;
-}
-
-
-
-  /*.ng-select {
-    position: relative;
-    display: block;
-    box-sizing: border-box;
-    font-size: 12px;
+@layer components {
+  .es-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
   }
-  .ng-select.ng-select-single .ng-select-container {
-    height: 27px;
-    background: #e5e0e7;
-    border: 1px solid grey;
-    //margin-top: 25px;
+
+  .es-eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  }
+
+  .es-money {
+    font-variant-numeric: tabular-nums;
+  }
 }
 
-.ng-select .ng-select-container {
-  min-height: 27px;
+/* ng-select lives outside every component's view encapsulation, so the till's
+   searchable selects are themed here to match the Material outline fields. */
+.ng-select {
+  font-family: var(--font-body);
+  font-size: 13px;
+
+  .ng-select-container {
+    min-height: var(--control-height);
+    border: 1px solid var(--color-neutral-300);
+    border-radius: var(--radius-md);
+    background: #ffffff;
+    box-shadow: var(--control-shadow);
+
+    &:hover {
+      border-color: var(--color-neutral-400);
+      box-shadow: var(--control-shadow);
+    }
+  }
+
+  &.ng-select-single .ng-select-container {
+    height: var(--control-height);
+  }
+
+  &.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+    border-color: var(--color-accent);
+    box-shadow: var(--control-shadow);
+  }
+
+  .ng-placeholder {
+    color: var(--color-neutral-500);
+  }
 }
 
-.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value {
- 
-  padding-top: 2px;
-}
-*/
+.ng-dropdown-panel {
+  border-color: var(--color-divider);
+  border-radius: var(--radius-md);
 
-.select label{
-  font-size: 10px;
-  font-weight: 900;
-  color: rgb(31, 29, 29);
-}
+  .ng-dropdown-panel-items .ng-option {
+    font-size: 13px;
 
-.date label{
-  font-size: 10px;
-  font-weight: 900;
-  color: rgb(31, 29, 29);
-}
+    &.ng-option-marked {
+      background: var(--color-accent-100);
+    }
 
-.btn.btn-primary{
-  background: purple !important;
-  border-color: purple !important;
+    &.ng-option-selected,
+    &.ng-option-selected.ng-option-marked {
+      background: var(--color-accent-200);
+    }
 
-}
-
-
-.btn.btn-outline{
-  border: purple;
-  color: purple;
+    &.ng-option-disabled {
+      color: var(--color-neutral-500);
+    }
+  }
 }

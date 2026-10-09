@@ -1,10 +1,20 @@
-<pos-frontend-pos-form
-  [debtors]="debtors()"
-  [products]="products()"
-  [currency]="currency()"
-  [btnState]="btnState()"
-  [sale]="sale()"
-  [station]="station"
-  [isSale]="true"
-  (submitted)="createSale($event)"
-/>
+<header class="pos-page-header">
+  <div>
+    <div class="route es-eyebrow">TILL / POINT OF SALE</div>
+    <h1>Point of sale</h1>
+  </div>
+  <span class="sub">Station {{ station ?? 'not set' }}</span>
+</header>
+
+<div class="pos-content till-page">
+  <pos-frontend-pos-form
+    [debtors]="debtors()"
+    [products]="products()"
+    [currency]="currency()"
+    [loading]="submitting()"
+    [sale]="sale()"
+    [station]="station"
+    [transactionType]="1"
+    (submitted)="createSale($event)"
+  />
+</div>

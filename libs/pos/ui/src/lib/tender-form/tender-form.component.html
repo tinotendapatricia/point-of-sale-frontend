@@ -1,0 +1,61 @@
+<form class="tender-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="tender-summary">
+    <div>
+      <span class="es-eyebrow">AMOUNT DUE</span>
+      <span class="tender-value es-money">{{ amountDue() | number: '1.2-2' }}</span>
+    </div>
+    <div>
+      <span class="es-eyebrow">CHANGE</span>
+      <span class="tender-value es-money" [class.negative]="changeDue() < 0">
+        {{ changeDue() | number: '1.2-2' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="tender-amount">Amount tendered<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="tender-amount" matInput type="number" min="0" formControlName="amountOffered" />
+      @if (form.controls.amountOffered.hasError('required')) {
+        <mat-error>Amount tendered is required</mat-error>
+      } @else if (form.controls.amountOffered.hasError('min')) {
+        <mat-error>Amount cannot be negative</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="field">
+    <span id="foreign-change-label" class="field-label">Give change in another currency?</span>
+    <mat-radio-group class="radio-row" aria-labelledby="foreign-change-label" formControlName="foreignChange">
+      <mat-radio-button [value]="false">No</mat-radio-button>
+      <mat-radio-button [value]="true">Yes</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  @if (foreignChange()) {
+    <div class="field">
+      <label class="field-label" for="change-debtor">Change account<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <mat-select id="change-debtor" formControlName="changeDebtor" placeholder="Select change currency">
+          @for (debtor of debtors(); track debtor.id) {
+            <mat-option [value]="debtor.id">{{ debtor.account }} - {{ debtor.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      @if (form.controls.changeDebtor.touched && form.controls.changeDebtor.value === null) {
+        <p class="field-error">Select the account to give change from</p>
+      }
+    </div>
+  }
+
+  <div class="tender-actions">
+    <button type="button" mat-stroked-button [disabled]="loading()" (click)="cancelled.emit()">Back</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel() }}
+      }
+    </button>
+  </div>
+</form>

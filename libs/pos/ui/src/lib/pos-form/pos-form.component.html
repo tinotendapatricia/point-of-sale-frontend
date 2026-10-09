@@ -1,194 +1,129 @@
-<div class="clr-row">
-  <div class="clr-col-2 actions">
-    <br /><br />
-    <div class="currency">${{ currency()?.code }}</div>
-    <br /><br />
-
-    <button type="button" class="cancel" (click)="cancelTransaction()">Cancel</button>
-    <br /><br />
-    @if (isSale()) {
-      <button type="button" class="void" [routerLink]="['/refund']">Refund</button>
-    }
-    @if (isRefund()) {
-      <button type="button" class="void" [routerLink]="['/pos']">Point of Sale</button>
-    }
-    <br /><br />
-  </div>
-  <div class="clr-col-7 main">
-    <form [formGroup]="form" (ngSubmit)="addProduct()">
-      <div class="clr-row">
-        <div class="clr-col-sm-6 mt-6">
-          <label for="pos-product">Product</label>
-          <ng-select labelForId="pos-product" formControlName="code" (change)="addProduct()">
-            @for (product of products(); track product.id) {
-              <ng-option [value]="product.code" [disabled]="!rate() || product.quantity < 1">
-                {{ product.name }} {{ product.code }} {{ product.barcode }}
-                @if (product.quantity < 1) {
-                  <span class="out-of-stock">Out of stock</span>
-                }
-              </ng-option>
-            }
-          </ng-select>
-        </div>
-        <div class="clr-col-sm-3">
-          <br /><br />
-          <input
-            type="number"
-            class="mt-7 field-input"
-            placeholder="Quantity"
-            aria-label="Quantity"
-            formControlName="quantity"
-          />
-        </div>
-        <div class="clr-col-sm-3">
-          <br /><br />
-          <input
-            type="text"
-            class="mt-7 field-input"
-            placeholder="Reference"
-            aria-label="Reference"
-            formControlName="reference"
-          />
-        </div>
-
-        <input type="submit" hidden />
-      </div>
-    </form>
-
-    <div class="table-container">
-      <table class="table table-compact">
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Description</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (item of items(); track $index) {
-            <tr>
-              <td>{{ item.code }}</td>
-              <td>{{ item.description }}</td>
-              <td>{{ item.quantity }}</td>
-              <td>{{ item.price * rate() * item.quantity | currency }}</td>
-              <td>
-                <button type="button" class="remove-item" aria-label="Remove item" (click)="remove($index)">
-                  <cds-icon shape="minus-circle" />
-                </button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-    <span class="error-message">{{ err() }}</span>
-    <button
-      type="button"
-      class="btn1 fin"
-      [disabled]="!canProcess()"
-      [clrLoading]="btnState()"
-      (click)="initChange()"
-    >
-      Process and Print Receipt
-    </button>
-  </div>
-
-  <div class="clr-col-3 payments">
-    <div class="stat" [class.refund]="isRefund()" [class.sale]="!isRefund()">
-      {{ isRefund() ? 'Refund' : 'Sale' }}
-    </div>
-    <br />
-    <br />
-    <div class="amts">
-      <span class="a">Total Amount: {{ totalAmount() * rate() | currency }}</span>
-      <br />
-
-      @if (sale(); as invoice) {
-        <span class="b">Invoice created: {{ invoice.invoiceNumber }} - Next Customer</span>
-      }
-
-      <br /><br />
-      <div class="acc">
-        <label for="pos-account">Account</label>
-        <ng-select labelForId="pos-account" [formControl]="debtorControl">
-          @for (debtor of debtors(); track debtor.id) {
-            <ng-option [value]="debtor.id">{{ debtor.account }}-{{ debtor.name }}</ng-option>
+<div class="till">
+  <section class="till-main es-panel">
+    <form class="till-entry" [formGroup]="form" (ngSubmit)="addProduct()">
+      <div class="field product-field">
+        <label class="field-label" for="pos-product">Product</label>
+        <ng-select
+          labelForId="pos-product"
+          formControlName="code"
+          [placeholder]="rate() ? 'Search by name, code or barcode' : 'Select an account first'"
+          (change)="addProduct()"
+        >
+          @for (product of products(); track product.id) {
+            <ng-option [value]="product.code" [disabled]="!rate() || product.quantity < 1">
+              <span class="option-name">{{ product.name }}</span>
+              <span class="option-meta">{{ product.code }} {{ product.barcode }}</span>
+              @if (product.quantity < 1) {
+                <span class="out-of-stock">Out of stock</span>
+              }
+            </ng-option>
           }
         </ng-select>
       </div>
-    </div>
-  </div>
-</div>
+      <div class="field">
+        <label class="field-label" for="pos-quantity">Quantity</label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="pos-quantity" matInput type="number" min="1" placeholder="1" formControlName="quantity" />
+        </mat-form-field>
+      </div>
+      <div class="field">
+        <label class="field-label" for="pos-reference">Reference</label>
+        <mat-form-field class="full-width" subscriptSizing="dynamic">
+          <input id="pos-reference" matInput type="text" formControlName="reference" />
+        </mat-form-field>
+      </div>
+      <button type="submit" hidden>Add</button>
+    </form>
 
-<clr-modal [clrModalClosable]="false" [clrModalSize]="'sm'" [(clrModalOpen)]="opened">
-  <div class="modal-title">Tender Details</div>
-  <hr />
-  <div class="modal-body">
-    <strong>Change:</strong>&nbsp;&nbsp;{{ changeDue() }}
-    <form [formGroup]="changeForm">
-      <div class="clr-row">
-        <div class="clr-col-md-6">
-          <clr-input-container>
-            <label for="tender-amount">Tender Amount</label>
-            <input id="tender-amount" clrInput type="number" formControlName="amountOffered" required />
-          </clr-input-container>
+    <div class="till-cart">
+      <table mat-table [dataSource]="items()">
+        <ng-container matColumnDef="code">
+          <th *matHeaderCellDef mat-header-cell>CODE</th>
+          <td *matCellDef="let item" mat-cell>{{ item.code }}</td>
+        </ng-container>
+        <ng-container matColumnDef="description">
+          <th *matHeaderCellDef mat-header-cell>DESCRIPTION</th>
+          <td *matCellDef="let item" mat-cell>{{ item.description }}</td>
+        </ng-container>
+        <ng-container matColumnDef="quantity">
+          <th *matHeaderCellDef mat-header-cell class="num">QTY</th>
+          <td *matCellDef="let item" mat-cell class="num">{{ item.quantity }}</td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th *matHeaderCellDef mat-header-cell class="num">AMOUNT</th>
+          <td *matCellDef="let item" mat-cell class="num">{{ item.price * rate() * item.quantity | currency }}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell></th>
+          <td *matCellDef="let item; let i = index" mat-cell class="actions-cell">
+            <button type="button" mat-icon-button [attr.aria-label]="`Remove ${item.description}`" (click)="remove(i)">
+              <mat-icon class="remove-icon">remove_circle_outline</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="columns; sticky: true" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: columns" mat-row></tr>
+      </table>
+      @if (items().length === 0) {
+        <div class="cart-empty">
+          <mat-icon>shopping_cart</mat-icon>
+          <p>No items yet. Pick an account, then scan or search for a product.</p>
         </div>
-        <div class="clr-col-md-6">
-          <clr-input-container>
-            <label for="cost-of-goods">Cost of Goods</label>
-            <input id="cost-of-goods" clrInput type="number" formControlName="costOfGoods" />
-          </clr-input-container>
-        </div>
+      }
+    </div>
+  </section>
+
+  <aside class="till-side">
+    <div class="es-panel till-summary">
+      <div class="summary-head">
+        <span class="mode-chip" [class.refund]="isRefund()">{{ isRefund() ? 'Refund' : 'Sale' }}</span>
+        @if (currency(); as cur) {
+          <span class="es-eyebrow">BASE {{ cur.code }}</span>
+        }
       </div>
 
-      <clr-radio-container clrInline>
-        <label class="required" for="foreign-change-yes">Foreign Change?</label>
-        <clr-radio-wrapper>
-          <input
-            id="foreign-change-yes"
-            type="radio"
-            clrRadio
-            name="foreignDebtor"
-            required
-            formControlName="foreignDebtor"
-            [value]="true"
-          />
-          <label for="foreign-change-yes">Yes</label>
-        </clr-radio-wrapper>
-        <clr-radio-wrapper>
-          <input
-            id="foreign-change-no"
-            type="radio"
-            clrRadio
-            name="foreignDebtor"
-            required
-            formControlName="foreignDebtor"
-            [value]="false"
-          />
-          <label for="foreign-change-no">No</label>
-        </clr-radio-wrapper>
-      </clr-radio-container>
+      <div class="pos-kpi total-kpi">
+        <div class="kicker es-eyebrow">TOTAL DUE</div>
+        <div class="value">{{ amountDue() | currency }}</div>
+        <div class="note">{{ items().length }} item(s)</div>
+      </div>
 
-      @if (foreignChange()) {
-        <clr-select-container>
-          <label for="change-debtor">Account</label>
-          <select id="change-debtor" clrSelect formControlName="changeDebtor">
-            <option [ngValue]="null">Select Change Currency</option>
-            @for (debtor of debtors(); track debtor.id) {
-              <option [ngValue]="debtor.id">{{ debtor.account }}-{{ debtor.name }}</option>
-            }
-          </select>
-        </clr-select-container>
+      <div class="field">
+        <label class="field-label" for="pos-account">Account<span class="required-marker">*</span></label>
+        <ng-select labelForId="pos-account" placeholder="Select account" [formControl]="debtorControl">
+          @for (debtor of debtors(); track debtor.id) {
+            <ng-option [value]="debtor.id">{{ debtor.account }} - {{ debtor.name }}</ng-option>
+          }
+        </ng-select>
+      </div>
+
+      @if (sale(); as invoice) {
+        <p class="last-invoice">
+          <mat-icon>check_circle</mat-icon>
+          Invoice {{ invoice.invoiceNumber }} created. Next customer.
+        </p>
       }
-      <br /><br />
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline" (click)="opened.set(false)">Cancel</button>
-    <button type="button" class="btn btn-success" [clrLoading]="btnState()" (click)="processReceipt()">
-      Process
-    </button>
-  </div>
-</clr-modal>
+    </div>
+
+    <div class="es-panel till-actions">
+      @if (tendering()) {
+        <pos-frontend-tender-form
+          [submitLabel]="isRefund() ? 'Process refund' : 'Process and print'"
+          [amountDue]="amountDue()"
+          [debtors]="debtors()"
+          [loading]="loading()"
+          (cancelled)="tendering.set(false)"
+          (submitted)="processReceipt($event)"
+        />
+      } @else {
+        <button type="button" class="charge-button" mat-flat-button [disabled]="!canCharge()" (click)="charge()">
+          {{ isRefund() ? 'Refund' : 'Charge' }} {{ amountDue() | currency }}
+        </button>
+        <button type="button" mat-stroked-button [disabled]="items().length === 0" (click)="cancelTransaction()">
+          Cancel transaction
+        </button>
+      }
+    </div>
+  </aside>
+</div>

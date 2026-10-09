@@ -1,4 +1,4 @@
-// Angular Material theme for the POS Admin console — Industry design system,
+// Angular Material theme shared by the admin and customer (till) portals — Industry design system,
 // with PrimeNG (Aura) style controls: rounded 6px inputs/buttons, white
 // outlined inputs with a primary-colour focus border, sentence-case buttons,
 // no ripple / state-layer wash.
@@ -7,7 +7,7 @@
 //
 // Import from styles.scss AFTER @use '@angular/material' as mat;
 //
-//   @use './styles/pos-admin-theme' as pos-theme;
+//   @use '../../../libs/shared/ui/src/styles/pos-theme' as pos-theme;
 
 @use 'sass:color';
 @use 'sass:map';

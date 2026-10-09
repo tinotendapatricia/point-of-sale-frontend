@@ -1,11 +1,9 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
-import { ClrLoadingState } from '@clr/angular';
-import { of } from 'rxjs';
 import { CurrencyStore } from '@pos-frontend/currencies/data-access';
 import { DebtorStore } from '@pos-frontend/debtors/data-access';
-import { type CreateSaleRequest, PosFacade } from '@pos-frontend/pos/data-access';
+import { type CreateSaleRequest, PosStore } from '@pos-frontend/pos/data-access';
 import { ProductStore } from '@pos-frontend/products/data-access';
 import { PosHomeComponent } from './pos-home.component';
 
@@ -17,10 +15,10 @@ describe('PosHomeComponent', () => {
     defaultCurrency: () => undefined,
     getDefaultCurrency: jest.fn(),
   };
-  const posFacade = {
-    btnState$: of(ClrLoadingState.DEFAULT),
-    selectedPos$: of(undefined),
-    createNewPos: jest.fn(),
+  const posStore = {
+    createLoading: () => false,
+    pos: () => undefined,
+    createPos: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -33,7 +31,7 @@ describe('PosHomeComponent', () => {
         { provide: ProductStore, useValue: productStore },
         { provide: DebtorStore, useValue: debtorStore },
         { provide: CurrencyStore, useValue: currencyStore },
-        { provide: PosFacade, useValue: posFacade },
+        { provide: PosStore, useValue: posStore },
       ],
     }).compileComponents();
 
@@ -64,6 +62,9 @@ describe('PosHomeComponent', () => {
       changeAmount: null,
     };
     fixture.componentInstance['createSale'](sale);
-    expect(posFacade.createNewPos).toHaveBeenCalledWith(sale);
+    expect(posStore.createPos).toHaveBeenCalledWith({
+      data: sale,
+      callback: expect.any(Function),
+    });
   });
 });

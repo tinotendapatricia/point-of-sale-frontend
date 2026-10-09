@@ -1,6 +1,7 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { AuthStore } from '@pos-frontend/auth/data-access';
+import { CurrencyStore } from '@pos-frontend/currencies/data-access';
 import { UserStore } from '@pos-frontend/users/data-access';
 import { PortalContainerComponent } from './portal-container.component';
 
@@ -14,6 +15,7 @@ describe('PortalContainerComponent', () => {
       providers: [
         provideRouter([]),
         { provide: AuthStore, useValue: { logout: jest.fn() } },
+        { provide: CurrencyStore, useValue: { defaultCurrency: () => undefined } },
         {
           provide: UserStore,
           useValue: { profile: () => undefined, getUserProfile: jest.fn() },

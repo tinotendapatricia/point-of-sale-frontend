@@ -15,10 +15,12 @@ import { Router } from '@angular/router';
 import { AuthStore, type LoginCredentials } from '@pos-frontend/auth/data-access';
 import { LoginFormComponent } from '@pos-frontend/auth/ui';
 import { CompanyStore } from '@pos-frontend/company-details/data-access';
-import { ConfigurationService } from '@pos-frontend/configurations/data-access';
+import { ConfigurationStore } from '@pos-frontend/configurations/data-access';
 import { ToastService } from '@pos-frontend/core';
 import { getStationNumber } from '@pos-frontend/pos/data-access';
 import { ConfigureStationComponent } from '../configure-station/configure-station.component';
+
+const DAY_MS = 1000 * 3600 * 24;
 
 @Component({
   selector: 'pos-frontend-customer-login',
@@ -33,22 +35,41 @@ export class CustomerLoginComponent {
   private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
   private readonly toast = inject(ToastService);
-  private readonly configService = inject(ConfigurationService);
   private readonly authStore = inject(AuthStore);
   private readonly companyStore = inject(CompanyStore);
+  private readonly configurationStore = inject(ConfigurationStore);
 
-  protected readonly loading = this.authStore.loginLoading;
   protected readonly station = signal(getStationNumber());
+  protected readonly loading = computed(
+    () =>
+      this.authStore.loginLoading() || this.configurationStore.getManyLoading()
+  );
+
+  /** Only a till whose station number is configured may log in. */
+  private readonly knownStation = computed(() =>
+    this.configurationStore
+      .configurations()
+      .some((config) => String(config.stationNumber) === this.station())
+  );
+
   protected readonly expiryDate = computed(
     () => this.companyStore.company()?.licenseExpDate
   );
-  protected readonly expired = computed(() => {
+
+  /** Whole days until the license expires (NaN while unknown, negative once expired). */
+  protected readonly daysRemaining = computed(() => {
     const date = this.expiryDate();
-    return date ? new Date(date) < new Date() : false;
+    return date ? Math.ceil((new Date(date).getTime() - Date.now()) / DAY_MS) : NaN;
   });
+
+  protected readonly expired = computed(() => this.daysRemaining() <= 0);
+  protected readonly expiringSoon = computed(
+    () => this.daysRemaining() >= 1 && this.daysRemaining() <= 8
+  );
 
   constructor() {
     this.companyStore.getCompany();
+    this.configurationStore.getAllConfigurations();
 
     // The license interceptor reads the license key from the session.
     effect(() => {
@@ -59,26 +80,16 @@ export class CustomerLoginComponent {
     });
   }
 
-  /** Only a till with a known station number may log in. */
   protected login(credentials: LoginCredentials): void {
-    this.configService
-      .getAllConfigurations()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((configurations) => {
-        const station = getStationNumber();
-        const known = configurations.some(
-          (config) => config.stationNumber.toString() === station
-        );
-        if (known) {
-          this.authStore.adminLogin({
-            data: credentials,
-            callback: () => void this.router.navigate(['']),
-          });
-        } else {
-          this.authStore.logout();
-          this.toast.error('Station Number ConfigurationError');
-        }
-      });
+    if (!this.knownStation()) {
+      this.authStore.logout();
+      this.toast.error('This till station is not configured');
+      return;
+    }
+    this.authStore.adminLogin({
+      data: credentials,
+      callback: () => void this.router.navigate(['']),
+    });
   }
 
   protected configureStation(): void {

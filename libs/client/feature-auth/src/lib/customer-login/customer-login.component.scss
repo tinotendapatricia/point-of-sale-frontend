@@ -1,8 +1,23 @@
-.license-warning {
-  color: red;
-  font-weight: 900;
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: var(--space-4);
+  background: var(--color-bg);
 }
 
-.license-expired {
-  font-size: 20px;
+.license-banner {
+  max-width: 360px;
+  margin: var(--space-4) auto 0;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--warn-100);
+  color: var(--warn);
+  font-size: 12px;
+  text-align: center;
+
+  &.expired {
+    background: var(--alert-100);
+    color: var(--alert);
+    font-weight: 600;
+  }
 }

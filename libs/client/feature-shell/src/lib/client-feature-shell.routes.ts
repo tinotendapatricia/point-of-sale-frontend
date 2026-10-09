@@ -1,33 +1,6 @@
 import { type Routes } from '@angular/router';
 import { PortalContainerComponent } from './portal-container/portal-container.component';
 import { authGuard } from '@pos-frontend/auth/data-access';
-import '@cds/core/icon/register.js';
-import {
-  blocksGroupIcon,
-  calendarIcon,
-  ClarityIcons,
-  fileIcon,
-  formIcon,
-  gridViewIcon,
-  homeIcon,
-  libraryIcon,
-  sliderIcon,
-  userIcon,
-  usersIcon,
-} from '@cds/core/icon';
-
-ClarityIcons.addIcons(
-  userIcon,
-  homeIcon,
-  fileIcon,
-  formIcon,
-  gridViewIcon,
-  usersIcon,
-  calendarIcon,
-  libraryIcon,
-  sliderIcon,
-  blocksGroupIcon
-);
 
 export const CLIENT_FEATURE_SHELL_ROUTES: Routes = [
   {

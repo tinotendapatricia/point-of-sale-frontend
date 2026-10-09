@@ -1,12 +1,13 @@
-.content {
-  padding: 0 8px;
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-clr-header{
-  background-color: purple !important;
-  height: 200px !important;
-}
-
-.main-container .content-container .content-area {
-  padding: 0.2rem 1.2rem 1.2rem 1.2rem !important;
+.pos-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }

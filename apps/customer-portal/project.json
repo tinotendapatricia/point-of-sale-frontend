@@ -7,13 +7,15 @@
   "tags": ["scope:pos", "type:app"],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/customer-portal",
+        "outputPath": {
+          "base": "dist/apps/customer-portal",
+          "browser": ""
+        },
         "index": "apps/customer-portal/src/index.html",
-        "main": "apps/customer-portal/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/customer-portal/tsconfig.app.json",
         "assets": [
@@ -21,11 +23,14 @@
           "apps/customer-portal/src/assets"
         ],
         "styles": [
-          "apps/customer-portal/src/styles.scss",
-          "node_modules/@clr/ui/clr-ui.min.css",
-          "node_modules/izitoast/dist/css/iziToast.min.css"
+          "node_modules/izitoast/dist/css/iziToast.min.css",
+          "node_modules/material-icons/iconfont/material-icons.css",
+          "node_modules/@ng-select/ng-select/themes/default.theme.css",
+          "apps/customer-portal/src/styles.scss"
         ],
-        "scripts": []
+        "scripts": [],
+        "browser": "apps/customer-portal/src/main.ts",
+        "allowedCommonJsDependencies": ["izitoast"]
       },
       "configurations": {
         "production": {
@@ -44,9 +49,7 @@
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -54,7 +57,7 @@
       }
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "defaultConfiguration": "development",
       "continuous": true,
       "configurations": {
@@ -67,7 +70,7 @@
       }
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "customer-portal:build"
       }

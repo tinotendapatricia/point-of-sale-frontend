@@ -1,57 +1,69 @@
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  inject,
-  signal,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatDialogRef } from '@angular/material/dialog';
-import {
-  StationFormComponent,
-  type StationFormValue,
-} from '@pos-frontend/auth/ui';
-import { ConfigurationService } from '@pos-frontend/configurations/data-access';
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ConfigurationStore } from '@pos-frontend/configurations/data-access';
 import { ToastService } from '@pos-frontend/core';
 import { setStationNumber } from '@pos-frontend/pos/data-access';
+import { DialogHeaderComponent } from '@pos-frontend/shared/ui';
 
 /** Dialog that stores this till's station number once it matches a configuration. */
 @Component({
   selector: 'pos-frontend-configure-station',
   templateUrl: './configure-station.component.html',
+  styleUrl: './configure-station.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [StationFormComponent],
+  imports: [
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    DialogHeaderComponent,
+  ],
 })
 export class ConfigureStationComponent {
+  private readonly fb = inject(NonNullableFormBuilder);
   private readonly dialogRef = inject<
     MatDialogRef<ConfigureStationComponent, boolean>
   >(MatDialogRef);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly configService = inject(ConfigurationService);
   private readonly toast = inject(ToastService);
+  private readonly configurationStore = inject(ConfigurationStore);
 
-  protected readonly submitting = signal(false);
+  protected readonly loading = this.configurationStore.getManyLoading;
 
-  protected setStation({ stationNumber }: StationFormValue): void {
-    this.submitting.set(true);
-    this.configService
-      .getAllConfigurations()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (configurations) => {
-          this.submitting.set(false);
-          const station = configurations.find(
-            (config) => Number(config.stationNumber) === Number(stationNumber)
-          );
-          if (station) {
-            setStationNumber(station.stationNumber);
-            this.toast.success('Station Set Successfully');
-            this.dialogRef.close(true);
-          } else {
-            this.toast.error('Station Number Invalid');
-          }
-        },
-        error: () => this.submitting.set(false),
-      });
+  protected readonly form = this.fb.group({
+    stationNumber: this.fb.control<number | null>(null, Validators.required),
+  });
+
+  protected cancel(): void {
+    this.dialogRef.close(false);
+  }
+
+  protected submit(): void {
+    const { stationNumber } = this.form.getRawValue();
+    if (this.form.invalid || stationNumber === null) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const station = this.configurationStore
+      .configurations()
+      .find((config) => Number(config.stationNumber) === Number(stationNumber));
+    if (!station) {
+      this.toast.error('No station is configured with that number');
+      return;
+    }
+    setStationNumber(station.stationNumber);
+    this.toast.success('Station set successfully');
+    this.dialogRef.close(true);
   }
 }

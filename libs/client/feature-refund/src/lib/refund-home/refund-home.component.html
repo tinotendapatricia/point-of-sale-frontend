@@ -1,10 +1,20 @@
-<pos-frontend-pos-form
-  [debtors]="debtors()"
-  [products]="products()"
-  [currency]="currency()"
-  [btnState]="btnState()"
-  [sale]="sale()"
-  [station]="station"
-  [isRefund]="true"
-  (submitted)="createSale($event)"
-/>
+<header class="pos-page-header">
+  <div>
+    <div class="route es-eyebrow">TILL / REFUND</div>
+    <h1>Refund</h1>
+  </div>
+  <span class="sub">Station {{ station ?? 'not set' }}</span>
+</header>
+
+<div class="pos-content till-page">
+  <pos-frontend-pos-form
+    [debtors]="debtors()"
+    [products]="products()"
+    [currency]="currency()"
+    [loading]="submitting()"
+    [sale]="sale()"
+    [station]="station"
+    [transactionType]="2"
+    (submitted)="createSale($event)"
+  />
+</div>

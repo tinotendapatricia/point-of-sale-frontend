@@ -6,7 +6,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { BASE_URL } from '@pos-frontend/shared/data-access';
 
-import { saleRequest as request } from '../../testing/pos.fixtures';
+import { saleRequest as request } from '../testing/pos.fixtures';
 import { PosService } from './pos.service';
 
 describe('PosService', () => {

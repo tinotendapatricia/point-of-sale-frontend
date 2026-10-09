@@ -1,5 +1,24 @@
-<pos-frontend-station-form
-  title="Set New Station"
-  [loading]="submitting()"
-  (formValue)="setStation($event)"
-/>
+<pos-frontend-dialog-header title="Set Till Station" [hideClose]="loading()" />
+<mat-dialog-content>
+  <form id="station-form" class="station-form" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="field">
+      <label class="field-label" for="station-number">Station Number<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="station-number" matInput type="number" formControlName="stationNumber" />
+        @if (form.controls.stationNumber.hasError('required')) {
+          <mat-error>Station number is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button type="button" mat-stroked-button [disabled]="loading()" (click)="cancel()">Close</button>
+  <button type="submit" form="station-form" mat-flat-button [disabled]="loading()">
+    @if (loading()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      Set Station
+    }
+  </button>
+</mat-dialog-actions>

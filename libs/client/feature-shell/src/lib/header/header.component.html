@@ -1,9 +1,34 @@
-<div class="head">
-  <span class="cen">
-    Station: {{ station }} <br />
-    {{ userName() }}
-  </span>
-  <img class="logo" ngSrc="/assets/logo.png" alt="Logo" width="457" height="130" />
-  <button type="button" class="btn btn-primary" (click)="logout()">Logout</button>
-</div>
-<hr />
+<header class="pos-topbar">
+  <a class="pos-topbar-brand" [routerLink]="['/pos']">Point of Sale</a>
+
+  <nav class="pos-topbar-nav" aria-label="Till mode">
+    <a class="pos-topbar-link" routerLinkActive="active" [routerLink]="['/pos']">
+      <mat-icon>point_of_sale</mat-icon>
+      Sale
+    </a>
+    <a class="pos-topbar-link" routerLinkActive="active" [routerLink]="['/refund']">
+      <mat-icon>undo</mat-icon>
+      Refund
+    </a>
+  </nav>
+
+  <div class="pos-topbar-actions">
+    <span class="pos-topbar-meta">
+      <span class="es-eyebrow">STATION</span>
+      {{ station ?? '-' }}
+    </span>
+    @if (currencyCode(); as code) {
+      <span class="pos-topbar-meta">
+        <span class="es-eyebrow">CURRENCY</span>
+        {{ code }}
+      </span>
+    }
+    @if (userName(); as name) {
+      <span class="pos-topbar-user">
+        <mat-icon>account_circle</mat-icon>
+        {{ name }}
+      </span>
+    }
+    <button type="button" mat-stroked-button (click)="logout()">Log out</button>
+  </div>
+</header>
