@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { RoleStore } from '@pos-frontend/roles/data-access';
 import { UserStore } from '@pos-frontend/users/data-access';
 import { UserRolesFormComponent } from '@pos-frontend/users/ui';
@@ -9,7 +9,7 @@ import { UserRolesFormComponent } from '@pos-frontend/users/ui';
   selector: 'pos-frontend-view-user-roles',
   templateUrl: './view-user-roles.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, UserRolesFormComponent],
+  imports: [RouterLink, MatButtonModule, UserRolesFormComponent],
 })
 export class ViewUserRolesComponent {
   private readonly route = inject(ActivatedRoute);
@@ -23,6 +23,9 @@ export class ViewUserRolesComponent {
   protected readonly user = this.userStore.user;
   protected readonly userRoles = computed(() => this.user()?.roles ?? []);
   protected readonly submitting = this.userStore.assignRolesLoading;
+  protected readonly loadingRoles = computed(
+    () => this.roleStore.getManyLoading() || this.userStore.getOneLoading()
+  );
 
   constructor() {
     this.roleStore.getAllRoles();

@@ -17,6 +17,7 @@ export class SideNavComponent {
     purchases: ['/creditors', '/purchase-orders', '/receive-products', '/purchases-reports'],
     sales: ['/debtors', '/sales-reports'],
     stock: ['/stock-take', '/stocks'],
+    users: ['/users', '/roles'],
   };
 
   protected readonly openGroups = signal<Set<string>>(

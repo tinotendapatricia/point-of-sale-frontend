@@ -1,10 +1,8 @@
-import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
 import { type PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DrawerService } from '@pos-frontend/core';
 import { type UsersEntity, UserStore } from '@pos-frontend/users/data-access';
 import { ListUsersUiComponent } from '@pos-frontend/users/ui';
 
@@ -12,8 +10,7 @@ import {
   type ChangeUserStatusData,
   ChangeUserStatusComponent,
 } from '../change-user-status/change-user-status.component';
-import { CreateUserComponent } from '../create-user/create-user.component';
-import { UpdateUserComponent } from '../update-user/update-user.component';
+import { CreateUserComponent, type CreateUserData } from '../create-user/create-user.component';
 
 const FIRST_PAGE = { page: 0, size: 10 };
 
@@ -21,61 +18,39 @@ const FIRST_PAGE = { page: 0, size: 10 };
   selector: 'pos-frontend-list-users',
   templateUrl: './list-users.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatButtonModule, MatIconModule, ListUsersUiComponent],
+  imports: [MatButtonModule, ListUsersUiComponent],
 })
 export class ListUsersComponent {
   private readonly injector = inject(Injector);
-  private readonly drawer = inject(DrawerService);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly userStore = inject(UserStore);
+
+  private readonly currentPage = signal(FIRST_PAGE);
 
   protected readonly users = this.userStore.paginatedUsers;
   protected readonly total = this.userStore.totalUsers;
   protected readonly loading = this.userStore.getPaginatedLoading;
 
   constructor() {
-    this.refresh();
+    this.load(FIRST_PAGE);
   }
 
   protected onPage(event: PageEvent): void {
-    this.userStore.getPaginatedUsers({ page: event.pageIndex, size: event.pageSize });
+    this.load({ page: event.pageIndex, size: event.pageSize });
   }
 
   protected refresh(): void {
-    this.userStore.getPaginatedUsers(FIRST_PAGE);
+    this.load(this.currentPage());
   }
 
   protected createUser(): void {
-    this.drawer
-      .open<CreateUserComponent, boolean>(CreateUserComponent, {
-        title: 'Create New User',
-        size: 'md',
-        injector: this.injector,
-      })
-      .afterClosed()
-      .subscribe((created) => {
-        if (created) {
-          this.refresh();
-        }
-      });
+    this.openForm();
   }
 
   protected updateUser(user: UsersEntity): void {
-    this.drawer
-      .open<UpdateUserComponent, boolean, UsersEntity>(UpdateUserComponent, {
-        title: 'Update User',
-        size: 'md',
-        data: user,
-        injector: this.injector,
-      })
-      .afterClosed()
-      .subscribe((updated) => {
-        if (updated) {
-          this.refresh();
-        }
-      });
+    this.openForm(user);
   }
 
   protected changeUserStatus(user: UsersEntity): void {
@@ -86,14 +61,36 @@ export class ListUsersComponent {
         injector: this.injector,
       })
       .afterClosed()
-      .subscribe((changed) => {
-        if (changed) {
-          this.refresh();
-        }
-      });
+      .subscribe((changed) => this.refreshIf(changed));
+  }
+
+  protected viewUser(user: UsersEntity): void {
+    void this.router.navigate(['./view', user.id], { relativeTo: this.route });
   }
 
   protected viewUserAuthorities(user: UsersEntity): void {
     void this.router.navigate(['./view-user-authorities', user.id], { relativeTo: this.route });
+  }
+
+  private openForm(user?: UsersEntity): void {
+    this.dialog
+      .open<CreateUserComponent, CreateUserData, boolean>(CreateUserComponent, {
+        width: '480px',
+        data: { user },
+        injector: this.injector,
+      })
+      .afterClosed()
+      .subscribe((saved) => this.refreshIf(saved));
+  }
+
+  private refreshIf(changed: boolean | undefined): void {
+    if (changed) {
+      this.refresh();
+    }
+  }
+
+  private load(filters: typeof FIRST_PAGE): void {
+    this.currentPage.set(filters);
+    this.userStore.getPaginatedUsers(filters);
   }
 }

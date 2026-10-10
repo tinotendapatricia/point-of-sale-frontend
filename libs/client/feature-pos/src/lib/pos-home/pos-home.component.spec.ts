@@ -56,7 +56,7 @@ describe('PosHomeComponent', () => {
       station: '1',
       rate: 1,
       transactionType: 1,
-      reference: '',
+      reference: null,
       changeDebtor: null,
       changeRate: null,
       changeAmount: null,

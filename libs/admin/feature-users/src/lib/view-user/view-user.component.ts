@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { UserStore } from '@pos-frontend/users/data-access';
 import { UserDetailsComponent } from '@pos-frontend/users/ui';
@@ -10,7 +8,7 @@ import { UserDetailsComponent } from '@pos-frontend/users/ui';
   selector: 'pos-frontend-view-user',
   templateUrl: './view-user.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, MatButtonModule, MatCardModule, MatIconModule, UserDetailsComponent],
+  imports: [RouterLink, MatButtonModule, UserDetailsComponent],
 })
 export class ViewUserComponent {
   private readonly route = inject(ActivatedRoute);

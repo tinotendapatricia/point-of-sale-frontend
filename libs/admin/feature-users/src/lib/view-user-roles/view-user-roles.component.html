@@ -1,11 +1,22 @@
-<mat-card>
-  <mat-card-content>
-    <h1 class="mb-4 text-2xl font-bold">Permissions for {{ user()?.name }}</h1>
+<div
+  class="bg-white p-6 mx-6 mt-4 border border-gray-200 rounded-lg shadow-sm"
+>
+  <header class="mb-4 flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold">Permissions for {{ user()?.name }}</h1>
+      <span class="text-sm text-gray-500">Assign or remove the roles this user holds</span>
+    </div>
+    <a mat-stroked-button routerLink="/users">Back</a>
+  </header>
+
+  @if (loadingRoles()) {
+    <p class="text-gray-600">Loading…</p>
+  } @else {
     <pos-frontend-user-roles-form
       [loading]="submitting()"
       [roles]="roles()"
       [userRoles]="userRoles()"
       (saved)="save($event)"
     />
-  </mat-card-content>
-</mat-card>
+  }
+</div>

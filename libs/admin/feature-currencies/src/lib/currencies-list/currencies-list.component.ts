@@ -9,6 +9,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -39,7 +40,7 @@ const FIRST_PAGE = { page: 0, size: 10 };
   selector: 'pos-frontend-currencies-list',
   templateUrl: './currencies-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BmgTable, MatIconModule, MatButtonModule, MatMenuModule, CurrencyPipe, MatCardModule],
+  imports: [BmgTable, MatIconModule, MatButtonModule, MatChipsModule, MatMenuModule, CurrencyPipe, MatCardModule],
 })
 export class CurrenciesListComponent {
   private readonly dialog = inject(MatDialog);

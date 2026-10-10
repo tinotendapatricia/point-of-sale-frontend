@@ -1,0 +1,24 @@
+<form class="flex flex-col" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label class="field-label" for="role-name">Name<span class="required-marker">*</span></label>
+    <mat-form-field class="full-width" subscriptSizing="dynamic">
+      <input id="role-name" matInput type="text" placeholder="e.g. MANAGE_PRODUCTS" formControlName="name" />
+      @if (form.controls.name.hasError('required')) {
+        <mat-error>Name is required</mat-error>
+      } @else if (form.controls.name.hasError('maxlength')) {
+        <mat-error>Name must be 100 characters or fewer</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="mt-4 flex justify-end gap-2">
+    <button type="button" mat-stroked-button [disabled]="loading()" (click)="close(false)">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel }}
+      }
+    </button>
+  </div>
+</form>

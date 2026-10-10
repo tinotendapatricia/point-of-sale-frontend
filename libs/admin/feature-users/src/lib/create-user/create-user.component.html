@@ -1,1 +1,63 @@
-<pos-frontend-user-form [loading]="submitting()" (cancelled)="close(false)" (submitted)="create($event)" />
+<pos-frontend-dialog-header [title]="title" [hideClose]="loading()" />
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="field">
+      <label class="field-label" for="user-username">Username<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="user-username" matInput type="text" formControlName="username" />
+        @if (form.controls.username.hasError('required')) {
+          <mat-error>Username is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="user-name">Name<span class="required-marker">*</span></label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="user-name" matInput type="text" formControlName="name" />
+        @if (form.controls.name.hasError('required')) {
+          <mat-error>Name is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="user-password">
+        Password
+        @if (!user) {
+          <span class="required-marker">*</span>
+        }
+      </label>
+      <mat-form-field class="full-width" subscriptSizing="dynamic">
+        <input id="user-password" matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'" />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          [attr.aria-label]="hidePassword() ? 'Show password' : 'Hide password'"
+          (click)="togglePassword()"
+        >
+          <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        @if (form.controls.password.hasError('required')) {
+          <mat-error>Password is required</mat-error>
+        }
+      </mat-form-field>
+      @if (user) {
+        <span class="text-xs text-gray-500">Leave blank to keep the current password</span>
+      }
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button type="button" mat-stroked-button mat-dialog-close [disabled]="loading()">Cancel</button>
+    <button type="submit" mat-flat-button [disabled]="loading()">
+      @if (loading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        {{ submitLabel }}
+      }
+    </button>
+  </mat-dialog-actions>
+</form>

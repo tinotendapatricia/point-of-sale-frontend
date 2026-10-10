@@ -3,11 +3,9 @@
 </ng-template>
 
 <ng-template #defaultTpl let-row>
-  @if (row.isDefault) {
-  <mat-icon class="text-green-600">check</mat-icon>
-  } @else {
-  <mat-icon class="text-red-700">close</mat-icon>
-  }
+  <mat-chip [class.st-ok]="row.isDefault" [class.st-idle]="!row.isDefault">
+    {{ row.isDefault ? 'Default' : 'No' }}
+  </mat-chip>
 </ng-template>
 
 <ng-template #actionsTpl let-row>

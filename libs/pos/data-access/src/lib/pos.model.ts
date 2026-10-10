@@ -42,7 +42,8 @@ export interface CreateSaleRequest {
   station: string | null;
   rate: number;
   transactionType: TransactionType;
-  reference: string;
+  /** Optional free-text reference; null when the cashier leaves it blank. */
+  reference: string | null;
   changeDebtor: string | number | null;
   changeRate: number | null;
   changeAmount: number | null;

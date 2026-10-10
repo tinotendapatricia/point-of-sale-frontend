@@ -1,13 +1,51 @@
-<pos-frontend-table
-  caption="Roles"
-  [columns]="columns"
-  [data]="dataSource()"
-  [loading]="loading()"
-  [paginated]="true"
-  [total]="total()"
-  (page)="onPage($event)"
+<ng-template #nameTpl let-row>
+  <span class="capitalize">{{ label(row) }}</span>
+</ng-template>
+
+<ng-template #actionsTpl let-row>
+  <button
+    type="button"
+    mat-icon-button
+    aria-label="Edit role"
+    (click)="edit(row)"
+  >
+    <mat-icon class="text-green-600">edit</mat-icon>
+  </button>
+  <button
+    type="button"
+    mat-icon-button
+    aria-label="Delete role"
+    (click)="remove(row)"
+  >
+    <mat-icon class="text-red-700">delete</mat-icon>
+  </button>
+</ng-template>
+
+<div
+  class="bg-white px-6 mx-6 mt-4 border border-gray-200 rounded-lg shadow-sm"
 >
-  <header class="px-4 py-2">
-    <h1 class="text-2xl font-bold">Roles</h1>
-  </header>
-</pos-frontend-table>
+  <pos-frontend-table
+    caption="Roles"
+    [action]="true"
+    [columns]="columns()"
+    [data]="dataSource()"
+    [loading]="loading()"
+    [paginated]="true"
+    [total]="total()"
+    (actioned)="add()"
+    (page)="onPage($event)"
+  >
+    <header class="flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold">Roles</h1>
+        <span class="text-sm text-gray-500">
+          Manage the permissions that can be assigned to users
+        </span>
+      </div>
+      <div class="flex gap-2">
+        <button type="button" mat-stroked-button [disabled]="loading()" (click)="refresh()">Refresh</button>
+        <button type="button" mat-flat-button (click)="add()">Add New</button>
+      </div>
+    </header>
+  </pos-frontend-table>
+</div>

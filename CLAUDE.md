@@ -44,7 +44,7 @@ libs/shared/{ui,data-access,utils}   cross-domain: BmgTable, Page<T> model, vali
 
 - Import libs only through `@pos-frontend/<path>` aliases (`tsconfig.base.json` paths), never relative across project boundaries.
 - `eslint.config.mjs` defines `type:*` / `scope:*` depConstraints, but every `project.json` currently has `"tags": []`, so those constraints aren't enforced yet. Add tags when creating new projects.
-- Legacy, unrouted scaffolding (don't treat as current behaviour): `admin/feature-{permisions,price-list,prices,rates,reports,roles}`, `licensing/*`, `price-list/data-access`, `roles/ui`, `stock-movement/*`.
+- Legacy, unrouted scaffolding (don't treat as current behaviour): `admin/feature-{permisions,price-list,prices,rates,reports}`, `licensing/*`, `price-list/data-access`, `roles/ui`, `stock-movement/*`.
 
 ## State management: mid-migration
 

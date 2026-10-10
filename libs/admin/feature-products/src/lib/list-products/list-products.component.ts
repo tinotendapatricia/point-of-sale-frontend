@@ -9,12 +9,12 @@ import {
   viewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { type PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { PosBadgeDirective } from '@pos-frontend/core';
 import {
   type ProductsEntity,
   ProductStore,
@@ -43,9 +43,9 @@ const FIRST_PAGE = { page: 0, size: 10 };
     BmgTable,
     MatIconModule,
     MatButtonModule,
+    MatChipsModule,
     MatMenuModule,
     CurrencyPipe,
-    PosBadgeDirective,
   ],
 })
 export class ListProductsComponent {

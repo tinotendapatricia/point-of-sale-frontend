@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { type PageEvent } from '@angular/material/paginator';
 import { type MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DrawerService } from '@pos-frontend/core';
 import { GroupStore } from '@pos-frontend/groups/data-access';
 import { type UsersEntity, UserStore } from '@pos-frontend/users/data-access';
 import { ListUsersUiComponent } from '@pos-frontend/users/ui';
@@ -15,8 +14,7 @@ import {
   type ChangeUserStatusData,
   ChangeUserStatusComponent,
 } from '../change-user-status/change-user-status.component';
-import { CreateUserComponent } from '../create-user/create-user.component';
-import { UpdateUserComponent } from '../update-user/update-user.component';
+import { CreateUserComponent, type CreateUserData } from '../create-user/create-user.component';
 
 const PAGE_SIZE = 10;
 
@@ -29,7 +27,6 @@ const PAGE_SIZE = 10;
 })
 export class ListUsersByGroupComponent {
   private readonly injector = inject(Injector);
-  private readonly drawer = inject(DrawerService);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
@@ -61,34 +58,11 @@ export class ListUsersByGroupComponent {
   }
 
   protected createUser(): void {
-    this.drawer
-      .open<CreateUserComponent, boolean>(CreateUserComponent, {
-        title: 'Create New User',
-        size: 'md',
-        injector: this.injector,
-      })
-      .afterClosed()
-      .subscribe((created) => {
-        if (created) {
-          this.refresh();
-        }
-      });
+    this.openForm();
   }
 
   protected updateUser(user: UsersEntity): void {
-    this.drawer
-      .open<UpdateUserComponent, boolean, UsersEntity>(UpdateUserComponent, {
-        title: 'Update User',
-        size: 'md',
-        data: user,
-        injector: this.injector,
-      })
-      .afterClosed()
-      .subscribe((updated) => {
-        if (updated) {
-          this.refresh();
-        }
-      });
+    this.openForm(user);
   }
 
   protected changeUserStatus(user: UsersEntity): void {
@@ -108,6 +82,21 @@ export class ListUsersByGroupComponent {
 
   protected viewUserAuthorities(user: UsersEntity): void {
     void this.router.navigate(['./view-user-authorities', user.id], { relativeTo: this.route });
+  }
+
+  private openForm(user?: UsersEntity): void {
+    this.dialog
+      .open<CreateUserComponent, CreateUserData, boolean>(CreateUserComponent, {
+        width: '480px',
+        data: { user },
+        injector: this.injector,
+      })
+      .afterClosed()
+      .subscribe((saved) => {
+        if (saved) {
+          this.refresh();
+        }
+      });
   }
 
   private load(page: number, size: number): void {

@@ -36,6 +36,7 @@ export class ListUsersUiComponent {
   readonly edited = output<UsersEntity>();
   readonly statusChanged = output<UsersEntity>();
   readonly authoritiesViewed = output<UsersEntity>();
+  readonly viewed = output<UsersEntity>();
 
   private readonly statusTpl = viewChild<TemplateRef<unknown>>('statusTpl');
   private readonly actionsTpl = viewChild<TemplateRef<unknown>>('actionsTpl');

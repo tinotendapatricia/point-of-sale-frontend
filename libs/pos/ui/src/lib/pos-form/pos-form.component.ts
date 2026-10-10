@@ -74,7 +74,7 @@ export class PosFormComponent {
   protected readonly form = this.fb.group({
     code: this.fb.control<string | null>(null),
     quantity: this.fb.control<number | null>(null),
-    reference: '',
+    reference: this.fb.control<string | null>(null),
   });
 
   protected readonly debtorControl = this.fb.control<string | number | null>(
@@ -184,7 +184,8 @@ export class PosFormComponent {
       station: this.station(),
       rate: this.rate(),
       transactionType: this.transactionType(),
-      reference: this.form.controls.reference.value,
+      // A blank reference is sent as null, not an empty string.
+      reference: this.form.controls.reference.value?.trim() || null,
       ...tender,
     });
   }

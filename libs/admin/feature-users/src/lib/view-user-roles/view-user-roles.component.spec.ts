@@ -9,10 +9,11 @@ import { ViewUserRolesComponent } from './view-user-roles.component';
 describe('ViewUserRolesComponent', () => {
   let component: ViewUserRolesComponent;
   let fixture: ComponentFixture<ViewUserRolesComponent>;
-  const roleStore = { roles: () => [], getAllRoles: jest.fn() };
+  const roleStore = { roles: () => [], getManyLoading: () => false, getAllRoles: jest.fn() };
   const userStore = {
     user: () => undefined,
     assignRolesLoading: () => false,
+    getOneLoading: () => false,
     getUser: jest.fn(),
     assignUserRoles: jest.fn(),
   };

@@ -7,7 +7,9 @@
 </ng-template>
 
 <ng-template #activeTpl let-row>
-  <span [posFrontendBadge]="row.active ? 'success' : 'error'">{{ row.active ? 'Active' : 'Inactive' }}</span>
+  <mat-chip [class.st-ok]="row.active" [class.st-alert]="!row.active">
+    {{ row.active ? 'Active' : 'Inactive' }}
+  </mat-chip>
 </ng-template>
 
 <ng-template #actionsTpl let-row>

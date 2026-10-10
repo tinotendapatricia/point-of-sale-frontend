@@ -54,6 +54,9 @@
       "@pos-frontend/admin/feature-purchase-orders": [
         "libs/admin/feature-purchase-orders/src/index.ts"
       ],
+      "@pos-frontend/admin/feature-roles": [
+        "libs/admin/feature-roles/src/index.ts"
+      ],
       "@pos-frontend/admin/feature-purchases-reports": [
         "libs/admin/feature-purchases-reports/src/index.ts"
       ],

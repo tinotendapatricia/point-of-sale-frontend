@@ -24,7 +24,7 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
             (module) => module.ADMIN_FEATURE_DASHBOARD_ROUTES
           ),
       },
-      /*{
+      {
         path: 'users',
         loadChildren: () =>
           import('@pos-frontend/admin/feature-users').then(
@@ -32,6 +32,13 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
           ),
       },
       {
+        path: 'roles',
+        loadChildren: () =>
+          import('@pos-frontend/admin/feature-roles').then(
+            (module) => module.ADMIN_FEATURE_ROLES_ROUTES
+          ),
+      },
+      /*{
         path: 'groups',
         loadChildren: () =>
           import('@pos-frontend/admin/feature-groups').then(

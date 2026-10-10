@@ -151,6 +151,36 @@
     }
   </div>
 
+  <div class="pos-navgroup" routerLinkActive="active">
+    <button
+      type="button"
+      class="pos-navlink pos-navgroup-trigger"
+      (click)="toggle('users')"
+    >
+      <mat-icon>manage_accounts</mat-icon>
+      <span>User Management</span>
+      <mat-icon class="chevron" [class.open]="isOpen('users')"
+        >expand_more</mat-icon
+      >
+    </button>
+    @if (isOpen('users')) {
+    <a
+      class="pos-navlink pos-navlink-child"
+      routerLinkActive="active"
+      [routerLink]="['/users']"
+    >
+      Users
+    </a>
+    <a
+      class="pos-navlink pos-navlink-child"
+      routerLinkActive="active"
+      [routerLink]="['/roles']"
+    >
+      Roles
+    </a>
+    }
+  </div>
+
   <a
     class="pos-navlink"
     routerLinkActive="active"

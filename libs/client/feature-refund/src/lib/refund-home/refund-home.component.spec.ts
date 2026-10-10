@@ -56,7 +56,7 @@ describe('RefundHomeComponent', () => {
       station: '1',
       rate: 1,
       transactionType: 2,
-      reference: '',
+      reference: null,
       changeDebtor: null,
       changeRate: null,
       changeAmount: null,

@@ -86,6 +86,7 @@ describe('PosFormComponent', () => {
       rate: 1,
       total: 4,
       transactionType: 1,
+      reference: null,
       changeDebtor: null,
     });
     expect(emitted[0].products[0]).toMatchObject({
@@ -106,7 +107,7 @@ describe('PosFormComponent', () => {
       processReceipt(tender: TenderFormValue): void;
     };
     host.debtorControl.setValue(3);
-    host.form.patchValue({ code: 'SUG' });
+    host.form.patchValue({ code: 'SUG', reference: 'INV-42' });
     host.addProduct();
     host.processReceipt({
       changeDebtor: null,
@@ -115,7 +116,7 @@ describe('PosFormComponent', () => {
     });
 
     expect(emitted).toHaveBeenCalledWith(
-      expect.objectContaining({ transactionType: 2, total: 2 })
+      expect.objectContaining({ transactionType: 2, total: 2, reference: 'INV-42' })
     );
   });
 

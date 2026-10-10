@@ -12,7 +12,8 @@
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button type="button" mat-menu-item (click)="authoritiesViewed.emit(user)">Add user permissions</button>
+    <button type="button" mat-menu-item (click)="viewed.emit(user)">View details</button>
+    <button type="button" mat-menu-item (click)="authoritiesViewed.emit(user)">Manage permissions</button>
     <button type="button" mat-menu-item (click)="statusChanged.emit(user)">
       {{ user.active ? 'Deactivate' : 'Activate' }}
     </button>
