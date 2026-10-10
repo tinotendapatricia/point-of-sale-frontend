@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
-import { type ConfigurationsEntity, ConfigurationStore } from '@pos-frontend/configurations/data-access';
-import { ConfigurationsListUiComponent } from '@pos-frontend/configurations/ui';
-import { DrawerService } from '@pos-frontend/core';
-import { CreateConfigurationsComponent } from '../create-configurations/create-configurations.component';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {
-  type UpdateConfigurationsData,
-  UpdateConfigurationsComponent,
-} from '../update-configurations/update-configurations.component';
+  type ConfigurationsEntity,
+  ConfigurationStore,
+} from '@pos-frontend/configurations/data-access';
+import { ConfigurationsListUiComponent } from '@pos-frontend/configurations/ui';
+import {
+  CreateConfigurationsComponent,
+  type CreateConfigurationsData,
+} from '../create-configurations/create-configurations.component';
 
 @Component({
   selector: 'pos-frontend-configurations-list',
@@ -15,9 +17,8 @@ import {
   imports: [ConfigurationsListUiComponent],
 })
 export class ConfigurationsListComponent {
-  private readonly drawer = inject(DrawerService);
-  private readonly injector = inject(Injector);
-  protected readonly configurationStore = inject(ConfigurationStore);
+  private readonly dialog = inject(MatDialog);
+  private readonly configurationStore = inject(ConfigurationStore);
 
   protected readonly loading = this.configurationStore.getManyLoading;
   protected readonly configurations = this.configurationStore.configurations;
@@ -31,31 +32,22 @@ export class ConfigurationsListComponent {
   }
 
   protected add(): void {
-    this.drawer
-      .open<CreateConfigurationsComponent, boolean>(CreateConfigurationsComponent, {
-        title: 'New Configuration',
-        size: 'md',
-        injector: this.injector,
-      })
-      .afterClosed()
-      .subscribe((created) => {
-        if (created) {
-          this.refresh();
-        }
-      });
+    this.openDialog({});
   }
 
   protected edit(configuration: ConfigurationsEntity): void {
-    this.drawer
-      .open<UpdateConfigurationsComponent, boolean, UpdateConfigurationsData>(UpdateConfigurationsComponent, {
-        title: 'Update Configuration',
-        size: 'md',
-        data: { configuration },
-        injector: this.injector,
-      })
+    this.openDialog({ configuration });
+  }
+
+  private openDialog(data: CreateConfigurationsData): void {
+    this.dialog
+      .open<CreateConfigurationsComponent, CreateConfigurationsData, boolean>(
+        CreateConfigurationsComponent,
+        { width: '560px', data }
+      )
       .afterClosed()
-      .subscribe((updated) => {
-        if (updated) {
+      .subscribe((changed) => {
+        if (changed) {
           this.refresh();
         }
       });

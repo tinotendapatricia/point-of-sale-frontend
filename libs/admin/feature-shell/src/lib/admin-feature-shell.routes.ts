@@ -60,13 +60,6 @@ export const ADMIN_FEATURE_SHELL_ROUTES: Routes = [
           ),
       },
       {
-        path: 'stations',
-        loadChildren: () =>
-          import('@pos-frontend/admin/feature-stations').then(
-            (module) => module.ADMIN_FEATURE_STATIONS_ROUTES
-          ),
-      },
-      {
         path: 'debtors',
         loadChildren: () =>
           import('@pos-frontend/admin/feature-debtors').then(

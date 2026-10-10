@@ -1,0 +1,8 @@
+.field-row {
+  display: flex;
+  gap: var(--space-3, 10px);
+
+  .field {
+    flex: 1;
+  }
+}

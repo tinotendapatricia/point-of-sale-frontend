@@ -1,28 +1,38 @@
 <ng-template #createdTpl let-row>{{ row.createdAt | date: 'medium' }}</ng-template>
 
 <ng-template #actionsTpl let-row>
-  <button type="button" mat-icon-button aria-label="View details" (click)="viewed.emit(row)">
-    <mat-icon>visibility</mat-icon>
+  <button
+    type="button"
+    mat-icon-button
+    aria-label="View details"
+    (click)="viewed.emit(row)"
+  >
+    <mat-icon class="text-green-600">visibility</mat-icon>
   </button>
 </ng-template>
 
-<pos-frontend-table
-  caption="Audits"
-  [columns]="columns()"
-  [data]="dataSource()"
-  [loading]="loading()"
-  [paginated]="true"
-  [total]="total()"
-  (page)="page.emit($event)"
+<div
+  class="bg-white px-6 mx-6 mt-4 border border-gray-200 rounded-lg shadow-sm"
 >
-  <header class="flex flex-wrap items-center justify-between gap-4 px-4 py-2">
-    <div>
-      <h1 class="text-2xl font-bold">Audit Trail</h1>
-      <p class="text-sm text-gray-600">Who did what, and when</p>
-    </div>
-    <button type="button" mat-stroked-button (click)="refreshed.emit()">
-      <mat-icon>sync</mat-icon>
-      Refresh
-    </button>
-  </header>
-</pos-frontend-table>
+  <pos-frontend-table
+    caption="Audits"
+    [columns]="columns()"
+    [data]="dataSource()"
+    [loading]="loading()"
+    [paginated]="true"
+    [total]="total()"
+    (page)="page.emit($event)"
+  >
+    <header class="flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold">Audit Trail</h1>
+        <span class="text-sm text-gray-500">
+          Track who did what, and when
+        </span>
+      </div>
+      <div class="flex gap-2">
+        <button type="button" mat-stroked-button [disabled]="loading()" (click)="refreshed.emit()">Refresh</button>
+      </div>
+    </header>
+  </pos-frontend-table>
+</div>

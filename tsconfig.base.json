@@ -63,9 +63,6 @@
       "@pos-frontend/admin/feature-shell": [
         "libs/admin/feature-shell/src/index.ts"
       ],
-      "@pos-frontend/admin/feature-stations": [
-        "libs/admin/feature-stations/src/index.ts"
-      ],
       "@pos-frontend/admin/feature-stock-reports": [
         "libs/admin/feature-stock-reports/src/index.ts"
       ],
@@ -147,9 +144,6 @@
       ],
       "@pos-frontend/shared/ui": ["libs/shared/ui/src/index.ts"],
       "@pos-frontend/shared/utils": ["libs/shared/utils/src/index.ts"],
-      "@pos-frontend/stations/data-access": [
-        "libs/stations/data-access/src/index.ts"
-      ],
       "@pos-frontend/stock-take/data-access": [
         "libs/stock-take/data-access/src/index.ts"
       ],
