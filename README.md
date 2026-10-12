@@ -1,5 +1,7 @@
 # Point of Sale Frontend
 
+> **Full system documentation lives in [`docs/`](docs/README.md)**: user guides for the admin portal and till, architecture, API reference, development guide and known issues. Some details below are out of date; see [docs/07-known-issues.md](docs/07-known-issues.md#documentation-drift).
+
 An Nx monorepo containing the frontend applications for a point-of-sale system: a back-office **admin portal**, a till-facing **customer portal**, and a standalone **licensing** app.
 
 ## Applications
